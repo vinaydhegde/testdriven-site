@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Driven Development Courses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link
+    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
+  >
+  <link href="/assets/css/styles.css" rel="stylesheet">
+  <script
+    src="//code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    type="text/javascript"
+    src="/assets/js/main.js"
+  ></script>
+</head>
+<body>
+
+  <nav class="red darken-1">
+    <div class="container">
+      <div class="hide-on-small-and-down">
+        <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
+      </div>
+      <div class="hide-on-med-and-up">
+        <h3 class="brand-logo"><a href="/">TDD Courses</a></h3>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+
+  <div class="container">
+    <div class="row">
+      <div class="col m3 hide-on-small-and-down">
+        <br>
+        <div id="toc-block" class="collection hide-on-small-and-down">
+          <ul class="collapsible collapsible-accordion">
+            
+              
+                <li>
+                  <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+                    Part 1
+                  </h5>
+                  <div class="collapsible-body">
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-intro"
+                  >Introduction</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-getting-started"
+                  >Getting Started</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-docker-config"
+                  >Docker Config</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-postgres-setup"
+                  >Postgres Setup</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-test-setup"
+                  >Test Setup</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-flask-blueprints"
+                  >Flask Blueprints</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-more-routes"
+                  >More Routes</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-aws-deployment"
+                  >Deployment</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-jinja"
+                  >Jinja</a>
+                </li>
+              </ul>
+            
+              
+                <li>
+                  <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+                    Part 2
+                  </h5>
+                  <div class="collapsible-body">
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-two-intro"
+                  >Introduction</a>
+                </li>
+              </ul>
+            
+          </div>
+        </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col m9">
+
+
+<h2>Flask Blueprints</h2>
+<p>With tests in place, let&#39;s refactor the app, adding in Blueprints...</p>
+
+<p>Create a new directory in &quot;services/main/project&quot; called &quot;api&quot;, and add an <em>__init__.py</em> file along with a <em>views.py</em> and a <em>models.py</em>. Then within <em>views.py</em> add the following:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># /services/main/project/api/views.py</span>
+
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span>
+
+<span class="n">main_blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">&#39;main&#39;</span><span class="p">,</span> <span class="n">__name__</span><span class="p">)</span>
+
+
+<span class="nd">@main_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Hello, World!&#39;</span>
+    <span class="p">})</span>
+</code></pre></div>
+<p><em>models.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/api/models.py</span>
+
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
+
+
+<span class="k">class</span> <span class="nc">Name</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&quot;names&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</code></pre></div>
+<p>Update <em>services/main/project/__init__.py</em></p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/__init__.py</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
+
+
+<span class="c"># instantiate the db</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">create_app</span><span class="p">():</span>
+
+    <span class="c"># instantiate the app</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+    <span class="c"># set config</span>
+    <span class="n">app_settings</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">&#39;APP_SETTINGS&#39;</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">app_settings</span><span class="p">)</span>
+
+    <span class="c"># set up extensions</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+    <span class="c"># register blueprints</span>
+    <span class="kn">from</span> <span class="nn">project.api.views</span> <span class="kn">import</span> <span class="n">main_blueprint</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">main_blueprint</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">app</span>
+</code></pre></div>
+<p>Update <em>manage.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/manage.py</span>
+
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">create_app</span><span class="p">,</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">Name</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Runs the unit tests without test coverage.&quot;&quot;&quot;</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#39;test*.py&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Recreates a local database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+<p>Update the imports at the top of and <em>services/main/project/tests/base.py</em> and <em>services/main/project/tests/test_config.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">create_app</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
+</code></pre></div>
+<p>Test!</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+<span class="nv">$ </span>docker-compose run main-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run main-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Correct any errors and move on...</p>
+
+
+       </div>
+     </div>
+   </div>
+   <footer class="page-footer white">
+    <div class="container footer-container">
+      <div class="row">
+        <div class="col l6 s12">
+          <p class="">Content by Michael Herman (michael@mherman.org)</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <ul>
+            <li><a class="" href="http://github.com/mjhea0">Github</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+</body>
+</html>
+

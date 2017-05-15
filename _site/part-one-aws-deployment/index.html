@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Driven Development Courses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link
+    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
+  >
+  <link href="/assets/css/styles.css" rel="stylesheet">
+  <script
+    src="//code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    type="text/javascript"
+    src="/assets/js/main.js"
+  ></script>
+</head>
+<body>
+
+  <nav class="red darken-1">
+    <div class="container">
+      <div class="hide-on-small-and-down">
+        <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
+      </div>
+      <div class="hide-on-med-and-up">
+        <h3 class="brand-logo"><a href="/">TDD Courses</a></h3>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+
+  <div class="container">
+    <div class="row">
+      <div class="col m3 hide-on-small-and-down">
+        <br>
+        <div id="toc-block" class="collection hide-on-small-and-down">
+          <ul class="collapsible collapsible-accordion">
+            
+              
+                <li>
+                  <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+                    Part 1
+                  </h5>
+                  <div class="collapsible-body">
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-intro"
+                  >Introduction</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-getting-started"
+                  >Getting Started</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-docker-config"
+                  >Docker Config</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-postgres-setup"
+                  >Postgres Setup</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-test-setup"
+                  >Test Setup</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-flask-blueprints"
+                  >Flask Blueprints</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-more-routes"
+                  >More Routes</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-aws-deployment"
+                  >Deployment</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-jinja"
+                  >Jinja</a>
+                </li>
+              </ul>
+            
+              
+                <li>
+                  <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+                    Part 2
+                  </h5>
+                  <div class="collapsible-body">
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-two-intro"
+                  >Introduction</a>
+                </li>
+              </ul>
+            
+          </div>
+        </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col m9">
+
+
+<h2>Deployment</h2>
+<p>With the routes up and tested, let&#39;s get this app deployed!</p>
+
+<p>To start, we need to create a new machine with Docker Machine. Bring down the current containers and images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
+</code></pre></div>
+<p>Create a new Machine and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create -d virtualbox dev<span class="p">;</span>
+<span class="nv">$ </span><span class="nb">eval</span> <span class="s2">&quot;$(docker-machine env dev)&quot;</span>
+</code></pre></div>
+<p>Re-build the images and run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>This will take a bit since we are not using the cache. Once up, create the database and then run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run main-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run main-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Since we&#39;re using Docker Machine, the host IP is no longer the localhost. Run - <code>docker-machine ip dev</code> to get the IP. Test the GET endpoints in your browser.</p>
+
+<p>Sign up for AWS and create an IAM user (if necessary). Follow the instructions <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html">here</a>, making sure to add the credentials to an <em>~/.aws/credentials</em> file. Then create the new Machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create --driver amazonec2 aws-sandbox
+</code></pre></div>
+<p>Once done, set it as the active Machine and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws-sandbox
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws-sandbox<span class="k">)</span>
+</code></pre></div>
+<p>Create a new compose file called <em>docker-compose-prod.yml</em> and the contents of the other compose file minus the <code>volumes</code>.</p>
+
+<p>Spin up the containers, create the database, and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run main-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run main-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Add port 5001 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>.</p>
+
+<p>Grab the IP and make sure to test in the browser.</p>
+
+<h4 id="gunicorn">Gunicorn</h4>
+
+<p>Coming soon!</p>
+
+<h4 id="nginx">Nginx</h4>
+
+<p>Coming soon!</p>
+
+
+       </div>
+     </div>
+   </div>
+   <footer class="page-footer white">
+    <div class="container footer-container">
+      <div class="row">
+        <div class="col l6 s12">
+          <p class="">Content by Michael Herman (michael@mherman.org)</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <ul>
+            <li><a class="" href="http://github.com/mjhea0">Github</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+</body>
+</html>
+

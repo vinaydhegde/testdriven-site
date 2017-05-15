@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+<h3>Courses</h3>
+<hr><br>
+<h4>Test Driven Development with Flask</h4>
+<ol>
+{% for post in site.posts reversed %}
+  {% if post.title == 'Introduction' %}
+    <li><h5><a href="{{ site.baseurl }}{{ post.url }}">Part {{post.part}}</a></h5></li>
+    <p>{{ post.content | strip_html | truncatewords:20}}</p>
+  {% endif %}
+
+{% endfor %}
+</ol>

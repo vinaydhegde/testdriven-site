@@ -1,0 +1,48 @@
+---
+title: Introduction
+layout: post
+date: 2017-05-10 23:59:59
+permalink: part-one-intro
+part: 1
+---
+
+In this tutorial, you'll learn how to quickly spin up a reproducible development environment with Docker to create a RESTful API powered by Python, Postgres, and the Flask web framework. After the app is up and running locally, you'll learn how to deploy it to an Amazon EC2 instance.
+
+> **NOTE:** We'll take a practical approach to test driven development (TDD), where we'll write tests first when it makes sense. In some cases, we'll write the code before the tests.  
+
+<div style="text-align:left;">
+  <img src="/assets/img/flask-tdd-logo.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+</div>
+
+This series uses the following tools and technologies:
+
+1. Python v3.6.1
+1. Flask v0.12.1
+1. Flask-Script v2.0.5
+1. Flask-SQLAlchemy v2.2
+1. Flask-Testing v0.6.2
+1. Docker v17.03.1-ce
+1. Docker Compose v1.11.2
+1. Docker Machine v0.10.0
+
+Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
+
+| Topic            | Resource |
+|------------------|----------|
+| Docker           | [Get started with Docker](https://docs.docker.com/engine/getstarted/) |
+| Docker Compose   | [Get started with Docker Compose](https://docs.docker.com/compose/gettingstarted/) |
+| Docker Machine | [Docker Machine Overview](https://docs.docker.com/machine/overview/)
+
+#### Objectives
+
+By the end of this tutorial, you should be able to...
+
+1. Develop a RESTful API with Flask
+2. Practice test driven development
+1. Configure and run services locally with Docker, Docker Compose, and Docker Machine
+1. Utilize volumes to mount your code into a container
+1. Run unit and integration tests inside a Docker container
+1. Enable services running in different containers to talk to one other
+1. Work with Python and Flask running inside a Docker Container
+
+Check out the live app [here](http://54.158.171.236:5001/names/1).

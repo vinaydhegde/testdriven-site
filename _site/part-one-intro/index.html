@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Driven Development Courses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link
+    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
+  >
+  <link href="/assets/css/styles.css" rel="stylesheet">
+  <script
+    src="//code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    type="text/javascript"
+    src="/assets/js/main.js"
+  ></script>
+</head>
+<body>
+
+  <nav class="red darken-1">
+    <div class="container">
+      <div class="hide-on-small-and-down">
+        <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
+      </div>
+      <div class="hide-on-med-and-up">
+        <h3 class="brand-logo"><a href="/">TDD Courses</a></h3>
+      </div>
+    </div>
+  </nav>
+
+  <br>
+
+  <div class="container">
+    <div class="row">
+      <div class="col m3 hide-on-small-and-down">
+        <br>
+        <div id="toc-block" class="collection hide-on-small-and-down">
+          <ul class="collapsible collapsible-accordion">
+            
+              
+                <li>
+                  <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+                    Part 1
+                  </h5>
+                  <div class="collapsible-body">
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-intro"
+                  >Introduction</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-getting-started"
+                  >Getting Started</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-docker-config"
+                  >Docker Config</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-postgres-setup"
+                  >Postgres Setup</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-test-setup"
+                  >Test Setup</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-flask-blueprints"
+                  >Flask Blueprints</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-more-routes"
+                  >More Routes</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-aws-deployment"
+                  >Deployment</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-jinja"
+                  >Jinja</a>
+                </li>
+              </ul>
+            
+              
+                <li>
+                  <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+                    Part 2
+                  </h5>
+                  <div class="collapsible-body">
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-two-intro"
+                  >Introduction</a>
+                </li>
+              </ul>
+            
+          </div>
+        </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col m9">
+
+
+<h2>Introduction</h2>
+<p>In this tutorial, you&#39;ll learn how to quickly spin up a reproducible development environment with Docker to create a RESTful API powered by Python, Postgres, and the Flask web framework. After the app is up and running locally, you&#39;ll learn how to deploy it to an Amazon EC2 instance.</p>
+
+<blockquote>
+<p><strong>NOTE:</strong> We&#39;ll take a practical approach to test driven development (TDD), where we&#39;ll write tests first when it makes sense. In some cases, we&#39;ll write the code before the tests.  </p>
+</blockquote>
+
+<div style="text-align:left;">
+  <img src="/assets/img/flask-tdd-logo.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+</div>
+
+<p>This series uses the following tools and technologies:</p>
+
+<ol>
+<li>Python v3.6.1</li>
+<li>Flask v0.12.1</li>
+<li>Flask-Script v2.0.5</li>
+<li>Flask-SQLAlchemy v2.2</li>
+<li>Flask-Testing v0.6.2</li>
+<li>Docker v17.03.1-ce</li>
+<li>Docker Compose v1.11.2</li>
+<li>Docker Machine v0.10.0</li>
+</ol>
+
+<p>Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:</p>
+
+<table><thead>
+<tr>
+<th>Topic</th>
+<th>Resource</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Docker</td>
+<td><a href="https://docs.docker.com/engine/getstarted/">Get started with Docker</a></td>
+</tr>
+<tr>
+<td>Docker Compose</td>
+<td><a href="https://docs.docker.com/compose/gettingstarted/">Get started with Docker Compose</a></td>
+</tr>
+<tr>
+<td>Docker Machine</td>
+<td><a href="https://docs.docker.com/machine/overview/">Docker Machine Overview</a></td>
+</tr>
+</tbody></table>
+
+<h4 id="objectives">Objectives</h4>
+
+<p>By the end of this tutorial, you should be able to...</p>
+
+<ol>
+<li>Develop a RESTful API with Flask</li>
+<li>Practice test driven development</li>
+<li>Configure and run services locally with Docker, Docker Compose, and Docker Machine</li>
+<li>Utilize volumes to mount your code into a container</li>
+<li>Run unit and integration tests inside a Docker container</li>
+<li>Enable services running in different containers to talk to one other</li>
+<li>Work with Python and Flask running inside a Docker Container</li>
+</ol>
+
+<p>Check out the live app <a href="http://54.158.171.236:5001/names/1">here</a>.</p>
+
+
+       </div>
+     </div>
+   </div>
+   <footer class="page-footer white">
+    <div class="container footer-container">
+      <div class="row">
+        <div class="col l6 s12">
+          <p class="">Content by Michael Herman (michael@mherman.org)</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <ul>
+            <li><a class="" href="http://github.com/mjhea0">Github</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+</body>
+</html>
+
