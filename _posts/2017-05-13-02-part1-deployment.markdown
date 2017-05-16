@@ -65,7 +65,27 @@ Grab the IP and make sure to test in the browser.
 
 #### Gunicorn
 
-Coming soon!
+To use Gunicorn, first add it to the *requirements.txt* file:
+
+```
+gunicorn==19.7.1
+```
+
+Then update *docker-compose-prod.yml*:
+
+```
+command: gunicorn -b 0.0.0.0:5000 manage:app
+```
+
+This will override the command associated with `CMD` within *services/main/Dockerfile*, `python manage.py runserver -h 0.0.0.0`.
+
+Update:
+
+```sh
+$ docker-compose -f docker-compose-prod.yml up -d --build
+```
+
+> **NOTE:** The `--build` flag is necessary since we need to re-install the requirements.
 
 #### Nginx
 

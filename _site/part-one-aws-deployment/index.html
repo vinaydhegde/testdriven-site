@@ -198,7 +198,20 @@
 
 <h4 id="gunicorn">Gunicorn</h4>
 
-<p>Coming soon!</p>
+<p>To use Gunicorn, first add it to the <em>requirements.txt</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">gunicorn==19.7.1
+</code></pre></div>
+<p>Then update <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">command: gunicorn -b 0.0.0.0:5000 manage:app
+</code></pre></div>
+<p>This will override the command associated with <code>CMD</code> within <em>services/main/Dockerfile</em>, <code>python manage.py runserver -h 0.0.0.0</code>.</p>
+
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<blockquote>
+<p><strong>NOTE:</strong> The <code>--build</code> flag is necessary since we need to re-install the requirements.</p>
+</blockquote>
 
 <h4 id="nginx">Nginx</h4>
 
