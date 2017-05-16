@@ -21,6 +21,7 @@ This series uses the following tools and technologies:
 1. Flask-Script v2.0.5
 1. Flask-SQLAlchemy v2.2
 1. Flask-Testing v0.6.2
+1. Gunicorn v19.7.1
 1. Docker v17.03.1-ce
 1. Docker Compose v1.11.2
 1. Docker Machine v0.10.0
