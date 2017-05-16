@@ -19,9 +19,8 @@ services:
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
-      - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@main-db:5432/main_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@main-db:5432/main_test
+      - APP_SETTINGS=project.config.ProductionConfig
+      - DATABASE_URL=postgres://postgres:postgres@main-db:5432/main_prod
     depends_on:
       main-db:
         condition: service_healthy

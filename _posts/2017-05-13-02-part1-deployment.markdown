@@ -43,13 +43,12 @@ $ docker-machine create --driver amazonec2 aws-sandbox
 
 Once done, set it as the active Machine and point the Docker client at it:
 
-
 ```sh
 $ docker-machine env aws-sandbox
 $ eval $(docker-machine env aws-sandbox)
 ```
 
-Create a new compose file called *docker-compose-prod.yml* and the contents of the other compose file minus the `volumes`.
+Create a new compose file called *docker-compose-prod.yml* and add the contents of the other compose file minus the `volumes`.
 
 Spin up the containers, create the database, and run the tests:
 
@@ -62,6 +61,39 @@ $ docker-compose -f docker-compose-prod.yml run main-service python manage.py te
 Add port 5001 to the [Security Group](http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group).
 
 Grab the IP and make sure to test in the browser.
+
+#### Config
+
+What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:
+
+```sh
+$ docker-compose -f docker-compose-prod.yml run main-service env
+```
+
+You should see the `APP_SETTINGS` variable assigned to `project.config.DevelopmentConfig`.
+
+To update this, change the environment variables within *docker-compose-prod.yml*:
+
+```
+environment:
+  - APP_SETTINGS=project.config.ProductionConfig
+  - DATABASE_URL=postgres://postgres:postgres@main-db:5432/main_prod
+```
+
+Update:
+
+```sh
+$ docker-compose -f docker-compose-prod.yml up -d
+```
+
+Re-create the db:
+
+```sh
+$ docker-compose -f docker-compose-prod.yml run main-service python manage.py recreate_db
+```
+
+Ensure the app is still running and check the environment variables again.
+
 
 #### Gunicorn
 

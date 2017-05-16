@@ -185,7 +185,7 @@
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws-sandbox
 <span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws-sandbox<span class="k">)</span>
 </code></pre></div>
-<p>Create a new compose file called <em>docker-compose-prod.yml</em> and the contents of the other compose file minus the <code>volumes</code>.</p>
+<p>Create a new compose file called <em>docker-compose-prod.yml</em> and add the contents of the other compose file minus the <code>volumes</code>.</p>
 
 <p>Spin up the containers, create the database, and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
@@ -195,6 +195,26 @@
 <p>Add port 5001 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>.</p>
 
 <p>Grab the IP and make sure to test in the browser.</p>
+
+<h4 id="config">Config</h4>
+
+<p>What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run main-service env
+</code></pre></div>
+<p>You should see the <code>APP_SETTINGS</code> variable assigned to <code>project.config.DevelopmentConfig</code>.</p>
+
+<p>To update this, change the environment variables within <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">environment:
+  - APP_SETTINGS=project.config.ProductionConfig
+  - DATABASE_URL=postgres://postgres:postgres@main-db:5432/main_prod
+</code></pre></div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d
+</code></pre></div>
+<p>Re-create the db:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run main-service python manage.py recreate_db
+</code></pre></div>
+<p>Ensure the app is still running and check the environment variables again.</p>
 
 <h4 id="gunicorn">Gunicorn</h4>
 

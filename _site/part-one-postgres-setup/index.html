@@ -228,7 +228,7 @@ psycopg2==2.7.1
 <span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Production configuration&quot;&quot;&quot;</span>
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="s">&#39;postgresql:///example&#39;</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
 </code></pre></div>
 <p>Update <em>__init__.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/__init__.py</span>
@@ -269,7 +269,8 @@ psycopg2==2.7.1
     <span class="p">})</span>
 </code></pre></div>
 <p>Add a &quot;db&quot; directory to &quot;services/main/project&quot;, and add a <em>create.sql</em> file in that new directory:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">main_dev</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">main_prod</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">main_dev</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">main_test</span><span class="p">;</span>
 </code></pre></div>
 <p>Next, add a <em>Dockerfile</em> to the same directory:</p>

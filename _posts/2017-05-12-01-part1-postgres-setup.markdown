@@ -84,7 +84,7 @@ class TestingConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     """Production configuration"""
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql:///example'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 ```
 
 Update *\_\_init\_\_.py*:
@@ -131,6 +131,7 @@ def index():
 Add a "db" directory to "services/main/project", and add a *create.sql* file in that new directory:
 
 ```sql
+CREATE DATABASE main_prod;
 CREATE DATABASE main_dev;
 CREATE DATABASE main_test;
 ```
