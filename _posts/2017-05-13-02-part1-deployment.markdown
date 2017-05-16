@@ -121,4 +121,98 @@ $ docker-compose -f docker-compose-prod.yml up -d --build
 
 #### Nginx
 
-Coming soon!
+Next, let's get Nginx up and running. Create a new folder called "nginx" in the project root, and then add a *Dockerfile*:
+
+```
+FROM nginx:1.13.0
+
+RUN rm /etc/nginx/conf.d/default.conf
+ADD /flask.conf /etc/nginx/conf.d
+```
+
+Add a new config file called *flask.conf* to the "nginx" folder as well:
+
+```
+server {
+
+    listen 80;
+
+    location / {
+        proxy_pass http://main-service:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}
+```
+
+Add an `nginx` service to the *docker-compose-prod.yml*:
+
+```
+nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    main-service:
+      condition: service_started
+  links:
+    - main-service
+```
+
+And remove the exposed `ports` from the main service and only expose port 5001 to other containers:
+
+```
+expose:
+  - '5001'
+```
+
+Build the image and run the container:
+
+```sh
+$ docker-compose -f docker-compose-prod.yml up -d --build nginx
+```
+
+Add port 80 to the Security Group on AWS. Test the site within the browser again.
+
+Let's update this locally as well.
+
+First, update the *docker-compose.yml* file:
+
+```sh
+nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    main-service:
+      condition: service_started
+  links:
+    - main-service
+```
+
+Next, we need to update the active machine. To check which machine is currently active run:
+
+```sh
+$ docker-machine active
+aws-sandbox
+```
+
+Change the active machine to `dev`:
+
+```sh
+$ eval "$(docker-machine env dev)"
+```
+
+Run the nginx container:
+
+```sh
+$ docker-compose up -d --build nginx
+```
+
+Grab the IP and test it out!
