@@ -5,7 +5,7 @@ date: 2017-05-11 23:59:58
 permalink: part-one-getting-started
 ---
 
-In this lesson, we'll set up the base project structure and define the first service (`main`)...
+In this lesson, we'll set up the base project structure and define the first service, `names`...
 
 ---
 
@@ -19,10 +19,10 @@ $ mkdir services && cd services
 Then create a directory to house the first service, create and activate a new virtual environment, and install Flask:
 
 ```sh
-$ mkdir main && cd main
+$ mkdir names && cd names
 $ python3.6 -m venv env
 $ source env/bin/activate
-(env)$ pip install flask==0.12.1
+(env)$ pip install flask==0.12.2
 ```
 
 Set up the base structure:
@@ -33,7 +33,7 @@ Set up the base structure:
 (env)$ touch manage.py
 ```
 
-Add Flask-Script:
+Add [Flask-Script](https://flask-script.readthedocs.io/en/latest/), which we'll use to run and manage the app from the command line:
 
 ```sh
 (env)$ pip install flask-script==2.0.5
@@ -42,7 +42,7 @@ Add Flask-Script:
 Update *manage.py*:
 
 ```python
-# services/main/manage.py
+# services/names/manage.py
 
 
 from flask_script import Manager
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 Update *\_\_init\_\_.py*:
 
 ```python
-# services/main/project/__init__.py
+# services/names/project/__init__.py
 
 
 from flask import Flask, jsonify
@@ -70,11 +70,11 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def index():
+@app.route('/ping', methods=['GET'])
+def ping_pong():
     return jsonify({
         'status': 'success',
-        'message': 'Hello, World!'
+        'message': 'pong!'
     })
 ```
 
@@ -84,11 +84,11 @@ Run the server:
 (env)$ python manage.py runserver
 ```
 
-Navigate to [http://localhost:5000/](http://localhost:5000/) in your browser. You should see:
+Navigate to [http://localhost:5000/ping](http://localhost:5000/ping) in your browser. You should see:
 
 ```json
 {
-  "message": "Hello, World!",
+  "message": "pong!",
   "status": "success"
 }
 ```
@@ -96,7 +96,7 @@ Navigate to [http://localhost:5000/](http://localhost:5000/) in your browser. Yo
 Kill the server and add a new file called *config.py* to the "project" directory:
 
 ```python
-# services/main/project/config.py
+# services/names/project/config.py
 
 
 class BaseConfig:
@@ -120,10 +120,10 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
 ```
 
-Update *\_\_init\_\_.py*:
+Update *\_\_init\_\_.py* to pull in the dev config:
 
 ```python
-# services/main/project/__init__.py
+# services/names/project/__init__.py
 
 
 from flask import Flask, jsonify
@@ -136,17 +136,27 @@ app = Flask(__name__)
 app.config.from_object('project.config.DevelopmentConfig')
 
 
-@app.route('/', methods=['GET'])
-def index():
+@app.route('/ping', methods=['GET'])
+def ping_pong():
     return jsonify({
         'status': 'success',
-        'message': 'Hello, World!'
+        'message': 'pong!'
     })
 ```
 
-Run the app again in debug mode. Now when you make changes to the code, the app will reload.
+Run the app again. Debug mode should be on:
 
-Add a *requirements.txt* file to the "main" directory:
+```sh
+python manage.py runserver
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 107-952-069
+```
+
+Now when you make changes to the code, the app will automatically reload.
+
+Add a *requirements.txt* file to the "names" directory:
 
 ```
 Flask==0.12.1
@@ -160,4 +170,4 @@ __pycache__
 env
 ```
 
-Commit your code.
+Init a git repo and commit your code.

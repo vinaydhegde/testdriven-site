@@ -110,8 +110,8 @@
                 <li>
                   <a
                     class="collection-item"
-                    href="/part-one-more-routes"
-                  >More Routes</a>
+                    href="/part-one-restful-routes"
+                  >RESTful Routes</a>
                 </li>
               </ul>
             
@@ -130,8 +130,18 @@
                 <li>
                   <a
                     class="collection-item"
-                    href="/part-one-jinja"
-                  >Jinja</a>
+                    href="/part-one-client-side"
+                  >Client Service</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-workflow"
+                  >Workflow</a>
                 </li>
               </ul>
             
@@ -163,7 +173,7 @@
 <p>In this tutorial, you&#39;ll learn how to quickly spin up a reproducible development environment with Docker to create a RESTful API powered by Python, Postgres, and the Flask web framework. After the app is up and running locally, you&#39;ll learn how to deploy it to an Amazon EC2 instance.</p>
 
 <blockquote>
-<p><strong>NOTE:</strong> We&#39;ll take a practical approach to test driven development (TDD), where we&#39;ll write tests first when it makes sense. In some cases, we&#39;ll write the code before the tests.  </p>
+<p><strong>NOTE:</strong> We&#39;ll take a practical approach to test driven development (TDD), where we&#39;ll write tests first <em>only</em> when it makes sense.</p>
 </blockquote>
 
 <div style="text-align:left;">
@@ -174,7 +184,7 @@
 
 <ol>
 <li>Python v3.6.1</li>
-<li>Flask v0.12.1</li>
+<li>Flask v0.12.2</li>
 <li>Flask-Script v2.0.5</li>
 <li>Flask-SQLAlchemy v2.2</li>
 <li>Flask-Testing v0.6.2</li>
@@ -205,6 +215,10 @@
 <td>Docker Machine</td>
 <td><a href="https://docs.docker.com/machine/overview/">Docker Machine Overview</a></td>
 </tr>
+<tr>
+<td>Flask API</td>
+<td><a href="https://realpython.com">Real Python</a></td>
+</tr>
 </tbody></table>
 
 <h4 id="objectives">Objectives</h4>
@@ -221,7 +235,7 @@
 <li>Work with Python and Flask running inside a Docker Container</li>
 </ol>
 
-<p>Check out the live app <a href="http://54.158.171.236:5001/names/1">here</a>.</p>
+<p>Check out the live app, running on EC2, <a href="http://52.91.6.225/names">here</a>.</p>
 
 
        </div>

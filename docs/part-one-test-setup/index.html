@@ -110,8 +110,8 @@
                 <li>
                   <a
                     class="collection-item"
-                    href="/part-one-more-routes"
-                  >More Routes</a>
+                    href="/part-one-restful-routes"
+                  >RESTful Routes</a>
                 </li>
               </ul>
             
@@ -130,8 +130,18 @@
                 <li>
                   <a
                     class="collection-item"
-                    href="/part-one-jinja"
-                  >Jinja</a>
+                    href="/part-one-client-side"
+                  >Client Service</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-workflow"
+                  >Workflow</a>
                 </li>
               </ul>
             
@@ -164,16 +174,16 @@
 
 <hr>
 
-<p>Add a &quot;tests&quot; directory to &quot;services/main/project&quot;, and then create the following files:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>touch __init__.py base.py test_config.py test_main.py
+<p>Add a &quot;tests&quot; directory to &quot;services/names/project&quot;, and then create the following files:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>touch __init__.py base.py test_config.py test_names.py
 </code></pre></div>
 <p>Update each file...</p>
 
 <p><em>__init__.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/tests/__init__.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/tests/__init__.py</span>
 </code></pre></div>
 <p><em>base.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/tests/base.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/tests/base.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask_testing</span> <span class="kn">import</span> <span class="n">TestCase</span>
@@ -195,7 +205,7 @@
         <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
 </code></pre></div>
 <p><em>test_config.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/tests/test_config.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/tests/test_config.py</span>
 
 
 <span class="kn">import</span> <span class="nn">unittest</span>
@@ -217,7 +227,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
-            <span class="s">&#39;postgres://postgres:postgres@main-db:5432/main_dev&#39;</span>
+            <span class="s">&#39;postgres://postgres:postgres@names-db:5432/names_dev&#39;</span>
         <span class="p">)</span>
 
 
@@ -233,7 +243,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
-            <span class="s">&#39;postgres://postgres:postgres@main-db:5432/main_test&#39;</span>
+            <span class="s">&#39;postgres://postgres:postgres@names-db:5432/names_test&#39;</span>
         <span class="p">)</span>
 
 
@@ -251,8 +261,8 @@
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 </code></pre></div>
-<p><em>test_main.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/tests/test__user.py</span>
+<p><em>test_names.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/tests/test__user.py</span>
 
 
 <span class="kn">import</span> <span class="nn">json</span>
@@ -260,24 +270,24 @@
 <span class="kn">from</span> <span class="nn">project.tests.base</span> <span class="kn">import</span> <span class="n">BaseTestCase</span>
 
 
-<span class="k">class</span> <span class="nc">TestMainService</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Test for Main Service &quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">TestNameService</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Test for Name Service &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">test_main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Ensure main route behaves correctly.&quot;&quot;&quot;</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Ensure the /ping route behaves correctly.&quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Hello, World!&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;pong!&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
 </code></pre></div>
-<p>Add Flask-Testing to the requirements file:</p>
+<p>Add <a href="https://pythonhosted.org/Flask-Testing/">Flask-Testing</a> to the requirements file:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Flask-Testing==0.6.2
 </code></pre></div>
-<p>Add a new command to <em>manage.py</em>:</p>
+<p>Add a new command to <em>manage.py</em>, to discover and run the tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Runs the unit tests without test coverage.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Runs the tests without code coverage.&quot;&quot;&quot;</span>
     <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#39;test*.py&#39;</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
@@ -287,12 +297,11 @@
 <p>Don&#39;t forget to import <code>unittest</code>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">unittest</span>
 </code></pre></div>
-<p>Bring down the containers and images (since requirements are installed at build time rather than run time), and then re-build:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
-<span class="nv">$ </span>docker-compose up -d --build
+<p>We need to re-build the images since requirements are installed at build time rather than run time:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>With the containers up and running, run the tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run main python manage.py <span class="nb">test</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>You should see the following error:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">self.assertTrue<span class="o">(</span>app.config<span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span> is <span class="s1">&#39;my_precious&#39;</span><span class="o">)</span>

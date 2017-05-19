@@ -2,9 +2,9 @@ version: '2.1'
 
 services:
 
-  main-db:
-    container_name: main-db
-    build: ./services/main/project/db
+  names-db:
+    container_name: names-db
+    build: ./services/names/project/db
     ports:
         - 5435:5432  # expose ports - HOST:CONTAINER
     environment:
@@ -13,22 +13,22 @@ services:
     healthcheck:
       test: exit 0
 
-  main-service:
-    container_name: main-service
-    build: ./services/main/
+  names-service:
+    container_name: names-service
+    build: ./services/names/
     volumes:
-      - './services/main:/usr/src/app'
+      - './services/names:/usr/src/app'
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
       - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@main-db:5432/main_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@main-db:5432/main_test
+      - DATABASE_URL=postgres://postgres:postgres@names-db:5432/names_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@names-db:5432/names_test
     depends_on:
-      main-db:
+      names-db:
         condition: service_healthy
     links:
-      - main-db
+      - names-db
 
   nginx:
     container_name: nginx
@@ -37,7 +37,7 @@ services:
     ports:
       - 80:80
     depends_on:
-      main-service:
+      names-service:
         condition: service_started
     links:
-      - main-service
+      - names-service

@@ -20,7 +20,7 @@ docker-compose version 1.11.2, build dfed245
 docker-machine version 0.10.0, build 76ed2a6
 ```
 
-Add a *Dockerfile* to the "main" directory:
+Add a *Dockerfile* to the "names" directory:
 
 ```
 FROM python:3.6.1
@@ -29,7 +29,7 @@ FROM python:3.6.1
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# add requirements to leverage Docker cache
+# add requirements (to leverage Docker cache)
 ADD ./requirements.txt /usr/src/app/requirements.txt
 
 # install requirements
@@ -49,14 +49,20 @@ version: '2.1'
 
 services:
 
-  main-service:
-    container_name: main-service
-    build: ./services/main/
+  names-service:
+    container_name: names-service
+    build: ./services/names/
     volumes:
-      - './services/main:/user/src/app'
+      - './services/names:/usr/src/app'
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
 ```
+
+This config will create a container called `names-service`, from the Dockerfile found in "services/names". (Directories are relative to the *docker-compose.yml* file.)
+
+The `volume` is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image first and then re-fire the container.
+
+Take note of the version used - `2.1`. This does *not* relate directly to the version of Docker Compose installed; instead, it specifies the file format that you want to use.
 
 Build the image:
 
@@ -64,28 +70,93 @@ Build the image:
 (env)$ docker-compose build
 ```
 
-Fire up the container:
+This will take a few minutes the first time. Once done, fire up the container:
 
 ```sh
 (env)$ docker-compose up -d
 ```
 
-Navigate to [http://localhost:5001/](http://localhost:5001/). Make sure you see the same JSON response as before. Next, add an environment variable to the *docker-compose.yml* file to load the app config:
+Navigate to [http://localhost:5001/ping](http://localhost:5001/ping). Make sure you see the same JSON response as before. Next, add an environment variable to the *docker-compose.yml* file to load the app config for the dev environment:
 
 ```
 version: '2.1'
 
 services:
 
-  main-service:
-    container_name: main-service
-    build: ./services/main/
+  names-service:
+    container_name: names-service
+    build: ./services/names/
     volumes:
-      - './services/main:/usr/src/app'
+      - './services/names:/usr/src/app'
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
       - APP_SETTINGS=project.config.DevelopmentConfig
 ```
 
-Deactivate from the local virtual environment since the Flask app is containerized.
+Then update *services/names/project/\_\_init\_\_.py*, to pull in the environment variables:
+
+```python
+# services/names/project/__init__.py
+
+
+import os
+from flask import Flask, jsonify
+
+
+# instantiate the app
+app = Flask(__name__)
+
+# set config
+app_settings = os.getenv('APP_SETTINGS')
+app.config.from_object(app_settings)
+
+
+@app.route('/ping', methods=['GET'])
+def ping_pong():
+    return jsonify({
+        'status': 'success',
+        'message': 'pong!'
+    })
+```
+
+Update the container:
+
+```sh
+(env)$ docker-compose up -d
+```
+
+Want to test? Add a `print` statement to the *\_\_init\_\_.py* to view the app config to ensure that it is working:
+
+```python
+print(app)
+```
+
+Then just view the logs:
+
+```sh
+$ docker-compose logs -f names-service
+```
+
+You should see something like:
+
+```
+<Config {
+  'DEBUG': True, 'TESTING': False, 'PROPAGATE_EXCEPTIONS': None,
+  'PRESERVE_CONTEXT_ON_EXCEPTION': None, 'SECRET_KEY': None,
+  'PERMANENT_SESSION_LIFETIME': datetime.timedelta(31), 'USE_X_SENDFILE':
+  False, 'LOGGER_NAME': 'project', 'LOGGER_HANDLER_POLICY': 'always',
+  'SERVER_NAME': None, 'APPLICATION_ROOT': None, 'SESSION_COOKIE_NAME':
+  'session', 'SESSION_COOKIE_DOMAIN': None, 'SESSION_COOKIE_PATH': None,
+  'SESSION_COOKIE_HTTPONLY': True, 'SESSION_COOKIE_SECURE': False,
+  'SESSION_REFRESH_EACH_REQUEST': True, 'MAX_CONTENT_LENGTH': None,
+  'SEND_FILE_MAX_AGE_DEFAULT': datetime.timedelta(0, 43200),
+  'TRAP_BAD_REQUEST_ERRORS': False, 'TRAP_HTTP_EXCEPTIONS': False,
+  'EXPLAIN_TEMPLATE_LOADING': False, 'PREFERRED_URL_SCHEME': 'http',
+  'JSON_AS_ASCII': True, 'JSON_SORT_KEYS': True,
+  'JSONIFY_PRETTYPRINT_REGULAR': True, 'JSONIFY_MIMETYPE':
+  'application/json', 'TEMPLATES_AUTO_RELOAD': None}
+>
+```
+
+Make sure to remove the `print` statement, and then deactivate from the local virtual environment since the Flask app is now containerized.

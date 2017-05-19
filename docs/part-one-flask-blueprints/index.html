@@ -110,8 +110,8 @@
                 <li>
                   <a
                     class="collection-item"
-                    href="/part-one-more-routes"
-                  >More Routes</a>
+                    href="/part-one-restful-routes"
+                  >RESTful Routes</a>
                 </li>
               </ul>
             
@@ -130,8 +130,18 @@
                 <li>
                   <a
                     class="collection-item"
-                    href="/part-one-jinja"
-                  >Jinja</a>
+                    href="/part-one-client-side"
+                  >Client Service</a>
+                </li>
+              </ul>
+            
+              
+              <ul>
+                <li>
+                  <a
+                    class="collection-item"
+                    href="/part-one-workflow"
+                  >Workflow</a>
                 </li>
               </ul>
             
@@ -162,25 +172,29 @@
 <h2>Flask Blueprints</h2>
 <p>With tests in place, let&#39;s refactor the app, adding in Blueprints...</p>
 
-<p>Create a new directory in &quot;services/main/project&quot; called &quot;api&quot;, and add an <em>__init__.py</em> file along with a <em>views.py</em> and a <em>models.py</em>. Then within <em>views.py</em> add the following:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># /services/main/project/api/views.py</span>
+<hr>
+
+<p>Create a new directory in &quot;services/names/project&quot; called &quot;api&quot;, and add an <em>__init__.py</em> file along with <em>views.py</em> and <em>models.py</em>. Then within <em>views.py</em> add the following:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># /services/names/project/api/views.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span>
 
-<span class="n">main_blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">&#39;main&#39;</span><span class="p">,</span> <span class="n">__name__</span><span class="p">)</span>
+<span class="n">names_blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">&#39;names&#39;</span><span class="p">,</span> <span class="n">__name__</span><span class="p">)</span>
 
 
-<span class="nd">@main_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+<span class="nd">@names_blueprint.route</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
-        <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Hello, World!&#39;</span>
+        <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;pong!&#39;</span>
     <span class="p">})</span>
 </code></pre></div>
 <p><em>models.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/api/models.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/api/models.py</span>
 
+
+<span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
 
@@ -188,13 +202,16 @@
 <span class="k">class</span> <span class="nc">Name</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&quot;names&quot;</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">created_date</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 </code></pre></div>
-<p>Update <em>services/main/project/__init__.py</em></p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/project/__init__.py</span>
+<p>Update <em>services/names/project/__init__.py</em></p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/__init__.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -219,13 +236,13 @@
     <span class="n">db</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
     <span class="c"># register blueprints</span>
-    <span class="kn">from</span> <span class="nn">project.api.views</span> <span class="kn">import</span> <span class="n">main_blueprint</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">main_blueprint</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">project.api.views</span> <span class="kn">import</span> <span class="n">names_blueprint</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">names_blueprint</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">app</span>
 </code></pre></div>
 <p>Update <em>manage.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/main/manage.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/manage.py</span>
 
 
 <span class="kn">import</span> <span class="nn">unittest</span>
@@ -252,7 +269,7 @@
 
 <span class="nd">@manager.command</span>
 <span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Recreates a local database.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Recreates a database.&quot;&quot;&quot;</span>
     <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
     <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
@@ -261,15 +278,15 @@
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
-<p>Update the imports at the top of and <em>services/main/project/tests/base.py</em> and <em>services/main/project/tests/test_config.py</em>:</p>
+<p>Update the imports at the top of <em>services/names/project/tests/base.py</em> and <em>services/names/project/tests/test_config.py</em> (import <code>db</code> as well in <em>base.py</em>):</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">create_app</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
 </code></pre></div>
 <p>Test!</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
-<span class="nv">$ </span>docker-compose run main-service python manage.py recreate_db
-<span class="nv">$ </span>docker-compose run main-service python manage.py <span class="nb">test</span>
+<span class="nv">$ </span>docker-compose run names-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run names-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Correct any errors and move on...</p>
 

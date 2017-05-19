@@ -2,9 +2,9 @@ version: '2.1'
 
 services:
 
-  main-db:
-    container_name: main-db
-    build: ./services/main/project/db
+  names-db:
+    container_name: names-db
+    build: ./services/names/project/db
     ports:
         - 5435:5432  # expose ports - HOST:CONTAINER
     environment:
@@ -13,19 +13,19 @@ services:
     healthcheck:
       test: exit 0
 
-  main-service:
-    container_name: main-service
-    build: ./services/main/
+  names-service:
+    container_name: names-service
+    build: ./services/names/
     expose:
-      - '5001'
+      - '5000'
     environment:
       - APP_SETTINGS=project.config.ProductionConfig
-      - DATABASE_URL=postgres://postgres:postgres@main-db:5432/main_prod
+      - DATABASE_URL=postgres://postgres:postgres@names-db:5432/names_prod
     depends_on:
-      main-db:
+      names-db:
         condition: service_healthy
     links:
-      - main-db
+      - names-db
     command: gunicorn -b 0.0.0.0:5000 manage:app
 
   nginx:
@@ -35,7 +35,7 @@ services:
     ports:
       - 80:80
     depends_on:
-      main-service:
+      names-service:
         condition: service_started
     links:
-      - main-service
+      - names-service

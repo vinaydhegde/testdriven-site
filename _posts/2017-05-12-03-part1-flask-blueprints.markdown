@@ -7,30 +7,34 @@ permalink: part-one-flask-blueprints
 
 With tests in place, let's refactor the app, adding in Blueprints...
 
-Create a new directory in "services/main/project" called "api", and add an *\_\_init\_\_.py* file along with a *views.py* and a *models.py*. Then within *views.py* add the following:
+---
+
+Create a new directory in "services/names/project" called "api", and add an *\_\_init\_\_.py* file along with *views.py* and *models.py*. Then within *views.py* add the following:
 
 ```python
-# /services/main/project/api/views.py
+# /services/names/project/api/views.py
 
 
 from flask import Blueprint, jsonify
 
-main_blueprint = Blueprint('main', __name__)
+names_blueprint = Blueprint('names', __name__)
 
 
-@main_blueprint.route('/', methods=['GET'])
-def index():
+@names_blueprint.route('/ping', methods=['GET'])
+def ping_pong():
     return jsonify({
         'status': 'success',
-        'message': 'Hello, World!'
+        'message': 'pong!'
     })
 ```
 
 *models.py*:
 
 ```python
-# services/main/project/api/models.py
+# services/names/project/api/models.py
 
+
+import datetime
 
 from project import db
 
@@ -38,16 +42,19 @@ from project import db
 class Name(db.Model):
     __tablename__ = "names"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(255), nullable=False)
+    text = db.Column(db.String(255), nullable=False)
+    created_date = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, name):
-        self.name = name
+
+    def __init__(self, text):
+        self.text = text
+        self.created_date = datetime.datetime.now()
 ```
 
-Update *services/main/project/\_\_init\_\_.py*
+Update *services/names/project/\_\_init\_\_.py*
 
 ```python
-# services/main/project/__init__.py
+# services/names/project/__init__.py
 
 
 import os
@@ -72,8 +79,8 @@ def create_app():
     db.init_app(app)
 
     # register blueprints
-    from project.api.views import main_blueprint
-    app.register_blueprint(main_blueprint)
+    from project.api.views import names_blueprint
+    app.register_blueprint(names_blueprint)
 
     return app
 ```
@@ -81,7 +88,7 @@ def create_app():
 Update *manage.py*:
 
 ```python
-# services/main/manage.py
+# services/names/manage.py
 
 
 import unittest
@@ -108,7 +115,7 @@ def test():
 
 @manager.command
 def recreate_db():
-    """Recreates a local database."""
+    """Recreates a database."""
     db.drop_all()
     db.create_all()
     db.session.commit()
@@ -118,7 +125,7 @@ if __name__ == '__main__':
     manager.run()
 ```
 
-Update the imports at the top of and *services/main/project/tests/base.py* and *services/main/project/tests/test_config.py*:
+Update the imports at the top of *services/names/project/tests/base.py* and *services/names/project/tests/test_config.py* (import `db` as well in *base.py*):
 
 ```python
 from project import create_app
@@ -130,8 +137,8 @@ Test!
 
 ```sh
 $ docker-compose up -d
-$ docker-compose run main-service python manage.py recreate_db
-$ docker-compose run main-service python manage.py test
+$ docker-compose run names-service python manage.py recreate_db
+$ docker-compose run names-service python manage.py test
 ```
 
 Correct any errors and move on...

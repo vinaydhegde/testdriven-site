@@ -9,10 +9,10 @@ Let's get our tests up and running for this endpoint...
 
 ---
 
-Add a "tests" directory to "services/main/project", and then create the following files:
+Add a "tests" directory to "services/names/project", and then create the following files:
 
 ```sh
-$ touch __init__.py base.py test_config.py test_main.py
+$ touch __init__.py base.py test_config.py test_names.py
 ```
 
 Update each file...
@@ -20,13 +20,13 @@ Update each file...
 *\_\_init\_\_.py*:
 
 ```python
-# services/main/project/tests/__init__.py
+# services/names/project/tests/__init__.py
 ```
 
 *base.py*:
 
 ```python
-# services/main/project/tests/base.py
+# services/names/project/tests/base.py
 
 
 from flask_testing import TestCase
@@ -51,7 +51,7 @@ class BaseTestCase(TestCase):
 *test_config.py*:
 
 ```python
-# services/main/project/tests/test_config.py
+# services/names/project/tests/test_config.py
 
 
 import unittest
@@ -73,7 +73,7 @@ class TestDevelopmentConfig(TestCase):
         self.assertFalse(current_app is None)
         self.assertTrue(
             app.config['SQLALCHEMY_DATABASE_URI'] ==
-            'postgres://postgres:postgres@main-db:5432/main_dev'
+            'postgres://postgres:postgres@names-db:5432/names_dev'
         )
 
 
@@ -89,7 +89,7 @@ class TestTestingConfig(TestCase):
         self.assertFalse(app.config['PRESERVE_CONTEXT_ON_EXCEPTION'])
         self.assertTrue(
             app.config['SQLALCHEMY_DATABASE_URI'] ==
-            'postgres://postgres:postgres@main-db:5432/main_test'
+            'postgres://postgres:postgres@names-db:5432/names_test'
         )
 
 
@@ -108,10 +108,10 @@ if __name__ == '__main__':
     unittest.main()
 ```
 
-*test_main.py*:
+*test_names.py*:
 
 ```python
-# services/main/project/tests/test__user.py
+# services/names/project/tests/test__user.py
 
 
 import json
@@ -119,30 +119,30 @@ import json
 from project.tests.base import BaseTestCase
 
 
-class TestMainService(BaseTestCase):
-    """ Test for Main Service """
+class TestNameService(BaseTestCase):
+    """ Test for Name Service """
 
-    def test_main(self):
-        """Ensure main route behaves correctly."""
-        response = self.client.get('/')
+    def test_names(self):
+        """Ensure the /ping route behaves correctly."""
+        response = self.client.get('/ping')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Hello, World!', data['message'])
+        self.assertIn('pong!', data['message'])
         self.assertIn('success', data['status'])
 ```
 
-Add Flask-Testing to the requirements file:
+Add [Flask-Testing](https://pythonhosted.org/Flask-Testing/) to the requirements file:
 
 ```
 Flask-Testing==0.6.2
 ```
 
-Add a new command to *manage.py*:
+Add a new command to *manage.py*, to discover and run the tests:
 
 ```python
 @manager.command
 def test():
-    """Runs the unit tests without test coverage."""
+    """Runs the tests without code coverage."""
     tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
@@ -156,17 +156,16 @@ Don't forget to import `unittest`:
 import unittest
 ```
 
-Bring down the containers and images (since requirements are installed at build time rather than run time), and then re-build:
+We need to re-build the images since requirements are installed at build time rather than run time:
 
 ```sh
-$ docker-compose down
 $ docker-compose up -d --build
 ```
 
 With the containers up and running, run the tests:
 
 ```sh
-$ docker-compose run main python manage.py test
+$ docker-compose run names-service python manage.py test
 ```
 
 You should see the following error:

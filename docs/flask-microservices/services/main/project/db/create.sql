@@ -1,3 +1,0 @@
-CREATE DATABASE main_prod;
-CREATE DATABASE main_dev;
-CREATE DATABASE main_test;
