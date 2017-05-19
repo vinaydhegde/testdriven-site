@@ -48,4 +48,4 @@ By the end of this tutorial, you should be able to...
 1. Enable services running in different containers to talk to one other
 1. Work with Python and Flask running inside a Docker Container
 
-Check out the live app, running on EC2, [here](http://52.91.6.225/names).
+Check out the live app, running on EC2 - [App](http://52.91.6.225/), [API](http://52.91.6.225/names)

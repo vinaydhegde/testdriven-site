@@ -138,3 +138,33 @@ class TestNameService(BaseTestCase):
             self.assertIn('Michael', data['data']['names'][0]['text'])
             self.assertIn('Fletcher', data['data']['names'][1]['text'])
             self.assertIn('success', data['status'])
+
+    def test_main_no_names(self):
+        """Ensure the / route behaves correctly when no names have been
+        added to the database."""
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'<h1>All Names</h1>', response.data)
+        self.assertIn(b'<p>No names!</p>', response.data)
+
+    def test_main_with_names(self):
+        """Ensure the / route behaves correctly when names have been
+        added to the database."""
+        add_name('Michael')
+        add_name('Fletcher')
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'<h1>All Names</h1>', response.data)
+        self.assertNotIn(b'<p>No names!</p>', response.data)
+        self.assertIn(b'<strong>Michael</strong>', response.data)
+        self.assertIn(b'<strong>Fletcher</strong>', response.data)
+
+    def test_main_add_name(self):
+        """Ensure a new name can be added to the database."""
+        with self.client:
+            response = self.client.post(
+                '/', data=dict(text='Michael',), follow_redirects=True)
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(b'<h1>All Names</h1>', response.data)
+            self.assertNotIn(b'<p>No names!</p>', response.data)
+            self.assertIn(b'<strong>Michael</strong>', response.data)

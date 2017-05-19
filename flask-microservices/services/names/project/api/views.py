@@ -1,13 +1,26 @@
 # /services/names/project/api/views.py
 
 
-from flask import Blueprint, jsonify, request, make_response
+from flask import Blueprint, jsonify, request, make_response, \
+    render_template
 
 from project.api.models import Name
 from project import db
 
 
-names_blueprint = Blueprint('names', __name__)
+names_blueprint = Blueprint(
+    'names', __name__, template_folder='./templates')
+
+
+@names_blueprint.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        text = request.form['text']
+        name = Name(text)
+        db.session.add(name)
+        db.session.commit()
+    names = Name.query.order_by(Name.created_date.desc()).all()
+    return render_template('index.html', names=names)
 
 
 @names_blueprint.route('/ping', methods=['GET'])
