@@ -170,8 +170,39 @@
 
 
 <h2>Workflow</h2>
-<p>Coming soon!</p>
+<p>Commands...</p>
 
+<hr>
+
+<p>Build the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
+</code></pre></div>
+<p>Run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+</code></pre></div>
+<p>Create the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py recreate_db
+</code></pre></div>
+<p>Seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py seed_db
+</code></pre></div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<h4 id="other-commands">Other commands</h4>
+
+<p>To stop the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose stop
+</code></pre></div>
+<p>To bring down the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
+</code></pre></div>
+<p>Want to force a build?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
 
        </div>
      </div>
