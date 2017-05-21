@@ -9,13 +9,13 @@ With the routes up and tested, let's get this app deployed!
 
 ---
 
-To start, we need to create a new machine with Docker Machine. Bring down the current containers and images:
+To start, we need to create a new Docker host with [Docker Machine](https://docs.docker.com/machine/). Bring down the current containers and images:
 
 ```sh
 $ docker-compose down
 ```
 
-Create a new Machine and point the Docker client at it:
+Create a new host and point the Docker client at it:
 
 ```sh
 $ docker-machine create -d virtualbox dev;
@@ -38,17 +38,23 @@ $ docker-compose run names-service python manage.py test
 
 Since we're using Docker Machine, the host IP is no longer localhost (or 127.0.0.1). Run - `docker-machine ip dev` to get the IP. Test the GET endpoints in your browser.
 
-Sign up for AWS (if necessary) and create an IAM user (if necessary): follow the instructions [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html ), making sure to add the credentials to an *~/.aws/credentials* file. Then create the new Machine:
+Sign up for AWS (if necessary) and create an IAM user (if necessary): follow the instructions [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html ), making sure to add the credentials to an *~/.aws/credentials* file. Then create the new host:
 
 ```sh
 $ docker-machine create --driver amazonec2 aws
 ```
 
-Once done, set it as the active Machine and point the Docker client at it:
+Once done, set it as the active host and point the Docker client at it:
 
 ```sh
 $ docker-machine env aws
 $ eval $(docker-machine env aws)
+```
+
+Run the following command to view the currently running Machines:
+
+```sh
+$ docker-machine ls
 ```
 
 Create a new compose file called *docker-compose-prod.yml* and add the contents of the other compose file minus the `volumes`.
@@ -200,7 +206,7 @@ nginx:
     - names-service
 ```
 
-Next, we need to update the active machine. To check which machine is currently active run:
+Next, we need to update the active host. To check which host is currently active run:
 
 ```sh
 $ docker-machine active
