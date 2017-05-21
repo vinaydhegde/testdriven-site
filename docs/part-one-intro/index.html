@@ -216,7 +216,7 @@
 <td><a href="https://docs.docker.com/machine/overview/">Docker Machine Overview</a></td>
 </tr>
 <tr>
-<td>Flask API</td>
+<td>Flask</td>
 <td><a href="https://realpython.com">Real Python</a></td>
 </tr>
 </tbody></table>
@@ -235,7 +235,39 @@
 <li>Work with Python and Flask running inside a Docker Container</li>
 </ol>
 
-<p>Check out the live app, running on EC2 - <a href="http://52.91.6.225/">App</a>, <a href="http://52.91.6.225/names">API</a></p>
+<h4 id="live-app">Live App</h4>
+
+<p>Check out the live app, running on EC2 - <a href="http://52.91.6.225/">http://52.91.6.225/</a></p>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>CRUD Method</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/names</td>
+<td>GET</td>
+<td>READ</td>
+<td>get all names</td>
+</tr>
+<tr>
+<td>/names/:id</td>
+<td>GET</td>
+<td>READ</td>
+<td>get single name</td>
+</tr>
+<tr>
+<td>/names</td>
+<td>POST</td>
+<td>CREATE</td>
+<td>add a name</td>
+</tr>
+</tbody></table>
 
 
        </div>

@@ -34,7 +34,7 @@ Before beginning, you should have some familiarity with the following topics. Re
 | Docker           | [Get started with Docker](https://docs.docker.com/engine/getstarted/) |
 | Docker Compose   | [Get started with Docker Compose](https://docs.docker.com/compose/gettingstarted/) |
 | Docker Machine | [Docker Machine Overview](https://docs.docker.com/machine/overview/) |
-| Flask API | [Real Python](https://realpython.com)
+| Flask | [Real Python](https://realpython.com)
 
 #### Objectives
 
@@ -48,4 +48,14 @@ By the end of this tutorial, you should be able to...
 1. Enable services running in different containers to talk to one other
 1. Work with Python and Flask running inside a Docker Container
 
-Check out the live app, running on EC2 - [App](http://52.91.6.225/), [API](http://52.91.6.225/names)
+#### Live App
+
+Check out the live app, running on EC2 - [http://52.91.6.225/](http://52.91.6.225/)
+
+You can also test out the following endpoints...
+
+| Endpoint    | HTTP Method | CRUD Method | Result          |
+|-------------|-------------|-------------|-----------------|
+| /names      | GET         | READ        | get all names   |
+| /names/:id  | GET         | READ        | get single name |
+| /names      | POST        | CREATE      | add a name      |
