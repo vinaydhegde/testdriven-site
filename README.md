@@ -8,3 +8,4 @@
 1. Break into multiple repos - (1) compose,nginx (2) flask
 1. Refactor Flask (no services directory)
 1. Add code coverage and CI
+1. Refactor client to seperate repo

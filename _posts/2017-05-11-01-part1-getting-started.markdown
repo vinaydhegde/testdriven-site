@@ -5,62 +5,24 @@ date: 2017-05-11 23:59:58
 permalink: part-one-getting-started
 ---
 
-In this lesson, we'll set up the base project structure and define the first service, `names`...
+In this lesson, we'll set up the base project structure and define the first service...
 
 ---
 
-Create two directories - one to hold the entire project and the other to house each service:
+Create a new project and install Flask:
 
 ```sh
-$ mkdir flask-microservices && cd flask-microservices
-$ mkdir services && cd services
-```
-
-Then create a directory to house the first service, create and activate a new virtual environment, and install Flask:
-
-```sh
-$ mkdir names && cd names
+$ mkdir flask-microservices-users && cd flask-microservices-users
+$ mkdir project
 $ python3.6 -m venv env
 $ source env/bin/activate
 (env)$ pip install flask==0.12.2
 ```
 
-Set up the base structure:
-
-```sh
-(env)$ mkdir project
-(env)$ touch project/__init__.py
-(env)$ touch manage.py
-```
-
-Add [Flask-Script](https://flask-script.readthedocs.io/en/latest/), which we'll use to run and manage the app from the command line:
-
-```sh
-(env)$ pip install flask-script==2.0.5
-```
-
-Update *manage.py*:
+Add an *\_\_init\_\_.py* file to the "project" directory and define the first route:
 
 ```python
-# services/names/manage.py
-
-
-from flask_script import Manager
-
-from project import app
-
-
-manager = Manager(app)
-
-
-if __name__ == '__main__':
-    manager.run()
-```
-
-Update *\_\_init\_\_.py*:
-
-```python
-# services/names/project/__init__.py
+# project/__init__.py
 
 
 from flask import Flask, jsonify
@@ -77,6 +39,32 @@ def ping_pong():
         'message': 'pong!'
     })
 ```
+
+Next, add [Flask-Script](https://flask-script.readthedocs.io/en/latest/), which will be used to run and manage the app from the command line:
+
+```sh
+(env)$ pip install flask-script==2.0.5
+```
+
+Add a *manage.py* file:
+
+```python
+# manage.py
+
+
+from flask_script import Manager
+
+from project import app
+
+
+manager = Manager(app)
+
+
+if __name__ == '__main__':
+    manager.run()
+```
+
+Here, we created a new `Manager` instance to handle all of the manager commands from the command line.
 
 Run the server:
 
@@ -96,7 +84,7 @@ Navigate to [http://localhost:5000/ping](http://localhost:5000/ping) in your bro
 Kill the server and add a new file called *config.py* to the "project" directory:
 
 ```python
-# services/names/project/config.py
+# project/config.py
 
 
 class BaseConfig:
@@ -144,7 +132,7 @@ def ping_pong():
     })
 ```
 
-Run the app again. Debug mode should be on:
+Run the app again. This time, debug mode should be on:
 
 ```sh
 $ python manage.py runserver
@@ -154,20 +142,18 @@ $ python manage.py runserver
  * Debugger PIN: 107-952-069
 ```
 
-Now when you make changes to the code, the app will automatically reload.
-
-Add a *requirements.txt* file to the "names" directory:
+Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a *requirements.txt* file to the root directory:
 
 ```
 Flask==0.12.1
 Flask-Script==2.0.5
 ```
 
-Finally, back in the root, add a *.gitignore*:
+Finally, add a *.gitignore*, to the project root as well:
 
 ```
 __pycache__
 env
 ```
 
-Init a git repo and commit your code. Next, deactivate from the virtual environment since we'll be working within the isolated container from now on.
+Init a git repo and commit your code.
