@@ -12,12 +12,19 @@ Let's containerize the Flask app...
 Start by ensuring that you have Docker, Docker Compose, and Docker Machine installed:
 
 ```sh
-(env)$ docker -v
+$ docker -v
 Docker version 17.03.1-ce, build c6d412e
-(env)$ docker-compose -v
+$ docker-compose -v
 docker-compose version 1.11.2, build dfed245
-(env)$ docker-machine -v
+$ docker-machine -v
 docker-machine version 0.10.0, build 76ed2a6
+```
+
+Next, we need to create a new Docker host with [Docker Machine](https://docs.docker.com/machine/) and point the Docker client at it:
+
+```sh
+$ docker-machine create -d virtualbox dev;
+$ eval "$(docker-machine env dev)"
 ```
 
 Add a *Dockerfile* to the "names" directory:
@@ -67,16 +74,22 @@ Take note of the version used - `2.1`. This does *not* relate directly to the ve
 Build the image:
 
 ```sh
-(env)$ docker-compose build
+$ docker-compose build
 ```
 
 This will take a few minutes the first time. Once done, fire up the container:
 
 ```sh
-(env)$ docker-compose up -d
+$ docker-compose up -d
 ```
 
-Navigate to [http://localhost:5001/ping](http://localhost:5001/ping). Make sure you see the same JSON response as before. Next, add an environment variable to the *docker-compose.yml* file to load the app config for the dev environment:
+Grab the IP associated with the machine:
+
+```sh
+$ docker-machine ip dev
+```
+
+Navigate to [http://YOUR-IP:5001/ping](http://YOUR-IP:5001/ping). Make sure you see the same JSON response as before. Next, add an environment variable to the *docker-compose.yml* file to load the app config for the dev environment:
 
 ```
 version: '2.1'
@@ -123,7 +136,7 @@ def ping_pong():
 Update the container:
 
 ```sh
-(env)$ docker-compose up -d
+$ docker-compose up -d
 ```
 
 Want to test? Add a `print` statement to the *\_\_init\_\_.py* to view the app config to ensure that it is working:
@@ -159,4 +172,4 @@ You should see something like:
 >
 ```
 
-Make sure to remove the `print` statement, and then deactivate from the local virtual environment since the Flask app is now containerized.
+Make sure to remove the `print` statement.

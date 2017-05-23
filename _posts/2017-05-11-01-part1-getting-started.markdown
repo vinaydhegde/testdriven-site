@@ -147,7 +147,7 @@ def ping_pong():
 Run the app again. Debug mode should be on:
 
 ```sh
-python manage.py runserver
+$ python manage.py runserver
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
@@ -170,4 +170,4 @@ __pycache__
 env
 ```
 
-Init a git repo and commit your code.
+Init a git repo and commit your code. Next, deactivate from the virtual environment since we'll be working within the isolated container from now on.

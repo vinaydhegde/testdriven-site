@@ -343,7 +343,7 @@ def get_all_names():
 
 Does the test past?
 
-Before moving on, let's test the route in the browser - [http://localhost:5000/names](http://localhost:5000/names). So we have some data to work with, add a seed command to the *manage.py* file to populate the database with some initial data:
+Before moving on, let's test the route in the browser - [http://YOUR-IP:5000/names](http://YOUR-IP:5000/names). So we have some data to work with, add a seed command to the *manage.py* file to populate the database with some initial data:
 
 ```python
 @manager.command
@@ -360,4 +360,4 @@ Try it out:
 $ docker-compose run names-service python manage.py seed_db
 ```
 
-Make sure you can view the names in the JSON response [http://localhost:5000/names](http://localhost:5000/names).
+Make sure you can view the names in the JSON response [http://YOUR-IP:5000/names](http://YOUR-IP:5000/names).

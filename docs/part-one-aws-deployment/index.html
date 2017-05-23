@@ -174,23 +174,6 @@
 
 <hr>
 
-<p>To start, we need to create a new Docker host with <a href="https://docs.docker.com/machine/">Docker Machine</a>. Bring down the current containers and images:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
-</code></pre></div>
-<p>Create a new host and point the Docker client at it:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create -d virtualbox dev<span class="p">;</span>
-<span class="nv">$ </span><span class="nb">eval</span> <span class="s2">&quot;$(docker-machine env dev)&quot;</span>
-</code></pre></div>
-<p>Re-build the images and run the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
-</code></pre></div>
-<p>This will take a bit since we are not using the cache. Once up, create the database, apply the seed, and then run the tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py recreate_db
-<span class="nv">$ </span>docker-compose run names-service python manage.py seed_db
-<span class="nv">$ </span>docker-compose run names-service python manage.py <span class="nb">test</span>
-</code></pre></div>
-<p>Since we&#39;re using Docker Machine, the host IP is no longer localhost (or 127.0.0.1). Run - <code>docker-machine ip dev</code> to get the IP. Test the GET endpoints in your browser.</p>
-
 <p>Sign up for AWS (if necessary) and create an IAM user (if necessary): follow the instructions <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html">here</a>, making sure to add the credentials to an <em>~/.aws/credentials</em> file. Then create the new host:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create --driver amazonec2 aws
 </code></pre></div>

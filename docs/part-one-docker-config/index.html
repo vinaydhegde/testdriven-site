@@ -175,12 +175,16 @@
 <hr>
 
 <p>Start by ensuring that you have Docker, Docker Compose, and Docker Machine installed:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>docker -v
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker -v
 Docker version 17.03.1-ce, build c6d412e
-<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>docker-compose -v
+<span class="nv">$ </span>docker-compose -v
 docker-compose version 1.11.2, build dfed245
-<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>docker-machine -v
+<span class="nv">$ </span>docker-machine -v
 docker-machine version 0.10.0, build 76ed2a6
+</code></pre></div>
+<p>Next, we need to create a new Docker host with <a href="https://docs.docker.com/machine/">Docker Machine</a> and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create -d virtualbox dev<span class="p">;</span>
+<span class="nv">$ </span><span class="nb">eval</span> <span class="s2">&quot;$(docker-machine env dev)&quot;</span>
 </code></pre></div>
 <p>Add a <em>Dockerfile</em> to the &quot;names&quot; directory:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
@@ -221,12 +225,15 @@ services:
 <p>Take note of the version used - <code>2.1</code>. This does <em>not</em> relate directly to the version of Docker Compose installed; instead, it specifies the file format that you want to use.</p>
 
 <p>Build the image:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>docker-compose build
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
 </code></pre></div>
 <p>This will take a few minutes the first time. Once done, fire up the container:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>docker-compose up -d
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
 </code></pre></div>
-<p>Navigate to <a href="http://localhost:5001/ping">http://localhost:5001/ping</a>. Make sure you see the same JSON response as before. Next, add an environment variable to the <em>docker-compose.yml</em> file to load the app config for the dev environment:</p>
+<p>Grab the IP associated with the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ip dev
+</code></pre></div>
+<p>Navigate to <a href="http://YOUR-IP:5001/ping">http://YOUR-IP:5001/ping</a>. Make sure you see the same JSON response as before. Next, add an environment variable to the <em>docker-compose.yml</em> file to load the app config for the dev environment:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">version: &#39;2.1&#39;
 
 services:
@@ -265,7 +272,7 @@ services:
     <span class="p">})</span>
 </code></pre></div>
 <p>Update the container:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>docker-compose up -d
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
 </code></pre></div>
 <p>Want to test? Add a <code>print</code> statement to the <em>__init__.py</em> to view the app config to ensure that it is working:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
@@ -291,7 +298,7 @@ services:
   &#39;application/json&#39;, &#39;TEMPLATES_AUTO_RELOAD&#39;: None}
 &gt;
 </code></pre></div>
-<p>Make sure to remove the <code>print</code> statement, and then deactivate from the local virtual environment since the Flask app is now containerized.</p>
+<p>Make sure to remove the <code>print</code> statement.</p>
 
 
        </div>
