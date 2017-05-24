@@ -6,16 +6,16 @@
 ## Todo
 
 1. Refactor Flask (no services directory) - DONE
-1. Styles - create all lessons page - DONE
 1. Styles - update sidebar on load - DONE
+1. Styles - create lessons page - DONE
+1. Add `flask-microservices-users` to github - DONE
+1. Styles - Add previous and next arrows at the bottom of each lesson - DONE
 1. Rebrand with Real Python
-1. Break into multiple repos - (1) compose,nginx (2) flask
-1. styles -Add prev and next arrows at the bottom
 1. Update objectives
-1. Set up aliases for `docker-machine` and `docker-compose`
-1. Add `flask-microservices-users` to github
+1. Set up aliases for `docker-machine` and `docker-compose` in the workflow section
 1. Add more explanations to the deployment lesson
 1. Update workflow
 1. Add social share buttons
-1. Add code coverage and CI
 1. Styles - refactor Jekyll Structure
+1. Break into multiple repos - (1) compose,nginx (2) flask
+1. Add code coverage and CI

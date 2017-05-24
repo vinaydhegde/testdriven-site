@@ -48,7 +48,7 @@ By the end of this tutorial, you should be able to...
 1. Enable services running in different containers to talk to one other
 1. Work with Python and Flask running inside a Docker Container
 
-#### Live App
+#### App
 
 Check out the live app, running on EC2 - [http://34.207.173.181/](http://34.207.173.181/)
 
@@ -59,3 +59,7 @@ You can also test out the following endpoints...
 | /users      | GET         | READ        | get all users   |
 | /users/:id  | GET         | READ        | get single user |
 | /users      | POST        | CREATE      | add a user      |
+
+#### Code
+
+Grab the code from the [flask-microservices-users](https://github.com/realpython/flask-microservices-users) repo.

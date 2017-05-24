@@ -34,13 +34,16 @@ table {
   border: 1px solid black;
   width: auto;
 }
+
 table th {
   padding-left: 18px;
   border: 1px solid black;
 }
+
 table tr {
   padding-left: 18px;
 }
+
 table td {
   padding-left: 18px;
   border: 1px solid black;
@@ -52,6 +55,20 @@ td, th {
   text-align: left;
   vertical-align: middle;
   border-radius: 2px;
+}
+
+.lessons-list {
+  list-style: disc;
+  padding-left: 40px;
+  margin-top: 10px;
+}
+
+.lessons-list li {
+  list-style: disc;
+}
+
+.page-nav {
+  padding-top: 20px;
 }
 
 /*

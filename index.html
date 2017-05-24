@@ -1,16 +1,18 @@
 ---
-layout: default
+layout: post
+title: Microservices with Docker and Flask
 ---
 
-<h3>Courses</h3>
+<h3></h3>
 <hr><br>
-<h4>Microservices with Docker and Flask</h4>
-<ol>
+
+
 {% for post in site.posts reversed %}
-  {% if post.title == 'Introduction' %}
-    <li><h5><a href="{{ site.baseurl }}{{ post.url }}">Part {{post.part}}</a></h5></li>
+  {% if post.part %}
+    <h5>Part {{post.part}}</h5>
     <p>{{ post.content | strip_html | truncatewords:30}}</p>
   {% endif %}
-
+    <ul class="lessons-list">
+      <li><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></li>
+    </ul>
 {% endfor %}
-</ol>
