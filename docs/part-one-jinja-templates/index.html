@@ -205,9 +205,9 @@
           <span class="nt">&lt;br&gt;</span>
           <span class="nt">&lt;h1&gt;</span>All Users<span class="nt">&lt;/h1&gt;</span>
           <span class="nt">&lt;hr&gt;&lt;br&gt;</span>
-          <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;/&quot;</span> <span class="na">method=</span><span class="s">&quot;POST&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;/test&quot;</span> <span class="na">method=</span><span class="s">&quot;POST&quot;</span><span class="nt">&gt;</span>
             <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-              <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;text&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control input-lg&quot;</span> <span class="na">type=</span><span class="s">&quot;username&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Enter a username&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
+              <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;username&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control input-lg&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Enter a username&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
             <span class="nt">&lt;/div&gt;</span>
             <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
               <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;email&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control input-lg&quot;</span> <span class="na">type=</span><span class="s">&quot;email&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Enter an email address&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
@@ -218,8 +218,8 @@
           <span class="nt">&lt;hr&gt;</span>
           <span class="nt">&lt;div&gt;</span>
             {% if users %}
-              {% for name in users %}
-                <span class="nt">&lt;h4</span> <span class="na">class=</span><span class="s">&quot;well&quot;</span><span class="nt">&gt;&lt;strong&gt;</span>{{name.username}}<span class="nt">&lt;/strong&gt;</span> - <span class="nt">&lt;em&gt;</span>{{name.created_at.strftime(&#39;%Y-%m-%d&#39;)}}<span class="nt">&lt;/em&gt;&lt;/h4&gt;</span>
+              {% for user in users %}
+                <span class="nt">&lt;h4</span> <span class="na">class=</span><span class="s">&quot;well&quot;</span><span class="nt">&gt;&lt;strong&gt;</span>{{user.username}}<span class="nt">&lt;/strong&gt;</span> - <span class="nt">&lt;em&gt;</span>{{user.created_at.strftime(&#39;%Y-%m-%d&#39;)}}<span class="nt">&lt;/em&gt;&lt;/h4&gt;</span>
               {% endfor %}
             {% else %}
               <span class="nt">&lt;p&gt;</span>No users!<span class="nt">&lt;/p&gt;</span>

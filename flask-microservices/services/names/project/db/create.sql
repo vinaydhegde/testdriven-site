@@ -1,3 +1,0 @@
-CREATE DATABASE names_prod;
-CREATE DATABASE names_dev;
-CREATE DATABASE names_test;

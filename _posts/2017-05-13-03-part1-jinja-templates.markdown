@@ -47,9 +47,9 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
           <br>
           <h1>All Users</h1>
           <hr><br>
-          <form action="/" method="POST">
+          <form action="/test" method="POST">
             <div class="form-group">
-              <input name="text" class="form-control input-lg" type="username" placeholder="Enter a username" required>
+              <input name="username" class="form-control input-lg" type="text" placeholder="Enter a username" required>
             </div>
             <div class="form-group">
               <input name="email" class="form-control input-lg" type="email" placeholder="Enter an email address" required>
@@ -60,8 +60,8 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
           <hr>
           <div>
             {% if users %}
-              {% for name in users %}
-                <h4 class="well"><strong>{{name.username}}</strong> - <em>{{name.created_at.strftime('%Y-%m-%d')}}</em></h4>
+              {% for user in users %}
+                <h4 class="well"><strong>{{user.username}}</strong> - <em>{{user.created_at.strftime('%Y-%m-%d')}}</em></h4>
               {% endfor %}
             {% else %}
               <p>No users!</p>

@@ -388,7 +388,7 @@ Add a seed command to the *manage.py* file to populate the database with some in
 def seed_db():
     """Seeds the database."""
     db.session.add(User(username='michael', email="michael@realpython.com"))
-    db.session.add(User(username='michael', email="michael@mherman.org"))
+    db.session.add(User(username='michaelherman', email="michael@mherman.org"))
     db.session.commit()
 ```
 
