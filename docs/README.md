@@ -5,7 +5,7 @@
 
 ## Todo
 
-1. Refactor Flask (no services directory)
+1. Refactor Flask (no services directory) - DONE
 1. Styles - update sidebar on load
 1. Add code coverage and CI
 1. Styles - create all lessons page
