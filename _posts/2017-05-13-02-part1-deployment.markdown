@@ -105,7 +105,7 @@ $ docker-compose -f docker-compose-prod.yml up -d --build
 
 #### Nginx
 
-Next, let's get Nginx up and running. Create a new folder called "nginx" in the project root, and then add a *Dockerfile*:
+Next, let's get Nginx up and running as a reverse proxy to the web server. Create a new folder called "nginx" in the project root, and then add a *Dockerfile*:
 
 ```
 FROM nginx:1.13.0

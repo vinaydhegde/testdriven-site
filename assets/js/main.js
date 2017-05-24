@@ -3,13 +3,10 @@ $(function() {
   var $obj = $('#toc-block');
   var $top = $obj.offset().top;
 
+  setSideBarDisplay($obj, $top);
+
   $(window).scroll(function (event) {
-    var y = $(this).scrollTop();
-    if (y >= $top - 51) {
-      $obj.css('position', 'fixed').css('top', '45px');
-    } else {
-      $obj.css('position', 'static').css('top', '0px');
-    }
+    setSideBarDisplay($obj, $top);
   });
 
   var active = window.location.href.split('-')[1];
@@ -23,3 +20,14 @@ $(function() {
   }
 
 });
+
+// helpers
+
+function setSideBarDisplay(obj, top) {
+  var y = $(window).scrollTop();
+  if (y >= top - 51) {
+    obj.css('position', 'fixed').css('top', '45px');
+  } else {
+    obj.css('position', 'static').css('top', '0px');
+  }
+}
