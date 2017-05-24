@@ -8,7 +8,7 @@ part: 1
 
 In this tutorial, you'll learn how to quickly spin up a reproducible development environment with Docker to create a RESTful API powered by Python, Postgres, and the Flask web framework. After the app is up and running locally, you'll learn how to deploy it to an Amazon EC2 instance.
 
-> **NOTE:** We'll take a practical approach to test driven development (TDD), where we'll write tests first *only* when it makes sense.
+> We'll take a practical approach to test driven development (TDD), where we'll write tests first *only* when it makes sense.
 
 <div style="text-align:left;">
   <img src="/assets/img/flask-tdd-logo.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
@@ -50,12 +50,12 @@ By the end of this tutorial, you should be able to...
 
 #### Live App
 
-Check out the live app, running on EC2 - [http://52.91.6.225/](http://52.91.6.225/)
+Check out the live app, running on EC2 - [http://http://34.207.173.181//](http://http://34.207.173.181//)
 
 You can also test out the following endpoints...
 
 | Endpoint    | HTTP Method | CRUD Method | Result          |
 |-------------|-------------|-------------|-----------------|
-| /names      | GET         | READ        | get all names   |
-| /names/:id  | GET         | READ        | get single name |
-| /names      | POST        | CREATE      | add a name      |
+| /users      | GET         | READ        | get all users   |
+| /users/:id  | GET         | READ        | get single user |
+| /users      | POST        | CREATE      | add a user      |

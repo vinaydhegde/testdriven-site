@@ -6,6 +6,8 @@
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
   >
+  <link href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Lato:900,300" rel="stylesheet" type="text/css">
   <link href="/assets/css/styles.css" rel="stylesheet">
   <script
     src="//code.jquery.com/jquery-2.2.4.min.js"
@@ -174,16 +176,15 @@
 
 <hr>
 
-<p>Add a new route handler to <em>services/names/project/api/views.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@names_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<p>Add a new route handler to <em>project/api/views.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@users_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">)</span>
 </code></pre></div>
 <p>Update the Blueprint config as well:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">names_blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span>
-  <span class="s">&#39;names&#39;</span><span class="p">,</span> <span class="n">__name__</span><span class="p">,</span> <span class="n">template_folder</span><span class="o">=</span><span class="s">&#39;./templates&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">users_blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">&#39;users&#39;</span><span class="p">,</span> <span class="n">__name__</span><span class="p">,</span> <span class="n">template_folder</span><span class="o">=</span><span class="s">&#39;./templates&#39;</span><span class="p">)</span>
 </code></pre></div>
-<p>Then add a &quot;templates&quot; folder to &quot;services/names/project/api&quot;, and add an <em>index.html</em> file to that folder:</p>
+<p>Then add a &quot;templates&quot; folder to &quot;project/api&quot;, and add an <em>index.html</em> file to that folder:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
   <span class="nt">&lt;head&gt;</span>
@@ -202,93 +203,98 @@
       <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;col-md-4&quot;</span><span class="nt">&gt;</span>
           <span class="nt">&lt;br&gt;</span>
-          <span class="nt">&lt;h1&gt;</span>All Names<span class="nt">&lt;/h1&gt;</span>
+          <span class="nt">&lt;h1&gt;</span>All Users<span class="nt">&lt;/h1&gt;</span>
           <span class="nt">&lt;hr&gt;&lt;br&gt;</span>
           <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;/&quot;</span> <span class="na">method=</span><span class="s">&quot;POST&quot;</span><span class="nt">&gt;</span>
             <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
-              <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;text&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control input-lg&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Enter a name&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
+              <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;text&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control input-lg&quot;</span> <span class="na">type=</span><span class="s">&quot;username&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Enter a username&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form-group&quot;</span><span class="nt">&gt;</span>
+              <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;email&quot;</span> <span class="na">class=</span><span class="s">&quot;form-control input-lg&quot;</span> <span class="na">type=</span><span class="s">&quot;email&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Enter an email address&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
             <span class="nt">&lt;/div&gt;</span>
             <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-primary btn-lg btn-block&quot;</span> <span class="na">value=</span><span class="s">&quot;Submit&quot;</span><span class="nt">&gt;</span>
           <span class="nt">&lt;/form&gt;</span>
           <span class="nt">&lt;br&gt;</span>
           <span class="nt">&lt;hr&gt;</span>
           <span class="nt">&lt;div&gt;</span>
-            {% if names %}
-              {% for name in names %}
-                <span class="nt">&lt;h4</span> <span class="na">class=</span><span class="s">&quot;well&quot;</span><span class="nt">&gt;&lt;strong&gt;</span>{{name.text}}<span class="nt">&lt;/strong&gt;</span> - <span class="nt">&lt;em&gt;</span>{{name.created_date.strftime(&#39;%Y-%m-%d&#39;)}}<span class="nt">&lt;/em&gt;&lt;/h4&gt;</span>
+            {% if users %}
+              {% for name in users %}
+                <span class="nt">&lt;h4</span> <span class="na">class=</span><span class="s">&quot;well&quot;</span><span class="nt">&gt;&lt;strong&gt;</span>{{name.username}}<span class="nt">&lt;/strong&gt;</span> - <span class="nt">&lt;em&gt;</span>{{name.created_at.strftime(&#39;%Y-%m-%d&#39;)}}<span class="nt">&lt;/em&gt;&lt;/h4&gt;</span>
               {% endfor %}
             {% else %}
-              <span class="nt">&lt;p&gt;</span>No names!<span class="nt">&lt;/p&gt;</span>
+              <span class="nt">&lt;p&gt;</span>No users!<span class="nt">&lt;/p&gt;</span>
             {% endif %}
           <span class="nt">&lt;/div&gt;</span>
         <span class="nt">&lt;/div&gt;</span>
       <span class="nt">&lt;/div&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
     <span class="c">&lt;!-- scripts --&gt;</span>
-    <span class="nt">&lt;script</span>
-<span class="nt">      </span><span class="na">src=</span><span class="s">&quot;https://code.jquery.com/jquery-2.2.4.min.js&quot;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://code.jquery.com/jquery-2.2.4.min.js&quot;</span>
       <span class="na">integrity=</span><span class="s">&quot;sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=&quot;</span>
       <span class="na">crossorigin=</span><span class="s">&quot;anonymous&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
     {% block js %}{% endblock %}
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </code></pre></div>
-<p>Ready to test? Simple open your browser and navigate to the IP associated with the <code>dev</code> machine.</p>
+<p>Ready to test? Simply open your browser and navigate to the IP associated with the <code>dev</code> machine.</p>
 
 <p>How about a test?</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_main_no_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Ensure the / route behaves correctly when no names have been</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_main_no_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure the main route behaves correctly when no users have been</span>
 <span class="sd">    added to the database.&quot;&quot;&quot;</span>
     <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;h1&gt;All Names&lt;/h1&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;p&gt;No names!&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;h1&gt;All Users&lt;/h1&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;p&gt;No users!&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>
 <p>Do they pass?</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py <span class="nb">test</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
-<p>Let&#39;s update the route handler to grab all names from the database and send them to the template, starting with a test:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_main_with_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Ensure the / route behaves correctly when names have been</span>
+<p>Let&#39;s update the route handler to grab all users from the database and send them to the template, starting with a test:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_main_with_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure the main route behaves correctly when users have been</span>
 <span class="sd">    added to the database.&quot;&quot;&quot;</span>
-    <span class="n">add_name</span><span class="p">(</span><span class="s">&#39;Michael&#39;</span><span class="p">)</span>
-    <span class="n">add_name</span><span class="p">(</span><span class="s">&#39;Fletcher&#39;</span><span class="p">)</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;michael&#39;</span><span class="p">,</span> <span class="s">&#39;michael@realpython.com&#39;</span><span class="p">)</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;fletcher&#39;</span><span class="p">,</span> <span class="s">&#39;fletcher@realpython.com&#39;</span><span class="p">)</span>
     <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;h1&gt;All Names&lt;/h1&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;p&gt;No names!&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;strong&gt;Michael&lt;/strong&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;strong&gt;Fletcher&lt;/strong&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;h1&gt;All Users&lt;/h1&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;p&gt;No users!&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;strong&gt;michael&lt;/strong&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;strong&gt;fletcher&lt;/strong&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>
 <p>Make sure it fails, and then update the view:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@names_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@users_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="n">Name</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">)</span>
 </code></pre></div>
 <p>It should now pass!</p>
 
-<p>How about the form? Users should be able to add a new name and submit the form, which then will add the name to the database. Again, start with a test:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_main_add_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Ensure a new name can be added to the database.&quot;&quot;&quot;</span>
+<p>How about the form? Users should be able to add a new user and submit the form, which will then add the user to the database. Again, start with a test:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_main_add_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure a new user can be added to the database.&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
-            <span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s">&#39;Michael&#39;</span><span class="p">,),</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="s">&#39;/&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;michael@realpython.com&#39;</span><span class="p">),</span>
+            <span class="n">follow_redirects</span><span class="o">=</span><span class="bp">True</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;h1&gt;All Names&lt;/h1&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;p&gt;No names!&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;strong&gt;Michael&lt;/strong&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;h1&gt;All Users&lt;/h1&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;p&gt;No users!&lt;/p&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;strong&gt;michael&lt;/strong&gt;&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>
 <p>Then update the view:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@names_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@users_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">Name</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;email&#39;</span><span class="p">]</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">))</span>
         <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="n">Name</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">Name</span><span class="o">.</span><span class="n">created_date</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">)</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">)</span>
 </code></pre></div>
 <p>Finally, let&#39;s update the code on AWS.</p>
 

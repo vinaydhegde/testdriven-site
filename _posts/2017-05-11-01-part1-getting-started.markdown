@@ -19,7 +19,7 @@ $ source env/bin/activate
 (env)$ pip install flask==0.12.2
 ```
 
-Add an *\_\_init\_\_.py* file to the "project" directory and define the first route:
+Add an *\_\_init\_\_.py* file to the "project" directory and configure the first route:
 
 ```python
 # project/__init__.py
@@ -46,7 +46,7 @@ Next, add [Flask-Script](https://flask-script.readthedocs.io/en/latest/), which 
 (env)$ pip install flask-script==2.0.5
 ```
 
-Add a *manage.py* file:
+Add a *manage.py* file to the project root:
 
 ```python
 # manage.py
@@ -97,6 +97,7 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration"""
     DEBUG = True
 
+
 class TestingConfig(BaseConfig):
     """Testing configuration"""
     DEBUG = True
@@ -108,10 +109,10 @@ class ProductionConfig(BaseConfig):
     DEBUG = False
 ```
 
-Update *\_\_init\_\_.py* to pull in the dev config:
+Update *\_\_init\_\_.py* to pull in the dev config on init:
 
 ```python
-# services/names/project/__init__.py
+# project/__init__.py
 
 
 from flask import Flask, jsonify
@@ -132,7 +133,7 @@ def ping_pong():
     })
 ```
 
-Run the app again. This time, debug mode should be on:
+Run the app again. This time, [debug mode](http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode) should be on:
 
 ```sh
 $ python manage.py runserver

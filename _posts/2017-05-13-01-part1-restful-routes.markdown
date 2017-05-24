@@ -9,56 +9,60 @@ Next, let's set up three new routes, following RESTful best practices, with TDD:
 
 | Endpoint    | HTTP Method | CRUD Method | Result          |
 |-------------|-------------|-------------|-----------------|
-| /names      | GET         | READ        | get all names   |
-| /names/:id  | GET         | READ        | get single name |
-| /names      | POST        | CREATE      | add a name      |
+| /users      | GET         | READ        | get all users   |
+| /users/:id  | GET         | READ        | get single user |
+| /users      | POST        | CREATE      | add a user      |
 
 For each, we'll-
 
 1. write a test
-1. watch the test fail
-1. write just enough code to get the test to pass
-1. refactor (if necessary)
+1. run the test, watching it fail (**red**)
+1. write just enough code to get the test to pass (**green**)
+1. **refactor** (if necessary)
 
 Let' start with the POST route...
 
 #### POST
 
-Add the test to *services/names/project/tests/test_user.py*:
+Add the test to *project/tests/test_user.py*:
 
 ```python
-def test_add_name(self):
-    """Ensure a new name can be added to the database."""
+def test_add_user(self):
+    """Ensure a new user can be added to the database."""
     with self.client:
         response = self.client.post(
-            '/names',
-            data=json.dumps(dict(text='Michael')),
+            '/users',
+            data=json.dumps(dict(
+                useruser='michael',
+                email='michael@realpython.com'
+            )),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 201)
-        self.assertIn('Michael was added!', data['message'])
+        self.assertIn('michael@realpython.com was added!', data['message'])
         self.assertIn('success', data['status'])
 ```
 
 Run the test to ensure it fails:
 
 ```sh
-$ docker-compose run names-service python manage.py test
+$ docker-compose run users-service python manage.py test
 ```
 
-Then add the route handler to *services/names/project/api/views.py*
+Then add the route handler to *project/api/views.py*
 
 ```python
-@names_blueprint.route('/names', methods=['POST'])
-def add_name():
+@users_blueprint.route('/users', methods=['POST'])
+def add_user():
     post_data = request.get_json()
-    text = post_data.get('text')
-    db.session.add(Name(text=text))
+    username = post_data.get('username')
+    email = post_data.get('email')
+    db.session.add(User(username=username, email=email))
     db.session.commit()
     response_object = {
         'status': 'success',
-        'message': f'{text} was added!'
+        'message': f'{email} was added!'
     }
     return make_response(jsonify(response_object)), 201
 ```
@@ -68,11 +72,11 @@ Update the imports as well:
 ```python
 from flask import Blueprint, jsonify, request, make_response
 
-from project.api.models import Name
+from project.api.models import User
 from project import db
 ```
 
-Run tests. They all should pass:
+Run the tests. They all should pass:
 
 ```sh
 Ran 5 tests in 0.201s
@@ -84,16 +88,16 @@ What about errors and exceptions? Like:
 
 1. A payload is not sent
 1. The payload is invalid - i.e., the JSON object is empty or it contains the wrong keys
-1. The name already exists in the database
+1. The user already exists in the database
 
 Add some tests:
 
 ```python
-def test_add_name_invalid_json(self):
+def test_add_user_invalid_json(self):
     """Ensure error is thrown if the JSON object is empty."""
     with self.client:
         response = self.client.post(
-            '/names',
+            '/users',
             data=json.dumps(dict()),
             content_type='application/json',
         )
@@ -102,12 +106,12 @@ def test_add_name_invalid_json(self):
         self.assertIn('Invalid payload.', data['message'])
         self.assertIn('fail', data['status'])
 
-def test_add_name_invalid_json_keys(self):
-    """Ensure error is thrown if the JSON objectdoes not have a text key."""
+def test_add_user_invalid_json_keys(self):
+    """Ensure error is thrown if the JSON object does not have a username key."""
     with self.client:
         response = self.client.post(
-            '/names',
-            data=json.dumps(dict(incorrect='Michael')),
+            '/users',
+            data=json.dumps(dict(email='michael@realpython.com')),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
@@ -115,30 +119,37 @@ def test_add_name_invalid_json_keys(self):
         self.assertIn('Invalid payload.', data['message'])
         self.assertIn('fail', data['status'])
 
-def test_add_name_duplicate_name(self):
-    """Ensure error is thrown if the name already exists."""
-    self.client.post(
-        '/names',
-        data=json.dumps(dict(text='Michael')),
-        content_type='application/json',
-    )
+def test_add_user_duplicate_user(self):
+    """Ensure error is thrown if the email already exists."""
     with self.client:
+        self.client.post(
+            '/users',
+            data=json.dumps(dict(
+                username='michael',
+                email='michael@realpython.com'
+            )),
+            content_type='application/json',
+        )
         response = self.client.post(
-            '/names',
-            data=json.dumps(dict(text='Michael')),
+            '/users',
+            data=json.dumps(dict(
+                username='michael',
+                email='michael@realpython.com'
+            )),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Name already exists', data['message'])
+        self.assertIn(
+            'Sorry. That email already exists.', data['message'])
         self.assertIn('fail', data['status'])
 ```
 
-Ensure they fail, and then update the route handler:
+Ensure the tests fail, and then update the route handler:
 
 ```python
-@names_blueprint.route('/names', methods=['POST'])
-def add_name():
+@users_blueprint.route('/users', methods=['POST'])
+def add_user():
     post_data = request.get_json()
     if not post_data:
         response_object = {
@@ -146,48 +157,58 @@ def add_name():
             'message': 'Invalid payload.'
         }
         return make_response(jsonify(response_object)), 400
-    text = post_data.get('text')
-    if not text:
+    username = post_data.get('username')
+    email = post_data.get('email')
+    try:
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            db.session.add(User(username=username, email=email))
+            db.session.commit()
+            response_object = {
+                'status': 'success',
+                'message': f'{email} was added!'
+            }
+            return make_response(jsonify(response_object)), 201
+        else:
+            response_object = {
+                'status': 'fail',
+                'message': 'Sorry. That email already exists.'
+            }
+            return make_response(jsonify(response_object)), 400
+    except exc.IntegrityError as e:
+        db.session().rollback()
         response_object = {
             'status': 'fail',
             'message': 'Invalid payload.'
         }
         return make_response(jsonify(response_object)), 400
-    new_text = Name.query.filter_by(text=text).first()
-    if not new_text:
-        db.session.add(Name(text=text))
-        db.session.commit()
-        response_object = {
-            'status': 'success',
-            'message': f'{text} was added!'
-        }
-        return make_response(jsonify(response_object)), 201
-    else:
-        response_object = {
-            'status': 'fail',
-            'message': 'Name already exists.'
-        }
-        return make_response(jsonify(response_object)), 400
+```
+
+Add the import:
+
+```python
+from sqlalchemy import exc
 ```
 
 Ensure the tests pass, and then move on to the next route...
 
-#### GET single name
+#### GET single user
 
-Start with the a test:
+Start with a test:
 
 ```python
-def test_single_name(self):
-    """Ensure get single name behaves correctly."""
-    name = Name(text='Michael')
-    db.session.add(name)
+def test_single_user(self):
+    """Ensure get single user behaves correctly."""
+    user = User(username='michael', email='michael@realpython.com')
+    db.session.add(user)
     db.session.commit()
     with self.client:
-        response = self.client.get(f'/names/{name.id}')
+        response = self.client.get(f'/users/{user.id}')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('created_date' in data['data'])
-        self.assertIn('Michael', data['data']['name'])
+        self.assertTrue('created_at' in data['data'])
+        self.assertIn('michael', data['data']['username'])
+        self.assertIn('michael@realpython.com', data['data']['email'])
         self.assertIn('success', data['status'])
 ```
 
@@ -195,21 +216,22 @@ Add the following imports:
 
 ```python
 from project import db
-from project.api.models import Name
+from project.api.models import User
 ```
 
 Ensure the test breaks before writing the view:
 
 ```python
-@names_blueprint.route('/names/<name_id>', methods=['GET'])
-def get_single_name(name_id):
-    """Get single name details"""
-    name = Name.query.filter_by(id=name_id).first()
+@users_blueprint.route('/users/<user_id>', methods=['GET'])
+def get_single_user(user_id):
+    """Get single user details"""
+    user = User.query.filter_by(id=user_id).first()
     response_object = {
         'status': 'success',
         'data': {
-          'name': name.text,
-          'created_date': name.created_date
+          'username': user.username,
+          'email': user.email,
+          'created_at': user.created_at
         }
     }
     return make_response(jsonify(response_object)), 200
@@ -223,45 +245,46 @@ The tests should pass. Now, what about error handling?
 Tests:
 
 ```python
-def test_single_name_no_id(self):
+def test_single_user_no_id(self):
     """Ensure error is thrown if an id is not provided."""
     with self.client:
-        response = self.client.get('/names/blah')
+        response = self.client.get('/users/blah')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 404)
-        self.assertIn('Name does not exist', data['message'])
+        self.assertIn('User does not exist', data['message'])
         self.assertIn('fail', data['status'])
 
-def test_single_name_incorrect_id(self):
+def test_single_user_incorrect_id(self):
     """Ensure error is thrown if the id does not exist."""
     with self.client:
-        response = self.client.get('/names/999')
+        response = self.client.get('/users/999')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 404)
-        self.assertIn('Name does not exist', data['message'])
+        self.assertIn('User does not exist', data['message'])
         self.assertIn('fail', data['status'])
 ```
 
 Updated view:
 
 ```python
-@names_blueprint.route('/names/<name_id>', methods=['GET'])
-def get_single_name(name_id):
-    """Get single name details"""
+@users_blueprint.route('/users/<user_id>', methods=['GET'])
+def get_single_user(user_id):
+    """Get single user details"""
     response_object = {
         'status': 'fail',
-        'message': 'Name does not exist'
+        'message': 'User does not exist'
     }
     try:
-        name = Name.query.filter_by(id=int(name_id)).first()
-        if not name:
+        user = User.query.filter_by(id=int(user_id)).first()
+        if not user:
             return make_response(jsonify(response_object)), 404
         else:
             response_object = {
                 'status': 'success',
                 'data': {
-                  'name': name.text,
-                  'created_date': name.created_date
+                  'username': user.username,
+                  'email': user.email,
+                  'created_at': user.created_at
                 }
             }
             return make_response(jsonify(response_object)), 200
@@ -269,73 +292,77 @@ def get_single_name(name_id):
         return make_response(jsonify(response_object)), 404
 ```
 
-#### GET all names
+#### GET all users
 
-Again, let's start with a test. Since we'll have to add a few names first, let's add a quick helper function:
+Again, let's start with a test. Since we'll have to add a few users first, let's add a quick helper function to the top of the *project/tests/test_user.py* file, just above the `TestUserService()` class.
 
 ```python
-def add_name(text):
-    name = Name(text=text)
-    db.session.add(name)
+def add_user(username, email):
+    user = User(username=username, email=email)
+    db.session.add(user)
     db.session.commit()
-    return name
+    return user
 ```
 
-Add this to the top of the *services/names/project/tests/test_user.py* file, just above the `TestNameService()` class.
-
-Now, refactor the *test_single_name()* test, like so:
+Now, refactor the *test_single_user()* test, like so:
 
 ```python
-def test_single_name(self):
-    """Ensure get single name behaves correctly."""
-    name = add_name('Michael')
+def test_single_user(self):
+    """Ensure get single user behaves correctly."""
+    user = add_user('michael', 'michael@realpython.com')
     with self.client:
-        response = self.client.get(f'/names/{name.id}')
+        response = self.client.get(f'/users/{user.id}')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('created_date' in data['data'])
-        self.assertIn('Michael', data['data']['name'])
+        self.assertTrue('created_at' in data['data'])
+        self.assertIn('michael', data['data']['username'])
+        self.assertIn('michael@realpython.com', data['data']['email'])
         self.assertIn('success', data['status'])
 ```
 
 With that, let's add the new test:
 
 ```python
-def test_all_names(self):
-    """Ensure get all names behaves correctly."""
-    add_name('Michael')
-    add_name('Fletcher')
+def test_all_users(self):
+    """Ensure get all users behaves correctly."""
+    add_user('michael', 'michael@realpython.com')
+    add_user('fletcher', 'fletcher@realpython.com')
     with self.client:
-        response = self.client.get('/names')
+        response = self.client.get('/users')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(data['data']['names']), 2)
-        self.assertTrue('created_date' in data['data']['names'][0])
-        self.assertTrue('created_date' in data['data']['names'][1])
-        self.assertIn('Michael', data['data']['names'][0]['text'])
-        self.assertIn('Fletcher', data['data']['names'][1]['text'])
+        self.assertEqual(len(data['data']['users']), 2)
+        self.assertTrue('created_at' in data['data']['users'][0])
+        self.assertTrue('created_at' in data['data']['users'][1])
+        self.assertIn('michael', data['data']['users'][0]['username'])
+        self.assertIn(
+            'michael@realpython.com', data['data']['users'][0]['email'])
+        self.assertIn('fletcher', data['data']['users'][1]['username'])
+        self.assertIn(
+            'fletcher@realpython.com', data['data']['users'][1]['email'])
         self.assertIn('success', data['status'])
 ```
 
 Make sure it fails. Then add the view:
 
 ```python
-@names_blueprint.route('/names', methods=['GET'])
-def get_all_names():
-    """Get all names"""
-    names = Name.query.all()
-    names_list = []
-    for name in names:
-        name_object = {
-            'id': name.id,
-            'text': name.text,
-            'created_date': name.created_date
+@users_blueprint.route('/users', methods=['GET'])
+def get_all_users():
+    """Get all users"""
+    users = User.query.all()
+    users_list = []
+    for user in users:
+        user_object = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'created_at': user.created_at
         }
-        names_list.append(name_object)
+        users_list.append(user_object)
     response_object = {
         'status': 'success',
         'data': {
-          'names': names_list
+          'users': users_list
         }
     }
     return make_response(jsonify(response_object)), 200
@@ -343,21 +370,32 @@ def get_all_names():
 
 Does the test past?
 
-Before moving on, let's test the route in the browser - [http://YOUR-IP:5000/names](http://YOUR-IP:5000/names). So we have some data to work with, add a seed command to the *manage.py* file to populate the database with some initial data:
+Before moving on, let's test the route in the browser - [http://YOUR-IP:5000/users](http://YOUR-IP:5000/users). You should see:
+
+```json
+{
+  "data": {
+    "users": [ ]
+  },
+  "status": "success"
+}
+```
+
+Add a seed command to the *manage.py* file to populate the database with some initial data:
 
 ```python
 @manager.command
 def seed_db():
     """Seeds the database."""
-    db.session.add(Name(text='Michael'))
-    db.session.add(Name(text='Jeremy'))
+    db.session.add(User(username='michael', email="michael@realpython.com"))
+    db.session.add(User(username='michael', email="michael@mherman.org"))
     db.session.commit()
 ```
 
 Try it out:
 
 ```sh
-$ docker-compose run names-service python manage.py seed_db
+$ docker-compose run users-service python manage.py seed_db
 ```
 
-Make sure you can view the names in the JSON response [http://YOUR-IP:5000/names](http://YOUR-IP:5000/names).
+Make sure you can view the users in the JSON response [http://YOUR-IP:5000/users](http://YOUR-IP:5000/users).

@@ -6,6 +6,8 @@
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
   >
+  <link href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Lato:900,300" rel="stylesheet" type="text/css">
   <link href="/assets/css/styles.css" rel="stylesheet">
   <script
     src="//code.jquery.com/jquery-2.2.4.min.js"
@@ -182,11 +184,11 @@ docker-compose version 1.11.2, build dfed245
 <span class="nv">$ </span>docker-machine -v
 docker-machine version 0.10.0, build 76ed2a6
 </code></pre></div>
-<p>Next, we need to create a new Docker host with <a href="https://docs.docker.com/machine/">Docker Machine</a> and point the Docker client at it:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create -d virtualbox dev<span class="p">;</span>
+<p>Next, we need to <a href="https://docs.docker.com/machine/reference/create/">create</a> a new Docker host with <a href="https://docs.docker.com/machine/">Docker Machine</a> and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create -d virtualbox dev
 <span class="nv">$ </span><span class="nb">eval</span> <span class="s2">&quot;$(docker-machine env dev)&quot;</span>
 </code></pre></div>
-<p>Add a <em>Dockerfile</em> to the &quot;names&quot; directory:</p>
+<p>Add a <em>Dockerfile</em> to the root directory, making sure to review the code comments:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
 
 # set working directory
@@ -210,26 +212,34 @@ CMD python manage.py runserver -h 0.0.0.0
 
 services:
 
-  names-service:
-    container_name: names-service
-    build: ./services/names/
+  users-service:
+    container_name: users-service
+    build: .
     volumes:
-      - &#39;./services/names:/usr/src/app&#39;
+      - &#39;.:/usr/src/app&#39;
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
 </code></pre></div>
-<p>This config will create a container called <code>names-service</code>, from the Dockerfile found in &quot;services/names&quot;. (Directories are relative to the <em>docker-compose.yml</em> file.)</p>
+<p>This config will create a container called <code>users-service</code>, from the Dockerfile.</p>
 
-<p>The <code>volume</code> is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image first and then re-fire the container.</p>
+<blockquote>
+<p>Directories are relative to the <em>docker-compose.yml</em> file.</p>
+</blockquote>
 
-<p>Take note of the version used - <code>2.1</code>. This does <em>not</em> relate directly to the version of Docker Compose installed; instead, it specifies the file format that you want to use.</p>
+<p>The <code>volume</code> is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image after each code change.</p>
+
+<p>Take note of the <a href="https://docs.docker.com/compose/compose-file/">Docker compose file version</a> used - <code>2.1</code>. Keep in mind that this does <em>not</em> relate directly to the version of Docker Compose installed  - it simply specifies the file format that you want to use.</p>
 
 <p>Build the image:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
 </code></pre></div>
-<p>This will take a few minutes the first time. Once done, fire up the container:</p>
+<p>This will take a few minutes the first time. Subsequent builds will be much faster since Docker caches the results of the first build. Once done, fire up the container:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
 </code></pre></div>
+<blockquote>
+<p>The <code>-d</code> flag is used to run the containers in the background.</p>
+</blockquote>
+
 <p>Grab the IP associated with the machine:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ip dev
 </code></pre></div>
@@ -238,18 +248,18 @@ services:
 
 services:
 
-  names-service:
-    container_name: names-service
-    build: ./services/names/
+  users-service:
+    container_name: users-service
+    build: .
     volumes:
-      - &#39;./services/names:/usr/src/app&#39;
+      - &#39;.:/usr/src/app&#39;
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
       - APP_SETTINGS=project.config.DevelopmentConfig
 </code></pre></div>
-<p>Then update <em>services/names/project/__init__.py</em>, to pull in the environment variables:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/__init__.py</span>
+<p>Then update <em>project/__init__.py</em>, to pull in the environment variables:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/__init__.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -274,11 +284,11 @@ services:
 <p>Update the container:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
 </code></pre></div>
-<p>Want to test? Add a <code>print</code> statement to the <em>__init__.py</em> to view the app config to ensure that it is working:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<p>Want to test? Add a <code>print</code> statement to the <em>__init__.py</em>, right before the route handler, to view the app config to ensure that it is working:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 </code></pre></div>
 <p>Then just view the logs:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose logs -f names-service
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose logs -f users-service
 </code></pre></div>
 <p>You should see something like:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">&lt;Config {
@@ -298,7 +308,7 @@ services:
   &#39;application/json&#39;, &#39;TEMPLATES_AUTO_RELOAD&#39;: None}
 &gt;
 </code></pre></div>
-<p>Make sure to remove the <code>print</code> statement.</p>
+<p>Make sure to remove the <code>print</code> statement before moving on.</p>
 
 
        </div>

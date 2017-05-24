@@ -6,6 +6,8 @@
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
   >
+  <link href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Lato:900,300" rel="stylesheet" type="text/css">
   <link href="/assets/css/styles.css" rel="stylesheet">
   <script
     src="//code.jquery.com/jquery-2.2.4.min.js"
@@ -181,7 +183,7 @@
 <span class="nv">$ </span><span class="nb">source </span>env/bin/activate
 <span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip install <span class="nv">flask</span><span class="o">==</span>0.12.2
 </code></pre></div>
-<p>Add an <em>__init__.py</em> file to the &quot;project&quot; directory and define the first route:</p>
+<p>Add an <em>__init__.py</em> file to the &quot;project&quot; directory and configure the first route:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/__init__.py</span>
 
 
@@ -202,7 +204,7 @@
 <p>Next, add <a href="https://flask-script.readthedocs.io/en/latest/">Flask-Script</a>, which will be used to run and manage the app from the command line:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip install flask-script<span class="o">==</span>2.0.5
 </code></pre></div>
-<p>Add a <em>manage.py</em> file:</p>
+<p>Add a <em>manage.py</em> file to the project root:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># manage.py</span>
 
 
@@ -242,6 +244,7 @@
     <span class="sd">&quot;&quot;&quot;Development configuration&quot;&quot;&quot;</span>
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
 
+
 <span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Testing configuration&quot;&quot;&quot;</span>
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
@@ -252,8 +255,8 @@
     <span class="sd">&quot;&quot;&quot;Production configuration&quot;&quot;&quot;</span>
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
 </code></pre></div>
-<p>Update <em>__init__.py</em> to pull in the dev config:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/__init__.py</span>
+<p>Update <em>__init__.py</em> to pull in the dev config on init:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/__init__.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
@@ -273,7 +276,7 @@
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;pong!&#39;</span>
     <span class="p">})</span>
 </code></pre></div>
-<p>Run the app again. This time, debug mode should be on:</p>
+<p>Run the app again. This time, <a href="http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode">debug mode</a> should be on:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py runserver
  * Running on http://127.0.0.1:5000/ <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
  * Restarting with stat

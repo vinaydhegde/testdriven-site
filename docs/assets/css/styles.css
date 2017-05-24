@@ -6,6 +6,11 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  font-family: "Merriweather","PT Serif",Georgia,"Times New Roman",serif;
+}
+
+strong {
+  font-weight: 600;
 }
 
 main {
@@ -70,6 +75,30 @@ side bar
   code
  */
 
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 0;
+}
+
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.highlight pre, pre, .highlight .hll {
+    background-color: #fcfcfc;
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    border-radius: 3px;
+}
+
 .highlight pre code * {
   white-space: nowrap;
 }
@@ -83,7 +112,7 @@ side bar
 }
 
 .highlight pre, pre, .highlight .hll {
-  background-color: #dddddd;
+  background-color: #fcfcfc;
   border: 1px solid #ccc;
   padding: 6px 10px;
   border-radius: 3px;

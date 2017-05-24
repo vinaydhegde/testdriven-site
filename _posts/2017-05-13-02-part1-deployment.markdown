@@ -9,7 +9,7 @@ With the routes up and tested, let's get this app deployed!
 
 ---
 
-Sign up for AWS (if necessary) and create an IAM user (if necessary): follow the instructions [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html ), making sure to add the credentials to an *~/.aws/credentials* file. Then create the new host:
+Follow the instructions [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html ) to sign up for AWS (if necessary) and create an IAM user (again, if necessary), making sure to add the credentials to an *~/.aws/credentials* file. Then create the new host:
 
 ```sh
 $ docker-machine create --driver amazonec2 aws
@@ -30,13 +30,15 @@ $ docker-machine ls
 
 Create a new compose file called *docker-compose-prod.yml* and add the contents of the other compose file minus the `volumes`.
 
+> What would happen if you left this in?
+
 Spin up the containers, create the database, seed, and run the tests:
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml up -d --build
-$ docker-compose -f docker-compose-prod.yml run names-service python manage.py recreate_db
-$ docker-compose -f docker-compose-prod.yml run names-service python manage.py seed_db
-$ docker-compose -f docker-compose-prod.yml run names-service python manage.py test
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py test
 ```
 
 Add port 5001 to the [Security Group](http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group).
@@ -48,7 +50,7 @@ Grab the IP and make sure to test in the browser.
 What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:
 
 ```sh
-$ docker-compose -f docker-compose-prod.yml run names-service env
+$ docker-compose -f docker-compose-prod.yml run users-service env
 ```
 
 You should see the `APP_SETTINGS` variable assigned to `project.config.DevelopmentConfig`.
@@ -58,7 +60,8 @@ To update this, change the environment variables within *docker-compose-prod.yml
 ```
 environment:
   - APP_SETTINGS=project.config.ProductionConfig
-  - DATABASE_URL=postgres://postgres:postgres@names-db:5432/names_prod
+  - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
+  - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
 ```
 
 Update:
@@ -70,27 +73,27 @@ $ docker-compose -f docker-compose-prod.yml up -d
 Re-create the db and apply the seed again:
 
 ```sh
-$ docker-compose -f docker-compose-prod.yml run names-service python manage.py recreate_db
-$ docker-compose -f docker-compose-prod.yml run names-service python manage.py seed_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
 ```
 
 Ensure the app is still running and check the environment variables again.
 
 #### Gunicorn
 
-To use Gunicorn, first add it to the *requirements.txt* file:
+To use Gunicorn, first add the dependency to the *requirements.txt* file:
 
 ```
 gunicorn==19.7.1
 ```
 
-Then update *docker-compose-prod.yml* by adding a `command` key to the `names-service`:
+Then update *docker-compose-prod.yml* by adding a `command` key to the `users-service`:
 
 ```
 command: gunicorn -b 0.0.0.0:5000 manage:app
 ```
 
-This will override the `CMD` within *services/names/Dockerfile*, `python manage.py runserver -h 0.0.0.0`.
+This will override the `CMD` within *services/users/Dockerfile*, `python manage.py runserver -h 0.0.0.0`.
 
 Update:
 
@@ -98,7 +101,7 @@ Update:
 $ docker-compose -f docker-compose-prod.yml up -d --build
 ```
 
-> **NOTE:** The `--build` flag is necessary since we need to re-install the requirements.
+> The `--build` flag is necessary since we need to install the new dependency.
 
 #### Nginx
 
@@ -119,7 +122,7 @@ server {
     listen 80;
 
     location / {
-        proxy_pass http://names-service:5000;
+        proxy_pass http://users-service:5000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -138,13 +141,13 @@ nginx:
   ports:
     - 80:80
   depends_on:
-    names-service:
+    users-service:
       condition: service_started
   links:
-    - names-service
+    - users-service
 ```
 
-And remove the exposed `ports` from the names service and only expose port 5000 to other containers:
+And remove the exposed `ports` from the users service and only expose port 5000 to other containers:
 
 ```
 expose:
@@ -157,11 +160,11 @@ Build the image and run the container:
 $ docker-compose -f docker-compose-prod.yml up -d --build nginx
 ```
 
-Add port 80 to the Security Group on AWS. Test the site within the browser again.
+Add port 80 to the Security Group on AWS. Test the site in the browser again.
 
 Let's update this locally as well.
 
-First, update the *docker-compose.yml* file:
+First, add nginx to the *docker-compose.yml* file:
 
 ```sh
 nginx:
@@ -171,10 +174,10 @@ nginx:
   ports:
     - 80:80
   depends_on:
-    names-service:
+    users-service:
       condition: service_started
   links:
-    - names-service
+    - users-service
 ```
 
 Next, we need to update the active host. To check which host is currently active run:
@@ -198,4 +201,4 @@ $ docker-compose up -d --build nginx
 
 Grab the IP and test it out!
 
-> **NOTE:** Did you notice that you can access the site with or without the ports - [http://YOUR-IP/names](http://YOUR-IP/names) or [http://YOUR-IP:5001/names](http://YOUR-IP:5001/names). Why?
+> Did you notice that you can access the site locally with or without the ports - [http://YOUR-IP/users](http://YOUR-IP/users) or [http://YOUR-IP:5001/users](http://YOUR-IP:5001/users). Why?

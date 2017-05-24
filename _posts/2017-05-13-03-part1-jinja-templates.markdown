@@ -9,10 +9,10 @@ Instead of just serving up a JSON API, let's spice it up with server-side templa
 
 ---
 
-Add a new route handler to *services/names/project/api/views.py*:
+Add a new route handler to *project/api/views.py*:
 
 ```python
-@names_blueprint.route('/', methods=['GET'])
+@users_blueprint.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 ```
@@ -20,11 +20,10 @@ def index():
 Update the Blueprint config as well:
 
 ```python
-names_blueprint = Blueprint(
-  'names', __name__, template_folder='./templates')
+users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 ```
 
-Then add a "templates" folder to "services/names/project/api", and add an *index.html* file to that folder:
+Then add a "templates" folder to "project/api", and add an *index.html* file to that folder:
 
 {% raw %}
 ```html
@@ -46,31 +45,33 @@ Then add a "templates" folder to "services/names/project/api", and add an *index
       <div class="row">
         <div class="col-md-4">
           <br>
-          <h1>All Names</h1>
+          <h1>All Users</h1>
           <hr><br>
           <form action="/" method="POST">
             <div class="form-group">
-              <input name="text" class="form-control input-lg" type="text" placeholder="Enter a name" required>
+              <input name="text" class="form-control input-lg" type="username" placeholder="Enter a username" required>
+            </div>
+            <div class="form-group">
+              <input name="email" class="form-control input-lg" type="email" placeholder="Enter an email address" required>
             </div>
             <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit">
           </form>
           <br>
           <hr>
           <div>
-            {% if names %}
-              {% for name in names %}
-                <h4 class="well"><strong>{{name.text}}</strong> - <em>{{name.created_date.strftime('%Y-%m-%d')}}</em></h4>
+            {% if users %}
+              {% for name in users %}
+                <h4 class="well"><strong>{{name.username}}</strong> - <em>{{name.created_at.strftime('%Y-%m-%d')}}</em></h4>
               {% endfor %}
             {% else %}
-              <p>No names!</p>
+              <p>No users!</p>
             {% endif %}
           </div>
         </div>
       </div>
     </div>
     <!-- scripts -->
-    <script
-      src="https://code.jquery.com/jquery-2.2.4.min.js"
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
       integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
       crossorigin="anonymous"></script>
     {% block js %}{% endblock %}
@@ -79,79 +80,82 @@ Then add a "templates" folder to "services/names/project/api", and add an *index
 ```
 {% endraw %}
 
-Ready to test? Simple open your browser and navigate to the IP associated with the `dev` machine.
+Ready to test? Simply open your browser and navigate to the IP associated with the `dev` machine.
 
 How about a test?
 
 ```python
-def test_main_no_names(self):
-    """Ensure the / route behaves correctly when no names have been
+def test_main_no_users(self):
+    """Ensure the main route behaves correctly when no users have been
     added to the database."""
     response = self.client.get('/')
     self.assertEqual(response.status_code, 200)
-    self.assertIn(b'<h1>All Names</h1>', response.data)
-    self.assertIn(b'<p>No names!</p>', response.data)
+    self.assertIn(b'<h1>All Users</h1>', response.data)
+    self.assertIn(b'<p>No users!</p>', response.data)
 ```
 
 Do they pass?
 
 ```sh
-$ docker-compose run names-service python manage.py test
+$ docker-compose run users-service python manage.py test
 ```
 
-Let's update the route handler to grab all names from the database and send them to the template, starting with a test:
+Let's update the route handler to grab all users from the database and send them to the template, starting with a test:
 
 ```python
-def test_main_with_names(self):
-    """Ensure the / route behaves correctly when names have been
+def test_main_with_users(self):
+    """Ensure the main route behaves correctly when users have been
     added to the database."""
-    add_name('Michael')
-    add_name('Fletcher')
+    add_user('michael', 'michael@realpython.com')
+    add_user('fletcher', 'fletcher@realpython.com')
     response = self.client.get('/')
     self.assertEqual(response.status_code, 200)
-    self.assertIn(b'<h1>All Names</h1>', response.data)
-    self.assertNotIn(b'<p>No names!</p>', response.data)
-    self.assertIn(b'<strong>Michael</strong>', response.data)
-    self.assertIn(b'<strong>Fletcher</strong>', response.data)
+    self.assertIn(b'<h1>All Users</h1>', response.data)
+    self.assertNotIn(b'<p>No users!</p>', response.data)
+    self.assertIn(b'<strong>michael</strong>', response.data)
+    self.assertIn(b'<strong>fletcher</strong>', response.data)
 ```
 
 Make sure it fails, and then update the view:
 
 ```python
-@names_blueprint.route('/', methods=['GET'])
+@users_blueprint.route('/', methods=['GET'])
 def index():
-    names = Name.query.all()
-    return render_template('index.html', names=names)
+    users = User.query.all()
+    return render_template('index.html', users=users)
 ```
 
 It should now pass!
 
-How about the form? Users should be able to add a new name and submit the form, which then will add the name to the database. Again, start with a test:
+How about the form? Users should be able to add a new user and submit the form, which will then add the user to the database. Again, start with a test:
 
 ```python
-def test_main_add_name(self):
-    """Ensure a new name can be added to the database."""
+def test_main_add_user(self):
+    """Ensure a new user can be added to the database."""
     with self.client:
         response = self.client.post(
-            '/', data=dict(text='Michael',), follow_redirects=True)
+            '/',
+            data=dict(username='michael', email='michael@realpython.com'),
+            follow_redirects=True
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'<h1>All Names</h1>', response.data)
-        self.assertNotIn(b'<p>No names!</p>', response.data)
-        self.assertIn(b'<strong>Michael</strong>', response.data)
+        self.assertIn(b'<h1>All Users</h1>', response.data)
+        self.assertNotIn(b'<p>No users!</p>', response.data)
+        self.assertIn(b'<strong>michael</strong>', response.data)
 ```
 
 Then update the view:
 
 ```python
-@names_blueprint.route('/', methods=['GET', 'POST'])
+@users_blueprint.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        text = request.form['text']
-        name = Name(text)
-        db.session.add(name)
+        username = request.form['username']
+        email = request.form['email']
+        db.session.add(User(username=username, email=email))
         db.session.commit()
-    names = Name.query.order_by(Name.created_date.desc()).all()
-    return render_template('index.html', names=names)
+    users = User.query.order_by(User.created_at.desc()).all()
+    return render_template('index.html', users=users)
 ```
 
 Finally, let's update the code on AWS.

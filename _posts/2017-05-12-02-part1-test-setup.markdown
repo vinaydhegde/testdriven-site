@@ -9,10 +9,10 @@ Let's get our tests up and running for this endpoint...
 
 ---
 
-Add a "tests" directory to "services/names/project", and then create the following files:
+Add a "tests" directory to "project", and then create the following files inside the newly created directory:
 
 ```sh
-$ touch __init__.py base.py test_config.py test_names.py
+$ touch __init__.py base.py test_config.py test_users.py
 ```
 
 Update each file...
@@ -20,13 +20,13 @@ Update each file...
 *\_\_init\_\_.py*:
 
 ```python
-# services/names/project/tests/__init__.py
+# project/tests/__init__.py
 ```
 
 *base.py*:
 
 ```python
-# services/names/project/tests/base.py
+# project/tests/base.py
 
 
 from flask_testing import TestCase
@@ -51,7 +51,7 @@ class BaseTestCase(TestCase):
 *test_config.py*:
 
 ```python
-# services/names/project/tests/test_config.py
+# project/tests/test_config.py
 
 
 import unittest
@@ -73,7 +73,7 @@ class TestDevelopmentConfig(TestCase):
         self.assertFalse(current_app is None)
         self.assertTrue(
             app.config['SQLALCHEMY_DATABASE_URI'] ==
-            'postgres://postgres:postgres@names-db:5432/names_dev'
+            'postgres://postgres:postgres@users-db:5432/users_dev'
         )
 
 
@@ -89,7 +89,7 @@ class TestTestingConfig(TestCase):
         self.assertFalse(app.config['PRESERVE_CONTEXT_ON_EXCEPTION'])
         self.assertTrue(
             app.config['SQLALCHEMY_DATABASE_URI'] ==
-            'postgres://postgres:postgres@names-db:5432/names_test'
+            'postgres://postgres:postgres@users-db:5432/users_test'
         )
 
 
@@ -108,10 +108,10 @@ if __name__ == '__main__':
     unittest.main()
 ```
 
-*test_names.py*:
+*test_users.py*:
 
 ```python
-# services/names/project/tests/test__user.py
+# project/tests/test__user.py
 
 
 import json
@@ -119,10 +119,10 @@ import json
 from project.tests.base import BaseTestCase
 
 
-class TestNameService(BaseTestCase):
-    """ Test for Name Service """
+class TestUserService(BaseTestCase):
+    """Tests for the Users Service."""
 
-    def test_names(self):
+    def test_users(self):
         """Ensure the /ping route behaves correctly."""
         response = self.client.get('/ping')
         data = json.loads(response.data.decode())
@@ -165,7 +165,7 @@ $ docker-compose up -d --build
 With the containers up and running, run the tests:
 
 ```sh
-$ docker-compose run names-service python manage.py test
+$ docker-compose run users-service python manage.py test
 ```
 
 You should see the following error:

@@ -6,6 +6,8 @@
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
   >
+  <link href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Lato:900,300" rel="stylesheet" type="text/css">
   <link href="/assets/css/styles.css" rel="stylesheet">
   <script
     src="//code.jquery.com/jquery-2.2.4.min.js"
@@ -170,7 +172,7 @@
 
 
 <h2>Postgres Setup</h2>
-<p>In this lesson, we&#39;ll configure Postgres, get it up and running in another container, and link it to the <code>names-service</code> container...</p>
+<p>In this lesson, we&#39;ll configure Postgres, get it up and running in another container, and link it to the <code>users-service</code> container...</p>
 
 <hr>
 
@@ -179,7 +181,7 @@
 psycopg2==2.7.1
 </code></pre></div>
 <p>Update <em>config.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/config.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/config.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -210,11 +212,12 @@ psycopg2==2.7.1
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
 </code></pre></div>
-<p>Update <em>__init__.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/__init__.py</span>
+<p>Update <em>__init__.py</em>, to create a new instance of SQLAlchemy and define the database model:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/__init__.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
 <span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
 
@@ -230,16 +233,18 @@ psycopg2==2.7.1
 <span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
 <span class="c"># model</span>
-<span class="k">class</span> <span class="nc">Name</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&quot;names&quot;</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">__tableusers_</span> <span class="o">=</span> <span class="s">&quot;users&quot;</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">created_date</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
 
 <span class="c"># routes</span>
@@ -251,10 +256,10 @@ psycopg2==2.7.1
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;pong!&#39;</span>
     <span class="p">})</span>
 </code></pre></div>
-<p>Add a &quot;db&quot; directory to &quot;services/names/project&quot;, and add a <em>create.sql</em> file in that new directory:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">names_prod</span><span class="p">;</span>
-<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">names_dev</span><span class="p">;</span>
-<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">names_test</span><span class="p">;</span>
+<p>Add a &quot;db&quot; directory to &quot;project&quot;, and add a <em>create.sql</em> file in that new directory:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_prod</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_dev</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_test</span><span class="p">;</span>
 </code></pre></div>
 <p>Next, add a <em>Dockerfile</em> to the same directory:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM postgres
@@ -269,9 +274,9 @@ ADD create.sql /docker-entrypoint-initdb.d
 
 services:
 
-  names-db:
-    container_name: names-db
-    build: ./services/names/project/db
+  users-db:
+    container_name: users-db
+    build: ./project/db
     ports:
         - 5435:5432  # expose ports - HOST:CONTAINER
     environment:
@@ -280,30 +285,30 @@ services:
     healthcheck:
       test: exit 0
 
-  names-service:
-    container_name: names-service
-    build: ./services/names/
+  users-service:
+    container_name: users-service
+    build: ./
     volumes:
-      - &#39;./services/names:/usr/src/app&#39;
+      - &#39;.:/usr/src/app&#39;
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
       - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@names-db:5432/names_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@names-db:5432/names_test
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
     depends_on:
-      names-db:
+      users-db:
         condition: service_healthy
     links:
-      - names-db
+      - users-db
 </code></pre></div>
-<p>Once spun up, environment variables will be added and an exit code of <code>0</code> will be sent after the container is successfully up and running. Postgres will be available on port <code>5435</code> on the host machine and on port <code>5432</code> for services running in other containers.</p>
+<p>Once spun up, environment variables are added and an exit code of <code>0</code> is sent after the container is successfully up and running. Postgres will then be available on port <code>5435</code> on the host machine and on port <code>5432</code> for services running in other containers.</p>
 
 <p>Sanity check:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>Update <em>manage.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/manage.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># manage.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
@@ -325,18 +330,20 @@ services:
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
-<p>Apply the model to the dev database:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ docker-compose run names-service python manage.py recreate_db
+<p>This registers a new command, <code>recreate_db</code>,  to the manager so that we can run the it from the command line Apply the model to the dev database:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ docker-compose run users-service python manage.py recreate_db
 </code></pre></div>
 <p>Did this work? Let&#39;s hop into psql...</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti <span class="k">$(</span>docker ps -aqf <span class="s2">&quot;name=names-db&quot;</span><span class="k">)</span> psql -U postgres
-<span class="c"># \c names_dev</span>
-You are now connected to database <span class="s2">&quot;names_dev&quot;</span> as user <span class="s2">&quot;postgres&quot;</span>.
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti <span class="k">$(</span>docker ps -aqf <span class="s2">&quot;name=users-db&quot;</span><span class="k">)</span> psql -U postgres
+
+<span class="c"># \c users_dev</span>
+You are now connected to database <span class="s2">&quot;users_dev&quot;</span> as user <span class="s2">&quot;postgres&quot;</span>.
+
 <span class="c"># \dt</span>
          List of relations
  Schema <span class="p">|</span> Name  <span class="p">|</span> Type  <span class="p">|</span>  Owner
 --------+-------+-------+----------
- public <span class="p">|</span> names <span class="p">|</span> table <span class="p">|</span> postgres
+ public <span class="p">|</span> users <span class="p">|</span> table <span class="p">|</span> postgres
 <span class="o">(</span><span class="m">1</span> row<span class="o">)</span>
 
 <span class="c"># \q</span>

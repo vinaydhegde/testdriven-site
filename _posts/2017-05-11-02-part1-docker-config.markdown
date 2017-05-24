@@ -20,14 +20,14 @@ $ docker-machine -v
 docker-machine version 0.10.0, build 76ed2a6
 ```
 
-Next, we need to create a new Docker host with [Docker Machine](https://docs.docker.com/machine/) and point the Docker client at it:
+Next, we need to [create](https://docs.docker.com/machine/reference/create/) a new Docker host with [Docker Machine](https://docs.docker.com/machine/) and point the Docker client at it:
 
 ```sh
-$ docker-machine create -d virtualbox dev;
+$ docker-machine create -d virtualbox dev
 $ eval "$(docker-machine env dev)"
 ```
 
-Add a *Dockerfile* to the "names" directory:
+Add a *Dockerfile* to the root directory, making sure to review the code comments:
 
 ```
 FROM python:3.6.1
@@ -56,20 +56,22 @@ version: '2.1'
 
 services:
 
-  names-service:
-    container_name: names-service
-    build: ./services/names/
+  users-service:
+    container_name: users-service
+    build: .
     volumes:
-      - './services/names:/usr/src/app'
+      - '.:/usr/src/app'
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
 ```
 
-This config will create a container called `names-service`, from the Dockerfile found in "services/names". (Directories are relative to the *docker-compose.yml* file.)
+This config will create a container called `users-service`, from the Dockerfile.
 
-The `volume` is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image first and then re-fire the container.
+> Directories are relative to the *docker-compose.yml* file.
 
-Take note of the version used - `2.1`. This does *not* relate directly to the version of Docker Compose installed; instead, it specifies the file format that you want to use.
+The `volume` is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image after each code change.
+
+Take note of the [Docker compose file version](https://docs.docker.com/compose/compose-file/) used - `2.1`. Keep in mind that this does *not* relate directly to the version of Docker Compose installed  - it simply specifies the file format that you want to use.
 
 Build the image:
 
@@ -77,11 +79,13 @@ Build the image:
 $ docker-compose build
 ```
 
-This will take a few minutes the first time. Once done, fire up the container:
+This will take a few minutes the first time. Subsequent builds will be much faster since Docker caches the results of the first build. Once done, fire up the container:
 
 ```sh
 $ docker-compose up -d
 ```
+
+> The `-d` flag is used to run the containers in the background.
 
 Grab the IP associated with the machine:
 
@@ -96,21 +100,21 @@ version: '2.1'
 
 services:
 
-  names-service:
-    container_name: names-service
-    build: ./services/names/
+  users-service:
+    container_name: users-service
+    build: .
     volumes:
-      - './services/names:/usr/src/app'
+      - '.:/usr/src/app'
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
       - APP_SETTINGS=project.config.DevelopmentConfig
 ```
 
-Then update *services/names/project/\_\_init\_\_.py*, to pull in the environment variables:
+Then update *project/\_\_init\_\_.py*, to pull in the environment variables:
 
 ```python
-# services/names/project/__init__.py
+# project/__init__.py
 
 
 import os
@@ -139,16 +143,16 @@ Update the container:
 $ docker-compose up -d
 ```
 
-Want to test? Add a `print` statement to the *\_\_init\_\_.py* to view the app config to ensure that it is working:
+Want to test? Add a `print` statement to the *\_\_init\_\_.py*, right before the route handler, to view the app config to ensure that it is working:
 
 ```python
-print(app)
+print(app.config)
 ```
 
 Then just view the logs:
 
 ```sh
-$ docker-compose logs -f names-service
+$ docker-compose logs -f users-service
 ```
 
 You should see something like:
@@ -172,4 +176,4 @@ You should see something like:
 >
 ```
 
-Make sure to remove the `print` statement.
+Make sure to remove the `print` statement before moving on.

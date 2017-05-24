@@ -6,6 +6,8 @@
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
   >
+  <link href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic" rel="stylesheet" type="text/css">
+  <link href="//fonts.googleapis.com/css?family=Lato:900,300" rel="stylesheet" type="text/css">
   <link href="/assets/css/styles.css" rel="stylesheet">
   <script
     src="//code.jquery.com/jquery-2.2.4.min.js"
@@ -174,16 +176,16 @@
 
 <hr>
 
-<p>Add a &quot;tests&quot; directory to &quot;services/names/project&quot;, and then create the following files:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>touch __init__.py base.py test_config.py test_names.py
+<p>Add a &quot;tests&quot; directory to &quot;project&quot;, and then create the following files inside the newly created directory:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>touch __init__.py base.py test_config.py test_users.py
 </code></pre></div>
 <p>Update each file...</p>
 
 <p><em>__init__.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/tests/__init__.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/__init__.py</span>
 </code></pre></div>
 <p><em>base.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/tests/base.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/base.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask_testing</span> <span class="kn">import</span> <span class="n">TestCase</span>
@@ -205,7 +207,7 @@
         <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
 </code></pre></div>
 <p><em>test_config.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/tests/test_config.py</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/test_config.py</span>
 
 
 <span class="kn">import</span> <span class="nn">unittest</span>
@@ -227,7 +229,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
-            <span class="s">&#39;postgres://postgres:postgres@names-db:5432/names_dev&#39;</span>
+            <span class="s">&#39;postgres://postgres:postgres@users-db:5432/users_dev&#39;</span>
         <span class="p">)</span>
 
 
@@ -243,7 +245,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
-            <span class="s">&#39;postgres://postgres:postgres@names-db:5432/names_test&#39;</span>
+            <span class="s">&#39;postgres://postgres:postgres@users-db:5432/users_test&#39;</span>
         <span class="p">)</span>
 
 
@@ -261,8 +263,8 @@
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 </code></pre></div>
-<p><em>test_names.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># services/names/project/tests/test__user.py</span>
+<p><em>test_users.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/test__user.py</span>
 
 
 <span class="kn">import</span> <span class="nn">json</span>
@@ -270,10 +272,10 @@
 <span class="kn">from</span> <span class="nn">project.tests.base</span> <span class="kn">import</span> <span class="n">BaseTestCase</span>
 
 
-<span class="k">class</span> <span class="nc">TestNameService</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Test for Name Service &quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">TestUserService</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tests for the Users Service.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">test_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Ensure the /ping route behaves correctly.&quot;&quot;&quot;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -301,7 +303,7 @@
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>With the containers up and running, run the tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py <span class="nb">test</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>You should see the following error:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">self.assertTrue<span class="o">(</span>app.config<span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span> is <span class="s1">&#39;my_precious&#39;</span><span class="o">)</span>

@@ -5,7 +5,7 @@ date: 2017-05-12 23:59:57
 permalink: part-one-postgres-setup
 ---
 
-In this lesson, we'll configure Postgres, get it up and running in another container, and link it to the `names-service` container...
+In this lesson, we'll configure Postgres, get it up and running in another container, and link it to the `users-service` container...
 
 ---
 
@@ -19,7 +19,7 @@ psycopg2==2.7.1
 Update *config.py*:
 
 ```python
-# services/names/project/config.py
+# project/config.py
 
 
 import os
@@ -51,13 +51,14 @@ class ProductionConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 ```
 
-Update *\_\_init\_\_.py*:
+Update *\_\_init\_\_.py*, to create a new instance of SQLAlchemy and define the database model:
 
 ```python
-# services/names/project/__init__.py
+# project/__init__.py
 
 
 import os
+import datetime
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
@@ -73,16 +74,18 @@ app.config.from_object(app_settings)
 db = SQLAlchemy(app)
 
 # model
-class Name(db.Model):
-    __tablename__ = "names"
+class User(db.Model):
+    __tableusers_ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    text = db.Column(db.String(255), nullable=False)
-    created_date = db.Column(db.DateTime, nullable=False)
+    username = db.Column(db.String(128), nullable=False)
+    email = db.Column(db.String(128), nullable=False)
+    active = db.Column(db.Boolean(), default=False, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
 
-
-    def __init__(self, text):
-        self.text = text
-        self.created_date = datetime.datetime.now()
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+        self.created_at = datetime.datetime.now()
 
 
 # routes
@@ -95,12 +98,12 @@ def ping_pong():
     })
 ```
 
-Add a "db" directory to "services/names/project", and add a *create.sql* file in that new directory:
+Add a "db" directory to "project", and add a *create.sql* file in that new directory:
 
 ```sql
-CREATE DATABASE names_prod;
-CREATE DATABASE names_dev;
-CREATE DATABASE names_test;
+CREATE DATABASE users_prod;
+CREATE DATABASE users_dev;
+CREATE DATABASE users_test;
 ```
 
 Next, add a *Dockerfile* to the same directory:
@@ -121,9 +124,9 @@ version: '2.1'
 
 services:
 
-  names-db:
-    container_name: names-db
-    build: ./services/names/project/db
+  users-db:
+    container_name: users-db
+    build: ./project/db
     ports:
         - 5435:5432  # expose ports - HOST:CONTAINER
     environment:
@@ -132,25 +135,25 @@ services:
     healthcheck:
       test: exit 0
 
-  names-service:
-    container_name: names-service
-    build: ./services/names/
+  users-service:
+    container_name: users-service
+    build: ./
     volumes:
-      - './services/names:/usr/src/app'
+      - '.:/usr/src/app'
     ports:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
       - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@names-db:5432/names_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@names-db:5432/names_test
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
     depends_on:
-      names-db:
+      users-db:
         condition: service_healthy
     links:
-      - names-db
+      - users-db
 ```
 
-Once spun up, environment variables will be added and an exit code of `0` will be sent after the container is successfully up and running. Postgres will be available on port `5435` on the host machine and on port `5432` for services running in other containers.
+Once spun up, environment variables are added and an exit code of `0` is sent after the container is successfully up and running. Postgres will then be available on port `5435` on the host machine and on port `5432` for services running in other containers.
 
 Sanity check:
 
@@ -161,7 +164,7 @@ $ docker-compose up -d --build
 Update *manage.py*:
 
 ```python
-# services/names/manage.py
+# manage.py
 
 
 from flask_script import Manager
@@ -184,23 +187,25 @@ if __name__ == '__main__':
     manager.run()
 ```
 
-Apply the model to the dev database:
+This registers a new command, `recreate_db`,  to the manager so that we can run the it from the command line Apply the model to the dev database:
 
 ```
-$ docker-compose run names-service python manage.py recreate_db
+$ docker-compose run users-service python manage.py recreate_db
 ```
 
 Did this work? Let's hop into psql...
 
 ```sh
-$ docker exec -ti $(docker ps -aqf "name=names-db") psql -U postgres
-# \c names_dev
-You are now connected to database "names_dev" as user "postgres".
+$ docker exec -ti $(docker ps -aqf "name=users-db") psql -U postgres
+
+# \c users_dev
+You are now connected to database "users_dev" as user "postgres".
+
 # \dt
          List of relations
  Schema | Name  | Type  |  Owner
 --------+-------+-------+----------
- public | names | table | postgres
+ public | users | table | postgres
 (1 row)
 
 # \q
