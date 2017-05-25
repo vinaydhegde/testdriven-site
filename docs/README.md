@@ -14,8 +14,8 @@
 1. Outline part 2 - DONE
 1. Update objectives and intro (part 1 and 2) - DONE
 1. Set up aliases for `docker-machine` and `docker-compose` in the workflow section - DONE
-1. Add more explanations to the deployment lesson
-1. Update workflow
+1. Add more explanations to the deployment lesson - DONE
+1. Update workflow - DONE
 1. Add social share buttons
 1. Styles - refactor Jekyll Structure
 1. Outline part 3

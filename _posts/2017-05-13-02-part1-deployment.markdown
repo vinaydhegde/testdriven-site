@@ -15,6 +15,9 @@ Follow the instructions [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuid
 $ docker-machine create --driver amazonec2 aws
 ```
 
+> For more, review the [Amazon Web Services (AWS) EC2 example
+](https://docs.docker.com/machine/examples/aws/) from Docker.
+
 Once done, set it as the active host and point the Docker client at it:
 
 ```sh

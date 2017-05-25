@@ -187,6 +187,11 @@
 <p>Follow the instructions <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html">here</a> to sign up for AWS (if necessary) and create an IAM user (again, if necessary), making sure to add the credentials to an <em>~/.aws/credentials</em> file. Then create the new host:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create --driver amazonec2 aws
 </code></pre></div>
+<blockquote>
+<p>For more, review the <a href="https://docs.docker.com/machine/examples/aws/">Amazon Web Services (AWS) EC2 example
+</a> from Docker.</p>
+</blockquote>
+
 <p>Once done, set it as the active host and point the Docker client at it:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
 <span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
