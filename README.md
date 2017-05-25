@@ -10,7 +10,8 @@
 1. Styles - create lessons page - DONE
 1. Add `flask-microservices-users` to github - DONE
 1. Styles - Add previous and next arrows at the bottom of each lesson - DONE
-1. Rebrand with Real Python
+1. Rebrand with Real Python - DONE
+1. Outline part 2
 1. Update objectives
 1. Set up aliases for `docker-machine` and `docker-compose` in the workflow section
 1. Add more explanations to the deployment lesson
