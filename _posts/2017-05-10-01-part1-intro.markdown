@@ -6,7 +6,7 @@ permalink: part-one-intro
 part: 1
 ---
 
-In this tutorial, you'll learn how to quickly spin up a reproducible development environment with Docker to create a RESTful API powered by Python, Postgres, and the Flask web framework. After the app is up and running locally, you'll learn how to deploy it to an Amazon EC2 instance.
+In this tutorial, you'll learn how to quickly spin up a reproducible development environment with *Docker* to create a *RESTful API* powered by *Python*, *Postgres*, and the *Flask* web framework. After the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance.
 
 > We'll take a practical approach to test driven development (TDD), where we'll write tests first *only* when it makes sense.
 
