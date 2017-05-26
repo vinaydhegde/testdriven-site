@@ -1,5 +1,8 @@
 $(function() {
 
+  /*
+    side bar - set position
+   */
   var $obj = $('#toc-block');
   var $top = $obj.offset().top;
 
@@ -9,19 +12,19 @@ $(function() {
     setSideBarDisplay($obj, $top);
   });
 
-  var active = window.location.href.split('-')[1];
-  if (active) {
-    if (active === 'one') {
-      $('h5[data-part="1"]').addClass('active');
-    }
-    if (active === 'two') {
-      $('h5[data-part="2"]').addClass('active');
-    }
-  }
+  /*
+    side bar - set active
+   */
+
+  var currentLocation = window.location.href;
+
+  setActivePart(currentLocation);
 
 });
 
-// helpers
+/*
+  helpers
+ */
 
 function setSideBarDisplay(obj, top) {
   var y = $(window).scrollTop();
@@ -29,5 +32,20 @@ function setSideBarDisplay(obj, top) {
     obj.css('position', 'fixed').css('top', '45px');
   } else {
     obj.css('position', 'static').css('top', '0px');
+  }
+}
+
+function setActivePart(url) {
+  var active = url.split('-')[1];
+  if (active) {
+    if (active === 'one') {
+      $('h5[data-part="1"]').addClass('active');
+    }
+    if (active === 'two') {
+      $('h5[data-part="2"]').addClass('active');
+    }
+    if (active === 'three') {
+      $('h5[data-part="3"]').addClass('active');
+    }
   }
 }

@@ -16,11 +16,13 @@
 1. Set up aliases for `docker-machine` and `docker-compose` in the workflow section - DONE
 1. Add more explanations to the deployment lesson - DONE
 1. Update workflow - DONE
-1. Add social share buttons
-1. Styles - refactor Jekyll Structure
 1. Outline part 3
-1. Add check for understandings!
 1. code block responsiveness
+1. Styles - refactor Jekyll Structure
+1. Add check for understandings!
+1. Add social share buttons
+1. Add Microservices (basics, benefits, etc.) to part 1
+
 
 ## Microservices
 
