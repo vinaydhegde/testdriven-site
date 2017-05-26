@@ -16,7 +16,7 @@
 1. Set up aliases for `docker-machine` and `docker-compose` in the workflow section - DONE
 1. Add more explanations to the deployment lesson - DONE
 1. Update workflow - DONE
-1. Outline part 3
+1. Outline part 3 - DONE
 1. code block responsiveness
 1. Styles - refactor Jekyll Structure
 1. Add check for understandings!
