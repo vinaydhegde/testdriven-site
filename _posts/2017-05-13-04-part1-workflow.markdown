@@ -14,7 +14,7 @@ alias dc='docker-compose'
 alias dm='docker-machine'
 ```
 
-Save the file, and Then execute it:
+Save the file, then execute it:
 
 ```sh
 $ source ~/.bashrc
