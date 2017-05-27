@@ -17,7 +17,7 @@
 1. Add more explanations to the deployment lesson - DONE
 1. Update workflow - DONE
 1. Outline part 3 - DONE
-1. code block responsiveness
+1. code block responsiveness - DONE
 1. Styles - refactor Jekyll Structure
 1. Add check for understandings!
 1. Add social share buttons

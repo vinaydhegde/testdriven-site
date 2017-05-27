@@ -191,12 +191,13 @@
           </ul>
         </div>
       </div>
-      <div class="col m9">
 
 
-<h2>Getting Started</h2>
+<div class="col m9 hide-on-small-and-down">
 
-<p>In this lesson, we&#39;ll set up the base project structure and define the first service...</p>
+  <h2>Getting Started</h2>
+
+  <p>In this lesson, we&#39;ll set up the base project structure and define the first service...</p>
 
 <hr>
 
@@ -318,15 +319,153 @@ env
 <p>Init a git repo and commit your code.</p>
 
 
-<div class="page-nav">
-  
-    <a class="prev btn left-align" href="/part-one-intro">&laquo; Introduction</a>
-  
-  
-    <a class="next btn right-align" href="/part-one-docker-config">Docker Config &raquo;</a>
-  
+  <div class="page-nav">
+    
+      <a class="prev btn left-align" href="/part-one-intro">&laquo; Introduction</a>
+    
+    
+      <a class="next btn right-align" href="/part-one-docker-config">Docker Config &raquo;</a>
+    
+  </div>
+
 </div>
 
+<div class="hide-on-med-and-up">
+
+  <h2>Getting Started</h2>
+
+  <p>In this lesson, we&#39;ll set up the base project structure and define the first service...</p>
+
+<hr>
+
+<p>Create a new project and install Flask:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>mkdir flask-microservices-users <span class="o">&amp;&amp;</span> <span class="nb">cd </span>flask-microservices-users
+<span class="nv">$ </span>mkdir project
+<span class="nv">$ </span>python3.6 -m venv env
+<span class="nv">$ </span><span class="nb">source </span>env/bin/activate
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip install <span class="nv">flask</span><span class="o">==</span>0.12.2
+</code></pre></div>
+<p>Add an <em>__init__.py</em> file to the &quot;project&quot; directory and configure the first route:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/__init__.py</span>
+
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+
+
+<span class="c"># instantiate the app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;pong!&#39;</span>
+    <span class="p">})</span>
+</code></pre></div>
+<p>Next, add <a href="https://flask-script.readthedocs.io/en/latest/">Flask-Script</a>, which will be used to run and manage the app from the command line:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip install flask-script<span class="o">==</span>2.0.5
+</code></pre></div>
+<p>Add a <em>manage.py</em> file to the project root:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># manage.py</span>
+
+
+<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span>
+
+
+<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+<p>Here, we created a new <code>Manager</code> instance to handle all of the manager commands from the command line.</p>
+
+<p>Run the server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py runserver
+</code></pre></div>
+<p>Navigate to <a href="http://localhost:5000/ping">http://localhost:5000/ping</a> in your browser. You should see:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;pong!&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Kill the server and add a new file called <em>config.py</em> to the &quot;project&quot; directory:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/config.py</span>
+
+
+<span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
+
+
+<span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Development configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+
+
+<span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Testing configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
+
+
+<span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Production configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+</code></pre></div>
+<p>Update <em>__init__.py</em> to pull in the dev config on init:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/__init__.py</span>
+
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+
+
+<span class="c"># instantiate the app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="c"># set config</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.DevelopmentConfig&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;pong!&#39;</span>
+    <span class="p">})</span>
+</code></pre></div>
+<p>Run the app again. This time, <a href="http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode">debug mode</a> should be on:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py runserver
+ * Running on http://127.0.0.1:5000/ <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 107-952-069
+</code></pre></div>
+<p>Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a <em>requirements.txt</em> file to the root directory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Flask==0.12.1
+Flask-Script==2.0.5
+</code></pre></div>
+<p>Finally, add a <em>.gitignore</em>, to the project root as well:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">__pycache__
+env
+</code></pre></div>
+<p>Init a git repo and commit your code.</p>
+
+
+  <div class="page-nav">
+    
+      <a class="prev btn left-align" href="/part-one-intro">&laquo; Introduction</a>
+    
+    
+      <a class="next btn right-align" href="/part-one-docker-config">Docker Config &raquo;</a>
+    
+  </div>
+
+</div>
 
        </div>
      </div>

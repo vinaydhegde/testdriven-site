@@ -191,12 +191,13 @@
           </ul>
         </div>
       </div>
-      <div class="col m9">
 
 
-<h2>Workflow</h2>
+<div class="col m9 hide-on-small-and-down">
 
-<p>To save some previous keystrokes, let&#39;s create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
+  <h2>Workflow</h2>
+
+  <p>To save some previous keystrokes, let&#39;s create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
 
 <p>Simply add the following lines to your <em>.bashrc</em> file:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">alias dc=&#39;docker-compose&#39;
@@ -243,15 +244,78 @@ alias dm=&#39;docker-machine&#39;
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
 </code></pre></div>
 
-<div class="page-nav">
-  
-    <a class="prev btn left-align" href="/part-one-jinja-templates">&laquo; Jinja Templates</a>
-  
-  
-    <a class="next btn right-align" href="/part-two-intro">Introduction &raquo;</a>
-  
+  <div class="page-nav">
+    
+      <a class="prev btn left-align" href="/part-one-jinja-templates">&laquo; Jinja Templates</a>
+    
+    
+      <a class="next btn right-align" href="/part-two-intro">Introduction &raquo;</a>
+    
+  </div>
+
 </div>
 
+<div class="hide-on-med-and-up">
+
+  <h2>Workflow</h2>
+
+  <p>To save some previous keystrokes, let&#39;s create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
+
+<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">alias dc=&#39;docker-compose&#39;
+alias dm=&#39;docker-machine&#39;
+</code></pre></div>
+<p>Save the file, then execute it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
+</code></pre></div>
+<p>Test out the new aliases!</p>
+
+<blockquote>
+<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
+</blockquote>
+
+<h4 id="common-commands">Common Commands</h4>
+
+<p>Build the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
+</code></pre></div>
+<p>Run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+</code></pre></div>
+<p>Create the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py recreate_db
+</code></pre></div>
+<p>Seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py seed_db
+</code></pre></div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run names-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<h4 id="other-commands">Other commands</h4>
+
+<p>To stop the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose stop
+</code></pre></div>
+<p>To bring down the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
+</code></pre></div>
+<p>Want to force a build?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+
+  <div class="page-nav">
+    
+      <a class="prev btn left-align" href="/part-one-jinja-templates">&laquo; Jinja Templates</a>
+    
+    
+      <a class="next btn right-align" href="/part-two-intro">Introduction &raquo;</a>
+    
+  </div>
+
+</div>
 
        </div>
      </div>

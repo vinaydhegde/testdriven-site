@@ -191,12 +191,13 @@
           </ul>
         </div>
       </div>
-      <div class="col m9">
 
 
-<h2>Deployment</h2>
+<div class="col m9 hide-on-small-and-down">
 
-<p>With the routes up and tested, let&#39;s get this app deployed!</p>
+  <h2>Deployment</h2>
+
+  <p>With the routes up and tested, let&#39;s get this app deployed!</p>
 
 <hr>
 
@@ -346,15 +347,181 @@ aws
 </blockquote>
 
 
-<div class="page-nav">
-  
-    <a class="prev btn left-align" href="/part-one-restful-routes">&laquo; RESTful Routes</a>
-  
-  
-    <a class="next btn right-align" href="/part-one-jinja-templates">Jinja Templates &raquo;</a>
-  
+  <div class="page-nav">
+    
+      <a class="prev btn left-align" href="/part-one-restful-routes">&laquo; RESTful Routes</a>
+    
+    
+      <a class="next btn right-align" href="/part-one-jinja-templates">Jinja Templates &raquo;</a>
+    
+  </div>
+
 </div>
 
+<div class="hide-on-med-and-up">
+
+  <h2>Deployment</h2>
+
+  <p>With the routes up and tested, let&#39;s get this app deployed!</p>
+
+<hr>
+
+<p>Follow the instructions <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html">here</a> to sign up for AWS (if necessary) and create an IAM user (again, if necessary), making sure to add the credentials to an <em>~/.aws/credentials</em> file. Then create the new host:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create --driver amazonec2 aws
+</code></pre></div>
+<blockquote>
+<p>For more, review the <a href="https://docs.docker.com/machine/examples/aws/">Amazon Web Services (AWS) EC2 example
+</a> from Docker.</p>
+</blockquote>
+
+<p>Once done, set it as the active host and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+</code></pre></div>
+<p>Run the following command to view the currently running Machines:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+</code></pre></div>
+<p>Create a new compose file called <em>docker-compose-prod.yml</em> and add the contents of the other compose file minus the <code>volumes</code>.</p>
+
+<blockquote>
+<p>What would happen if you left this in?</p>
+</blockquote>
+
+<p>Spin up the containers, create the database, seed, and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Add port 5001 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>.</p>
+
+<p>Grab the IP and make sure to test in the browser.</p>
+
+<h4 id="config">Config</h4>
+
+<p>What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service env
+</code></pre></div>
+<p>You should see the <code>APP_SETTINGS</code> variable assigned to <code>project.config.DevelopmentConfig</code>.</p>
+
+<p>To update this, change the environment variables within <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">environment:
+  - APP_SETTINGS=project.config.ProductionConfig
+  - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
+  - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+</code></pre></div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d
+</code></pre></div>
+<p>Re-create the db and apply the seed again:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+</code></pre></div>
+<p>Ensure the app is still running and check the environment variables again.</p>
+
+<h4 id="gunicorn">Gunicorn</h4>
+
+<p>To use Gunicorn, first add the dependency to the <em>requirements.txt</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">gunicorn==19.7.1
+</code></pre></div>
+<p>Then update <em>docker-compose-prod.yml</em> by adding a <code>command</code> key to the <code>users-service</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">command: gunicorn -b 0.0.0.0:5000 manage:app
+</code></pre></div>
+<p>This will override the <code>CMD</code> within <em>services/users/Dockerfile</em>, <code>python manage.py runserver -h 0.0.0.0</code>.</p>
+
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<blockquote>
+<p>The <code>--build</code> flag is necessary since we need to install the new dependency.</p>
+</blockquote>
+
+<h4 id="nginx">Nginx</h4>
+
+<p>Next, let&#39;s get Nginx up and running as a reverse proxy to the web server. Create a new folder called &quot;nginx&quot; in the project root, and then add a <em>Dockerfile</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM nginx:1.13.0
+
+RUN rm /etc/nginx/conf.d/default.conf
+ADD /flask.conf /etc/nginx/conf.d
+</code></pre></div>
+<p>Add a new config file called <em>flask.conf</em> to the &quot;nginx&quot; folder as well:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">server {
+
+    listen 80;
+
+    location / {
+        proxy_pass http://users-service:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}
+</code></pre></div>
+<p>Add an <code>nginx</code> service to the <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>And remove the exposed <code>ports</code> from the users service and only expose port 5000 to other containers:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">expose:
+  - &#39;5000&#39;
+</code></pre></div>
+<p>Build the image and run the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build nginx
+</code></pre></div>
+<p>Add port 80 to the Security Group on AWS. Test the site in the browser again.</p>
+
+<p>Let&#39;s update this locally as well.</p>
+
+<p>First, add nginx to the <em>docker-compose.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>Next, we need to update the active host. To check which host is currently active run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine active
+aws
+</code></pre></div>
+<p>Change the active machine to <code>dev</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">eval</span> <span class="s2">&quot;$(docker-machine env dev)&quot;</span>
+</code></pre></div>
+<p>Run the nginx container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build nginx
+</code></pre></div>
+<p>Grab the IP and test it out!</p>
+
+<blockquote>
+<p>Did you notice that you can access the site locally with or without the ports - <a href="http://YOUR-IP/users">http://YOUR-IP/users</a> or <a href="http://YOUR-IP:5001/users">http://YOUR-IP:5001/users</a>. Why?</p>
+</blockquote>
+
+
+  <div class="page-nav">
+    
+      <a class="prev btn left-align" href="/part-one-restful-routes">&laquo; RESTful Routes</a>
+    
+    
+      <a class="next btn right-align" href="/part-one-jinja-templates">Jinja Templates &raquo;</a>
+    
+  </div>
+
+</div>
 
        </div>
      </div>
