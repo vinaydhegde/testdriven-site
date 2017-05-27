@@ -18,7 +18,7 @@
 1. Update workflow - DONE
 1. Outline part 3 - DONE
 1. code block responsiveness - DONE
-1. Styles - refactor Jekyll Structure
+1. Styles - refactor Jekyll Structure - DONE
 1. Add check for understandings!
 1. Add social share buttons
 1. Add Microservices (basics, benefits, etc.) to part 1

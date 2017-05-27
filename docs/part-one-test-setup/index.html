@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
+
+  <head>
   <title>Test Driven Development Courses</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link
@@ -27,9 +28,11 @@
     src="/assets/js/main.js"
   ></script>
 </head>
-<body>
 
-  <nav class="red darken-1">
+
+  <body>
+
+    <nav class="red darken-1">
   <div class="container hide-on-small-and-down">
     <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
   </div>
@@ -39,165 +42,332 @@
 </nav>
 
 
-  <br>
+    <br>
 
-  <div class="container">
-    <div class="row">
-      <div class="col m3 hide-on-small-and-down">
-        <br>
-        <div id="toc-block" class="collection hide-on-small-and-down">
-          <ul class="collapsible collapsible-accordion">
+    <div class="container">
+      <div class="row">
+
+        <div class="col m3 hide-on-small-and-down">
+  <br>
+  <div id="toc-block" class="collection hide-on-small-and-down">
+    <ul class="collapsible collapsible-accordion">
+      
+        
+          <li>
+            <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+              Part 1
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-getting-started"
+            >Getting Started</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-docker-config"
+            >Docker Config</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-postgres-setup"
+            >Postgres Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-test-setup"
+            >Test Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-flask-blueprints"
+            >Flask Blueprints</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-restful-routes"
+            >RESTful Routes</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-aws-deployment"
+            >Deployment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-jinja-templates"
+            >Jinja Templates</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+              Part 2
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
+              Part 3
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+    </div>
+  </li>
+    </ul>
+  </div>
+</div>
+
+
+        <div class="col m9 hide-on-small-and-down">
+
+          <h2>Test Setup</h2>
+
+          <p>Let&#39;s get our tests up and running for this endpoint...</p>
+
+<hr>
+
+<p>Add a &quot;tests&quot; directory to &quot;project&quot;, and then create the following files inside the newly created directory:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>touch __init__.py base.py test_config.py test_users.py
+</code></pre></div>
+<p>Update each file...</p>
+
+<p><em>__init__.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/__init__.py</span>
+</code></pre></div>
+<p><em>base.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/base.py</span>
+
+
+<span class="kn">from</span> <span class="nn">flask_testing</span> <span class="kn">import</span> <span class="n">TestCase</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
+
+
+<span class="k">class</span> <span class="nc">BaseTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.TestingConfig&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">app</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
+</code></pre></div>
+<p><em>test_config.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/test_config.py</span>
+
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">current_app</span>
+<span class="kn">from</span> <span class="nn">flask_testing</span> <span class="kn">import</span> <span class="n">TestCase</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span>
+
+
+<span class="k">class</span> <span class="nc">TestDevelopmentConfig</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.DevelopmentConfig&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">app</span>
+
+    <span class="k">def</span> <span class="nf">test_app_is_development</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
+            <span class="s">&#39;postgres://postgres:postgres@users-db:5432/users_dev&#39;</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TestTestingConfig</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.TestingConfig&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">app</span>
+
+    <span class="k">def</span> <span class="nf">test_app_is_testing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
+            <span class="s">&#39;postgres://postgres:postgres@users-db:5432/users_test&#39;</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TestProductionConfig</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.ProductionConfig&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">app</span>
+
+    <span class="k">def</span> <span class="nf">test_app_is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+<p><em>test_users.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/test__user.py</span>
+
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">project.tests.base</span> <span class="kn">import</span> <span class="n">BaseTestCase</span>
+
+
+<span class="k">class</span> <span class="nc">TestUserService</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tests for the Users Service.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">test_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Ensure the /ping route behaves correctly.&quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;pong!&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>Add <a href="https://pythonhosted.org/Flask-Testing/">Flask-Testing</a> to the requirements file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Flask-Testing==0.6.2
+</code></pre></div>
+<p>Add a new command to <em>manage.py</em>, to discover and run the tests:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Runs the tests without code coverage.&quot;&quot;&quot;</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#39;test*.py&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+</code></pre></div>
+<p>Don&#39;t forget to import <code>unittest</code>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">unittest</span>
+</code></pre></div>
+<p>We need to re-build the images since requirements are installed at build time rather than run time:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>With the containers up and running, run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>You should see the following error:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">self.assertTrue<span class="o">(</span>app.config<span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span> is <span class="s1">&#39;my_precious&#39;</span><span class="o">)</span>
+</code></pre></div>
+<p>Update the base config:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s">&#39;my_precious&#39;</span>
+</code></pre></div>
+<p>Then re-test!</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">----------------------------------------------------------------------
+Ran <span class="m">4</span> tests in 0.118s
+
+OK
+</code></pre></div>
+
+          <div class="page-nav">
             
-              
-                <li>
-                  <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
-                    Part 1
-                  </h5>
-                  <div class="collapsible-body">
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-intro"
-                  >Introduction</a>
-                </li>
-              </ul>
+              <a class="prev btn left-align" href="/part-one-postgres-setup">&laquo; Postgres Setup</a>
             
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-getting-started"
-                  >Getting Started</a>
-                </li>
-              </ul>
             
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-docker-config"
-                  >Docker Config</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-postgres-setup"
-                  >Postgres Setup</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-test-setup"
-                  >Test Setup</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-flask-blueprints"
-                  >Flask Blueprints</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-restful-routes"
-                  >RESTful Routes</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-aws-deployment"
-                  >Deployment</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-jinja-templates"
-                  >Jinja Templates</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-workflow"
-                  >Workflow</a>
-                </li>
-              </ul>
-            
-              
-                <li>
-                  <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
-                    Part 2
-                  </h5>
-                  <div class="collapsible-body">
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-two-intro"
-                  >Introduction</a>
-                </li>
-              </ul>
-            
-              
-                <li>
-                  <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
-                    Part 3
-                  </h5>
-                  <div class="collapsible-body">
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-three-intro"
-                  >Introduction</a>
-                </li>
-              </ul>
+              <a class="next btn right-align" href="/part-one-flask-blueprints">Flask Blueprints &raquo;</a>
             
           </div>
-        </li>
-          </ul>
+
         </div>
-      </div>
 
+        <div class="hide-on-med-and-up">
 
-<div class="col m9 hide-on-small-and-down">
+          <h2>Test Setup</h2>
 
-  <h2>Test Setup</h2>
-
-  <p>Let&#39;s get our tests up and running for this endpoint...</p>
+          <p>Let&#39;s get our tests up and running for this endpoint...</p>
 
 <hr>
 
@@ -348,202 +518,37 @@ Ran <span class="m">4</span> tests in 0.118s
 OK
 </code></pre></div>
 
-  <div class="page-nav">
-    
-      <a class="prev btn left-align" href="/part-one-postgres-setup">&laquo; Postgres Setup</a>
-    
-    
-      <a class="next btn right-align" href="/part-one-flask-blueprints">Flask Blueprints &raquo;</a>
-    
-  </div>
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-one-postgres-setup">&laquo; Postgres Setup</a>
+            
+            
+              <a class="next btn right-align" href="/part-one-flask-blueprints">Flask Blueprints &raquo;</a>
+            
+          </div>
 
-</div>
-
-<div class="hide-on-med-and-up">
-
-  <h2>Test Setup</h2>
-
-  <p>Let&#39;s get our tests up and running for this endpoint...</p>
-
-<hr>
-
-<p>Add a &quot;tests&quot; directory to &quot;project&quot;, and then create the following files inside the newly created directory:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>touch __init__.py base.py test_config.py test_users.py
-</code></pre></div>
-<p>Update each file...</p>
-
-<p><em>__init__.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/__init__.py</span>
-</code></pre></div>
-<p><em>base.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/base.py</span>
-
-
-<span class="kn">from</span> <span class="nn">flask_testing</span> <span class="kn">import</span> <span class="n">TestCase</span>
-
-<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
-
-
-<span class="k">class</span> <span class="nc">BaseTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.TestingConfig&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">app</span>
-
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
-</code></pre></div>
-<p><em>test_config.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/test_config.py</span>
-
-
-<span class="kn">import</span> <span class="nn">unittest</span>
-
-<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">current_app</span>
-<span class="kn">from</span> <span class="nn">flask_testing</span> <span class="kn">import</span> <span class="n">TestCase</span>
-
-<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span>
-
-
-<span class="k">class</span> <span class="nc">TestDevelopmentConfig</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.DevelopmentConfig&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">app</span>
-
-    <span class="k">def</span> <span class="nf">test_app_is_development</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
-            <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
-            <span class="s">&#39;postgres://postgres:postgres@users-db:5432/users_dev&#39;</span>
-        <span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">TestTestingConfig</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.TestingConfig&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">app</span>
-
-    <span class="k">def</span> <span class="nf">test_app_is_testing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
-            <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
-            <span class="s">&#39;postgres://postgres:postgres@users-db:5432/users_test&#39;</span>
-        <span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">TestProductionConfig</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;project.config.ProductionConfig&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">app</span>
-
-    <span class="k">def</span> <span class="nf">test_app_is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
-
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
-</code></pre></div>
-<p><em>test_users.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/test__user.py</span>
-
-
-<span class="kn">import</span> <span class="nn">json</span>
-
-<span class="kn">from</span> <span class="nn">project.tests.base</span> <span class="kn">import</span> <span class="n">BaseTestCase</span>
-
-
-<span class="k">class</span> <span class="nc">TestUserService</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Tests for the Users Service.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">test_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Ensure the /ping route behaves correctly.&quot;&quot;&quot;</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;pong!&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
-</code></pre></div>
-<p>Add <a href="https://pythonhosted.org/Flask-Testing/">Flask-Testing</a> to the requirements file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Flask-Testing==0.6.2
-</code></pre></div>
-<p>Add a new command to <em>manage.py</em>, to discover and run the tests:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
-<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Runs the tests without code coverage.&quot;&quot;&quot;</span>
-    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#39;test*.py&#39;</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
-        <span class="k">return</span> <span class="mi">0</span>
-    <span class="k">return</span> <span class="mi">1</span>
-</code></pre></div>
-<p>Don&#39;t forget to import <code>unittest</code>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">unittest</span>
-</code></pre></div>
-<p>We need to re-build the images since requirements are installed at build time rather than run time:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
-</code></pre></div>
-<p>With the containers up and running, run the tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
-</code></pre></div>
-<p>You should see the following error:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">self.assertTrue<span class="o">(</span>app.config<span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span> is <span class="s1">&#39;my_precious&#39;</span><span class="o">)</span>
-</code></pre></div>
-<p>Update the base config:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Base configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s">&#39;my_precious&#39;</span>
-</code></pre></div>
-<p>Then re-test!</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">----------------------------------------------------------------------
-Ran <span class="m">4</span> tests in 0.118s
-
-OK
-</code></pre></div>
-
-  <div class="page-nav">
-    
-      <a class="prev btn left-align" href="/part-one-postgres-setup">&laquo; Postgres Setup</a>
-    
-    
-      <a class="next btn right-align" href="/part-one-flask-blueprints">Flask Blueprints &raquo;</a>
-    
-  </div>
-
-</div>
-
-       </div>
-     </div>
-   </div>
-   <footer class="page-footer white">
-    <div class="container footer-container">
-      <div class="row">
-        <div class="col l6 s12">
-          <p class="">Content by Michael Herman (michael@realpython.com)</p>
         </div>
-        <div class="col l4 offset-l2 s12">
-          <ul>
-            <li>&copy; Copyright 2017 <a href="http://realpython.com">Real Python</a></li>
-          </ul>
-        </div>
+
       </div>
     </div>
-  </footer>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-</body>
-</html>
 
+     <footer class="page-footer white">
+  <div class="container footer-container">
+    <div class="row">
+      <div class="col l6 s12">
+        <p class="">Content by Michael Herman (michael@realpython.com)</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <ul>
+          <li>&copy; Copyright 2017 <a href="http://realpython.com">Real Python</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+  </body>
+</html>

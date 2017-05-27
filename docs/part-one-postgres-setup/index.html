@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
+
+  <head>
   <title>Test Driven Development Courses</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link
@@ -27,9 +28,11 @@
     src="/assets/js/main.js"
   ></script>
 </head>
-<body>
 
-  <nav class="red darken-1">
+
+  <body>
+
+    <nav class="red darken-1">
   <div class="container hide-on-small-and-down">
     <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
   </div>
@@ -39,165 +42,358 @@
 </nav>
 
 
-  <br>
+    <br>
 
-  <div class="container">
-    <div class="row">
-      <div class="col m3 hide-on-small-and-down">
-        <br>
-        <div id="toc-block" class="collection hide-on-small-and-down">
-          <ul class="collapsible collapsible-accordion">
+    <div class="container">
+      <div class="row">
+
+        <div class="col m3 hide-on-small-and-down">
+  <br>
+  <div id="toc-block" class="collection hide-on-small-and-down">
+    <ul class="collapsible collapsible-accordion">
+      
+        
+          <li>
+            <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+              Part 1
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-getting-started"
+            >Getting Started</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-docker-config"
+            >Docker Config</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-postgres-setup"
+            >Postgres Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-test-setup"
+            >Test Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-flask-blueprints"
+            >Flask Blueprints</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-restful-routes"
+            >RESTful Routes</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-aws-deployment"
+            >Deployment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-jinja-templates"
+            >Jinja Templates</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+              Part 2
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
+              Part 3
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+    </div>
+  </li>
+    </ul>
+  </div>
+</div>
+
+
+        <div class="col m9 hide-on-small-and-down">
+
+          <h2>Postgres Setup</h2>
+
+          <p>In this lesson, we&#39;ll configure Postgres, get it up and running in another container, and link it to the <code>users-service</code> container...</p>
+
+<hr>
+
+<p>Add <a href="http://flask-sqlalchemy.pocoo.org/">Flask-SQLAlchemy</a> and psycopg2 to the <em>requirements.txt</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Flask-SQLAlchemy==2.2
+psycopg2==2.7.1
+</code></pre></div>
+<p>Update <em>config.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/config.py</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="bp">False</span>
+
+
+<span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Development configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Testing configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_TEST_URL&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Production configuration&quot;&quot;&quot;</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Update <em>__init__.py</em>, to create a new instance of SQLAlchemy and define the database model:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/__init__.py</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
+
+
+<span class="c"># instantiate the app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="c"># set config</span>
+<span class="n">app_settings</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">&#39;APP_SETTINGS&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">app_settings</span><span class="p">)</span>
+
+<span class="c"># instantiate the db</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+<span class="c"># model</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">__tableusers_</span> <span class="o">=</span> <span class="s">&quot;users&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+
+<span class="c"># routes</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;pong!&#39;</span>
+    <span class="p">})</span>
+</code></pre></div>
+<p>Add a &quot;db&quot; directory to &quot;project&quot;, and add a <em>create.sql</em> file in that new directory:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_prod</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_dev</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_test</span><span class="p">;</span>
+</code></pre></div>
+<p>Next, add a <em>Dockerfile</em> to the same directory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM postgres
+
+# run create.sql on init
+ADD create.sql /docker-entrypoint-initdb.d
+</code></pre></div>
+<p>Here, we extend the official Postgres image by adding a SQL file to the &quot;docker-entrypoint-initdb.d&quot; directory in the container, which will execute on init.</p>
+
+<p>Update <em>docker-compose.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">version: &#39;2.1&#39;
+
+services:
+
+  users-db:
+    container_name: users-db
+    build: ./project/db
+    ports:
+        - 5435:5432  # expose ports - HOST:CONTAINER
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: exit 0
+
+  users-service:
+    container_name: users-service
+    build: ./
+    volumes:
+      - &#39;.:/usr/src/app&#39;
+    ports:
+      - 5001:5000 # expose ports - HOST:CONTAINER
+    environment:
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+    depends_on:
+      users-db:
+        condition: service_healthy
+    links:
+      - users-db
+</code></pre></div>
+<p>Once spun up, environment variables are added and an exit code of <code>0</code> is sent after the container is successfully up and running. Postgres will then be available on port <code>5435</code> on the host machine and on port <code>5432</code> for services running in other containers.</p>
+
+<p>Sanity check:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Update <em>manage.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># manage.py</span>
+
+
+<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
+
+
+<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Recreates a database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+<p>This registers a new command, <code>recreate_db</code>,  to the manager so that we can run the it from the command line Apply the model to the dev database:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ docker-compose run users-service python manage.py recreate_db
+</code></pre></div>
+<p>Did this work? Let&#39;s hop into psql...</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti <span class="k">$(</span>docker ps -aqf <span class="s2">&quot;name=users-db&quot;</span><span class="k">)</span> psql -U postgres
+
+<span class="c"># \c users_dev</span>
+You are now connected to database <span class="s2">&quot;users_dev&quot;</span> as user <span class="s2">&quot;postgres&quot;</span>.
+
+<span class="c"># \dt</span>
+         List of relations
+ Schema <span class="p">|</span> Name  <span class="p">|</span> Type  <span class="p">|</span>  Owner
+--------+-------+-------+----------
+ public <span class="p">|</span> users <span class="p">|</span> table <span class="p">|</span> postgres
+<span class="o">(</span><span class="m">1</span> row<span class="o">)</span>
+
+<span class="c"># \q</span>
+</code></pre></div>
+
+          <div class="page-nav">
             
-              
-                <li>
-                  <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
-                    Part 1
-                  </h5>
-                  <div class="collapsible-body">
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-intro"
-                  >Introduction</a>
-                </li>
-              </ul>
+              <a class="prev btn left-align" href="/part-one-docker-config">&laquo; Docker Config</a>
             
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-getting-started"
-                  >Getting Started</a>
-                </li>
-              </ul>
             
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-docker-config"
-                  >Docker Config</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-postgres-setup"
-                  >Postgres Setup</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-test-setup"
-                  >Test Setup</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-flask-blueprints"
-                  >Flask Blueprints</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-restful-routes"
-                  >RESTful Routes</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-aws-deployment"
-                  >Deployment</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-jinja-templates"
-                  >Jinja Templates</a>
-                </li>
-              </ul>
-            
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-one-workflow"
-                  >Workflow</a>
-                </li>
-              </ul>
-            
-              
-                <li>
-                  <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
-                    Part 2
-                  </h5>
-                  <div class="collapsible-body">
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-two-intro"
-                  >Introduction</a>
-                </li>
-              </ul>
-            
-              
-                <li>
-                  <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
-                    Part 3
-                  </h5>
-                  <div class="collapsible-body">
-              
-              <ul>
-                <li>
-                  <a
-                    class="collection-item"
-                    href="/part-three-intro"
-                  >Introduction</a>
-                </li>
-              </ul>
+              <a class="next btn right-align" href="/part-one-test-setup">Test Setup &raquo;</a>
             
           </div>
-        </li>
-          </ul>
+
         </div>
-      </div>
 
+        <div class="hide-on-med-and-up">
 
-<div class="col m9 hide-on-small-and-down">
+          <h2>Postgres Setup</h2>
 
-  <h2>Postgres Setup</h2>
-
-  <p>In this lesson, we&#39;ll configure Postgres, get it up and running in another container, and link it to the <code>users-service</code> container...</p>
+          <p>In this lesson, we&#39;ll configure Postgres, get it up and running in another container, and link it to the <code>users-service</code> container...</p>
 
 <hr>
 
@@ -374,228 +570,37 @@ You are now connected to database <span class="s2">&quot;users_dev&quot;</span> 
 <span class="c"># \q</span>
 </code></pre></div>
 
-  <div class="page-nav">
-    
-      <a class="prev btn left-align" href="/part-one-docker-config">&laquo; Docker Config</a>
-    
-    
-      <a class="next btn right-align" href="/part-one-test-setup">Test Setup &raquo;</a>
-    
-  </div>
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-one-docker-config">&laquo; Docker Config</a>
+            
+            
+              <a class="next btn right-align" href="/part-one-test-setup">Test Setup &raquo;</a>
+            
+          </div>
 
-</div>
-
-<div class="hide-on-med-and-up">
-
-  <h2>Postgres Setup</h2>
-
-  <p>In this lesson, we&#39;ll configure Postgres, get it up and running in another container, and link it to the <code>users-service</code> container...</p>
-
-<hr>
-
-<p>Add <a href="http://flask-sqlalchemy.pocoo.org/">Flask-SQLAlchemy</a> and psycopg2 to the <em>requirements.txt</em> file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Flask-SQLAlchemy==2.2
-psycopg2==2.7.1
-</code></pre></div>
-<p>Update <em>config.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/config.py</span>
-
-
-<span class="kn">import</span> <span class="nn">os</span>
-
-
-<span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Base configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="bp">False</span>
-
-
-<span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Development configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Testing configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_TEST_URL&#39;</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Production configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
-</code></pre></div>
-<p>Update <em>__init__.py</em>, to create a new instance of SQLAlchemy and define the database model:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/__init__.py</span>
-
-
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
-<span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
-
-
-<span class="c"># instantiate the app</span>
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
-
-<span class="c"># set config</span>
-<span class="n">app_settings</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s">&#39;APP_SETTINGS&#39;</span><span class="p">)</span>
-<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">app_settings</span><span class="p">)</span>
-
-<span class="c"># instantiate the db</span>
-<span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-
-<span class="c"># model</span>
-<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">__tableusers_</span> <span class="o">=</span> <span class="s">&quot;users&quot;</span>
-    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">username</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">email</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">active</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">email</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-
-
-<span class="c"># routes</span>
-
-<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
-        <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
-        <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;pong!&#39;</span>
-    <span class="p">})</span>
-</code></pre></div>
-<p>Add a &quot;db&quot; directory to &quot;project&quot;, and add a <em>create.sql</em> file in that new directory:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_prod</span><span class="p">;</span>
-<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_dev</span><span class="p">;</span>
-<span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">users_test</span><span class="p">;</span>
-</code></pre></div>
-<p>Next, add a <em>Dockerfile</em> to the same directory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">FROM postgres
-
-# run create.sql on init
-ADD create.sql /docker-entrypoint-initdb.d
-</code></pre></div>
-<p>Here, we extend the official Postgres image by adding a SQL file to the &quot;docker-entrypoint-initdb.d&quot; directory in the container, which will execute on init.</p>
-
-<p>Update <em>docker-compose.yml</em>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">version: &#39;2.1&#39;
-
-services:
-
-  users-db:
-    container_name: users-db
-    build: ./project/db
-    ports:
-        - 5435:5432  # expose ports - HOST:CONTAINER
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    healthcheck:
-      test: exit 0
-
-  users-service:
-    container_name: users-service
-    build: ./
-    volumes:
-      - &#39;.:/usr/src/app&#39;
-    ports:
-      - 5001:5000 # expose ports - HOST:CONTAINER
-    environment:
-      - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-    depends_on:
-      users-db:
-        condition: service_healthy
-    links:
-      - users-db
-</code></pre></div>
-<p>Once spun up, environment variables are added and an exit code of <code>0</code> is sent after the container is successfully up and running. Postgres will then be available on port <code>5435</code> on the host machine and on port <code>5432</code> for services running in other containers.</p>
-
-<p>Sanity check:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
-</code></pre></div>
-<p>Update <em>manage.py</em>:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># manage.py</span>
-
-
-<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
-
-<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
-
-
-<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-
-
-<span class="nd">@manager.command</span>
-<span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Recreates a database.&quot;&quot;&quot;</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</code></pre></div>
-<p>This registers a new command, <code>recreate_db</code>,  to the manager so that we can run the it from the command line Apply the model to the dev database:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ docker-compose run users-service python manage.py recreate_db
-</code></pre></div>
-<p>Did this work? Let&#39;s hop into psql...</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti <span class="k">$(</span>docker ps -aqf <span class="s2">&quot;name=users-db&quot;</span><span class="k">)</span> psql -U postgres
-
-<span class="c"># \c users_dev</span>
-You are now connected to database <span class="s2">&quot;users_dev&quot;</span> as user <span class="s2">&quot;postgres&quot;</span>.
-
-<span class="c"># \dt</span>
-         List of relations
- Schema <span class="p">|</span> Name  <span class="p">|</span> Type  <span class="p">|</span>  Owner
---------+-------+-------+----------
- public <span class="p">|</span> users <span class="p">|</span> table <span class="p">|</span> postgres
-<span class="o">(</span><span class="m">1</span> row<span class="o">)</span>
-
-<span class="c"># \q</span>
-</code></pre></div>
-
-  <div class="page-nav">
-    
-      <a class="prev btn left-align" href="/part-one-docker-config">&laquo; Docker Config</a>
-    
-    
-      <a class="next btn right-align" href="/part-one-test-setup">Test Setup &raquo;</a>
-    
-  </div>
-
-</div>
-
-       </div>
-     </div>
-   </div>
-   <footer class="page-footer white">
-    <div class="container footer-container">
-      <div class="row">
-        <div class="col l6 s12">
-          <p class="">Content by Michael Herman (michael@realpython.com)</p>
         </div>
-        <div class="col l4 offset-l2 s12">
-          <ul>
-            <li>&copy; Copyright 2017 <a href="http://realpython.com">Real Python</a></li>
-          </ul>
-        </div>
+
       </div>
     </div>
-  </footer>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-</body>
-</html>
 
+     <footer class="page-footer white">
+  <div class="container footer-container">
+    <div class="row">
+      <div class="col l6 s12">
+        <p class="">Content by Michael Herman (michael@realpython.com)</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <ul>
+          <li>&copy; Copyright 2017 <a href="http://realpython.com">Real Python</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+  </body>
+</html>
