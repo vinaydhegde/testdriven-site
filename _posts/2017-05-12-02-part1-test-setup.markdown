@@ -3,6 +3,7 @@ title: Test Setup
 layout: post
 date: 2017-05-12 23:59:58
 permalink: part-one-test-setup
+share: true
 ---
 
 Let's get our tests up and running for this endpoint...

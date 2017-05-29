@@ -3,6 +3,7 @@ title: Getting Started
 layout: post
 date: 2017-05-11 23:59:58
 permalink: part-one-getting-started
+share: true
 ---
 
 In this lesson, we'll set up the base project structure and define the first service...

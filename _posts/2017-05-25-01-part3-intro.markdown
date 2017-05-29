@@ -4,6 +4,7 @@ layout: post
 date: 2017-05-25 23:59:59
 permalink: part-three-intro
 part: 3
+share: true
 ---
 
 By the end of part 3, you should be able to...

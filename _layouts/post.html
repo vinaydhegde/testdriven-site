@@ -20,6 +20,8 @@
 
           {{ content }}
 
+          {% include share.html %}
+
           <div class="page-nav">
             {% if page.previous.url %}
               <a class="prev btn left-align" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
@@ -36,6 +38,8 @@
           <h2>{{ page.title }}</h2>
 
           {{ content }}
+
+          {% include share.html %}
 
           <div class="page-nav">
             {% if page.previous.url %}

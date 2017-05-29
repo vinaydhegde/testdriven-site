@@ -3,6 +3,7 @@ title: Docker Config
 layout: post
 date: 2017-05-11 23:59:59
 permalink: part-one-docker-config
+share: true
 ---
 
 Let's containerize the Flask app...

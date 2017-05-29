@@ -3,6 +3,7 @@ title: RESTful Routes
 layout: post
 date: 2017-05-13 23:59:57
 permalink: part-one-restful-routes
+share: true
 ---
 
 Next, let's set up three new routes, following RESTful best practices, with TDD:

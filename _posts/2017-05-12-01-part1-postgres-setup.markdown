@@ -3,6 +3,7 @@ title: Postgres Setup
 layout: post
 date: 2017-05-12 23:59:57
 permalink: part-one-postgres-setup
+share: true
 ---
 
 In this lesson, we'll configure Postgres, get it up and running in another container, and link it to the `users-service` container...

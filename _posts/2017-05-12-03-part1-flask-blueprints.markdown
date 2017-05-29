@@ -3,13 +3,14 @@ title: Flask Blueprints
 layout: post
 date: 2017-05-12 23:59:59
 permalink: part-one-flask-blueprints
+share: true
 ---
 
 With tests in place, let's refactor the app, adding in Blueprints...
 
 ---
 
-> Unfamiliar with Blueprints? Check out the official Flask [documentation](http://flask.pocoo.org/docs/0.12/blueprints/). Essentially, they are self-contained components, used for encapsulating code, templates, and static files. 
+> Unfamiliar with Blueprints? Check out the official Flask [documentation](http://flask.pocoo.org/docs/0.12/blueprints/). Essentially, they are self-contained components, used for encapsulating code, templates, and static files.
 
 Create a new directory in "project" called "api", and add an *\_\_init\_\_.py* file along with *views.py* and *models.py*. Then within *views.py* add the following:
 

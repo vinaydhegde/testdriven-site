@@ -3,6 +3,7 @@ title: Deployment
 layout: post
 date: 2017-05-13 23:59:57
 permalink: part-one-aws-deployment
+share: true
 ---
 
 With the routes up and tested, let's get this app deployed!

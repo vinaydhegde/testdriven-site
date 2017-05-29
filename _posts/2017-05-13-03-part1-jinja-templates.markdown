@@ -3,6 +3,7 @@ title: Jinja Templates
 layout: post
 date: 2017-05-13 23:59:58
 permalink: part-one-jinja-templates
+share: true
 ---
 
 Instead of just serving up a JSON API, let's spice it up with server-side templates...
