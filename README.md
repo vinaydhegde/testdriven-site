@@ -42,4 +42,10 @@ Stateful containers should not come down. You should limit the number of these s
 
 ### What code is common amongst all the services?
 
-How can this be abstracted out to easily create a new service?
+Generator for-
+
+1. Auth
+1. service discovery
+1. RESTful routes
+1. Unit and Integration test boilerplate
+1. Config (via environment variables)
