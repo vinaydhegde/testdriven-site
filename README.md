@@ -19,10 +19,10 @@
 1. Outline part 3 - DONE
 1. code block responsiveness - DONE
 1. Styles - refactor Jekyll Structure - DONE
-1. Add check for understandings!
 1. Add social share buttons - DONE
+1. Add google analytics - DONE
+1. Add check for understandings!
 1. Add Microservices (basics, benefits, etc.) to part 1
-1. Add google analytics
 
 
 ## Microservices

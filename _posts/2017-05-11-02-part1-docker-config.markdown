@@ -28,6 +28,8 @@ $ docker-machine create -d virtualbox dev
 $ eval "$(docker-machine env dev)"
 ```
 
+> Learn more about the above command [here](https://stackoverflow.com/questions/40038572/eval-docker-machine-env-default/40040077#40040077).
+
 Add a *Dockerfile* to the root directory, making sure to review the code comments:
 
 ```
