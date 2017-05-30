@@ -1,5 +1,9 @@
 <head>
-  <title>{{ site.title }}</title>
+  {% if page.title != 'Microservices with Docker, Flask, and React' %}
+    <title>Microservices with Docker, Flask, and React - {{ page.title }}</title>
+  {% else %}
+    <title>{{site.title}}</title>
+  {% endif %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"

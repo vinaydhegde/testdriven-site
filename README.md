@@ -23,6 +23,7 @@
 1. Add google analytics - DONE
 1. Add check for understandings!
 1. Add Microservices (basics, benefits, etc.) to part 1
+1. ADD CI
 
 
 ## Microservices
