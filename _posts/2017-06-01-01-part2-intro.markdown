@@ -24,6 +24,13 @@ By the end of this part, you should be able to...
 1. Run the unit and integration tests with code coverage
 1. Work with each service independently without Docker
 1. Configure Travis CI for continuous integration testing
+1. Explain what React is
+1. Work with React running inside a Docker Container
+1. Create a Single Page Application with React components
+1. Use React props and state appropriately
+1. Manage the state of a React component via component lifecycle methods
+
+
 
 ---
 

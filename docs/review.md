@@ -17,4 +17,5 @@
 | 2    | Code Coverage          | N/A           | N/A         |
 | 2    | Continuous Integration | N/A           | N/A         |
 | 2    | React Setup            | N/A           | N/A         |
+| 2    | React and Docker       | N/A           | N/A         |
 | 3    | Introduction           | N/A           | N/A         |

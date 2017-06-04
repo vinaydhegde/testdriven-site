@@ -221,6 +221,16 @@
         </ul>
       
         
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-react-docker"
+            >React and Docker</a>
+          </li>
+        </ul>
+      
+        
           <li>
             <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
               Part 3
@@ -247,7 +257,136 @@
 
           <h2>React Setup</h2>
 
-          <p>Coming soon!</p>
+          <p>Let&#39;s turn our attention to the client-side and add <a href="https://facebook.github.io/react/">React</a>...</p>
+
+<hr>
+
+<p>React is a declarative, component-based, JavaScript library for building user interfaces.</p>
+
+<p>If you&#39;re new to React, review the <a href="https://facebook.github.io/react/docs/hello-world.html">Quick Start</a> and the excellent <a href="https://facebook.github.io/react/blog/2013/06/05/why-react.html">Why did we build React?</a> blog post. You may also want to step through the <a href="https://github.com/mjhea0/react-intro">Intro to React</a> tutorial. By the end of the tutorial, you should be able to:</p>
+
+<ol>
+<li>Explain what React is and how it compares to Angular</li>
+<li>Set up a modern React environment with Babel and Webpack</li>
+<li>Create and render a React component in the browser</li>
+</ol>
+
+<p>Make sure you have <a href="https://nodejs.org/en/">Node</a> and <a href="https://www.npmjs.com/">NPM</a> installed before continuing.</p>
+
+<h4 id="project-setup">Project Setup</h4>
+
+<p>We&#39;ll be using the excellent <a href="https://github.com/facebookincubator/create-react-app">Create React App</a> tool to generate a boilerplate that&#39;s all set up and ready to go.</p>
+
+<blockquote>
+<p>Make sure you understand what&#39;s happening beneath the scenes with Webpack and babel. For more, check out the <a href="https://github.com/mjhea0/react-intro">Intro to React</a> tutorial.</p>
+</blockquote>
+
+<p>Start by installing Create React App globally:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install create-react-app@1.3.0 --global
+</code></pre></div>
+<p>Navigate to the <em>flask-microservices-client</em> directory and create the boilerplate:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>create-react-app .
+</code></pre></div>
+<p>This will also install all dependencies. Once done, start the server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm start
+</code></pre></div>
+<p>Now we&#39;re ready build our first component!</p>
+
+<h4 id="first-component">First Component</h4>
+
+<p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the &quot;src&quot; folder, and then update index.js:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">import React from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+
+const App = () =&gt; {
+  return (
+    &lt;div className=&quot;container&quot;&gt;
+      &lt;div className=&quot;row&quot;&gt;
+        &lt;div className=&quot;col-md-4&quot;&gt;
+          &lt;br/&gt;
+          &lt;h1&gt;All Users&lt;/h1&gt;
+          &lt;hr/&gt;&lt;br/&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}
+
+ReactDOM.render(
+  &lt;App /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre></div>
+<p>What&#39;s happening?</p>
+
+<ol>
+<li>After importing the <code>React</code> and <code>ReactDom</code> classes, we created a functional component called <code>App</code>, which returns JSX.</li>
+<li><p>We then use the <code>render()</code> method from <code>ReactDOM</code> to mount the App to the DOM into the HTML element with an ID of <code>root</code>.</p>
+
+<blockquote>
+<p>Take note of <code>&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;</code> within the <em>index.html</em> file in the &quot;public&quot; folder.</p>
+</blockquote></li>
+</ol>
+
+<p>Add Bootstrap to <em>index.html</em> in the <code>head</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span>
+  <span class="na">href=</span><span class="s">&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span>
+  <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
+<span class="nt">&gt;</span>
+</code></pre></div>
+<h4 id="class-based-component">Class-based Component</h4>
+
+<p>Update <em>index.js</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">import React, { Component } from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+
+class App extends Component {
+  constructor() {
+    super()
+  }
+  render() {
+    return (
+      &lt;div className=&quot;container&quot;&gt;
+        &lt;div className=&quot;row&quot;&gt;
+          &lt;div className=&quot;col-md-4&quot;&gt;
+            &lt;br/&gt;
+            &lt;h1&gt;All Users&lt;/h1&gt;
+            &lt;hr/&gt;&lt;br/&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+ReactDOM.render(
+  &lt;App /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre></div>
+<p>What&#39;s happening?</p>
+
+<ol>
+<li>We created a class-based component, which runs automatically when an instance is created (behind the scenes).</li>
+<li>When ran, <code>super()</code> calls the constructor of <code>Component</code>, which <code>App</code> extends from.</li>
+</ol>
+
+<p>You may have already noticed, but the output is the exact same as before.</p>
+
+<h4 id="ajax">AJAX</h4>
+
+<p>Coming Soon!</p>
+
+<h4 id="component-lifecycle-methods">Component Lifecycle Methods</h4>
+
+<p>Coming Soon!</p>
+
+<h4 id="state">State</h4>
+
+<p>Coming Soon!</p>
+
+<h4 id="functional-component">Functional Component</h4>
+
+<p>Coming Soon!</p>
 
 
           
@@ -261,7 +400,7 @@
               <a class="prev btn left-align" href="/part-two-continuous-integration">&laquo; Continuous Integration</a>
             
             
-              <a class="next btn right-align" href="/part-three-intro">Introduction &raquo;</a>
+              <a class="next btn right-align" href="/part-two-react-docker">React and Docker &raquo;</a>
             
           </div>
 
@@ -271,7 +410,136 @@
 
           <h2>React Setup</h2>
 
-          <p>Coming soon!</p>
+          <p>Let&#39;s turn our attention to the client-side and add <a href="https://facebook.github.io/react/">React</a>...</p>
+
+<hr>
+
+<p>React is a declarative, component-based, JavaScript library for building user interfaces.</p>
+
+<p>If you&#39;re new to React, review the <a href="https://facebook.github.io/react/docs/hello-world.html">Quick Start</a> and the excellent <a href="https://facebook.github.io/react/blog/2013/06/05/why-react.html">Why did we build React?</a> blog post. You may also want to step through the <a href="https://github.com/mjhea0/react-intro">Intro to React</a> tutorial. By the end of the tutorial, you should be able to:</p>
+
+<ol>
+<li>Explain what React is and how it compares to Angular</li>
+<li>Set up a modern React environment with Babel and Webpack</li>
+<li>Create and render a React component in the browser</li>
+</ol>
+
+<p>Make sure you have <a href="https://nodejs.org/en/">Node</a> and <a href="https://www.npmjs.com/">NPM</a> installed before continuing.</p>
+
+<h4 id="project-setup">Project Setup</h4>
+
+<p>We&#39;ll be using the excellent <a href="https://github.com/facebookincubator/create-react-app">Create React App</a> tool to generate a boilerplate that&#39;s all set up and ready to go.</p>
+
+<blockquote>
+<p>Make sure you understand what&#39;s happening beneath the scenes with Webpack and babel. For more, check out the <a href="https://github.com/mjhea0/react-intro">Intro to React</a> tutorial.</p>
+</blockquote>
+
+<p>Start by installing Create React App globally:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install create-react-app@1.3.0 --global
+</code></pre></div>
+<p>Navigate to the <em>flask-microservices-client</em> directory and create the boilerplate:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>create-react-app .
+</code></pre></div>
+<p>This will also install all dependencies. Once done, start the server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm start
+</code></pre></div>
+<p>Now we&#39;re ready build our first component!</p>
+
+<h4 id="first-component">First Component</h4>
+
+<p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the &quot;src&quot; folder, and then update index.js:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">import React from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+
+const App = () =&gt; {
+  return (
+    &lt;div className=&quot;container&quot;&gt;
+      &lt;div className=&quot;row&quot;&gt;
+        &lt;div className=&quot;col-md-4&quot;&gt;
+          &lt;br/&gt;
+          &lt;h1&gt;All Users&lt;/h1&gt;
+          &lt;hr/&gt;&lt;br/&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  )
+}
+
+ReactDOM.render(
+  &lt;App /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre></div>
+<p>What&#39;s happening?</p>
+
+<ol>
+<li>After importing the <code>React</code> and <code>ReactDom</code> classes, we created a functional component called <code>App</code>, which returns JSX.</li>
+<li><p>We then use the <code>render()</code> method from <code>ReactDOM</code> to mount the App to the DOM into the HTML element with an ID of <code>root</code>.</p>
+
+<blockquote>
+<p>Take note of <code>&lt;div id=&quot;root&quot;&gt;&lt;/div&gt;</code> within the <em>index.html</em> file in the &quot;public&quot; folder.</p>
+</blockquote></li>
+</ol>
+
+<p>Add Bootstrap to <em>index.html</em> in the <code>head</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span>
+  <span class="na">href=</span><span class="s">&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span>
+  <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
+<span class="nt">&gt;</span>
+</code></pre></div>
+<h4 id="class-based-component">Class-based Component</h4>
+
+<p>Update <em>index.js</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">import React, { Component } from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+
+class App extends Component {
+  constructor() {
+    super()
+  }
+  render() {
+    return (
+      &lt;div className=&quot;container&quot;&gt;
+        &lt;div className=&quot;row&quot;&gt;
+          &lt;div className=&quot;col-md-4&quot;&gt;
+            &lt;br/&gt;
+            &lt;h1&gt;All Users&lt;/h1&gt;
+            &lt;hr/&gt;&lt;br/&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+ReactDOM.render(
+  &lt;App /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre></div>
+<p>What&#39;s happening?</p>
+
+<ol>
+<li>We created a class-based component, which runs automatically when an instance is created (behind the scenes).</li>
+<li>When ran, <code>super()</code> calls the constructor of <code>Component</code>, which <code>App</code> extends from.</li>
+</ol>
+
+<p>You may have already noticed, but the output is the exact same as before.</p>
+
+<h4 id="ajax">AJAX</h4>
+
+<p>Coming Soon!</p>
+
+<h4 id="component-lifecycle-methods">Component Lifecycle Methods</h4>
+
+<p>Coming Soon!</p>
+
+<h4 id="state">State</h4>
+
+<p>Coming Soon!</p>
+
+<h4 id="functional-component">Functional Component</h4>
+
+<p>Coming Soon!</p>
 
 
           
@@ -285,7 +553,7 @@
               <a class="prev btn left-align" href="/part-two-continuous-integration">&laquo; Continuous Integration</a>
             
             
-              <a class="next btn right-align" href="/part-three-intro">Introduction &raquo;</a>
+              <a class="next btn right-align" href="/part-two-react-docker">React and Docker &raquo;</a>
             
           </div>
 
