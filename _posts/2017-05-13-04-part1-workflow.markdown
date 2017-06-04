@@ -89,19 +89,19 @@ $ docker-compose up -d
 Create the database:
 
 ```sh
-$ docker-compose run names-service python manage.py recreate_db
+$ docker-compose run users-service python manage.py recreate_db
 ```
 
 Seed the database:
 
 ```sh
-$ docker-compose run names-service python manage.py seed_db
+$ docker-compose run users-service python manage.py seed_db
 ```
 
 Run the tests:
 
 ```sh
-$ docker-compose run names-service python manage.py test
+$ docker-compose run users-service python manage.py test
 ```
 
 #### Other commands

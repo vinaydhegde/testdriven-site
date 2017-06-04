@@ -1,7 +1,7 @@
 ---
 title: Introduction
 layout: post
-date: 2017-05-25 23:59:59
+date: 2017-06-25 23:59:59
 permalink: part-three-intro
 part: 3
 share: true
