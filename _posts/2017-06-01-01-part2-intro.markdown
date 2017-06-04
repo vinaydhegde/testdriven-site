@@ -9,7 +9,7 @@ share: true
 
 In Part 2, we'll split the project into three distinct projects. We'll also add *code coverage* and *continuous integration* testing to ensure that each service can be run and tested independently from the whole. Finally, we'll add *ReactJS* to the client-side.
 
-**Structure**:
+#### Structure
 
 1. *flask-microservices-main* - Docker Compose files, Nginx, admin scripts
 1. *flask-microservices-users* - Flask app
@@ -23,6 +23,7 @@ By the end of this part, you should be able to...
 1. Utilize a git repo as the "build context" for Docker Compose
 1. Run the unit and integration tests with code coverage
 1. Work with each service independently without Docker
+1. Configure Travis CI for continuous integration testing
 
 ---
 

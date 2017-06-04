@@ -247,7 +247,62 @@
 
           <h2>Continuous Integration</h2>
 
-          <p>Coming soon!</p>
+          <p>In this lesson, we&#39;ll add continuous integration (CI), via <a href="travis-ci.org">Travis CI</a>, to our projects...</p>
+
+<hr>
+
+<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a>, to enable Travis on the <em>flask-microservices-users</em> project.</p>
+
+<p>To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">language: python
+
+python:
+  - &quot;3.6&quot;
+
+service:
+  - postgresql
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - export APP_SETTINGS=&quot;project.config.TestingConfig&quot;
+  - export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test
+  - psql -c &#39;create database users_test;&#39; -U postgres
+  - python manage.py recreate_db
+
+script:
+  - python manage.py test
+</code></pre></div>
+<p>Commit your changes, and then push to GitHub. This should trigger a new build, which should pass.</p>
+
+<p>With that, let&#39;s turn to <em>flask-microservices-main</em>. We need to get CI configured on this project as well. Here, we&#39;ll test out all services with Docker.</p>
+
+<p>Enable Travis, and add a a <em>.travis.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo: required
+
+services:
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.11.2
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+before_script:
+  - docker-compose up --build -d
+
+script:
+  - docker-compose run users-service python manage.py test
+
+after_script:
+  - docker-compose down
+</code></pre></div>
+<p>Commit. Push to GitHub. Make sure the build passes before moving on.</p>
 
 
           
@@ -271,7 +326,62 @@
 
           <h2>Continuous Integration</h2>
 
-          <p>Coming soon!</p>
+          <p>In this lesson, we&#39;ll add continuous integration (CI), via <a href="travis-ci.org">Travis CI</a>, to our projects...</p>
+
+<hr>
+
+<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a>, to enable Travis on the <em>flask-microservices-users</em> project.</p>
+
+<p>To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">language: python
+
+python:
+  - &quot;3.6&quot;
+
+service:
+  - postgresql
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - export APP_SETTINGS=&quot;project.config.TestingConfig&quot;
+  - export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test
+  - psql -c &#39;create database users_test;&#39; -U postgres
+  - python manage.py recreate_db
+
+script:
+  - python manage.py test
+</code></pre></div>
+<p>Commit your changes, and then push to GitHub. This should trigger a new build, which should pass.</p>
+
+<p>With that, let&#39;s turn to <em>flask-microservices-main</em>. We need to get CI configured on this project as well. Here, we&#39;ll test out all services with Docker.</p>
+
+<p>Enable Travis, and add a a <em>.travis.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo: required
+
+services:
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.11.2
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+before_script:
+  - docker-compose up --build -d
+
+script:
+  - docker-compose run users-service python manage.py test
+
+after_script:
+  - docker-compose down
+</code></pre></div>
+<p>Commit. Push to GitHub. Make sure the build passes before moving on.</p>
 
 
           
