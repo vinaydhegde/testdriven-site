@@ -215,8 +215,8 @@
           <li>
             <a
               class="collection-item"
-              href="/part-two-react"
-            >React</a>
+              href="/part-two-react-setup"
+            >React Setup</a>
           </li>
         </ul>
       
@@ -247,8 +247,211 @@
 
           <h2>Code Coverage</h2>
 
-          <p>Coming soon!</p>
+          <p>In this lesson, we&#39;ll add code coverage via <a href="http://coverage.readthedocs.io/en/coverage-4.4.1/">Coverage.py</a> to the <em>flask-microservices-users</em> project...</p>
 
+<hr>
+
+<p>Navigate to the <em>flask-microservices-users</em> project directory, create and activate a virtual environment, and then install Coverage.py:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python3.6 -m venv env
+<span class="nv">$ </span><span class="nb">source </span>env/bin/activate
+<span class="nv">$ </span>pip install <span class="nv">coverage</span><span class="o">==</span>4.4.1
+<span class="nv">$ </span>pip freeze &gt; requirements.txt
+</code></pre></div>
+<p>From there, we need to configure the coverage reports in <em>manage.py</em>. Start by adding the configuration right after the imports:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">COV</span> <span class="o">=</span> <span class="n">coverage</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span>
+    <span class="n">branch</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">include</span><span class="o">=</span><span class="s">&#39;project/*&#39;</span><span class="p">,</span>
+    <span class="n">omit</span><span class="o">=</span><span class="p">[</span>
+        <span class="s">&#39;project/tests/*&#39;</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">COV</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+<p>Then add the new manager command:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">cov</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Runs the unit tests with coverage.&quot;&quot;&quot;</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Coverage Summary:&#39;</span><span class="p">)</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">report</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">html_report</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">erase</span><span class="p">()</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+</code></pre></div>
+<p>Don&#39;t forget the import!</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">coverage</span>
+</code></pre></div>
+<p>The file should now look like:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># manage.py</span>
+
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">coverage</span>
+
+<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">create_app</span><span class="p">,</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
+
+
+<span class="n">COV</span> <span class="o">=</span> <span class="n">coverage</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span>
+    <span class="n">branch</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">include</span><span class="o">=</span><span class="s">&#39;project/*&#39;</span><span class="p">,</span>
+    <span class="n">omit</span><span class="o">=</span><span class="p">[</span>
+        <span class="s">&#39;project/tests/*&#39;</span><span class="p">,</span>
+        <span class="s">&#39;project/server/config.py&#39;</span><span class="p">,</span>
+        <span class="s">&#39;project/server/*/__init__.py&#39;</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">COV</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Runs the unit tests without test coverage.&quot;&quot;&quot;</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#39;test*.py&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">cov</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Runs the unit tests with coverage.&quot;&quot;&quot;</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Coverage Summary:&#39;</span><span class="p">)</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">report</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">html_report</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">erase</span><span class="p">()</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Recreates a database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">seed_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Seeds the database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&quot;michael@realpython.com&quot;</span><span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">&#39;michaelherman&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&quot;michael@mherman.org&quot;</span><span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="sanity-check">Sanity Check</h4>
+
+<p>Finally, let&#39;s make sure we can run and test this project in isolation, without Docker Compose.</p>
+
+<p>First, set up Postgres and create the databases - <code>users_dev</code> and <code>users_test</code>, and then add the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">APP_SETTINGS</span><span class="o">=</span>project.config.DevelopmentConfig
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_dev
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_TEST_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_test
+</code></pre></div>
+<blockquote>
+<p>You may need to change the username and password depending on your local Postgres config.</p>
+</blockquote>
+
+<p>Create and seed the local database and run the tests (without coverage):</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py recreate_db
+<span class="nv">$ </span>python manage.py seed_db
+<span class="nv">$ </span>python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>You should see two failures:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">======================================================================</span>
+FAIL: test_app_is_development <span class="o">(</span>test_config.TestDevelopmentConfig<span class="o">)</span>
+----------------------------------------------------------------------
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&quot;flask-microservices-users/project/tests/test_config.py&quot;</span>, line 25, in test_app_is_development
+    <span class="s1">&#39;postgres://postgres:postgres@users-db:5432/users_dev&#39;</span>
+AssertionError: False is not <span class="nb">true</span>
+
+<span class="o">======================================================================</span>
+FAIL: test_app_is_testing <span class="o">(</span>test_config.TestTestingConfig<span class="o">)</span>
+----------------------------------------------------------------------
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&quot;flask-microservices-users/project/tests/test_config.py&quot;</span>, line 41, in test_app_is_testing
+    <span class="s1">&#39;postgres://postgres:postgres@users-db:5432/users_test&#39;</span>
+AssertionError: False is not <span class="nb">true</span>
+
+----------------------------------------------------------------------
+Ran <span class="m">15</span> tests in 0.330s
+</code></pre></div>
+<p>Open <em>test_config.py</em>. Right now we&#39;re hard-coding the database URI. Let&#39;s pull the URI from the environment variable instead, so the config will <a href="https://12factor.net/config">scale a bit cleaner</a> across environments.</p>
+
+<p><code>test_app_is_development()</code>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_app_is_development</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+<p><code>test_app_is_testing()</code>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_app_is_testing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_TEST_URL&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+<p>Add the import:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+</code></pre></div>
+<p>The tests should now pass. Try running them with coverage:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py cov
+</code></pre></div>
+<p>You should see something like:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">Coverage Summary:
+Name                    Stmts   Miss Branch BrPart  Cover
+---------------------------------------------------------
+project/__init__.py        <span class="m">12</span>      <span class="m">5</span>      <span class="m">0</span>      <span class="m">0</span>    58%
+project/api/models.py      <span class="m">13</span>     <span class="m">10</span>      <span class="m">0</span>      <span class="m">0</span>    23%
+project/api/views.py       <span class="m">53</span>      <span class="m">0</span>     <span class="m">10</span>      <span class="m">0</span>   100%
+project/config.py          <span class="m">16</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
+---------------------------------------------------------
+TOTAL                      <span class="m">94</span>     <span class="m">15</span>     <span class="m">10</span>      <span class="m">0</span>    86%
+</code></pre></div>
+<p>The web version can be viewed within the newly created &quot;htmlcov&quot; directory. Add this directory to the <em>.gitignore</em> file, commit your code, and push it to GitHub.</p>
+
+<p>Let&#39;s now run a quick sanity check using Docker Compose. Deactivate the virtual environment in <em>flask-microservices-users</em>, navigate to the <em>flask-microservices-main</em> project directory, make sure the active machine is <code>dev</code> (via <code>docker-machine ls</code>), and then update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Run the tests with coverage:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+</code></pre></div>
+<p>Finally, switch over to the <code>aws</code> machine, update the containers, and then test with coverage:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py cov
+</code></pre></div>
 
           
   <br><br>
@@ -271,8 +474,211 @@
 
           <h2>Code Coverage</h2>
 
-          <p>Coming soon!</p>
+          <p>In this lesson, we&#39;ll add code coverage via <a href="http://coverage.readthedocs.io/en/coverage-4.4.1/">Coverage.py</a> to the <em>flask-microservices-users</em> project...</p>
 
+<hr>
+
+<p>Navigate to the <em>flask-microservices-users</em> project directory, create and activate a virtual environment, and then install Coverage.py:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python3.6 -m venv env
+<span class="nv">$ </span><span class="nb">source </span>env/bin/activate
+<span class="nv">$ </span>pip install <span class="nv">coverage</span><span class="o">==</span>4.4.1
+<span class="nv">$ </span>pip freeze &gt; requirements.txt
+</code></pre></div>
+<p>From there, we need to configure the coverage reports in <em>manage.py</em>. Start by adding the configuration right after the imports:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">COV</span> <span class="o">=</span> <span class="n">coverage</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span>
+    <span class="n">branch</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">include</span><span class="o">=</span><span class="s">&#39;project/*&#39;</span><span class="p">,</span>
+    <span class="n">omit</span><span class="o">=</span><span class="p">[</span>
+        <span class="s">&#39;project/tests/*&#39;</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">COV</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre></div>
+<p>Then add the new manager command:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">cov</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Runs the unit tests with coverage.&quot;&quot;&quot;</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Coverage Summary:&#39;</span><span class="p">)</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">report</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">html_report</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">erase</span><span class="p">()</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+</code></pre></div>
+<p>Don&#39;t forget the import!</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">coverage</span>
+</code></pre></div>
+<p>The file should now look like:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># manage.py</span>
+
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">coverage</span>
+
+<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">create_app</span><span class="p">,</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
+
+
+<span class="n">COV</span> <span class="o">=</span> <span class="n">coverage</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span>
+    <span class="n">branch</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">include</span><span class="o">=</span><span class="s">&#39;project/*&#39;</span><span class="p">,</span>
+    <span class="n">omit</span><span class="o">=</span><span class="p">[</span>
+        <span class="s">&#39;project/tests/*&#39;</span><span class="p">,</span>
+        <span class="s">&#39;project/server/config.py&#39;</span><span class="p">,</span>
+        <span class="s">&#39;project/server/*/__init__.py&#39;</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">COV</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Runs the unit tests without test coverage.&quot;&quot;&quot;</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&#39;test*.py&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">cov</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Runs the unit tests with coverage.&quot;&quot;&quot;</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">&#39;project/tests&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Coverage Summary:&#39;</span><span class="p">)</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">report</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">html_report</span><span class="p">()</span>
+        <span class="n">COV</span><span class="o">.</span><span class="n">erase</span><span class="p">()</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Recreates a database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">seed_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Seeds the database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&quot;michael@realpython.com&quot;</span><span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">&#39;michaelherman&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&quot;michael@mherman.org&quot;</span><span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="sanity-check">Sanity Check</h4>
+
+<p>Finally, let&#39;s make sure we can run and test this project in isolation, without Docker Compose.</p>
+
+<p>First, set up Postgres and create the databases - <code>users_dev</code> and <code>users_test</code>, and then add the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">APP_SETTINGS</span><span class="o">=</span>project.config.DevelopmentConfig
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_dev
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_TEST_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_test
+</code></pre></div>
+<blockquote>
+<p>You may need to change the username and password depending on your local Postgres config.</p>
+</blockquote>
+
+<p>Create and seed the local database and run the tests (without coverage):</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py recreate_db
+<span class="nv">$ </span>python manage.py seed_db
+<span class="nv">$ </span>python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>You should see two failures:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">======================================================================</span>
+FAIL: test_app_is_development <span class="o">(</span>test_config.TestDevelopmentConfig<span class="o">)</span>
+----------------------------------------------------------------------
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&quot;flask-microservices-users/project/tests/test_config.py&quot;</span>, line 25, in test_app_is_development
+    <span class="s1">&#39;postgres://postgres:postgres@users-db:5432/users_dev&#39;</span>
+AssertionError: False is not <span class="nb">true</span>
+
+<span class="o">======================================================================</span>
+FAIL: test_app_is_testing <span class="o">(</span>test_config.TestTestingConfig<span class="o">)</span>
+----------------------------------------------------------------------
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+  File <span class="s2">&quot;flask-microservices-users/project/tests/test_config.py&quot;</span>, line 41, in test_app_is_testing
+    <span class="s1">&#39;postgres://postgres:postgres@users-db:5432/users_test&#39;</span>
+AssertionError: False is not <span class="nb">true</span>
+
+----------------------------------------------------------------------
+Ran <span class="m">15</span> tests in 0.330s
+</code></pre></div>
+<p>Open <em>test_config.py</em>. Right now we&#39;re hard-coding the database URI. Let&#39;s pull the URI from the environment variable instead, so the config will <a href="https://12factor.net/config">scale a bit cleaner</a> across environments.</p>
+
+<p><code>test_app_is_development()</code>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_app_is_development</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+<p><code>test_app_is_testing()</code>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_app_is_testing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SECRET_KEY&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="s">&#39;my_precious&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DEBUG&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;SQLALCHEMY_DATABASE_URI&#39;</span><span class="p">]</span> <span class="o">==</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DATABASE_TEST_URL&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+<p>Add the import:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+</code></pre></div>
+<p>The tests should now pass. Try running them with coverage:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py cov
+</code></pre></div>
+<p>You should see something like:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">Coverage Summary:
+Name                    Stmts   Miss Branch BrPart  Cover
+---------------------------------------------------------
+project/__init__.py        <span class="m">12</span>      <span class="m">5</span>      <span class="m">0</span>      <span class="m">0</span>    58%
+project/api/models.py      <span class="m">13</span>     <span class="m">10</span>      <span class="m">0</span>      <span class="m">0</span>    23%
+project/api/views.py       <span class="m">53</span>      <span class="m">0</span>     <span class="m">10</span>      <span class="m">0</span>   100%
+project/config.py          <span class="m">16</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
+---------------------------------------------------------
+TOTAL                      <span class="m">94</span>     <span class="m">15</span>     <span class="m">10</span>      <span class="m">0</span>    86%
+</code></pre></div>
+<p>The web version can be viewed within the newly created &quot;htmlcov&quot; directory. Add this directory to the <em>.gitignore</em> file, commit your code, and push it to GitHub.</p>
+
+<p>Let&#39;s now run a quick sanity check using Docker Compose. Deactivate the virtual environment in <em>flask-microservices-users</em>, navigate to the <em>flask-microservices-main</em> project directory, make sure the active machine is <code>dev</code> (via <code>docker-machine ls</code>), and then update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Run the tests with coverage:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+</code></pre></div>
+<p>Finally, switch over to the <code>aws</code> machine, update the containers, and then test with coverage:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py cov
+</code></pre></div>
 
           
   <br><br>

@@ -17,6 +17,8 @@ In this tutorial, you'll learn how to quickly spin up a reproducible development
 
 This series uses the following tools and technologies:
 
+**Part 1**
+
 1. Python v3.6.1
 1. Flask v0.12.2
 1. Flask-Script v2.0.5
@@ -27,6 +29,10 @@ This series uses the following tools and technologies:
 1. Docker v17.03.1-ce
 1. Docker Compose v1.11.2
 1. Docker Machine v0.10.0
+
+**Part 2**
+
+1. Coverage.py v4.4.1
 
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 
