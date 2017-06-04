@@ -358,6 +358,7 @@ class App extends Component {
     )
   }
 }
+
 ReactDOM.render(
   &lt;App /&gt;,
   document.getElementById(&#39;root&#39;)
@@ -374,7 +375,56 @@ ReactDOM.render(
 
 <h4 id="ajax">AJAX</h4>
 
-<p>Coming Soon!</p>
+<p>To connect the client to the server, add a <code>getUsers()</code> method to the <code>App</code> class:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Install <a href="https://github.com/mzabriskie/axios">Axios</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">npm install axios@0.16.2 --save
+</code></pre></div>
+<p>Add the import:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>You should now have:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">import React, { Component } from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+import axios from &#39;axios&#39;;
+
+class App extends Component {
+  constructor() {
+    super()
+  }
+  getUsers() {
+    axios.get(`${process.env.USERS_SERVICE_URL}/users`)
+    .then((res) =&gt; { console.log(res); })
+    .catch((err) =&gt; { console.log(err); })
+  }
+  render() {
+    return (
+      &lt;div className=&quot;container&quot;&gt;
+        &lt;div className=&quot;row&quot;&gt;
+          &lt;div className=&quot;col-md-4&quot;&gt;
+            &lt;br/&gt;
+            &lt;h1&gt;All Users&lt;/h1&gt;
+            &lt;hr/&gt;&lt;br/&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+
+ReactDOM.render(
+  &lt;App /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre></div>
+<p>Run Flask... and then add the environment variable... <code>process.env.USERS_SERVICE_URL</code></p>
+
+<p>WIP</p>
 
 <h4 id="component-lifecycle-methods">Component Lifecycle Methods</h4>
 
@@ -511,6 +561,7 @@ class App extends Component {
     )
   }
 }
+
 ReactDOM.render(
   &lt;App /&gt;,
   document.getElementById(&#39;root&#39;)
@@ -527,7 +578,56 @@ ReactDOM.render(
 
 <h4 id="ajax">AJAX</h4>
 
-<p>Coming Soon!</p>
+<p>To connect the client to the server, add a <code>getUsers()</code> method to the <code>App</code> class:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Install <a href="https://github.com/mzabriskie/axios">Axios</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">npm install axios@0.16.2 --save
+</code></pre></div>
+<p>Add the import:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>You should now have:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">import React, { Component } from &#39;react&#39;;
+import ReactDOM from &#39;react-dom&#39;;
+import axios from &#39;axios&#39;;
+
+class App extends Component {
+  constructor() {
+    super()
+  }
+  getUsers() {
+    axios.get(`${process.env.USERS_SERVICE_URL}/users`)
+    .then((res) =&gt; { console.log(res); })
+    .catch((err) =&gt; { console.log(err); })
+  }
+  render() {
+    return (
+      &lt;div className=&quot;container&quot;&gt;
+        &lt;div className=&quot;row&quot;&gt;
+          &lt;div className=&quot;col-md-4&quot;&gt;
+            &lt;br/&gt;
+            &lt;h1&gt;All Users&lt;/h1&gt;
+            &lt;hr/&gt;&lt;br/&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+
+ReactDOM.render(
+  &lt;App /&gt;,
+  document.getElementById(&#39;root&#39;)
+);
+</code></pre></div>
+<p>Run Flask... and then add the environment variable... <code>process.env.USERS_SERVICE_URL</code></p>
+
+<p>WIP</p>
 
 <h4 id="component-lifecycle-methods">Component Lifecycle Methods</h4>
 
