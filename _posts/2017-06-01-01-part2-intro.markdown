@@ -7,7 +7,7 @@ part: 2
 share: true
 ---
 
-In Part 2, we'll split the project into three distinct projects. We'll also add *code coverage* and [CircleCI](https://circleci.com/) to each repo to ensure that each service can be run and tested independently from the whole. Finally, we'll add *ReactJS* to the client-side.
+In Part 2, we'll split the project into three distinct projects. We'll also add *code coverage* and *continuous integration* testing to ensure that each service can be run and tested independently from the whole. Finally, we'll add *ReactJS* to the client-side.
 
 **Structure**:
 

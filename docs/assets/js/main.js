@@ -29,7 +29,7 @@ $(function() {
 function setSideBarDisplay(obj, top) {
   var y = $(window).scrollTop();
   if (y >= top - 51) {
-    obj.css('position', 'fixed').css('top', '45px');
+    obj.css('position', 'fixed').css('top', '45px').css('max-width', '150px');
   } else {
     obj.css('position', 'static').css('top', '0px');
   }
