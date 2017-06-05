@@ -33,6 +33,8 @@ This series uses the following tools and technologies:
 **Part 2**
 
 1. Coverage.py v4.4.1
+1. Node v7.10.0
+1. NPM v4.2.0
 1. Create React App v1.3.0
 1. Axios v0.16.2
 

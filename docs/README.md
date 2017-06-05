@@ -25,6 +25,8 @@
 1. Add check for understandings!
 1. Add Microservices (basics, benefits, etc.) to part 1
 1. Add CI/CD - open pr, test, merge, test, deploy
+1. Add JSX and es6 lexers to pygments
+1. Paywall
 
 
 

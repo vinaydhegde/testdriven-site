@@ -271,8 +271,12 @@
 <li>Create and render a React component in the browser</li>
 </ol>
 
-<p>Make sure you have <a href="https://nodejs.org/en/">Node</a> and <a href="https://www.npmjs.com/">NPM</a> installed before continuing.</p>
-
+<p>Make sure you have <a href="https://nodejs.org/en/">Node</a> and <a href="https://www.npmjs.com/">NPM</a> installed before continuing:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>node -v
+v7.10.0
+<span class="nv">$ </span>npm -v
+4.2.0
+</code></pre></div>
 <h4 id="project-setup">Project Setup</h4>
 
 <p>We&#39;ll be using the excellent <a href="https://github.com/facebookincubator/create-react-app">Create React App</a> tool to generate a boilerplate that&#39;s all set up and ready to go.</p>
@@ -377,7 +381,7 @@ ReactDOM.render(
 
 <p>To connect the client to the server, add a <code>getUsers()</code> method to the <code>App</code> class:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">})</span>
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
 <span class="p">}</span>
@@ -398,7 +402,7 @@ class App extends Component {
     super()
   }
   getUsers() {
-    axios.get(`${process.env.USERS_SERVICE_URL}/users`)
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
     .then((res) =&gt; { console.log(res); })
     .catch((err) =&gt; { console.log(err); })
   }
@@ -422,7 +426,34 @@ ReactDOM.render(
   document.getElementById(&#39;root&#39;)
 );
 </code></pre></div>
-<p>Run Flask... and then add the environment variable... <code>process.env.USERS_SERVICE_URL</code></p>
+<p>To connect this to Flask, open a new terminal window, navigate to the <em>flask-microservices-users</em>, activate the virtual environment, and set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source </span>env/bin/activate
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">APP_SETTINGS</span><span class="o">=</span>project.config.DevelopmentConfig
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_dev
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_TEST_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_test
+</code></pre></div>
+<blockquote>
+<p>You may need to change the username and password depending on your local Postgres config.</p>
+</blockquote>
+
+<p>With your local Postgres server running, create and seed the local database and run the server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py recreate_db
+<span class="nv">$ </span>python manage.py seed_db
+<span class="nv">$ </span>python manage.py runserver -p 5555
+</code></pre></div>
+<p>Your server should be listening on <a href="http://localhost:5555">http://localhost:5555</a>. Navigate to <a href="http://localhost:5555/users">http://localhost:5555/users</a> in your browser to test.</p>
+
+<p>Turning back to React, we need to add the <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">environment variable</a> <code>process.env.REACT_APP_USERS_SERVICE_URL</code>. Kill the Create React App server, and then run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://localhost:5555
+</code></pre></div>
+<blockquote>
+<p>All custom environment variables must begin with <code>REACT_APP_</code>. For more, check out the <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">official docs</a>.</p>
+</blockquote>
+
+<p>Run the server - via <code>npm start</code> - and then within <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>, open the JavaScript Console. You should see the following error:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">XMLHttpRequest cannot load http://localhost:5555/users. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:3000&#39; is therefore not allowed access.
+</code></pre></div>
+<p>In short, we&#39;re making <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-origin</a> AJAX request (from <code>http://localhost:3000</code> to <code>http://localhost:5555</code>), which is a violation of the browsers &quot;same origin policy&quot;. Let&#39;s use the <a href="https://flask-cors.readthedocs.io/en/latest/">Flask-CORS</a> extension to handle this...</p>
 
 <p>WIP</p>
 
@@ -474,8 +505,12 @@ ReactDOM.render(
 <li>Create and render a React component in the browser</li>
 </ol>
 
-<p>Make sure you have <a href="https://nodejs.org/en/">Node</a> and <a href="https://www.npmjs.com/">NPM</a> installed before continuing.</p>
-
+<p>Make sure you have <a href="https://nodejs.org/en/">Node</a> and <a href="https://www.npmjs.com/">NPM</a> installed before continuing:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>node -v
+v7.10.0
+<span class="nv">$ </span>npm -v
+4.2.0
+</code></pre></div>
 <h4 id="project-setup">Project Setup</h4>
 
 <p>We&#39;ll be using the excellent <a href="https://github.com/facebookincubator/create-react-app">Create React App</a> tool to generate a boilerplate that&#39;s all set up and ready to go.</p>
@@ -580,7 +615,7 @@ ReactDOM.render(
 
 <p>To connect the client to the server, add a <code>getUsers()</code> method to the <code>App</code> class:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">})</span>
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
 <span class="p">}</span>
@@ -601,7 +636,7 @@ class App extends Component {
     super()
   }
   getUsers() {
-    axios.get(`${process.env.USERS_SERVICE_URL}/users`)
+    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
     .then((res) =&gt; { console.log(res); })
     .catch((err) =&gt; { console.log(err); })
   }
@@ -625,7 +660,34 @@ ReactDOM.render(
   document.getElementById(&#39;root&#39;)
 );
 </code></pre></div>
-<p>Run Flask... and then add the environment variable... <code>process.env.USERS_SERVICE_URL</code></p>
+<p>To connect this to Flask, open a new terminal window, navigate to the <em>flask-microservices-users</em>, activate the virtual environment, and set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source </span>env/bin/activate
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">APP_SETTINGS</span><span class="o">=</span>project.config.DevelopmentConfig
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_dev
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_TEST_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_test
+</code></pre></div>
+<blockquote>
+<p>You may need to change the username and password depending on your local Postgres config.</p>
+</blockquote>
+
+<p>With your local Postgres server running, create and seed the local database and run the server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py recreate_db
+<span class="nv">$ </span>python manage.py seed_db
+<span class="nv">$ </span>python manage.py runserver -p 5555
+</code></pre></div>
+<p>Your server should be listening on <a href="http://localhost:5555">http://localhost:5555</a>. Navigate to <a href="http://localhost:5555/users">http://localhost:5555/users</a> in your browser to test.</p>
+
+<p>Turning back to React, we need to add the <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">environment variable</a> <code>process.env.REACT_APP_USERS_SERVICE_URL</code>. Kill the Create React App server, and then run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://localhost:5555
+</code></pre></div>
+<blockquote>
+<p>All custom environment variables must begin with <code>REACT_APP_</code>. For more, check out the <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">official docs</a>.</p>
+</blockquote>
+
+<p>Run the server - via <code>npm start</code> - and then within <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>, open the JavaScript Console. You should see the following error:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">XMLHttpRequest cannot load http://localhost:5555/users. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:3000&#39; is therefore not allowed access.
+</code></pre></div>
+<p>In short, we&#39;re making <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-origin</a> AJAX request (from <code>http://localhost:3000</code> to <code>http://localhost:5555</code>), which is a violation of the browsers &quot;same origin policy&quot;. Let&#39;s use the <a href="https://flask-cors.readthedocs.io/en/latest/">Flask-CORS</a> extension to handle this...</p>
 
 <p>WIP</p>
 
