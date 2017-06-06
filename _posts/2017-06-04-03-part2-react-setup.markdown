@@ -467,4 +467,4 @@ render() {
 }
 ```
 
-Review the code in each compenent and add comments as necessary.
+Review the code in each component and add comments as necessary. Commit your code.
