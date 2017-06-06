@@ -225,6 +225,26 @@
           <li>
             <a
               class="collection-item"
+              href="/part-two-flask-deployment"
+            >Flask Deployment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-react-forms"
+            >React Forms</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
               href="/part-two-react-docker"
             >React and Docker</a>
           </li>
@@ -264,8 +284,8 @@
 <p>Navigate to the <em>flask-microservices-users</em> project directory, create and activate a virtual environment, and then install Coverage.py:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python3.6 -m venv env
 <span class="nv">$ </span><span class="nb">source </span>env/bin/activate
-<span class="nv">$ </span>pip install <span class="nv">coverage</span><span class="o">==</span>4.4.1
-<span class="nv">$ </span>pip freeze &gt; requirements.txt
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip install <span class="nv">coverage</span><span class="o">==</span>4.4.1
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip freeze &gt; requirements.txt
 </code></pre></div>
 <p>From there, we need to configure the coverage reports in <em>manage.py</em>. Start by adding the configuration right after the imports:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">COV</span> <span class="o">=</span> <span class="n">coverage</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span>
@@ -375,18 +395,18 @@
 <p>Finally, let&#39;s make sure we can run and test this project in isolation, without Docker Compose.</p>
 
 <p>First, set up Postgres and create the databases - <code>users_dev</code> and <code>users_test</code>, and then add the environment variables:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">APP_SETTINGS</span><span class="o">=</span>project.config.DevelopmentConfig
-<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_dev
-<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_TEST_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_test
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span><span class="nb">export </span><span class="nv">APP_SETTINGS</span><span class="o">=</span>project.config.DevelopmentConfig
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_dev
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_TEST_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_test
 </code></pre></div>
 <blockquote>
 <p>You may need to change the username and password depending on your local Postgres config.</p>
 </blockquote>
 
 <p>Create and seed the local database and run the tests (without coverage):</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py recreate_db
-<span class="nv">$ </span>python manage.py seed_db
-<span class="nv">$ </span>python manage.py <span class="nb">test</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py recreate_db
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py seed_db
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>You should see two failures:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">======================================================================</span>
@@ -435,7 +455,7 @@ Ran <span class="m">15</span> tests in 0.330s
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
 </code></pre></div>
 <p>The tests should now pass. Try running them with coverage:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py cov
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py cov
 </code></pre></div>
 <p>You should see something like:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">Coverage Summary:
@@ -491,8 +511,8 @@ TOTAL                      <span class="m">94</span>     <span class="m">15</spa
 <p>Navigate to the <em>flask-microservices-users</em> project directory, create and activate a virtual environment, and then install Coverage.py:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python3.6 -m venv env
 <span class="nv">$ </span><span class="nb">source </span>env/bin/activate
-<span class="nv">$ </span>pip install <span class="nv">coverage</span><span class="o">==</span>4.4.1
-<span class="nv">$ </span>pip freeze &gt; requirements.txt
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip install <span class="nv">coverage</span><span class="o">==</span>4.4.1
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip freeze &gt; requirements.txt
 </code></pre></div>
 <p>From there, we need to configure the coverage reports in <em>manage.py</em>. Start by adding the configuration right after the imports:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">COV</span> <span class="o">=</span> <span class="n">coverage</span><span class="o">.</span><span class="n">coverage</span><span class="p">(</span>
@@ -602,18 +622,18 @@ TOTAL                      <span class="m">94</span>     <span class="m">15</spa
 <p>Finally, let&#39;s make sure we can run and test this project in isolation, without Docker Compose.</p>
 
 <p>First, set up Postgres and create the databases - <code>users_dev</code> and <code>users_test</code>, and then add the environment variables:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">APP_SETTINGS</span><span class="o">=</span>project.config.DevelopmentConfig
-<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_dev
-<span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_TEST_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_test
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span><span class="nb">export </span><span class="nv">APP_SETTINGS</span><span class="o">=</span>project.config.DevelopmentConfig
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_dev
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_TEST_URL</span><span class="o">=</span>postgres://postgres:postgres@localhost:5432/users_test
 </code></pre></div>
 <blockquote>
 <p>You may need to change the username and password depending on your local Postgres config.</p>
 </blockquote>
 
 <p>Create and seed the local database and run the tests (without coverage):</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py recreate_db
-<span class="nv">$ </span>python manage.py seed_db
-<span class="nv">$ </span>python manage.py <span class="nb">test</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py recreate_db
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py seed_db
+<span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>You should see two failures:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">======================================================================</span>
@@ -662,7 +682,7 @@ Ran <span class="m">15</span> tests in 0.330s
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
 </code></pre></div>
 <p>The tests should now pass. Try running them with coverage:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python manage.py cov
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py cov
 </code></pre></div>
 <p>You should see something like:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">Coverage Summary:

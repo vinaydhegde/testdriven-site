@@ -110,10 +110,10 @@ pre code {
 }
 
 .highlight pre, pre, .highlight .hll {
-    background-color: #fcfcfc;
-    border: 1px solid #ccc;
-    padding: 6px 10px;
-    border-radius: 3px;
+  background-color: #fcfcfc;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 3px;
 }
 
 .highlight pre code * {

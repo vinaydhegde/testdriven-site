@@ -15,8 +15,8 @@ Navigate to the *flask-microservices-users* project directory, create and activa
 ```sh
 $ python3.6 -m venv env
 $ source env/bin/activate
-$ pip install coverage==4.4.1
-$ pip freeze > requirements.txt
+(env)$ pip install coverage==4.4.1
+(env)$ pip freeze > requirements.txt
 ```
 
 From there, we need to configure the coverage reports in *manage.py*. Start by adding the configuration right after the imports:
@@ -141,9 +141,9 @@ Finally, let's make sure we can run and test this project in isolation, without 
 First, set up Postgres and create the databases - `users_dev` and `users_test`, and then add the environment variables:
 
 ```sh
-$ export APP_SETTINGS=project.config.DevelopmentConfig
-$ export DATABASE_URL=postgres://postgres:postgres@localhost:5432/users_dev
-$ export DATABASE_TEST_URL=postgres://postgres:postgres@localhost:5432/users_test
+(env)$ export APP_SETTINGS=project.config.DevelopmentConfig
+(env)$ export DATABASE_URL=postgres://postgres:postgres@localhost:5432/users_dev
+(env)$ export DATABASE_TEST_URL=postgres://postgres:postgres@localhost:5432/users_test
 ```
 
 > You may need to change the username and password depending on your local Postgres config.
@@ -151,9 +151,9 @@ $ export DATABASE_TEST_URL=postgres://postgres:postgres@localhost:5432/users_tes
 Create and seed the local database and run the tests (without coverage):
 
 ```sh
-$ python manage.py recreate_db
-$ python manage.py seed_db
-$ python manage.py test
+(env)$ python manage.py recreate_db
+(env)$ python manage.py seed_db
+(env)$ python manage.py test
 ```
 
 You should see two failures:
@@ -217,7 +217,7 @@ import os
 The tests should now pass. Try running them with coverage:
 
 ```sh
-$ python manage.py cov
+(env)$ python manage.py cov
 ```
 
 You should see something like:
