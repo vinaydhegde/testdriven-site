@@ -440,7 +440,7 @@ Notice how we used `props` instead of `state` in this component. Essentially, yo
 
     > For more, check out [ReactJS: Props vs. State](http://lucybain.com/blog/2016/react-state-vs-pros/)
 
-It's a good practice to limit the number of class-based (stateful) components since they can manipulate state. If you just need to render data (like in the above case), then use a functional (state-less) component.
+It's a good practice to limit the number of class-based (stateful) components since they can manipulate state, since they are less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.
 
 Now we need to pass state from the parent to the child component via `props`. First, add the import to *index.js*:
 

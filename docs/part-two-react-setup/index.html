@@ -251,6 +251,16 @@
         </ul>
       
         
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-flask-refactor"
+            >Flask Refactor</a>
+          </li>
+        </ul>
+      
+        
           <li>
             <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
               Part 3
@@ -654,7 +664,7 @@ v7.10.0
 </blockquote></li>
 </ol>
 
-<p>It&#39;s a good practice to limit the number of class-based (stateful) components since they can manipulate state. If you just need to render data (like in the above case), then use a functional (state-less) component.</p>
+<p>It&#39;s a good practice to limit the number of class-based (stateful) components since they can manipulate state, since they are less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.</p>
 
 <p>Now we need to pass state from the parent to the child component via <code>props</code>. First, add the import to <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
@@ -1076,7 +1086,7 @@ v7.10.0
 </blockquote></li>
 </ol>
 
-<p>It&#39;s a good practice to limit the number of class-based (stateful) components since they can manipulate state. If you just need to render data (like in the above case), then use a functional (state-less) component.</p>
+<p>It&#39;s a good practice to limit the number of class-based (stateful) components since they can manipulate state, since they are less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.</p>
 
 <p>Now we need to pass state from the parent to the child component via <code>props</code>. First, add the import to <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
@@ -1121,17 +1131,11 @@ v7.10.0
     </div>
 
      <footer class="page-footer white">
-  <div class="container footer-container">
-    <div class="row">
-      <div class="col l6 s12">
-        <p class="">Content by Michael Herman (michael@realpython.com)</p>
-      </div>
-      <div class="col l4 offset-l2 s12">
-        <ul>
-          <li>&copy; Copyright 2017 <a href="http://realpython.com">Real Python</a></li>
-        </ul>
-      </div>
-    </div>
+  <div class="container footer-container center-align">
+    <ul>
+      <li>Content by Michael Herman (michael@realpython.com)</li>
+      <li>&copy; Copyright 2017 <a href="http://realpython.com">Real Python</a></li>
+    </ul>
   </div>
 </footer>
 

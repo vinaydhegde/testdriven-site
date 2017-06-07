@@ -10,7 +10,7 @@ Let's update the `users-service` container, locally and in production, and then 
 
 ---
 
-#### Development Docker
+#### Development
 
 To update Docker, first commit and push your code for *flask-microserves-users* to GitHub (if necessary). Make sure the tests pass on Travis CI, and then navigate to *flask-microservices-main*.
 
@@ -34,7 +34,7 @@ Now we can test the React app against the Flask app running in the Docker Contai
 1. Navigate to *flask-microservices-main* and update the environment variable with the IP - `export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP`
 1. Fire up the app - `npm start` - and make sure it still works
 
-#### Production Docker
+#### Production
 
 Let's update and then test in production.
 
