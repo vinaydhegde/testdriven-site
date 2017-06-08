@@ -28,6 +28,7 @@
 1. Add JSX and es6 lexers to pygments
 1. Paywall
 1. Splash page with mailchimp
+1. Add min height to main content
 
 ## Microservices
 

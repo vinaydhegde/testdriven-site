@@ -287,9 +287,275 @@
 
           <h2>React and Docker</h2>
 
-          <p>Coming Soon!</p>
+          <p>Let&#39;s containerize the React app...</p>
 
 <hr>
+
+<p>Navigate to the <em>flask-microservices-client</em> directory. Add a <em>Dockerfile</em> to the root, making sure to review the code comments:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM node:latest
+
+# set working directory
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+ADD package.json /usr/src/app/package.json
+RUN npm install
+RUN npm install react-scripts@0.9.5 -g
+
+# add app
+ADD . /usr/src/app
+
+# start app
+CMD [&quot;npm&quot;, &quot;start&quot;]
+</code></pre></div>
+<p>Commit the code and then push it up to GitHub. Then, within <em>flask-microservices-main</em>, add the new service to the <em>docker-compose.yml</em> file like so:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
+  container_name: web-service
+  build: https://github.com/realpython/flask-microservices-client.git
+  ports:
+    - &#39;3007:3000&#39; # expose ports - HOST:CONTAINER
+  environment:
+    - NODE_ENV=development
+    - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>In the terminal, make sure <code>dev</code> is the active machine and then add the valid IP to <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_IP
+</code></pre></div>
+<p>Build the image and fire up the new container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up --build -d web-service
+</code></pre></div>
+<p>Navigate to <a href="http://DOCKER_MACHINE_IP:3007/">http://DOCKER_MACHINE_IP:3007/</a> in your browser to test the app.</p>
+
+<p>What happens if you navigate to the main route? Since we&#39;re still routing traffic to the Flask app (via Nginx), you will see the old app, served up with server-side templating. We need to update the Nginx configuration to route traffic to that main route to the React app. Before we update this, though, let&#39;s create a <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment">build</a> with Create React App locally, outside of Docker, which will generate static files.</p>
+
+<h4 id="create-react-app-build">Create React App Build</h4>
+
+<p>Make sure the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable is set:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_IP
+</code></pre></div>
+<blockquote>
+<p>All environment variables are <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">embedded</a> into the app at build time. Keep this in mind.</p>
+</blockquote>
+
+<p>Then run the <code>build</code> command in <em>flask-microservices-client</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm run build
+</code></pre></div>
+<p>You should see a &quot;build&quot; directory with the static files. We need to serve this up with a basic web server. Let&#39;s use the <a href="https://docs.python.org/3/library/http.server.html#module-http.server">HTTP server</a> from the standard library. Navigate to the &quot;build&quot; directory, and then run the server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python3 -m http.server
+</code></pre></div>
+<p>This will serve up the app on <a href="http://localhost:8000/">http://localhost:8000/</a>. Test it out in the browser to make sure it works. Once done, kill the server and navigate back to the project root.</p>
+
+<h4 id="dockerfile">Dockerfile</h4>
+
+<p>Update the <em>Dockerfile</em></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM node:latest
+
+# set working directory
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# add environment variables
+ARG REACT_APP_USERS_SERVICE_URL
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
+
+# install and cache app dependencies
+ADD package.json /usr/src/app/package.json
+RUN npm install
+RUN npm install pushstate-server -g
+
+# add app
+ADD . /usr/src/app
+
+# build react app
+RUN npm run build
+
+# start app
+CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
+</code></pre></div>
+<p>When the image is built, we can pass arguments to the <em>Dockerfile</em>, via the <a href="https://docs.docker.com/engine/reference/builder/#arg">ARG</a> instruction, which can then be used as environment variables. <code>npm run build</code> will generate static files that are served up on port 9000 via the  <a href="https://www.npmjs.com/package/pushstate-server">pushstate-server</a>.</p>
+
+<p>Let&#39;s test it without Docker Compose.</p>
+
+<p>First, build the image, making sure to use the <code>--build-arg</code> flag to pass in the appropriate arguments:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker build -t <span class="s2">&quot;test&quot;</span> ./ --build-arg <span class="nv">NODE_ENV</span><span class="o">=</span>development --build-arg <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_IP
+</code></pre></div>
+<p>This uses the <em>Dockerfile</em> found in the project root, <code>./</code>, to build a new image called <code>test</code> with the required build arguments.</p>
+
+<blockquote>
+<p>You can view all images by running <code>docker image</code>.</p>
+</blockquote>
+
+<p>Spin up the container from the <code>test</code> image, mapping port 9000 in the container to port 9000 outside the container.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker run -d -p 9000:9000 <span class="nb">test</span>
+</code></pre></div>
+<p>Navigate to <a href="http://localhost:9000/">http://localhost:9000/</a> in your browser to test.</p>
+
+<p>Grab the container ID by running <code>docker ps</code>, and then view the container&#39;s environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec </span>CONTAINER_ID bash -c <span class="s1">&#39;env&#39;</span>
+</code></pre></div>
+<p>Once done, stop and remove the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker stop CONTAINER_ID
+<span class="nv">$ </span>docker rm CONTAINER_ID
+</code></pre></div>
+<p>Finally, remove the image:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="nb">test</span>
+</code></pre></div>
+<p>Commit and push your code.</p>
+
+<h4 id="docker-compose">Docker Compose</h4>
+
+<p>With the <em>Dockerfile</em> set up and tested, update the <code>web-service</code> in <em>docker-compose.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
+  container_name: web-service
+  build:
+    context: https://github.com/realpython/flask-microservices-client.git
+    args:
+      - NODE_ENV=development
+      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+  ports:
+    - &#39;9000:9000&#39; # expose ports - HOST:CONTAINER
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>So, instead of passing <code>NODE_ENV</code> and <code>REACT_APP_USERS_SERVICE_URL</code> as environment variables, which happens at runtime, we defined them as build arguments.</p>
+
+<p>Update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Test it out again at <a href="http://DOCKER_MACHINE_IP:9000/">http://DOCKER_MACHINE_IP:9000/</a>.</p>
+
+<blockquote>
+<p>Curious about the environment variables? Run <code>docker-compose run web-service env</code> to view them.</p>
+</blockquote>
+
+<p>With that, let&#39;s update Nginx...</p>
+
+<h4 id="nginx">Nginx</h4>
+
+<p>Make the following updates to <em>flask.conf</em> in &quot;flask-microservices-main&quot;:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">server {
+
+    listen 80;
+
+    location / {
+        proxy_pass http://web-service:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /users {
+        proxy_pass http://users-service:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}
+</code></pre></div>
+<p>What&#39;s happening?</p>
+
+<ol>
+<li>The <code>location</code> blocks define the reverse proxies.</li>
+<li>When a requested URI matches the URI in a location block, Nginx passes the request either to the pushstate-server (serving the React app) or to the WSGI/Guicorn server (serving up the Flask app).</li>
+</ol>
+
+<p>While we&#39;re at it, let&#39;s update the name from <em>flask.conf</em> to <em>nginx.conf</em> so it&#39;s more relevant. Make sure to update the <em>Dockerfile</em> in &quot;flask-microservices-main/nginx&quot; as well:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM nginx:1.13.0
+
+RUN rm /etc/nginx/conf.d/default.conf
+ADD /nginx.conf /etc/nginx/conf.d
+</code></pre></div>
+<p>Update <code>nginx</code> in the <em>docker-compose.yml</em> file, so that it is linked to the <code>web-service</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    users-service:
+      condition: service_started
+    web-service:
+      condition: service_started
+  links:
+    - users-service
+    - web-service
+</code></pre></div>
+<p>Update the containers (via <code>docker-compose up -d --build</code>) and then test it out in the browser:</p>
+
+<ol>
+<li><a href="http://DOCKER_MACHINE_IP/">http://DOCKER_MACHINE_IP/</a></li>
+<li><a href="http://DOCKER_MACHINE_IP/users">http://DOCKER_MACHINE_IP/users</a></li>
+</ol>
+
+<p>Run the tests again (just for fun!):</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+</code></pre></div>
+<p>Now, let&#39;s update production...</p>
+
+<h4 id="update-production">Update Production</h4>
+
+<p>Add the <code>web-service</code> to <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
+  container_name: web-service
+  build:
+    context: https://github.com/realpython/flask-microservices-client.git
+    args:
+      - NODE_ENV=production
+      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+  ports:
+    - &#39;9000:9000&#39; # expose ports - HOST:CONTAINER
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>Update <code>nginx</code> as well:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    users-service:
+      condition: service_started
+    web-service:
+      condition: service_started
+  links:
+    - users-service
+    - web-service
+</code></pre></div>
+<p>Set the <code>aws</code> machine as the active machine, change the environment variable to the IP associated with the <code>aws</code> machine, and update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_AWS_IP
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<blockquote>
+<p>Remember: Since the environment variables are added at build time, if you update the variables, you <em>will</em> have to rebuild the Docker image.</p>
+</blockquote>
+
+<p>Test it again, and then commit and push your code.</p>
 
 
           
@@ -313,9 +579,275 @@
 
           <h2>React and Docker</h2>
 
-          <p>Coming Soon!</p>
+          <p>Let&#39;s containerize the React app...</p>
 
 <hr>
+
+<p>Navigate to the <em>flask-microservices-client</em> directory. Add a <em>Dockerfile</em> to the root, making sure to review the code comments:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM node:latest
+
+# set working directory
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+ADD package.json /usr/src/app/package.json
+RUN npm install
+RUN npm install react-scripts@0.9.5 -g
+
+# add app
+ADD . /usr/src/app
+
+# start app
+CMD [&quot;npm&quot;, &quot;start&quot;]
+</code></pre></div>
+<p>Commit the code and then push it up to GitHub. Then, within <em>flask-microservices-main</em>, add the new service to the <em>docker-compose.yml</em> file like so:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
+  container_name: web-service
+  build: https://github.com/realpython/flask-microservices-client.git
+  ports:
+    - &#39;3007:3000&#39; # expose ports - HOST:CONTAINER
+  environment:
+    - NODE_ENV=development
+    - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>In the terminal, make sure <code>dev</code> is the active machine and then add the valid IP to <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_IP
+</code></pre></div>
+<p>Build the image and fire up the new container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up --build -d web-service
+</code></pre></div>
+<p>Navigate to <a href="http://DOCKER_MACHINE_IP:3007/">http://DOCKER_MACHINE_IP:3007/</a> in your browser to test the app.</p>
+
+<p>What happens if you navigate to the main route? Since we&#39;re still routing traffic to the Flask app (via Nginx), you will see the old app, served up with server-side templating. We need to update the Nginx configuration to route traffic to that main route to the React app. Before we update this, though, let&#39;s create a <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment">build</a> with Create React App locally, outside of Docker, which will generate static files.</p>
+
+<h4 id="create-react-app-build">Create React App Build</h4>
+
+<p>Make sure the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable is set:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_IP
+</code></pre></div>
+<blockquote>
+<p>All environment variables are <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">embedded</a> into the app at build time. Keep this in mind.</p>
+</blockquote>
+
+<p>Then run the <code>build</code> command in <em>flask-microservices-client</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm run build
+</code></pre></div>
+<p>You should see a &quot;build&quot; directory with the static files. We need to serve this up with a basic web server. Let&#39;s use the <a href="https://docs.python.org/3/library/http.server.html#module-http.server">HTTP server</a> from the standard library. Navigate to the &quot;build&quot; directory, and then run the server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>python3 -m http.server
+</code></pre></div>
+<p>This will serve up the app on <a href="http://localhost:8000/">http://localhost:8000/</a>. Test it out in the browser to make sure it works. Once done, kill the server and navigate back to the project root.</p>
+
+<h4 id="dockerfile">Dockerfile</h4>
+
+<p>Update the <em>Dockerfile</em></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM node:latest
+
+# set working directory
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# add environment variables
+ARG REACT_APP_USERS_SERVICE_URL
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
+
+# install and cache app dependencies
+ADD package.json /usr/src/app/package.json
+RUN npm install
+RUN npm install pushstate-server -g
+
+# add app
+ADD . /usr/src/app
+
+# build react app
+RUN npm run build
+
+# start app
+CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
+</code></pre></div>
+<p>When the image is built, we can pass arguments to the <em>Dockerfile</em>, via the <a href="https://docs.docker.com/engine/reference/builder/#arg">ARG</a> instruction, which can then be used as environment variables. <code>npm run build</code> will generate static files that are served up on port 9000 via the  <a href="https://www.npmjs.com/package/pushstate-server">pushstate-server</a>.</p>
+
+<p>Let&#39;s test it without Docker Compose.</p>
+
+<p>First, build the image, making sure to use the <code>--build-arg</code> flag to pass in the appropriate arguments:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker build -t <span class="s2">&quot;test&quot;</span> ./ --build-arg <span class="nv">NODE_ENV</span><span class="o">=</span>development --build-arg <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_IP
+</code></pre></div>
+<p>This uses the <em>Dockerfile</em> found in the project root, <code>./</code>, to build a new image called <code>test</code> with the required build arguments.</p>
+
+<blockquote>
+<p>You can view all images by running <code>docker image</code>.</p>
+</blockquote>
+
+<p>Spin up the container from the <code>test</code> image, mapping port 9000 in the container to port 9000 outside the container.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker run -d -p 9000:9000 <span class="nb">test</span>
+</code></pre></div>
+<p>Navigate to <a href="http://localhost:9000/">http://localhost:9000/</a> in your browser to test.</p>
+
+<p>Grab the container ID by running <code>docker ps</code>, and then view the container&#39;s environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec </span>CONTAINER_ID bash -c <span class="s1">&#39;env&#39;</span>
+</code></pre></div>
+<p>Once done, stop and remove the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker stop CONTAINER_ID
+<span class="nv">$ </span>docker rm CONTAINER_ID
+</code></pre></div>
+<p>Finally, remove the image:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="nb">test</span>
+</code></pre></div>
+<p>Commit and push your code.</p>
+
+<h4 id="docker-compose">Docker Compose</h4>
+
+<p>With the <em>Dockerfile</em> set up and tested, update the <code>web-service</code> in <em>docker-compose.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
+  container_name: web-service
+  build:
+    context: https://github.com/realpython/flask-microservices-client.git
+    args:
+      - NODE_ENV=development
+      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+  ports:
+    - &#39;9000:9000&#39; # expose ports - HOST:CONTAINER
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>So, instead of passing <code>NODE_ENV</code> and <code>REACT_APP_USERS_SERVICE_URL</code> as environment variables, which happens at runtime, we defined them as build arguments.</p>
+
+<p>Update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Test it out again at <a href="http://DOCKER_MACHINE_IP:9000/">http://DOCKER_MACHINE_IP:9000/</a>.</p>
+
+<blockquote>
+<p>Curious about the environment variables? Run <code>docker-compose run web-service env</code> to view them.</p>
+</blockquote>
+
+<p>With that, let&#39;s update Nginx...</p>
+
+<h4 id="nginx">Nginx</h4>
+
+<p>Make the following updates to <em>flask.conf</em> in &quot;flask-microservices-main&quot;:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">server {
+
+    listen 80;
+
+    location / {
+        proxy_pass http://web-service:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /users {
+        proxy_pass http://users-service:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}
+</code></pre></div>
+<p>What&#39;s happening?</p>
+
+<ol>
+<li>The <code>location</code> blocks define the reverse proxies.</li>
+<li>When a requested URI matches the URI in a location block, Nginx passes the request either to the pushstate-server (serving the React app) or to the WSGI/Guicorn server (serving up the Flask app).</li>
+</ol>
+
+<p>While we&#39;re at it, let&#39;s update the name from <em>flask.conf</em> to <em>nginx.conf</em> so it&#39;s more relevant. Make sure to update the <em>Dockerfile</em> in &quot;flask-microservices-main/nginx&quot; as well:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM nginx:1.13.0
+
+RUN rm /etc/nginx/conf.d/default.conf
+ADD /nginx.conf /etc/nginx/conf.d
+</code></pre></div>
+<p>Update <code>nginx</code> in the <em>docker-compose.yml</em> file, so that it is linked to the <code>web-service</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    users-service:
+      condition: service_started
+    web-service:
+      condition: service_started
+  links:
+    - users-service
+    - web-service
+</code></pre></div>
+<p>Update the containers (via <code>docker-compose up -d --build</code>) and then test it out in the browser:</p>
+
+<ol>
+<li><a href="http://DOCKER_MACHINE_IP/">http://DOCKER_MACHINE_IP/</a></li>
+<li><a href="http://DOCKER_MACHINE_IP/users">http://DOCKER_MACHINE_IP/users</a></li>
+</ol>
+
+<p>Run the tests again (just for fun!):</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+</code></pre></div>
+<p>Now, let&#39;s update production...</p>
+
+<h4 id="update-production">Update Production</h4>
+
+<p>Add the <code>web-service</code> to <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
+  container_name: web-service
+  build:
+    context: https://github.com/realpython/flask-microservices-client.git
+    args:
+      - NODE_ENV=production
+      - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+  ports:
+    - &#39;9000:9000&#39; # expose ports - HOST:CONTAINER
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>Update <code>nginx</code> as well:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    users-service:
+      condition: service_started
+    web-service:
+      condition: service_started
+  links:
+    - users-service
+    - web-service
+</code></pre></div>
+<p>Set the <code>aws</code> machine as the active machine, change the environment variable to the IP associated with the <code>aws</code> machine, and update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_AWS_IP
+<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<blockquote>
+<p>Remember: Since the environment variables are added at build time, if you update the variables, you <em>will</em> have to rebuild the Docker image.</p>
+</blockquote>
+
+<p>Test it again, and then commit and push your code.</p>
 
 
           
