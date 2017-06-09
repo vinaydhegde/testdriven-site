@@ -17,4 +17,6 @@ By the end of part 3, you should be able to...
 
 ---
 
+Handle errors in react (user already exists)
+
 Coming soon!

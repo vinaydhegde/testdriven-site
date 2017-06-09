@@ -29,6 +29,7 @@
 1. Paywall
 1. Splash page with mailchimp
 1. Add min height to main content
+1. Outline part 4
 
 ## Microservices
 

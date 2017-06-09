@@ -29,9 +29,23 @@ By the end of this part, you should be able to...
 1. Create a Single Page Application with React components
 1. Use React props and state appropriately
 1. Manage the state of a React component via component lifecycle methods
+1. Pass environment variables to a Docker image at build time
+1. Use React controlled components to handle form submissions
 
+#### App
 
+Check out the live app, running on EC2 - [http://54.89.0.180/](http://54.89.0.180/)
 
----
+You can also test out the following endpoints...
 
-WIP
+| Endpoint    | HTTP Method | CRUD Method | Result          |
+|-------------|-------------|-------------|-----------------|
+| /users      | GET         | READ        | get all users   |
+| /users/:id  | GET         | READ        | get single user |
+| /users      | POST        | CREATE      | add a user      |
+
+Grab the code:
+
+1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main)
+1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users)
+1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client)
