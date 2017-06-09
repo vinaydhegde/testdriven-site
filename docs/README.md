@@ -21,7 +21,7 @@
 1. Styles - refactor Jekyll Structure - DONE
 1. Add social share buttons - DONE
 1. Add google analytics - DONE
-1. Add infrastructure image to part 2
+1. Add infrastructure image to part 2 - DONE
 1. Add check for understandings!
 1. Add Microservices (basics, benefits, etc.) to part 1
 1. Add CI/CD - open pr, test, merge, test, deploy
