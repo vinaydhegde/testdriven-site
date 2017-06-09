@@ -34,6 +34,10 @@ By the end of this part, you should be able to...
 
 #### App
 
+<div style="text-align:left;">
+  <img src="/assets/img/testdriven-architecture.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
+</div>
+
 Check out the live app, running on EC2 - [http://54.89.0.180/](http://54.89.0.180/)
 
 You can also test out the following endpoints...
