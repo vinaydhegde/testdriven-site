@@ -156,3 +156,9 @@ $ docker-compose -f docker-compose-prod.yml up -d --build
 ```
 
 Test!
+
+#### Next Steps
+
+Now is a great time to pause, review the code, and write more unit and integration tests. Do this on your own to check your understanding.
+
+> Want feedback on your code? Shoot an email to `michael@realpython.com` with a link to the GitHub repo. Cheers!

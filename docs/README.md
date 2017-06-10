@@ -22,7 +22,6 @@
 1. Add social share buttons - DONE
 1. Add google analytics - DONE
 1. Add infrastructure image to part 2 - DONE
-1. Add check for understandings!
 1. Add Microservices (basics, benefits, etc.) to part 1
 1. Add CI/CD - open pr, test, merge, test, deploy
 1. Add JSX and es6 lexers to pygments
@@ -30,6 +29,7 @@
 1. Splash page with mailchimp
 1. Add min height to main content
 1. Outline part 4
+1. Update readmes for each project
 
 ## Microservices
 
