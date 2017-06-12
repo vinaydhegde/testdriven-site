@@ -6,7 +6,6 @@ markdown: redcarpet
 highlighter: pygments
 redcarpet:
   extensions: ["no_intra_emphasis", "tables", "autolink", "strikethrough", "fenced_code_blocks", "with_toc_data"]
-highlighter: pygments
 baseurl: ""
 url: "http://testdriven.io"
 twitter: "RealPython"

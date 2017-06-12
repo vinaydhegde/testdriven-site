@@ -116,6 +116,11 @@ pre code {
   border-radius: 3px;
 }
 
+.highlight pre .err {
+  color: black;
+  background-color: #fcfcfc;
+}
+
 .highlight pre code * {
   white-space: nowrap;
 }
