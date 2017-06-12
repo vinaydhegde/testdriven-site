@@ -234,9 +234,12 @@ project/config.py          16      0      0      0   100%
 TOTAL                      94     15     10      0    86%
 ```
 
-The web version can be viewed within the newly created "htmlcov" directory. Add this directory to the *.gitignore* file, commit your code, and push it to GitHub.
+The web version can be viewed within the newly created "htmlcov" directory. Now you can quickly see which parts of the code are, and are not, covered by a test.
+Add this directory to the *.gitignore* file, commit your code, and push it to GitHub.
 
-Let's now run a quick sanity check using Docker Compose. Deactivate the virtual environment in *flask-microservices-users*, navigate to the *flask-microservices-main* project directory, make sure the active machine is `dev` (via `docker-machine ls`), and then update the containers:
+Let's now run a quick sanity check using Docker Compose.
+
+Deactivate the virtual environment in *flask-microservices-users*, navigate to the *flask-microservices-main* project directory, make sure the active machine is `dev` (via `docker-machine ls`), and then update the containers:
 
 ```sh
 $ docker-compose up -d --build

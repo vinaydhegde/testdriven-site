@@ -400,7 +400,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 <span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>Navigate <em>flask-microservices-main</em>, and make sure the tests pass:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Test in the browser as well.</p>
 
@@ -555,7 +555,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 <span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>Navigate <em>flask-microservices-main</em>, and make sure the tests pass:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Test in the browser as well.</p>
 

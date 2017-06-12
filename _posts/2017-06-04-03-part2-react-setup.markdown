@@ -14,7 +14,6 @@ React is a declarative, component-based, JavaScript library for building user in
 
 If you're new to React, review the [Quick Start](https://facebook.github.io/react/docs/hello-world.html) and the excellent [Why did we build React?](https://facebook.github.io/react/blog/2013/06/05/why-react.html) blog post. You may also want to step through the [Intro to React](https://github.com/mjhea0/react-intro) tutorial. By the end of the tutorial, you should be able to:
 
-1. Explain what React is and how it compares to Angular
 1. Set up a modern React environment with Babel and Webpack
 1. Create and render a React component in the browser
 
@@ -149,7 +148,7 @@ getUsers() {
 }
 ```
 
-Install [Axios](https://github.com/mzabriskie/axios):
+We'll use [Axios](https://github.com/mzabriskie/axios) to manage the AJAX call:
 
 ```sh
 npm install axios@0.16.2 --save
@@ -309,15 +308,13 @@ Well, the `constructor()` fires *before* the component is mounted to the DOM. Wh
 
 Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the [official documentation]((https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle)) to learn about each method and when each is called.
 
-So, where should the AJAX call happen?
+The AJAX call [should happen in the `componentDidMount()` method](https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/):
 
 ```javascript
 componentDidMount() {
   this.getUsers();
 }
 ```
-
-[Why](https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/)
 
 Update the component:
 
@@ -431,7 +428,7 @@ const UsersList = (props) => {
 export default UsersList;
 ```
 
-> Why did we use a functional component rather than a class-based component? Turn to Google. See if you can answer this on your own!
+> Again, why did we use a functional component rather than a class-based component?
 
 Notice how we used `props` instead of `state` in this component. Essentially, you can pass state to a component with either `props` or `state`:
 

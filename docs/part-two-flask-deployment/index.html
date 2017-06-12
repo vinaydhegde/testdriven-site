@@ -301,7 +301,7 @@
 <span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>Make sure the tests pass:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Now we can test the React app against the Flask app running in the Docker Container:</p>
 
@@ -364,7 +364,7 @@
 <span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>Make sure the tests pass:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Now we can test the React app against the Flask app running in the Docker Container:</p>
 

@@ -141,7 +141,7 @@ $ docker-compose up -d --build
 Navigate *flask-microservices-main*, and make sure the tests pass:
 
 ```sh
-$ docker-compose run users-service python manage.py cov
+$ docker-compose run users-service python manage.py test
 ```
 
 Test in the browser as well.

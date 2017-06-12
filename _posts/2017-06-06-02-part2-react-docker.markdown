@@ -234,7 +234,7 @@ server {
 
 What's happening?
 
-1. The `location` blocks define the reverse proxies.
+1. The `location` blocks define the [reverse proxies](https://www.nginx.com/resources/glossary/reverse-proxy-server/).
 1. When a requested URI matches the URI in a location block, Nginx passes the request either to the pushstate-server (serving the React app) or to the WSGI/Guicorn server (serving up the Flask app).
 
 While we're at it, let's update the name from *flask.conf* to *nginx.conf* so it's more relevant. Make sure to update the *Dockerfile* in "flask-microservices-main/nginx" as well:
@@ -273,7 +273,7 @@ Update the containers (via `docker-compose up -d --build`) and then test it out 
 Run the tests again (just for fun!):
 
 ```sh
-$ docker-compose run users-service python manage.py cov
+$ docker-compose run users-service python manage.py test
 ```
 
 Now, let's update production...

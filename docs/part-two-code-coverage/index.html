@@ -478,9 +478,12 @@ project/config.py          <span class="m">16</span>      <span class="m">0</spa
 ---------------------------------------------------------
 TOTAL                      <span class="m">94</span>     <span class="m">15</span>     <span class="m">10</span>      <span class="m">0</span>    86%
 </code></pre></div>
-<p>The web version can be viewed within the newly created &quot;htmlcov&quot; directory. Add this directory to the <em>.gitignore</em> file, commit your code, and push it to GitHub.</p>
+<p>The web version can be viewed within the newly created &quot;htmlcov&quot; directory. Now you can quickly see which parts of the code are, and are not, covered by a test.
+Add this directory to the <em>.gitignore</em> file, commit your code, and push it to GitHub.</p>
 
-<p>Let&#39;s now run a quick sanity check using Docker Compose. Deactivate the virtual environment in <em>flask-microservices-users</em>, navigate to the <em>flask-microservices-main</em> project directory, make sure the active machine is <code>dev</code> (via <code>docker-machine ls</code>), and then update the containers:</p>
+<p>Let&#39;s now run a quick sanity check using Docker Compose.</p>
+
+<p>Deactivate the virtual environment in <em>flask-microservices-users</em>, navigate to the <em>flask-microservices-main</em> project directory, make sure the active machine is <code>dev</code> (via <code>docker-machine ls</code>), and then update the containers:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>Run the tests with coverage:</p>
@@ -705,9 +708,12 @@ project/config.py          <span class="m">16</span>      <span class="m">0</spa
 ---------------------------------------------------------
 TOTAL                      <span class="m">94</span>     <span class="m">15</span>     <span class="m">10</span>      <span class="m">0</span>    86%
 </code></pre></div>
-<p>The web version can be viewed within the newly created &quot;htmlcov&quot; directory. Add this directory to the <em>.gitignore</em> file, commit your code, and push it to GitHub.</p>
+<p>The web version can be viewed within the newly created &quot;htmlcov&quot; directory. Now you can quickly see which parts of the code are, and are not, covered by a test.
+Add this directory to the <em>.gitignore</em> file, commit your code, and push it to GitHub.</p>
 
-<p>Let&#39;s now run a quick sanity check using Docker Compose. Deactivate the virtual environment in <em>flask-microservices-users</em>, navigate to the <em>flask-microservices-main</em> project directory, make sure the active machine is <code>dev</code> (via <code>docker-machine ls</code>), and then update the containers:</p>
+<p>Let&#39;s now run a quick sanity check using Docker Compose.</p>
+
+<p>Deactivate the virtual environment in <em>flask-microservices-users</em>, navigate to the <em>flask-microservices-main</em> project directory, make sure the active machine is <code>dev</code> (via <code>docker-machine ls</code>), and then update the containers:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
 <p>Run the tests with coverage:</p>

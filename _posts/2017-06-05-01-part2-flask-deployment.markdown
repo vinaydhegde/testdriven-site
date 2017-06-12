@@ -25,7 +25,7 @@ $ docker-compose up -d --build
 Make sure the tests pass:
 
 ```sh
-$ docker-compose run users-service python manage.py cov
+$ docker-compose run users-service python manage.py test
 ```
 
 Now we can test the React app against the Flask app running in the Docker Container:

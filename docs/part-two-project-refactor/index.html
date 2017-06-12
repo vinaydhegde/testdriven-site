@@ -335,8 +335,8 @@
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml rm
 </code></pre></div>
 <p>Switch the active host back to dev:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env env
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env env<span class="k">)</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
 </code></pre></div>
 <p>Move the following files and folders from <em>flask-microservices-users</em> to the <em>flask-microservices-main</em> project:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">docker-compose-prod.yml
@@ -462,8 +462,8 @@ nginx/flask.conf
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml rm
 </code></pre></div>
 <p>Switch the active host back to dev:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env env
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env env<span class="k">)</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
 </code></pre></div>
 <p>Move the following files and folders from <em>flask-microservices-users</em> to the <em>flask-microservices-main</em> project:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">docker-compose-prod.yml

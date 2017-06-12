@@ -473,7 +473,7 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 <p>What&#39;s happening?</p>
 
 <ol>
-<li>The <code>location</code> blocks define the reverse proxies.</li>
+<li>The <code>location</code> blocks define the <a href="https://www.nginx.com/resources/glossary/reverse-proxy-server/">reverse proxies</a>.</li>
 <li>When a requested URI matches the URI in a location block, Nginx passes the request either to the pushstate-server (serving the React app) or to the WSGI/Guicorn server (serving up the Flask app).</li>
 </ol>
 
@@ -507,7 +507,7 @@ ADD /nginx.conf /etc/nginx/conf.d
 </ol>
 
 <p>Run the tests again (just for fun!):</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Now, let&#39;s update production...</p>
 
@@ -765,7 +765,7 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 <p>What&#39;s happening?</p>
 
 <ol>
-<li>The <code>location</code> blocks define the reverse proxies.</li>
+<li>The <code>location</code> blocks define the <a href="https://www.nginx.com/resources/glossary/reverse-proxy-server/">reverse proxies</a>.</li>
 <li>When a requested URI matches the URI in a location block, Nginx passes the request either to the pushstate-server (serving the React app) or to the WSGI/Guicorn server (serving up the Flask app).</li>
 </ol>
 
@@ -799,7 +799,7 @@ ADD /nginx.conf /etc/nginx/conf.d
 </ol>
 
 <p>Run the tests again (just for fun!):</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py cov
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Now, let&#39;s update production...</p>
 

@@ -64,8 +64,8 @@ $ docker-compose -f docker-compose-prod.yml rm
 Switch the active host back to dev:
 
 ```sh
-$ docker-machine env env
-$ eval $(docker-machine env env)
+$ docker-machine env dev
+$ eval $(docker-machine env dev)
 ```
 
 Move the following files and folders from *flask-microservices-users* to the *flask-microservices-main* project:

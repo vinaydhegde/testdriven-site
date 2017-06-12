@@ -291,9 +291,7 @@
 
 <hr>
 
-<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a>, to enable Travis on the <em>flask-microservices-users</em> project.</p>
-
-<p>To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
+<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a> (steps 1 and 2) to enable Travis on the <em>flask-microservices-users</em> project. To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">language: python
 
 python:
@@ -314,7 +312,13 @@ before_script:
 script:
   - python manage.py test
 </code></pre></div>
-<p>Commit your changes, and then push to GitHub. This should trigger a new build, which should pass.</p>
+<p>Commit your changes, and then push to GitHub. This should trigger a new build, which should pass. For now, while the project structure is still somewhat simple, we&#39;ll use the following workflow:</p>
+
+<ol>
+<li>Code new feature locally</li>
+<li>Commit and push code</li>
+<li>Ensure tests pass on Travis</li>
+</ol>
 
 <p>With that, let&#39;s turn to <em>flask-microservices-main</em>. We need to get CI configured on this project as well. Here, we&#39;ll test out all services with Docker.</p>
 
@@ -370,9 +374,7 @@ after_script:
 
 <hr>
 
-<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a>, to enable Travis on the <em>flask-microservices-users</em> project.</p>
-
-<p>To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
+<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a> (steps 1 and 2) to enable Travis on the <em>flask-microservices-users</em> project. To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">language: python
 
 python:
@@ -393,7 +395,13 @@ before_script:
 script:
   - python manage.py test
 </code></pre></div>
-<p>Commit your changes, and then push to GitHub. This should trigger a new build, which should pass.</p>
+<p>Commit your changes, and then push to GitHub. This should trigger a new build, which should pass. For now, while the project structure is still somewhat simple, we&#39;ll use the following workflow:</p>
+
+<ol>
+<li>Code new feature locally</li>
+<li>Commit and push code</li>
+<li>Ensure tests pass on Travis</li>
+</ol>
 
 <p>With that, let&#39;s turn to <em>flask-microservices-main</em>. We need to get CI configured on this project as well. Here, we&#39;ll test out all services with Docker.</p>
 

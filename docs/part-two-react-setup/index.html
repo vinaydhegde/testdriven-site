@@ -296,7 +296,6 @@
 <p>If you&#39;re new to React, review the <a href="https://facebook.github.io/react/docs/hello-world.html">Quick Start</a> and the excellent <a href="https://facebook.github.io/react/blog/2013/06/05/why-react.html">Why did we build React?</a> blog post. You may also want to step through the <a href="https://github.com/mjhea0/react-intro">Intro to React</a> tutorial. By the end of the tutorial, you should be able to:</p>
 
 <ol>
-<li>Explain what React is and how it compares to Angular</li>
 <li>Set up a modern React environment with Babel and Webpack</li>
 <li>Create and render a React component in the browser</li>
 </ol>
@@ -416,7 +415,7 @@ v7.10.0
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Install <a href="https://github.com/mzabriskie/axios">Axios</a>:</p>
+<p>We&#39;ll use <a href="https://github.com/mzabriskie/axios">Axios</a> to manage the AJAX call:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">npm install axios@0.16.2 --save
 </code></pre></div>
 <p>Add the import:</p>
@@ -541,13 +540,11 @@ v7.10.0
 
 <p>Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the <a href="(https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle)">official documentation</a> to learn about each method and when each is called.</p>
 
-<p>So, where should the AJAX call happen?</p>
+<p>The AJAX call <a href="https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/">should happen in the <code>componentDidMount()</code> method</a>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><a href="https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/">Why</a></p>
-
 <p>Update the component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
   <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
@@ -650,7 +647,7 @@ v7.10.0
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
 </code></pre></div>
 <blockquote>
-<p>Why did we use a functional component rather than a class-based component? Turn to Google. See if you can answer this on your own!</p>
+<p>Again, why did we use a functional component rather than a class-based component?</p>
 </blockquote>
 
 <p>Notice how we used <code>props</code> instead of <code>state</code> in this component. Essentially, you can pass state to a component with either <code>props</code> or <code>state</code>:</p>
@@ -718,7 +715,6 @@ v7.10.0
 <p>If you&#39;re new to React, review the <a href="https://facebook.github.io/react/docs/hello-world.html">Quick Start</a> and the excellent <a href="https://facebook.github.io/react/blog/2013/06/05/why-react.html">Why did we build React?</a> blog post. You may also want to step through the <a href="https://github.com/mjhea0/react-intro">Intro to React</a> tutorial. By the end of the tutorial, you should be able to:</p>
 
 <ol>
-<li>Explain what React is and how it compares to Angular</li>
 <li>Set up a modern React environment with Babel and Webpack</li>
 <li>Create and render a React component in the browser</li>
 </ol>
@@ -838,7 +834,7 @@ v7.10.0
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Install <a href="https://github.com/mzabriskie/axios">Axios</a>:</p>
+<p>We&#39;ll use <a href="https://github.com/mzabriskie/axios">Axios</a> to manage the AJAX call:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">npm install axios@0.16.2 --save
 </code></pre></div>
 <p>Add the import:</p>
@@ -963,13 +959,11 @@ v7.10.0
 
 <p>Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the <a href="(https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle)">official documentation</a> to learn about each method and when each is called.</p>
 
-<p>So, where should the AJAX call happen?</p>
+<p>The AJAX call <a href="https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/">should happen in the <code>componentDidMount()</code> method</a>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><a href="https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/">Why</a></p>
-
 <p>Update the component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
   <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
@@ -1072,7 +1066,7 @@ v7.10.0
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
 </code></pre></div>
 <blockquote>
-<p>Why did we use a functional component rather than a class-based component? Turn to Google. See if you can answer this on your own!</p>
+<p>Again, why did we use a functional component rather than a class-based component?</p>
 </blockquote>
 
 <p>Notice how we used <code>props</code> instead of <code>state</code> in this component. Essentially, you can pass state to a component with either <code>props</code> or <code>state</code>:</p>
