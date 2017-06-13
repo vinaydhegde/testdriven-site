@@ -12,10 +12,7 @@ Let's turn our attention to the client-side and add [React](https://facebook.git
 
 React is a declarative, component-based, JavaScript library for building user interfaces.
 
-If you're new to React, review the [Quick Start](https://facebook.github.io/react/docs/hello-world.html) and the excellent [Why did we build React?](https://facebook.github.io/react/blog/2013/06/05/why-react.html) blog post. You may also want to step through the [Intro to React](https://github.com/mjhea0/react-intro) tutorial. By the end of the tutorial, you should be able to:
-
-1. Set up a modern React environment with Babel and Webpack
-1. Create and render a React component in the browser
+If you're new to React, review the [Quick Start](https://facebook.github.io/react/docs/hello-world.html) and the excellent [Why did we build React?](https://facebook.github.io/react/blog/2013/06/05/why-react.html) blog post. You may also want to step through the [Intro to React](https://github.com/mjhea0/react-intro) tutorial to learn more about Babel and Webpack.
 
 Make sure you have [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/) installed before continuing:
 
