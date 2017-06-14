@@ -52,4 +52,4 @@ Grab the code:
 
 1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main)
 1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users)
-1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client)
+1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users/releases/tag/part2)

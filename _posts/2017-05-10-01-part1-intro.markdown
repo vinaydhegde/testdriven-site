@@ -39,6 +39,11 @@ This series uses the following tools and technologies:
 1. Axios v0.16.2
 1. Flask-CORS v3.0.2
 
+**Part 3**
+
+1. Flask-Migrate v2.0.4
+1. Flask-Bcrypt v0.7.1
+
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 
 | Topic            | Resource |

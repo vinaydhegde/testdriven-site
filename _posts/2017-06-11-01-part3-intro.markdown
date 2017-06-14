@@ -1,11 +1,15 @@
 ---
 title: Introduction
 layout: post
-date: 2017-06-25 23:59:59
+date: 2017-06-11 23:59:59
 permalink: part-three-intro
 part: 3
 share: true
 ---
+
+In Part 3, we'll implement token-based authentication to the users service with JSON Web Tokens (JWTs).
+
+#### Objectives
 
 By the end of part 3, you should be able to...
 
@@ -17,6 +21,4 @@ By the end of part 3, you should be able to...
 
 ---
 
-Handle errors in react (user already exists)
-
-Coming soon!
+WIP!
