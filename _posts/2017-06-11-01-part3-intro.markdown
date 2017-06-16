@@ -7,7 +7,7 @@ part: 3
 share: true
 ---
 
-In Part 3, we'll add database migrations along with password hashing in order to implement token-based authentication to the users service with JSON Web Tokens (JWTs).
+In Part 3, we'll add *database migrations* along with *password hashing* in order to implement *token-based authentication* to the users service with JSON Web Tokens (JWTs). We'll then turn our attention to the client and add *React Router* to the React app.
 
 #### Objectives
 
@@ -17,9 +17,6 @@ By the end of part 3, you should be able to...
 1. Configure Flask Bcrypt for password hashing
 1. Implement user authentication with JWTs
 1. Write tests to create and verify JWTs and user authentication
-1. Discuss the benefits of using JWTs versus sessions and cookies for authentication
-1. Log errors as necessary
-1. Configure Swagger to interact with a service
 
 ---
 
