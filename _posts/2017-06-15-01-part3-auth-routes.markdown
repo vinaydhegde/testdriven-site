@@ -557,3 +557,16 @@ project/config.py          19      0      0      0   100%
 ---------------------------------------------------------
 TOTAL                     199     37     32      4    82%
 ```
+
+Commit and push your code. Do the tests pass on Travis CI? You should see some errors since we did not set the `SECRET_KEY`. Add the export to the `before_script`:
+
+```
+before_script:
+  - export APP_SETTINGS="project.config.TestingConfig"
+  - export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test
+  - export SECRET_KEY=changeme
+  - psql -c 'create database users_test;' -U postgres
+  - python manage.py recreate_db
+```
+
+Commit and push your code again.

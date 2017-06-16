@@ -44,6 +44,7 @@ This series uses the following tools and technologies:
 1. Flask-Migrate v2.0.4
 1. Flask-Bcrypt v0.7.1
 1. PyJWT v1.5.0
+1. react-router-dom v4.1.1
 
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 

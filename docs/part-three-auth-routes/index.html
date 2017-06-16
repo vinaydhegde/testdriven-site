@@ -885,6 +885,16 @@ project/config.py          <span class="m">19</span>      <span class="m">0</spa
 ---------------------------------------------------------
 TOTAL                     <span class="m">199</span>     <span class="m">37</span>     <span class="m">32</span>      <span class="m">4</span>    82%
 </code></pre></div>
+<p>Commit and push your code. Do the tests pass on Travis CI? You should see some errors since we did not set the <code>SECRET_KEY</code>. Add the export to the <code>before_script</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">before_script:
+  - export APP_SETTINGS=&quot;project.config.TestingConfig&quot;
+  - export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test
+  - export SECRET_KEY=changeme
+  - psql -c &#39;create database users_test;&#39; -U postgres
+  - python manage.py recreate_db
+</code></pre></div>
+<p>Commit and push your code again.</p>
+
 
           
   <br><br>
@@ -1439,6 +1449,16 @@ project/config.py          <span class="m">19</span>      <span class="m">0</spa
 ---------------------------------------------------------
 TOTAL                     <span class="m">199</span>     <span class="m">37</span>     <span class="m">32</span>      <span class="m">4</span>    82%
 </code></pre></div>
+<p>Commit and push your code. Do the tests pass on Travis CI? You should see some errors since we did not set the <code>SECRET_KEY</code>. Add the export to the <code>before_script</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">before_script:
+  - export APP_SETTINGS=&quot;project.config.TestingConfig&quot;
+  - export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test
+  - export SECRET_KEY=changeme
+  - psql -c &#39;create database users_test;&#39; -U postgres
+  - python manage.py recreate_db
+</code></pre></div>
+<p>Commit and push your code again.</p>
+
 
           
   <br><br>

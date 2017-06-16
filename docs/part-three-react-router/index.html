@@ -353,7 +353,127 @@
 
           <h2>React Router</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll wire up routing in our React App to manage navigation between different components...</p>
+
+<hr>
+
+<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just ran in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
+
+<blockquote>
+<p>Keep in mind that React Router is only necessary for apps that have more than one page.</p>
+</blockquote>
+
+<p>In the terminal, open <em>flask-microservices-client</em> and then install <a href="https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom">react-router-dom</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --save react-router-dom@4.1.1
+</code></pre></div>
+<h4 id="check-your-understanding">Check Your Understanding</h4>
+
+<blockquote>
+<p>This part is optional but highly recommended.</p>
+</blockquote>
+
+<p>Put your skills to test!</p>
+
+<ol>
+<li>Start a new React App on your own with Create React App in a new project directory.</li>
+<li>Add two components - <code>Home</code> and <code>Contact</code>. These should be functional components that just display an <code>&lt;h2&gt;</code> element with the name of the component.</li>
+<li>Follow the official <a href="https://reacttraining.com/react-router/web/guides/quick-start">Quick Start</a> guide to add react-router-dom to your app.</li>
+</ol>
+
+<h4 id="refactor">Refactor</h4>
+
+<p>Before adding the Router, let&#39;s move the <code>App</code> component out of <em>index.js</em> to clean things up. Add an <em>App.jsx</em> file to the &quot;src&quot; directory, and then update both files...</p>
+
+<p><em>App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">AddUser</span> <span class="nx">from</span> <span class="s1">&#39;./components/AddUser&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">()</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">users</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
+    <span class="p">}</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">handleChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+            <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">AddUser</span>
+              <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+              <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span>
+</code></pre></div>
+<p><em>index.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">&#39;./App.jsx&#39;</span><span class="p">;</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">App</span><span class="o">/&gt;</span><span class="p">,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>To test locally, make sure the <code>dev</code> machine is up, running, and is the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>And then set the environment variable and run the React app:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span>npm start
+</code></pre></div>
+<hr>
+
+<p>WIP</p>
 
 
           
@@ -377,7 +497,127 @@
 
           <h2>React Router</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll wire up routing in our React App to manage navigation between different components...</p>
+
+<hr>
+
+<p>At this point, you should already be quite familiar with the concept of routing on the server-side. Well, client-side routing is the really the same - it&#39;s just ran in the browser. For more on this, review the excellent <a href="http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash">Deep dive into client-side routing</a> article.</p>
+
+<blockquote>
+<p>Keep in mind that React Router is only necessary for apps that have more than one page.</p>
+</blockquote>
+
+<p>In the terminal, open <em>flask-microservices-client</em> and then install <a href="https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom">react-router-dom</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --save react-router-dom@4.1.1
+</code></pre></div>
+<h4 id="check-your-understanding">Check Your Understanding</h4>
+
+<blockquote>
+<p>This part is optional but highly recommended.</p>
+</blockquote>
+
+<p>Put your skills to test!</p>
+
+<ol>
+<li>Start a new React App on your own with Create React App in a new project directory.</li>
+<li>Add two components - <code>Home</code> and <code>Contact</code>. These should be functional components that just display an <code>&lt;h2&gt;</code> element with the name of the component.</li>
+<li>Follow the official <a href="https://reacttraining.com/react-router/web/guides/quick-start">Quick Start</a> guide to add react-router-dom to your app.</li>
+</ol>
+
+<h4 id="refactor">Refactor</h4>
+
+<p>Before adding the Router, let&#39;s move the <code>App</code> component out of <em>index.js</em> to clean things up. Add an <em>App.jsx</em> file to the &quot;src&quot; directory, and then update both files...</p>
+
+<p><em>App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">AddUser</span> <span class="nx">from</span> <span class="s1">&#39;./components/AddUser&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">()</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">users</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
+    <span class="p">}</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">handleChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+            <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">AddUser</span>
+              <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+              <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+              <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+              <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span> <span class="p">}</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span>
+</code></pre></div>
+<p><em>index.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">App</span> <span class="nx">from</span> <span class="s1">&#39;./App.jsx&#39;</span><span class="p">;</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">App</span><span class="o">/&gt;</span><span class="p">,</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>To test locally, make sure the <code>dev</code> machine is up, running, and is the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>And then set the environment variable and run the React app:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span>npm start
+</code></pre></div>
+<hr>
+
+<p>WIP</p>
 
 
           
