@@ -343,8 +343,538 @@
 
           <h2>Auth Routes</h2>
 
-          <p>Coming soon!</p>
+          <p>Now we can configure the authentication routes...</p>
 
+<hr>
+
+<p>Before we add the new routes, let&#39;s refactor the current API. Start by renaming <em>flask-microservices-users/project/api/views.py</em> to <em>flask-microservices-users/project/api/users.py</em> Then, within <em>flask-microservices-users/project/__init__.py</em>, update the import:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">...</span>
+<span class="c"># register blueprints</span>
+<span class="kn">from</span> <span class="nn">project.api.users</span> <span class="kn">import</span> <span class="n">users_blueprint</span>
+<span class="o">...</span>
+</code></pre></div>
+<p>Run the tests to make sure nothing broke.</p>
+
+<h4 id="routes-setup">Routes Setup</h4>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register a user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in a user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>Get</td>
+<td>Yes</td>
+<td>log out a user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>Get</td>
+<td>Yes</td>
+<td>get user status</td>
+</tr>
+</tbody></table>
+
+<p>Add a new file to the &quot;api&quot; directory called <em>auth.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/api/auth.py</span>
+
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">make_response</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">exc</span><span class="p">,</span> <span class="n">or_</span>
+
+<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">bcrypt</span>
+
+
+<span class="n">auth_blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">&#39;auth&#39;</span><span class="p">,</span> <span class="n">__name__</span><span class="p">)</span>
+</code></pre></div>
+<p>Then, register the new Blueprint with the app in <em>project/__init__.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">...</span>
+<span class="c"># register blueprints</span>
+<span class="kn">from</span> <span class="nn">project.api.users</span> <span class="kn">import</span> <span class="n">users_blueprint</span>
+<span class="kn">from</span> <span class="nn">project.api.auth</span> <span class="kn">import</span> <span class="n">auth_blueprint</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">auth_blueprint</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">users_blueprint</span><span class="p">)</span>
+<span class="o">...</span>
+</code></pre></div>
+<p>Add a new file called <em>test_auth.py</em> to the &quot;tests&quot; folder to hold all tests associated with the Blueprint:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/test_auth.py</span>
+
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">project.tests.base</span> <span class="kn">import</span> <span class="n">BaseTestCase</span>
+<span class="kn">from</span> <span class="nn">project.tests.utils</span> <span class="kn">import</span> <span class="n">add_user</span>
+
+
+<span class="k">class</span> <span class="nc">TestAuthBlueprint</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+<h4 id="register-route">Register Route</h4>
+
+<p>Start with a test:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_user_registration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;123456&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Successfully registered.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;auth_token&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">==</span> <span class="s">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+</code></pre></div>
+<p>This only tests the happy path. What about failures?</p>
+
+<ol>
+<li>email exists</li>
+<li>username exists</li>
+<li>invalid payload (empty, no username, no email, no password)</li>
+</ol>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_user_registration_duplicate_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
+            <span class="s">&#39;Sorry. That user already exists.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_duplicate_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">,</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com2&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
+            <span class="s">&#39;Sorry. That user already exists.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_invalid_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">()),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_invalid_json_keys_no_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_invalid_json_keys_no_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_invalid_json_keys_no_password</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>Ensure the tests fail, and then add the view:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@auth_blueprint.route</span><span class="p">(</span><span class="s">&#39;/auth/register&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>
+    <span class="c"># get post data</span>
+    <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">post_data</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c"># check for existing user</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">or_</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">username</span><span class="p">,</span> <span class="n">User</span><span class="o">.</span><span class="n">email</span><span class="o">==</span><span class="n">email</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
+            <span class="c"># add new user to db</span>
+            <span class="n">new_user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+                <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="n">password</span>
+            <span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_user</span><span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="c"># generate auth token</span>
+            <span class="n">auth_token</span> <span class="o">=</span> <span class="n">new_user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">new_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully registered.&#39;</span><span class="p">,</span>
+                <span class="s">&#39;auth_token&#39;</span><span class="p">:</span> <span class="n">auth_token</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">201</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Sorry. That user already exists.&#39;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="c"># handler errors</span>
+    <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+</code></pre></div>
+<h4 id="login-route">Login Route</h4>
+
+<p>Again, start with a few tests:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_registered_user_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Successfully logged in.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;auth_token&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">==</span> <span class="s">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_not_registered_user_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;User does not exist.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">==</span> <span class="s">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">404</span><span class="p">)</span>
+</code></pre></div>
+<p>Run the tests. They should fail. Now write the code:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@auth_blueprint.route</span><span class="p">(</span><span class="s">&#39;/auth/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">login_user</span><span class="p">():</span>
+    <span class="c"># get post data</span>
+    <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">post_data</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c"># fetch the user data</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">check_password_hash</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+            <span class="n">auth_token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">auth_token</span><span class="p">:</span>
+                <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully logged in.&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;auth_token&#39;</span><span class="p">:</span> <span class="n">auth_token</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;User does not exist.&#39;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">404</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Try again.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">500</span>
+</code></pre></div>
+<h4 id="logout-route">Logout Route</h4>
+
+<p>Test valid logout:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_valid_logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="c"># user login</span>
+        <span class="n">resp_login</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="c"># valid token logout</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/logout&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer &#39;</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                    <span class="n">resp_login</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">)[</span><span class="s">&#39;auth_token&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Successfully logged out.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</code></pre></div>
+<p>Test invalid logout:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_invalid_logout_expired_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">resp_login</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="c"># invalid token logout</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/logout&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer &#39;</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                    <span class="n">resp_login</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">)[</span><span class="s">&#39;auth_token&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Signature expired. Please log in again.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_invalid_logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/logout&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer invalid&#39;</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Invalid token. Please log in again.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
+</code></pre></div>
+<p>Add the import:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">time</span>
+</code></pre></div>
+<p>Update the views:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@auth_blueprint.route</span><span class="p">(</span><span class="s">&#39;/auth/logout&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">logout_user</span><span class="p">():</span>
+    <span class="c"># get auth token</span>
+    <span class="n">auth_header</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Authorization&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">auth_header</span><span class="p">:</span>
+        <span class="n">auth_token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully logged out.&#39;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">resp</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Provide a valid auth token.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">403</span>
+</code></pre></div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">Ran <span class="m">31</span> tests in 6.683s
+
+OK
+</code></pre></div>
+<h4 id="status-route">Status Route</h4>
+
+<p>Remember: In order to get the user details of the currently logged in user, the auth token <em>must</em> be sent with the request.</p>
+
+<p>Start with some tests:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_user_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">resp_login</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/status&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer &#39;</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                    <span class="n">resp_login</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">)[</span><span class="s">&#39;auth_token&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;email&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;active&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;created_at&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_invalid_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/status&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer invalid&#39;</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Invalid token. Please log in again.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
+</code></pre></div>
+<p>The tests should fail. Now, in the route handler, we should:</p>
+
+<ol>
+<li>extract the auth token and check its validity</li>
+<li>grab the user id from the payload and get the user details (if the token is valid, of course)</li>
+</ol>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@auth_blueprint.route</span><span class="p">(</span><span class="s">&#39;/auth/status&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_user_status</span><span class="p">():</span>
+    <span class="c"># get auth token</span>
+    <span class="n">auth_header</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Authorization&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">auth_header</span><span class="p">:</span>
+        <span class="n">auth_token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">resp</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+                <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="s">&#39;username&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                    <span class="s">&#39;email&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+                    <span class="s">&#39;active&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">active</span><span class="p">,</span>
+                    <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">resp</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Provide a valid auth token.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+</code></pre></div>
+<p>Test one final time.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">Ran <span class="m">33</span> tests in 6.684s
+
+OK
+Coverage Summary:
+Name                    Stmts   Miss Branch BrPart  Cover
+---------------------------------------------------------
+project/__init__.py        <span class="m">22</span>     <span class="m">10</span>      <span class="m">0</span>      <span class="m">0</span>    55%
+project/api/auth.py        <span class="m">77</span>     <span class="m">10</span>     <span class="m">20</span>      <span class="m">4</span>    86%
+project/api/models.py      <span class="m">31</span>     <span class="m">17</span>      <span class="m">2</span>      <span class="m">0</span>    48%
+project/api/users.py       <span class="m">50</span>      <span class="m">0</span>     <span class="m">10</span>      <span class="m">0</span>   100%
+project/config.py          <span class="m">19</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
+---------------------------------------------------------
+TOTAL                     <span class="m">199</span>     <span class="m">37</span>     <span class="m">32</span>      <span class="m">4</span>    82%
+</code></pre></div>
 
           
   <br><br>
@@ -367,8 +897,538 @@
 
           <h2>Auth Routes</h2>
 
-          <p>Coming soon!</p>
+          <p>Now we can configure the authentication routes...</p>
 
+<hr>
+
+<p>Before we add the new routes, let&#39;s refactor the current API. Start by renaming <em>flask-microservices-users/project/api/views.py</em> to <em>flask-microservices-users/project/api/users.py</em> Then, within <em>flask-microservices-users/project/__init__.py</em>, update the import:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">...</span>
+<span class="c"># register blueprints</span>
+<span class="kn">from</span> <span class="nn">project.api.users</span> <span class="kn">import</span> <span class="n">users_blueprint</span>
+<span class="o">...</span>
+</code></pre></div>
+<p>Run the tests to make sure nothing broke.</p>
+
+<h4 id="routes-setup">Routes Setup</h4>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register a user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in a user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>Get</td>
+<td>Yes</td>
+<td>log out a user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>Get</td>
+<td>Yes</td>
+<td>get user status</td>
+</tr>
+</tbody></table>
+
+<p>Add a new file to the &quot;api&quot; directory called <em>auth.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/api/auth.py</span>
+
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">make_response</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">exc</span><span class="p">,</span> <span class="n">or_</span>
+
+<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">bcrypt</span>
+
+
+<span class="n">auth_blueprint</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s">&#39;auth&#39;</span><span class="p">,</span> <span class="n">__name__</span><span class="p">)</span>
+</code></pre></div>
+<p>Then, register the new Blueprint with the app in <em>project/__init__.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">...</span>
+<span class="c"># register blueprints</span>
+<span class="kn">from</span> <span class="nn">project.api.users</span> <span class="kn">import</span> <span class="n">users_blueprint</span>
+<span class="kn">from</span> <span class="nn">project.api.auth</span> <span class="kn">import</span> <span class="n">auth_blueprint</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">auth_blueprint</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">users_blueprint</span><span class="p">)</span>
+<span class="o">...</span>
+</code></pre></div>
+<p>Add a new file called <em>test_auth.py</em> to the &quot;tests&quot; folder to hold all tests associated with the Blueprint:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/test_auth.py</span>
+
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">project.tests.base</span> <span class="kn">import</span> <span class="n">BaseTestCase</span>
+<span class="kn">from</span> <span class="nn">project.tests.utils</span> <span class="kn">import</span> <span class="n">add_user</span>
+
+
+<span class="k">class</span> <span class="nc">TestAuthBlueprint</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+<h4 id="register-route">Register Route</h4>
+
+<p>Start with a test:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_user_registration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;123456&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Successfully registered.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;auth_token&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">==</span> <span class="s">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+</code></pre></div>
+<p>This only tests the happy path. What about failures?</p>
+
+<ol>
+<li>email exists</li>
+<li>username exists</li>
+<li>invalid payload (empty, no username, no email, no password)</li>
+</ol>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_user_registration_duplicate_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
+            <span class="s">&#39;Sorry. That user already exists.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_duplicate_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">,</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com2&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
+            <span class="s">&#39;Sorry. That user already exists.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_invalid_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">()),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_invalid_json_keys_no_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_invalid_json_keys_no_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_user_registration_invalid_json_keys_no_password</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>Ensure the tests fail, and then add the view:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@auth_blueprint.route</span><span class="p">(</span><span class="s">&#39;/auth/register&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register_user</span><span class="p">():</span>
+    <span class="c"># get post data</span>
+    <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">post_data</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c"># check for existing user</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+            <span class="n">or_</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="n">username</span><span class="p">,</span> <span class="n">User</span><span class="o">.</span><span class="n">email</span><span class="o">==</span><span class="n">email</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
+            <span class="c"># add new user to db</span>
+            <span class="n">new_user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+                <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+                <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="n">password</span>
+            <span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_user</span><span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="c"># generate auth token</span>
+            <span class="n">auth_token</span> <span class="o">=</span> <span class="n">new_user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">new_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully registered.&#39;</span><span class="p">,</span>
+                <span class="s">&#39;auth_token&#39;</span><span class="p">:</span> <span class="n">auth_token</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">201</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Sorry. That user already exists.&#39;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="c"># handler errors</span>
+    <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+</code></pre></div>
+<h4 id="login-route">Login Route</h4>
+
+<p>Again, start with a few tests:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_registered_user_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Successfully logged in.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;auth_token&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">==</span> <span class="s">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_not_registered_user_login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;User does not exist.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content_type</span> <span class="o">==</span> <span class="s">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">404</span><span class="p">)</span>
+</code></pre></div>
+<p>Run the tests. They should fail. Now write the code:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@auth_blueprint.route</span><span class="p">(</span><span class="s">&#39;/auth/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">login_user</span><span class="p">():</span>
+    <span class="c"># get post data</span>
+    <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">post_data</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c"># fetch the user data</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">bcrypt</span><span class="o">.</span><span class="n">check_password_hash</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+            <span class="n">auth_token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">auth_token</span><span class="p">:</span>
+                <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully logged in.&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;auth_token&#39;</span><span class="p">:</span> <span class="n">auth_token</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;User does not exist.&#39;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">404</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Try again.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">500</span>
+</code></pre></div>
+<h4 id="logout-route">Logout Route</h4>
+
+<p>Test valid logout:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_valid_logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="c"># user login</span>
+        <span class="n">resp_login</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="c"># valid token logout</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/logout&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer &#39;</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                    <span class="n">resp_login</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">)[</span><span class="s">&#39;auth_token&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Successfully logged out.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</code></pre></div>
+<p>Test invalid logout:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_invalid_logout_expired_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">resp_login</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="c"># invalid token logout</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/logout&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer &#39;</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                    <span class="n">resp_login</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">)[</span><span class="s">&#39;auth_token&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Signature expired. Please log in again.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_invalid_logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/logout&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer invalid&#39;</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Invalid token. Please log in again.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
+</code></pre></div>
+<p>Add the import:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">time</span>
+</code></pre></div>
+<p>Update the views:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@auth_blueprint.route</span><span class="p">(</span><span class="s">&#39;/auth/logout&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">logout_user</span><span class="p">():</span>
+    <span class="c"># get auth token</span>
+    <span class="n">auth_header</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Authorization&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">auth_header</span><span class="p">:</span>
+        <span class="n">auth_token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully logged out.&#39;</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+                <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">resp</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Provide a valid auth token.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">403</span>
+</code></pre></div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">Ran <span class="m">31</span> tests in 6.683s
+
+OK
+</code></pre></div>
+<h4 id="status-route">Status Route</h4>
+
+<p>Remember: In order to get the user details of the currently logged in user, the auth token <em>must</em> be sent with the request.</p>
+
+<p>Start with some tests:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_user_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">resp_login</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/auth/login&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/status&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer &#39;</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+                    <span class="n">resp_login</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                <span class="p">)[</span><span class="s">&#39;auth_token&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;email&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;active&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;created_at&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">test_invalid_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s">&#39;/auth/status&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer invalid&#39;</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Invalid token. Please log in again.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">401</span><span class="p">)</span>
+</code></pre></div>
+<p>The tests should fail. Now, in the route handler, we should:</p>
+
+<ol>
+<li>extract the auth token and check its validity</li>
+<li>grab the user id from the payload and get the user details (if the token is valid, of course)</li>
+</ol>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@auth_blueprint.route</span><span class="p">(</span><span class="s">&#39;/auth/status&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_user_status</span><span class="p">():</span>
+    <span class="c"># get auth token</span>
+    <span class="n">auth_header</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Authorization&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">auth_header</span><span class="p">:</span>
+        <span class="n">auth_token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">resp</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+            <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+                <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                    <span class="s">&#39;username&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+                    <span class="s">&#39;email&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+                    <span class="s">&#39;active&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">active</span><span class="p">,</span>
+                    <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">resp</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Provide a valid auth token.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+</code></pre></div>
+<p>Test one final time.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">Ran <span class="m">33</span> tests in 6.684s
+
+OK
+Coverage Summary:
+Name                    Stmts   Miss Branch BrPart  Cover
+---------------------------------------------------------
+project/__init__.py        <span class="m">22</span>     <span class="m">10</span>      <span class="m">0</span>      <span class="m">0</span>    55%
+project/api/auth.py        <span class="m">77</span>     <span class="m">10</span>     <span class="m">20</span>      <span class="m">4</span>    86%
+project/api/models.py      <span class="m">31</span>     <span class="m">17</span>      <span class="m">2</span>      <span class="m">0</span>    48%
+project/api/users.py       <span class="m">50</span>      <span class="m">0</span>     <span class="m">10</span>      <span class="m">0</span>   100%
+project/config.py          <span class="m">19</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
+---------------------------------------------------------
+TOTAL                     <span class="m">199</span>     <span class="m">37</span>     <span class="m">32</span>      <span class="m">4</span>    82%
+</code></pre></div>
 
           
   <br><br>
