@@ -30,9 +30,7 @@ Create a new file called *NavBar.jsx* in "src/components":
 
 ```javascript
 import React from 'react';
-import {
-  Navbar, Nav, NavItem, NavDropdown, MenuItem
-} from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const NavBar = (props) => (
@@ -133,3 +131,97 @@ Test it out in the browser before moving on.
 #### Form
 
 Instead of using two different components to handle user registration and login, let's create a generic form component and customize it based on the state.
+
+Create a new file called *Form.jsx* in "src/components":
+
+```javascript
+import React from 'react';
+
+const Form = (props) => {
+  return (
+    <div>
+      <h1>{props.formType}</h1>
+      <hr/><br/>
+      <form onSubmit={ (event) => props.addUser(event) }>
+        {props.formType === 'Register' &&
+          <div className="form-group">
+            <input
+              name="username"
+              className="form-control input-lg"
+              type="text"
+              placeholder="Enter a username"
+              required
+              value={props.formData.username}
+              onChange={props.handleFormChange}
+            />
+          </div>
+        }
+        <div className="form-group">
+          <input
+            name="email"
+            className="form-control input-lg"
+            type="email"
+            placeholder="Enter an email address"
+            required
+            value={props.email}
+            onChange={props.handleFormChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            name="password"
+            className="form-control input-lg"
+            type="password"
+            placeholder="Enter a password"
+            required
+            value={props.password}
+            onChange={props.handleFormChange}
+          />
+        </div>
+        <input
+          type="submit"
+          className="btn btn-primary btn-lg btn-block"
+          value="Submit"
+        />
+      </form>
+    </div>
+  )
+}
+
+export default Form
+```
+
+Did you notice the [inline if](https://facebook.github.io/react/docs/conditional-rendering.html#inline-if-with-logical--operator) statement - `props.formType === 'Register' &&`? Review the code above, adding in code comments as needed.
+
+Import the component into *App.jsx*, and then update the state in the constructor:
+
+```javascript
+this.state = {
+  users: [],
+  username: '',
+  email: '',
+  title: 'TestDriven.io',
+  formData: {}
+}
+```
+
+Add the component to the `<Switch>`:
+
+```javascript
+<Route exact path='/register' render={() => (
+  <Form
+    formType={'Register'}
+    formData={this.state.formData}
+  />
+)} />
+<Route exact path='/login' render={() => (
+  <Form
+    formType={'Login'}
+    formData={this.state.formData}
+  />
+)} />
+```
+
+Make sure the routes work in the browser, but don't try to submit the forms just yet - we still need to wire them up!
+
+Commit your code.

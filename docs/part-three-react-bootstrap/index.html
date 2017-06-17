@@ -337,6 +337,16 @@
         </ul>
       
         
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-authentication"
+            >React Authentication</a>
+          </li>
+        </ul>
+      
+        
           <li>
             <h5 data-part="4" class="collapsible-header  waves-effect waves-teal">
               Part 4
@@ -384,9 +394,7 @@
 
 <p>Create a new file called <em>NavBar.jsx</em> in &quot;src/components&quot;:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span>
-  <span class="nx">Navbar</span><span class="p">,</span> <span class="nx">Nav</span><span class="p">,</span> <span class="nx">NavItem</span><span class="p">,</span> <span class="nx">NavDropdown</span><span class="p">,</span> <span class="nx">MenuItem</span>
-<span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Navbar</span><span class="p">,</span> <span class="nx">Nav</span><span class="p">,</span> <span class="nx">NavItem</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">LinkContainer</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-bootstrap&#39;</span><span class="p">;</span>
 
 <span class="kr">const</span> <span class="nx">NavBar</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
@@ -478,6 +486,91 @@
 
 <p>Instead of using two different components to handle user registration and login, let&#39;s create a generic form component and customize it based on the state.</p>
 
+<p>Create a new file called <em>Form.jsx</em> in &quot;src/components&quot;:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">Form</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;Register&#39;</span> <span class="o">&amp;&amp;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="p">}</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">input</span>
+            <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+            <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+            <span class="nx">required</span>
+            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+            <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+          <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">input</span>
+            <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+            <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
+            <span class="nx">required</span>
+            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
+            <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+          <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="nx">input</span>
+          <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+          <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+          <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+        <span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="err">/form&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
+</code></pre></div>
+<p>Did you notice the <a href="https://facebook.github.io/react/docs/conditional-rendering.html#inline-if-with-logical--operator">inline if</a> statement - <code>props.formType === &#39;Register&#39; &amp;&amp;</code>? Review the code above, adding in code comments as needed.</p>
+
+<p>Import the component into <em>App.jsx</em>, and then update the state in the constructor:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+  <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+  <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;TestDriven.io&#39;</span><span class="p">,</span>
+  <span class="nx">formData</span><span class="o">:</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Add the component to the <code>&lt;Switch&gt;</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Form</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Register&#39;</span><span class="p">}</span>
+    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/login&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Form</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Login&#39;</span><span class="p">}</span>
+    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Make sure the routes work in the browser, but don&#39;t try to submit the forms just yet - we still need to wire them up!</p>
+
+<p>Commit your code.</p>
+
 
           
   <br><br>
@@ -490,7 +583,7 @@
               <a class="prev btn left-align" href="/part-three-react-router">&laquo; React Router</a>
             
             
-              <a class="next btn right-align" href="/part-four-intro">Introduction &raquo;</a>
+              <a class="next btn right-align" href="/part-three-react-authentication">React Authentication &raquo;</a>
             
           </div>
 
@@ -521,9 +614,7 @@
 
 <p>Create a new file called <em>NavBar.jsx</em> in &quot;src/components&quot;:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span>
-  <span class="nx">Navbar</span><span class="p">,</span> <span class="nx">Nav</span><span class="p">,</span> <span class="nx">NavItem</span><span class="p">,</span> <span class="nx">NavDropdown</span><span class="p">,</span> <span class="nx">MenuItem</span>
-<span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Navbar</span><span class="p">,</span> <span class="nx">Nav</span><span class="p">,</span> <span class="nx">NavItem</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
 <span class="kr">import</span> <span class="p">{</span> <span class="nx">LinkContainer</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-bootstrap&#39;</span><span class="p">;</span>
 
 <span class="kr">const</span> <span class="nx">NavBar</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
@@ -615,6 +706,91 @@
 
 <p>Instead of using two different components to handle user registration and login, let&#39;s create a generic form component and customize it based on the state.</p>
 
+<p>Create a new file called <em>Form.jsx</em> in &quot;src/components&quot;:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">Form</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;Register&#39;</span> <span class="o">&amp;&amp;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="p">}</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">input</span>
+            <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+            <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+            <span class="nx">required</span>
+            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+            <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+          <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">input</span>
+            <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+            <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
+            <span class="nx">required</span>
+            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
+            <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+          <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="nx">input</span>
+          <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+          <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+          <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+        <span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="err">/form&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
+</code></pre></div>
+<p>Did you notice the <a href="https://facebook.github.io/react/docs/conditional-rendering.html#inline-if-with-logical--operator">inline if</a> statement - <code>props.formType === &#39;Register&#39; &amp;&amp;</code>? Review the code above, adding in code comments as needed.</p>
+
+<p>Import the component into <em>App.jsx</em>, and then update the state in the constructor:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+  <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+  <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;TestDriven.io&#39;</span><span class="p">,</span>
+  <span class="nx">formData</span><span class="o">:</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Add the component to the <code>&lt;Switch&gt;</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Form</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Register&#39;</span><span class="p">}</span>
+    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/login&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Form</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Login&#39;</span><span class="p">}</span>
+    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Make sure the routes work in the browser, but don&#39;t try to submit the forms just yet - we still need to wire them up!</p>
+
+<p>Commit your code.</p>
+
 
           
   <br><br>
@@ -627,7 +803,7 @@
               <a class="prev btn left-align" href="/part-three-react-router">&laquo; React Router</a>
             
             
-              <a class="next btn right-align" href="/part-four-intro">Introduction &raquo;</a>
+              <a class="next btn right-align" href="/part-three-react-authentication">React Authentication &raquo;</a>
             
           </div>
 

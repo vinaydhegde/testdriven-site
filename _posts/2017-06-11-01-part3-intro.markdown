@@ -18,6 +18,7 @@ By the end of part 3, you should be able to...
 1. Implement user authentication with JWTs
 1. Write tests to create and verify JWTs and user authentication
 1. Use React Router to define client-side routes in React
+1. Build UI components with React Bootstrap
 
 ---
 
