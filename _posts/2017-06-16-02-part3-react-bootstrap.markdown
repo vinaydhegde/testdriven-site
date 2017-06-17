@@ -142,7 +142,7 @@ const Form = (props) => {
     <div>
       <h1>{props.formType}</h1>
       <hr/><br/>
-      <form onSubmit={ (event) => props.addUser(event) }>
+      <form onSubmit={ (event) => props.handleUserFormSubmit(event) }>
         {props.formType === 'Register' &&
           <div className="form-group">
             <input
@@ -163,7 +163,7 @@ const Form = (props) => {
             type="email"
             placeholder="Enter an email address"
             required
-            value={props.email}
+            value={props.formData.email}
             onChange={props.handleFormChange}
           />
         </div>
@@ -174,7 +174,7 @@ const Form = (props) => {
             type="password"
             placeholder="Enter a password"
             required
-            value={props.password}
+            value={props.formData.password}
             onChange={props.handleFormChange}
           />
         </div>
@@ -201,7 +201,11 @@ this.state = {
   username: '',
   email: '',
   title: 'TestDriven.io',
-  formData: {}
+  formData: {
+    username: '',
+    email: '',
+    password: ''
+  }
 }
 ```
 

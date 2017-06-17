@@ -373,7 +373,95 @@
 
           <h2>React Authentication</h2>
 
-          <p>Coming soon!</p>
+          <p>Let&#39;s add some methods to handle a user signing up, logging in, and logging out...</p>
+
+<hr>
+
+<p>With the <code>Form</code> component set up, we can now configure the methods to:</p>
+
+<ol>
+<li>Handle form submit event</li>
+<li>Obtain user input</li>
+<li>Send AJAX request</li>
+<li>Update the page</li>
+</ol>
+
+<blockquote>
+<p>These steps should look familiar since we already went through this process in the <a href="/part-two-react-forms/">React Forms</a> lesson. Put yourself to test and implement the code yourself before going through this lesson.</p>
+</blockquote>
+
+<h4 id="registration">Registration</h4>
+
+<p>Turn to <em>Form.jsx</em>. Which method gets fired on the form submit?</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Add the method to the <code>App</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;sanity check!&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>And then pass it down on the <code>props</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Form</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Register&#39;</span><span class="p">}</span>
+    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
+    <span class="nx">handleUserFormSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/login&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Form</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Login&#39;</span><span class="p">}</span>
+    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
+    <span class="nx">handleUserFormSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit for both forms. Remove the <code>console.log(&#39;sanity check!&#39;)</code> when done.</p>
+
+<p>Next, to get the user inputs, add the following method to <code>App</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span>
+  <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Pass it down on the <code>props</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleFormChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+</code></pre></div>
+<p>Add a <code>console.log()</code> to the method - <code>console.log(this.state.formData);</code> - to ensure it works when you test it in the browser. Remove it once done.</p>
+
+<p>What&#39;s next? AJAX!</p>
+
+<p>Update the <code>handleUserFormSubmit</code> method to send the data to the user service on a successful form submit:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">reverse</span><span class="p">()[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="kd">let</span> <span class="nx">data</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">auth</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">formType</span><span class="p">}</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr>
+
+<p>WIP</p>
 
 
           
@@ -397,7 +485,95 @@
 
           <h2>React Authentication</h2>
 
-          <p>Coming soon!</p>
+          <p>Let&#39;s add some methods to handle a user signing up, logging in, and logging out...</p>
+
+<hr>
+
+<p>With the <code>Form</code> component set up, we can now configure the methods to:</p>
+
+<ol>
+<li>Handle form submit event</li>
+<li>Obtain user input</li>
+<li>Send AJAX request</li>
+<li>Update the page</li>
+</ol>
+
+<blockquote>
+<p>These steps should look familiar since we already went through this process in the <a href="/part-two-react-forms/">React Forms</a> lesson. Put yourself to test and implement the code yourself before going through this lesson.</p>
+</blockquote>
+
+<h4 id="registration">Registration</h4>
+
+<p>Turn to <em>Form.jsx</em>. Which method gets fired on the form submit?</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Add the method to the <code>App</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;sanity check!&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>And then pass it down on the <code>props</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Form</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Register&#39;</span><span class="p">}</span>
+    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
+    <span class="nx">handleUserFormSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/login&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Form</span>
+    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Login&#39;</span><span class="p">}</span>
+    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
+    <span class="nx">handleUserFormSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit for both forms. Remove the <code>console.log(&#39;sanity check!&#39;)</code> when done.</p>
+
+<p>Next, to get the user inputs, add the following method to <code>App</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span>
+  <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Pass it down on the <code>props</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleFormChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+</code></pre></div>
+<p>Add a <code>console.log()</code> to the method - <code>console.log(this.state.formData);</code> - to ensure it works when you test it in the browser. Remove it once done.</p>
+
+<p>What&#39;s next? AJAX!</p>
+
+<p>Update the <code>handleUserFormSubmit</code> method to send the data to the user service on a successful form submit:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">reverse</span><span class="p">()[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="kd">let</span> <span class="nx">data</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">auth</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">formType</span><span class="p">}</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr>
+
+<p>WIP</p>
 
 
           

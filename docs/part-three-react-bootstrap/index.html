@@ -494,7 +494,7 @@
     <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
       <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
       <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-      <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
         <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;Register&#39;</span> <span class="o">&amp;&amp;</span>
           <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
             <span class="o">&lt;</span><span class="nx">input</span>
@@ -515,7 +515,7 @@
             <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
             <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
             <span class="nx">required</span>
-            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
             <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
           <span class="o">/&gt;</span>
         <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -526,7 +526,7 @@
             <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
             <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
             <span class="nx">required</span>
-            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
+            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
             <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
           <span class="o">/&gt;</span>
         <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -550,7 +550,11 @@
   <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
   <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
   <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;TestDriven.io&#39;</span><span class="p">,</span>
-  <span class="nx">formData</span><span class="o">:</span> <span class="p">{}</span>
+  <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Add the component to the <code>&lt;Switch&gt;</code>:</p>
@@ -714,7 +718,7 @@
     <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
       <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
       <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-      <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
         <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;Register&#39;</span> <span class="o">&amp;&amp;</span>
           <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
             <span class="o">&lt;</span><span class="nx">input</span>
@@ -735,7 +739,7 @@
             <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
             <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
             <span class="nx">required</span>
-            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
             <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
           <span class="o">/&gt;</span>
         <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -746,7 +750,7 @@
             <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
             <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
             <span class="nx">required</span>
-            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
+            <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
             <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
           <span class="o">/&gt;</span>
         <span class="o">&lt;</span><span class="err">/div&gt;</span>
@@ -770,7 +774,11 @@
   <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
   <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
   <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;TestDriven.io&#39;</span><span class="p">,</span>
-  <span class="nx">formData</span><span class="o">:</span> <span class="p">{}</span>
+  <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Add the component to the <code>&lt;Switch&gt;</code>:</p>
