@@ -45,6 +45,8 @@ This series uses the following tools and technologies:
 1. Flask-Bcrypt v0.7.1
 1. PyJWT v1.5.0
 1. react-router-dom v4.1.1
+1. React Bootstrap v0.31.0
+1. React Router Bootstrap v@0.24.2
 
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 

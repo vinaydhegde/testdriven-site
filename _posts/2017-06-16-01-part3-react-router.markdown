@@ -6,7 +6,7 @@ permalink: part-three-react-router
 share: true
 ---
 
-In this lesson, we'll wire up routing in our React App to manage navigation between different components...
+In this lesson, we'll wire up routing in our React App to manage navigation between different components so the end user has unique pages to interact with...
 
 ---
 
@@ -133,6 +133,110 @@ $ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_DEV_IP
 $ npm start
 ```
 
----
+Make sure all is well!
 
-WIP
+#### Router Setup
+
+Let's start with a basic `/about` route.
+
+[React Router](https://github.com/ReactTraining/react-router) has two main components:
+
+1. `Router`: keeps your UI and URL in sync
+1. `Route`: maps a route to a component
+
+> We'll be using the `BrowserRouter` for routing, which uses the [HTML 5 History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API). Review the [docs](https://reacttraining.com/react-router/web/api/BrowserRouter) for more info.
+
+Add the router to *index.js*:
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom'
+
+import App from './App.jsx';
+
+ReactDOM.render((
+  <Router>
+    <App />
+  </Router>
+), document.getElementById('root'))
+```
+
+Let's add a new component to use for the route. Add a new file called *About.jsx* to "src":
+
+```javascript
+import React from 'react';
+
+const About = () => (
+  <div>
+    <h1>About</h1>
+    <hr/><br/>
+    <p>Add something relevant here.</p>
+  </div>
+)
+
+export default About;
+```
+
+To get a quick sanity check, import the component into *App.jsx*:
+
+```javascript
+import About from './components/About';
+```
+
+Then add the component to the `render` method, just below the `UsersList` component:
+
+```javascript
+...
+<UsersList users={ this.state.users }/>
+<About/>
+...
+```
+
+Make sure you can see the HTML in the browser.
+
+Now, to render the `About` component in a different route, update the `render` method again:
+
+```javascript
+render() {
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <br/>
+          <Switch>
+            <Route exact path='/' render={() => (
+              <div>
+                <h1>All Users</h1>
+                <hr/><br/>
+                <AddUser
+                  username={this.state.username}
+                  email={this.state.email}
+                  handleChange={ this.handleChange.bind(this) }
+                  addUser={ this.addUser.bind(this) }
+                />
+                <br/>
+                <UsersList users={ this.state.users }/>
+              </div>
+            )} />
+            <Route exact path='/about' component={About}/>
+          </Switch>
+        </div>
+      </div>
+    </div>
+  )
+}
+```
+
+Here, we used the `<Switch>` component to group `<Route>`s and then defined two routes - `/` and `/about`.
+
+> Make sure to review the official documentation on the [Switch](https://reacttraining.com/react-router/web/api/Switch) component.
+
+
+Don't forget the import:
+
+```javascript
+import { Route, Switch } from 'react-router-dom'
+```
+
+Save, and then test each route in the browser. Once done, commit and push your code.
