@@ -905,6 +905,22 @@ project/config.py          <span class="m">19</span>      <span class="m">0</spa
 ---------------------------------------------------------
 TOTAL                     <span class="m">199</span>     <span class="m">37</span>     <span class="m">32</span>      <span class="m">4</span>    82%
 </code></pre></div>
+<p>Then update <code>seed_db()</code> in <em>manage.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">seed_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Seeds the database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="s">&#39;michael@realpython.com&#39;</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="s">&#39;michaelherman&#39;</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="s">&#39;michael@mherman.org&#39;</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div>
 <p>Commit and push your code. Do the tests pass on Travis CI? You should see some errors since we did not set the <code>SECRET_KEY</code>. Add the export to the <code>before_script</code>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">before_script:
   - export APP_SETTINGS=&quot;project.config.TestingConfig&quot;
@@ -1468,6 +1484,22 @@ project/api/users.py       <span class="m">50</span>      <span class="m">0</spa
 project/config.py          <span class="m">19</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
 ---------------------------------------------------------
 TOTAL                     <span class="m">199</span>     <span class="m">37</span>     <span class="m">32</span>      <span class="m">4</span>    82%
+</code></pre></div>
+<p>Then update <code>seed_db()</code> in <em>manage.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">seed_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Seeds the database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="s">&#39;michael@realpython.com&#39;</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="s">&#39;michaelherman&#39;</span><span class="p">,</span>
+        <span class="n">email</span><span class="o">=</span><span class="s">&#39;michael@mherman.org&#39;</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre></div>
 <p>Commit and push your code. Do the tests pass on Travis CI? You should see some errors since we did not set the <code>SECRET_KEY</code>. Add the export to the <code>before_script</code>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">before_script:

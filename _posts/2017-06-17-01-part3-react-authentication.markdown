@@ -86,28 +86,37 @@ handleUserFormSubmit(event) {
   let data;
   if (formType === 'login') {
     data = {
-      email: this.formData.email,
-      password: this.state.password
+      email: this.state.formData.email,
+      password: this.state.formData.password
     }
   }
   if (formType === 'register') {
     data = {
-      username: this.formData.email,
-      email: this.formData.email,
-      password: this.state.password
+      username: this.state.formData.email,
+      email: this.state.formData.email,
+      password: this.state.formData.password
     }
   }
   const url = `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/${formType}`
   axios.post(url, data)
   .then((res) => {
-    console.log(res);
+    console.log(res.data);
   })
   .catch((err) => { console.log(err); })
 }
 ```
 
+Test the user registration out. If you have everything set up correctly, you should see an object in the JavaScript console with an auth token:
 
+```
+{
+  auth_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTc3NTM2ODMsImlhdCI6MTQ5Nzc1MzY3OCwic3ViIjo0fQ.vcRFb5v3znHkz8An12QUxrgXsLqoKv93kIsMf-pdfVw",
+  message: "Successfully registered.",
+  status: "success"
+}
+```
 
+Hold off on updating the page for now. Let's update the login form...
 
 ---
 

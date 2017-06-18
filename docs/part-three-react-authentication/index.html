@@ -440,25 +440,34 @@
   <span class="kd">let</span> <span class="nx">data</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
     <span class="p">}</span>
   <span class="p">}</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
     <span class="p">}</span>
   <span class="p">}</span>
   <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">auth</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">formType</span><span class="p">}</span><span class="err">`</span>
   <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
   <span class="p">})</span>
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>Test the user registration out. If you have everything set up correctly, you should see an object in the JavaScript console with an auth token:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+  auth_token: &quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTc3NTM2ODMsImlhdCI6MTQ5Nzc1MzY3OCwic3ViIjo0fQ.vcRFb5v3znHkz8An12QUxrgXsLqoKv93kIsMf-pdfVw&quot;,
+  message: &quot;Successfully registered.&quot;,
+  status: &quot;success&quot;
+}
+</code></pre></div>
+<p>Hold off on updating the page for now. Let&#39;s update the login form...</p>
+
 <hr>
 
 <p>WIP</p>
@@ -552,25 +561,34 @@
   <span class="kd">let</span> <span class="nx">data</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
     <span class="p">}</span>
   <span class="p">}</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
-      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">password</span>
+      <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+      <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
     <span class="p">}</span>
   <span class="p">}</span>
   <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">auth</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">formType</span><span class="p">}</span><span class="err">`</span>
   <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
   <span class="p">})</span>
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>Test the user registration out. If you have everything set up correctly, you should see an object in the JavaScript console with an auth token:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">{
+  auth_token: &quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTc3NTM2ODMsImlhdCI6MTQ5Nzc1MzY3OCwic3ViIjo0fQ.vcRFb5v3znHkz8An12QUxrgXsLqoKv93kIsMf-pdfVw&quot;,
+  message: &quot;Successfully registered.&quot;,
+  status: &quot;success&quot;
+}
+</code></pre></div>
+<p>Hold off on updating the page for now. Let&#39;s update the login form...</p>
+
 <hr>
 
 <p>WIP</p>

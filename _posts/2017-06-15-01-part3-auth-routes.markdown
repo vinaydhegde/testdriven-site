@@ -558,6 +558,25 @@ project/config.py          19      0      0      0   100%
 TOTAL                     199     37     32      4    82%
 ```
 
+Then update `seed_db()` in *manage.py*:
+
+```python
+@manager.command
+def seed_db():
+    """Seeds the database."""
+    db.session.add(User(
+        username='michael',
+        email='michael@realpython.com',
+        password='test'
+    ))
+    db.session.add(User(
+        username='michaelherman',
+        email='michael@mherman.org',
+        password='test'
+    ))
+    db.session.commit()
+```
+
 Commit and push your code. Do the tests pass on Travis CI? You should see some errors since we did not set the `SECRET_KEY`. Add the export to the `before_script`:
 
 ```
