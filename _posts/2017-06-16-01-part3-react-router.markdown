@@ -69,8 +69,7 @@ class App extends Component {
     axios.post(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`, data)
     .then((res) => {
       this.getUsers();
-      this.setState({ username: '' });
-      this.setState({ email: '' });
+      this.setState({ username: '', email: '' });
     })
     .catch((err) => { console.log(err); })
   }

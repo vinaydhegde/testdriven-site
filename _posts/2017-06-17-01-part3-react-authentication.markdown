@@ -135,13 +135,11 @@ First, to clear the form, update the `.then` within `handleUserFormSubmit()`:
 
 ```javascript
 .then((res) => {
-  this.setState({ formData: {
+  this.setState({
+    formData: {username: '', email: '', password: '' },
     username: '',
-    email: '',
-    password: ''
-  }} );
-  this.setState({ username: '' });
-  this.setState({ email: '' });
+    email: ''
+  });
 })
 ```
 
@@ -179,7 +177,12 @@ this.state = {
 Now, we can update the state in the `.then` within `handleUserFormSubmit()`:
 
 ```javascript
-this.setState({ isAuthenticated: true });
+this.setState({
+  formData: {username: '', email: '', password: '' },
+  username: '',
+  email: '',
+  isAuthenticated: true
+});
 ```
 
 Finally, to redirect the user after a successful log in or registration, pass `isAuthenticated` through to the `Form` component:
@@ -223,6 +226,153 @@ To test, log in and then make sure that you are redirected to `/`. Also, you sho
 
 #### Logout
 
+How about logging out? Add a new component to the "components" folder called *Logout.jsx*:
+
+```javascript
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
+class Logout extends Component {
+  componentDidMount() {
+    this.props.logoutUser();
+  }
+  render() {
+    return (
+      <div>
+        <p>You are now logged out. Click <Link to="/login">here</Link> to log back in.</p>
+      </div>
+    )
+  }
+}
+
+export default Logout
+```
+
+Then, add a `logoutUser` method to the `App` component to remove the token from LocalStorage and update the state.
+
+```javascript
+logoutUser() {
+  window.localStorage.clear();
+  this.setState({ isAuthenticated: false });
+}
+```
+
+Import the component into *App.jsx*, and then add the new route:
+
+```javascript
+<Route exact path='/logout' render={() => (
+  <Logout
+    logoutUser={this.logoutUser.bind(this)}
+    isAuthenticated={this.state.isAuthenticated}
+  />
+)} />
+```
+
+To test:
+
+1. Log in
+1. Verify that the token was added to LocalStorage
+1. Log out
+1. Verify that the token was removed from LocalStorage
+
+#### User Status
+
+For the `/status` link, we need to add a new component that displays the response from a call to `/auth/status` on the users service. *Remember*: You need to be authenticated to hit this end-point successfully. So, we will need to add the token to the header prior to sending the AJAX request.
+
+First, add a new component called *UserStatus.jsx*:
+
+```javascript
+import React, { Component } from 'react';
+import axios from 'axios';
+
+class UserStatus extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      created_at: '',
+      email: '',
+      id: '',
+      username: ''
+    }
+  }
+  componentDidMount() {
+    this.getUserStatus();
+  }
+  getUserStatus(event) {
+    const options = {
+      url: `${process.env.REACT_APP_USERS_SERVICE_URL}/auth/status`,
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${window.localStorage.authToken}`
+      }
+    };
+    return axios(options)
+    .then((res) => { console.log(res.data.data) })
+    .catch((error) => { console.log(error); })
+  }
+  render() {
+    return (
+      <div>
+        <p>test</p>
+      </div>
+    )
+  }
+}
+
+export default UserStatus
+```
+
+Here, we used a stateful, class-based component since the component has its own internal state. Notice how we also included a header with the AJAX request.
+
+Import the component into *App.jsx*, and then add a new route:
+
+```javascript
+<Route exact path='/status' component={UserStatus}/>
+```
+
+Test this out first when you're not logged in. You should see a 401 error. Try again when you are logged in. You should see an object with the keys `active`, `created_at`, `email`, `id`, and `username`.
+
+To add the values to the component, update the `.then`:
+
+```javascript
+.then((res) => {
+  this.setState({
+    created_at: res.data.data.created_at,
+    email: res.data.data.email,
+    id: res.data.data.id,
+    username: res.data.data.username
+  })
+})
+```
+
+Also, update the `render()`:
+
+```javascript
+render() {
+  return (
+    <div>
+      <ul>
+        <li><strong>User ID:</strong> {this.state.id}</li>
+        <li><strong>Email:</strong> {this.state.email}</li>
+        <li><strong>Username:</strong> {this.state.username}</li>
+        <li><strong>Created Date:</strong> {this.state.created_at}</li>
+      </ul>
+    </div>
+  )
+}
+```
+
+Test it out.
+
+#### Update Navbar Links
+
+Finally, let's make the following changes to the Navbar:
+
+1. When the user is logged in, the register and log in links should be hidden
+1. When the user is logged out, the log out and user status links should be hidden
+
+Add route restrictions as well...
 
 ---
 
