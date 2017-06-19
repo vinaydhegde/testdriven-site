@@ -37,7 +37,7 @@ const NavBar = (props) => (
   <Navbar inverse collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
-        <a href="/">{props.title}</a>
+        <span>{props.title}</span>
       </Navbar.Brand>
       <Navbar.Toggle />
     </Navbar.Header>

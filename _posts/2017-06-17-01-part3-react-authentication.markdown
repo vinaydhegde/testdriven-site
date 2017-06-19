@@ -135,11 +135,13 @@ First, to clear the form, update the `.then` within `handleUserFormSubmit()`:
 
 ```javascript
 .then((res) => {
-  this.setState({formData: {
+  this.setState({ formData: {
     username: '',
     email: '',
     password: ''
-  }});
+  }} );
+  this.setState({ username: '' });
+  this.setState({ email: '' });
 })
 ```
 
@@ -150,7 +152,7 @@ Try this out. After you register or log in, the field inputs should be cleared s
 Next, let's save the auth token in LocalStorage so that we can use it for subsequent API calls that require a user to be authenticated. To do this, add the following code to the `.then`, just below the `setState`:
 
 ```javascript
-window.localStorage.setItem('authToken', res.data.auth_token)
+window.localStorage.setItem('authToken', res.data.auth_token);
 ```
 
 Try logging in again. After a successful login, open the Application tab within [Chrome DevTools](https://developer.chrome.com/devtools). Click the arrow before [LocalStorage](https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage) and select `http://localhost:3000`. You should see a key of `authToken` with a value of the actual token in the pane.
@@ -177,10 +179,50 @@ this.state = {
 Now, we can update the state in the `.then` within `handleUserFormSubmit()`:
 
 ```javascript
-this.setState({ isAuthenticated: true })
+this.setState({ isAuthenticated: true });
 ```
 
-Finally, to redirect the user...
+Finally, to redirect the user after a successful log in or registration, pass `isAuthenticated` through to the `Form` component:
+
+```javascript
+<Route exact path='/register' render={() => (
+  <Form
+    formType={'Register'}
+    formData={this.state.formData}
+    handleFormChange={this.handleFormChange.bind(this)}
+    handleUserFormSubmit={this.handleUserFormSubmit.bind(this)}
+    isAuthenticated={this.state.isAuthenticated}
+  />
+)} />
+<Route exact path='/login' render={() => (
+  <Form
+    formType={'Login'}
+    formData={this.state.formData}
+    handleFormChange={this.handleFormChange.bind(this)}
+    handleUserFormSubmit={this.handleUserFormSubmit.bind(this)}
+    isAuthenticated={this.state.isAuthenticated}
+  />
+)} />
+```
+
+Then, within *Form.jsx* add the following conditional right before the `return`:
+
+```javascript
+if (props.isAuthenticated) {
+  return <Redirect to='/' />;
+}
+```
+
+Add the import:
+
+```javascript
+import { Redirect } from 'react-router-dom';
+```
+
+To test, log in and then make sure that you are redirected to `/`. Also, you should be redirected if you try to go to the `/register` or `/login` links.
+
+#### Logout
+
 
 ---
 
