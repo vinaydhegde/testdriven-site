@@ -19,7 +19,7 @@ With the `Form` component set up, we can now configure the methods to:
 
 > These steps should look familiar since we already went through this process in the [React Forms](/part-two-react-forms/) lesson. Put yourself to test and implement the code yourself before going through this lesson.
 
-#### Registration
+#### Handle form submit event
 
 Turn to *Form.jsx*. Which method gets fired on the form submit?
 
@@ -36,7 +36,7 @@ handleUserFormSubmit(event) {
 }
 ```
 
-And then pass it down on the `props`:
+And then pass it down via the `props`:
 
 ```javascript
 <Route exact path='/register' render={() => (
@@ -57,11 +57,13 @@ And then pass it down on the `props`:
 
 Test it out in the browser. You should see `sanity check!` in the JavaScript console on form submit for both forms. Remove the `console.log('sanity check!')` when done.
 
+#### Obtain user input
+
 Next, to get the user inputs, add the following method to `App`:
 
 ```javascript
 handleFormChange(event) {
-  const obj = this.state.formData
+  const obj = this.state.formData;
   obj[event.target.name] = event.target.value;
   this.setState(obj);
 }
@@ -76,6 +78,8 @@ handleFormChange={this.handleFormChange.bind(this)}
 Add a `console.log()` to the method - `console.log(this.state.formData);` - to ensure it works when you test it in the browser. Remove it once done.
 
 What's next? AJAX!
+
+#### Send AJAX request
 
 Update the `handleUserFormSubmit` method to send the data to the user service on a successful form submit:
 
@@ -116,7 +120,67 @@ Test the user registration out. If you have everything set up correctly, you sho
 }
 ```
 
-Hold off on updating the page for now. Let's update the login form...
+Test logging in as well. Again, you should see the very same object in the console.
+
+#### Update the page
+
+After a user register or logs in, we need to:
+
+1. Clear the `formData` object
+1. Save the auth token in the browser's [LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Storage/LocalStorage)
+1. Update the state to indicate that the user is authenticated
+1. Redirect the user to `/`
+
+First, to clear the form, update the `.then` within `handleUserFormSubmit()`:
+
+```javascript
+.then((res) => {
+  this.setState({formData: {
+    username: '',
+    email: '',
+    password: ''
+  }});
+})
+```
+
+Try this out. After you register or log in, the field inputs should be cleared since we set the properties in the `formData` object to empty strings.
+
+> What happens if you enter data for the registration form but *don't* submit it and then navigate to the login form? The fields should remain. Is this okay? Should we clear the state on page load? Your call. You could simply update the state within the `componentWillMount` lifecycle method.
+
+Next, let's save the auth token in LocalStorage so that we can use it for subsequent API calls that require a user to be authenticated. To do this, add the following code to the `.then`, just below the `setState`:
+
+```javascript
+window.localStorage.setItem('authToken', res.data.auth_token)
+```
+
+Try logging in again. After a successful login, open the Application tab within [Chrome DevTools](https://developer.chrome.com/devtools). Click the arrow before [LocalStorage](https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage) and select `http://localhost:3000`. You should see a key of `authToken` with a value of the actual token in the pane.
+
+Instead of always checking LocalStorage for the auth token, let's add a boolean to the state so we can quickly tell if there us a user authenticated.
+
+Add an `isAuthenticated` property to the state:
+
+```javascript
+this.state = {
+  users: [],
+  username: '',
+  email: '',
+  title: 'TestDriven.io',
+  formData: {
+    username: '',
+    email: '',
+    password: ''
+  },
+  isAuthenticated: false
+}
+```
+
+Now, we can update the state in the `.then` within `handleUserFormSubmit()`:
+
+```javascript
+this.setState({ isAuthenticated: true })
+```
+
+Finally, to redirect the user...
 
 ---
 
