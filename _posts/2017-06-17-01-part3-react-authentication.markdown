@@ -372,8 +372,106 @@ Finally, let's make the following changes to the Navbar:
 1. When the user is logged in, the register and log in links should be hidden
 1. When the user is logged out, the log out and user status links should be hidden
 
-Add route restrictions as well...
+Update the `NavBar` component like so to show/hide based on the value of `isAuthenticated`:
 
----
+```javascript
+const NavBar = (props) => (
+  <Navbar inverse collapseOnSelect>
+    <Navbar.Header>
+      <Navbar.Brand>
+        <span>{props.title}</span>
+      </Navbar.Brand>
+      <Navbar.Toggle />
+    </Navbar.Header>
+    <Navbar.Collapse>
+      <Nav>
+        <LinkContainer to="/">
+          <NavItem eventKey={1}>Home</NavItem>
+        </LinkContainer>
+        <LinkContainer to="/about">
+          <NavItem eventKey={2}>About</NavItem>
+        </LinkContainer>
+        {props.isAuthenticated &&
+          <LinkContainer to="/status">
+            <NavItem eventKey={3}>User Status</NavItem>
+          </LinkContainer>
+        }
+      </Nav>
+      <Nav pullRight>
+        {!props.isAuthenticated &&
+          <LinkContainer to="/register">
+            <NavItem eventKey={1}>Register</NavItem>
+          </LinkContainer>
+        }
+        {!props.isAuthenticated &&
+          <LinkContainer to="/login">
+            <NavItem eventKey={2}>Log In</NavItem>
+          </LinkContainer>
+        }
+        {props.isAuthenticated &&
+          <LinkContainer to="/logout">
+            <NavItem eventKey={3}>Log Out</NavItem>
+          </LinkContainer>
+        }
+      </Nav>
+    </Navbar.Collapse>
+  </Navbar>
+)
+```
 
-WIP
+Make sure to pass `isAuthenticated` down on the `props`:
+
+```javascript
+<NavBar
+  title={this.state.title}
+  isAuthenticated={this.state.isAuthenticated}
+/>
+```
+
+This merely hides the links. An unauthenticated user could still access the route via entering the URL into the URL bar. To restrict access, update the `render()` in *UserStatus.jsx*:
+
+```javascript
+render() {
+  if (!this.props.isAuthenticated) {
+    return <p>You must be logged in to view this. Click <Link to="/login">here</Link> to log back in.</p>
+  }
+  return (
+    <div>
+      <ul>
+        <li><strong>User ID:</strong> {this.state.id}</li>
+        <li><strong>Email:</strong> {this.state.email}</li>
+        <li><strong>Username:</strong> {this.state.username}</li>
+        <li><strong>Created Date:</strong> {this.state.created_at}</li>
+      </ul>
+    </div>
+  )
+}
+```
+
+Add the import:
+
+```javascript
+import { Link } from 'react-router-dom';
+```
+
+Then update the route in the `App` component:
+
+```javascript
+<Route exact path='/status' render={() => (
+  <UserStatus
+    isAuthenticated={this.state.isAuthenticated}
+  />
+)} />
+```
+
+Open the JavaScript console, and then try this out. Did you notice that the AJAX request still fires when you were unauthenticated? To fix, add a conditional to the `componentDidMount()` in the `UserStatus` component:
+
+```javascript
+componentDidMount() {
+  if (this.props.isAuthenticated) {
+    this.getUserStatus();
+  }
+}
+```
+
+Commit your code.
