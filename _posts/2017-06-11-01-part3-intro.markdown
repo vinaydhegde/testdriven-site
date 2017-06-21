@@ -22,10 +22,6 @@ By the end of part 3, you should be able to...
 1. Explain the difference between user authentication and authorization
 1. Implement user authorization
 
----
-
-WIP!
-
 #### App
 
 <div style="text-align:left;">
