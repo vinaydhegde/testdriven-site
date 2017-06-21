@@ -383,7 +383,7 @@ def test_invalid_logout_expired_token(self):
             content_type='application/json'
         )
         # invalid token logout
-        time.sleep(6)
+        time.sleep(4)
         response = self.client.get(
             '/auth/logout',
             headers=dict(
