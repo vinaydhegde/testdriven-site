@@ -7,9 +7,8 @@ part: 4
 share: true
 ---
 
-Coming Soon!
+In Part 4, we'll add an *end-to-end* (e2e) testing solution, a *Swagger* service to document the API, and deal with some tech debt.
 
-1. e2e testing
-1. flash messaging
-1. error handling in react
-1. swagger
+---
+
+Coming Soon!

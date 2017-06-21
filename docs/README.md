@@ -23,8 +23,8 @@
 1. Add google analytics - DONE
 1. Add infrastructure image to part 2 - DONE
 1. Fix syntax highlighting issues - DONE
-1. Start part 3
-1. Outline part 4
+1. Start part 3 - DONE
+1. Outline part 4 - DONE
 1. Update readmes for each project
 1. Paywall
 1. Add CI/CD - open pr, test, merge, test, deploy
