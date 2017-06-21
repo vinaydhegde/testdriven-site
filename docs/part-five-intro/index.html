@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Microservices with Docker, Flask, and React - Flask Deployment</title>
+    <title>Microservices with Docker, Flask, and React - Introduction</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link
@@ -417,62 +417,21 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Flask Deployment</h2>
+          <h2>Introduction</h2>
 
-          <p>Let&#39;s update the <code>users-service</code> container, locally and in production, and then test it with the local version of the React app running outside the container....</p>
-
-<hr>
-
-<h4 id="development">Development</h4>
-
-<p>To update Docker, first commit and push your code for <em>flask-microserves-users</em> to GitHub (if necessary). Make sure the tests pass on Travis CI, and then navigate to <em>flask-microservices-main</em>.</p>
-
-<p>Set the <code>dev</code> machine as the active machine and update the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
-<span class="nv">$ </span>docker-compose up -d --build
-</code></pre></div>
-<p>Make sure the tests pass:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
-</code></pre></div>
-<p>Now we can test the React app against the Flask app running in the Docker Container:</p>
-
-<ol>
-<li>Grab the IP of the <code>dev</code> machine - <code>docker-machine ip dev</code></li>
-<li>Navigate to <em>flask-microservices-main</em> and update the environment variable with the IP - <code>export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP</code></li>
-<li>Fire up the app - <code>npm start</code> - and make sure it still works</li>
-</ol>
-
-<h4 id="production">Production</h4>
-
-<p>Let&#39;s update and then test in production.</p>
-
-<p>Within the <em>flask-microservices-main</em> project, set the <code>aws</code> machine as the active machine and update the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
-<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
-</code></pre></div>
-<p>Just like before, test the React app against the Flask app:</p>
-
-<ol>
-<li>Grab the IP of the <code>aws</code> machine - <code>docker-machine ip aws</code></li>
-<li>Navigate to <em>flask-microservices-main</em> and update the environment variable with the IP - <code>export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP</code></li>
-<li>Fire up the app - <code>npm start</code> - and make sure it still works</li>
-</ol>
+          <p>Coming Soon!</p>
 
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Flask Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-two-flask-deployment&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-five-intro&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-two-react-setup">&laquo; React Setup</a>
+              <a class="prev btn left-align" href="/part-four-intro">&laquo; Introduction</a>
             
-            
-              <a class="next btn right-align" href="/part-two-react-forms">React Forms &raquo;</a>
             
           </div>
 
@@ -480,62 +439,21 @@
 
         <div class="hide-on-med-and-up">
 
-          <h2>Flask Deployment</h2>
+          <h2>Introduction</h2>
 
-          <p>Let&#39;s update the <code>users-service</code> container, locally and in production, and then test it with the local version of the React app running outside the container....</p>
-
-<hr>
-
-<h4 id="development">Development</h4>
-
-<p>To update Docker, first commit and push your code for <em>flask-microserves-users</em> to GitHub (if necessary). Make sure the tests pass on Travis CI, and then navigate to <em>flask-microservices-main</em>.</p>
-
-<p>Set the <code>dev</code> machine as the active machine and update the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
-<span class="nv">$ </span>docker-compose up -d --build
-</code></pre></div>
-<p>Make sure the tests pass:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
-</code></pre></div>
-<p>Now we can test the React app against the Flask app running in the Docker Container:</p>
-
-<ol>
-<li>Grab the IP of the <code>dev</code> machine - <code>docker-machine ip dev</code></li>
-<li>Navigate to <em>flask-microservices-main</em> and update the environment variable with the IP - <code>export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP</code></li>
-<li>Fire up the app - <code>npm start</code> - and make sure it still works</li>
-</ol>
-
-<h4 id="production">Production</h4>
-
-<p>Let&#39;s update and then test in production.</p>
-
-<p>Within the <em>flask-microservices-main</em> project, set the <code>aws</code> machine as the active machine and update the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
-<span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
-</code></pre></div>
-<p>Just like before, test the React app against the Flask app:</p>
-
-<ol>
-<li>Grab the IP of the <code>aws</code> machine - <code>docker-machine ip aws</code></li>
-<li>Navigate to <em>flask-microservices-main</em> and update the environment variable with the IP - <code>export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP</code></li>
-<li>Fire up the app - <code>npm start</code> - and make sure it still works</li>
-</ol>
+          <p>Coming Soon!</p>
 
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Flask Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-two-flask-deployment&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-five-intro&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-two-react-setup">&laquo; React Setup</a>
+              <a class="prev btn left-align" href="/part-four-intro">&laquo; Introduction</a>
             
-            
-              <a class="next btn right-align" href="/part-two-react-forms">React Forms &raquo;</a>
             
           </div>
 

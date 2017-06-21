@@ -8,3 +8,8 @@ share: true
 ---
 
 Coming Soon!
+
+1. e2e testing
+1. flash messaging
+1. error handling in react
+1. swagger
