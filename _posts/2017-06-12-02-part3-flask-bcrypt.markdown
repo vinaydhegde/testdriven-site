@@ -1,7 +1,7 @@
 ---
 title: Flask Bcrypt
 layout: post
-date: 2017-06-12 23:59:59
+date: 2017-06-12 23:59:58
 permalink: part-three-flask-bcrypt
 share: true
 ---

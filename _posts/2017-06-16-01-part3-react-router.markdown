@@ -118,17 +118,16 @@ ReactDOM.render(
 )
 ```
 
-To test locally, make sure the `dev` machine is up, running, and is the active machine:
+To test locally, open a new terminal window to *flask-microservices-users*, activate a virtual environment, and then run the Flask server:
 
 ```sh
-$ docker-machine env dev
-$ eval $(docker-machine env dev)
+(env)$ python manage.py runserver
 ```
 
-And then set the environment variable and run the React app:
+And then set the environment variable back in *flask-microservices-client* and run the React app:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_DEV_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1:5000
 $ npm start
 ```
 

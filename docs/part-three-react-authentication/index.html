@@ -361,8 +361,18 @@
           <li>
             <a
               class="collection-item"
-              href="/part-three-update-main-component"
-            >Update Main Component</a>
+              href="/part-three-update-component"
+            >Update Component</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-update-docker"
+            >Update Docker</a>
           </li>
         </ul>
       
@@ -575,7 +585,21 @@
 <p>Add the import:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 </code></pre></div>
-<p>To test, log in and then make sure that you are redirected to <code>/</code>. Also, you should be redirected if you try to go to the <code>/register</code> or <code>/login</code> links.</p>
+<p>To test, log in and then make sure that you are redirected to <code>/</code>. Also, you should be redirected if you try to go to the <code>/register</code> or <code>/login</code> links. Before moving on, try registering a new user. Did you notice that even though the redirect works, the users list is not updating?</p>
+
+<p>To update that, fire <code>this.getUsers()</code> in the <code>.then</code> within <code>handleUserFormSubmit()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+    <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">});</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+<span class="p">})</span>
+</code></pre></div>
+<p>Test it out again.</p>
 
 <h4 id="logout">Logout</h4>
 
@@ -998,7 +1022,21 @@
 <p>Add the import:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
 </code></pre></div>
-<p>To test, log in and then make sure that you are redirected to <code>/</code>. Also, you should be redirected if you try to go to the <code>/register</code> or <code>/login</code> links.</p>
+<p>To test, log in and then make sure that you are redirected to <code>/</code>. Also, you should be redirected if you try to go to the <code>/register</code> or <code>/login</code> links. Before moving on, try registering a new user. Did you notice that even though the redirect works, the users list is not updating?</p>
+
+<p>To update that, fire <code>this.getUsers()</code> in the <code>.then</code> within <code>handleUserFormSubmit()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+    <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">});</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+<span class="p">})</span>
+</code></pre></div>
+<p>Test it out again.</p>
 
 <h4 id="logout">Logout</h4>
 

@@ -361,8 +361,18 @@
           <li>
             <a
               class="collection-item"
-              href="/part-three-update-main-component"
-            >Update Main Component</a>
+              href="/part-three-update-component"
+            >Update Component</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-update-docker"
+            >Update Docker</a>
           </li>
         </ul>
       
@@ -502,12 +512,11 @@
   <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>To test locally, make sure the <code>dev</code> machine is up, running, and is the active machine:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+<p>To test locally, open a new terminal window to <em>flask-microservices-users</em>, activate a virtual environment, and then run the Flask server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py runserver
 </code></pre></div>
-<p>And then set the environment variable and run the React app:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<p>And then set the environment variable back in <em>flask-microservices-client</em> and run the React app:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://127.0.0.1:5000
 <span class="nv">$ </span>npm start
 </code></pre></div>
 <p>Make sure all is well!</p>
@@ -736,12 +745,11 @@
   <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>To test locally, make sure the <code>dev</code> machine is up, running, and is the active machine:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+<p>To test locally, open a new terminal window to <em>flask-microservices-users</em>, activate a virtual environment, and then run the Flask server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py runserver
 </code></pre></div>
-<p>And then set the environment variable and run the React app:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<p>And then set the environment variable back in <em>flask-microservices-client</em> and run the React app:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://127.0.0.1:5000
 <span class="nv">$ </span>npm start
 </code></pre></div>
 <p>Make sure all is well!</p>

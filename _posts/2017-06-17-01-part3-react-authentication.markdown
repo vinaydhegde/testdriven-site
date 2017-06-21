@@ -222,7 +222,24 @@ Add the import:
 import { Redirect } from 'react-router-dom';
 ```
 
-To test, log in and then make sure that you are redirected to `/`. Also, you should be redirected if you try to go to the `/register` or `/login` links.
+To test, log in and then make sure that you are redirected to `/`. Also, you should be redirected if you try to go to the `/register` or `/login` links. Before moving on, try registering a new user. Did you notice that even though the redirect works, the users list is not updating?
+
+To update that, fire `this.getUsers()` in the `.then` within `handleUserFormSubmit()`:
+
+```javascript
+.then((res) => {
+  this.setState({
+    formData: {username: '', email: '', password: ''},
+    username: '',
+    email: '',
+    isAuthenticated: true
+  });
+  window.localStorage.setItem('authToken', res.data.auth_token);
+  this.getUsers();
+})
+```
+
+Test it out again.
 
 #### Logout
 
