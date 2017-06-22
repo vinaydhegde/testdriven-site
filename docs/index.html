@@ -11,6 +11,10 @@
   >
   <link
     rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <link
+    rel="stylesheet"
     href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   >
   <link
@@ -20,6 +24,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
     rel="stylesheet"
     type="text/css"
   >
@@ -39,12 +48,17 @@
   <body>
 
     <nav class="red darken-1">
-  <div class="container hide-on-small-and-down">
-    <h3 class="brand-logo"><a href="/">Test Driven Development Courses</a></h3>
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo center hide-on-small-and-down">
+      Test Driven Development Courses
+    </a>
+    <a href="/" class="brand-logo hide-on-med-and-up">
+      TDD Courses
+    </a>
+    <ul class="right">
+      <li><a href="/course-contents">Contents</a></li>
+    </ul>
   </div>
-  <div class="hide-on-med-and-up">
-    <h3 class="brand-logo"><a href="/">TDD Courses</a></h3>
-  <div>
 </nav>
 
 
@@ -419,198 +433,44 @@
 
           <h2>Microservices with Docker, Flask, and React</h2>
 
-          <h3></h3>
-<hr><br>
+          <p><hr><br></p>
 
+<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance.</p>
 
+<h4 id="structure">Structure</h4>
 
-  
-    <h5>Part 1</h5>
-    <p>In this tutorial, you&#39;ll learn how to quickly spin up a reproducible development environment with Docker to create a RESTful API powered by Python, Postgres, and the Flask web framework....</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-intro">Introduction</a></li>
-    </ul>
+<ol>
+<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
+<li><em>flask-microservices-users</em> - Flask app</li>
+<li><em>flask-microservices-client</em> - client-side, React app</li>
+</ol>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-getting-started">Getting Started</a></li>
-    </ul>
+<div style="text-align:left;">
+  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+</div>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-docker-config">Docker Config</a></li>
-    </ul>
+<p><br><hr><br></p>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-postgres-setup">Postgres Setup</a></li>
-    </ul>
+<p>This tutorial is powered by <em><a href="https://realpython.com">Real Python</a></em>. Please support this open source project by purchasing our <a href="http://www.realpython.com/courses">courses</a> to learn Python and web development with Django and Flask!</p>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-test-setup">Test Setup</a></li>
-    </ul>
+<p><a href="https://realpython.com"><img src="//raw.githubusercontent.com/realpython/about/master/rp_small.png" alt="real python logo"></a></p>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-flask-blueprints">Flask Blueprints</a></li>
-    </ul>
+<p><em>Join our mailing list to be notified when a new part is released.</em></p>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-restful-routes">RESTful Routes</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-aws-deployment">Deployment</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-jinja-templates">Jinja Templates</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-workflow">Workflow</a></li>
-    </ul>
-
-  
-    <h5>Part 2</h5>
-    <p>In Part 2, we&#39;ll split the project into three distinct projects. We&#39;ll also add code coverage and continuous integration testing to ensure that each service can be run and tested...</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-intro">Introduction</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-project-refactor">Project Refactor</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-code-coverage">Code Coverage</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-continuous-integration">Continuous Integration</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-react-setup">React Setup</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-flask-deployment">Flask Deployment</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-react-forms">React Forms</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-react-docker">React and Docker</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-flask-refactor">Flask Refactor</a></li>
-    </ul>
-
-  
-    <h5>Part 3</h5>
-    <p>In Part 3, we&#39;ll add database migrations along with password hashing in order to implement token-based authentication to the users service with JSON Web Tokens (JWTs). We&#39;ll then turn our...</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-intro">Introduction</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-flask-migrate">Flask Migrate</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-flask-bcrypt">Flask Bcrypt</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-jwt-setup">JWT Setup</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-auth-routes">Auth Routes</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-react-router">React Router</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-react-bootstrap">React Bootstrap</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-react-authentication">React Authentication</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-authorization">Authorization</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-update-component">Update Component</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-update-docker">Update Docker</a></li>
-    </ul>
-
-  
-    <h5>Part 4</h5>
-    <p>In Part 4, we&#39;ll add an end-to-end (e2e) testing solution, a Swagger service to document the API, and deal with some tech debt.
-
-
-
-Coming Soon!
-</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-four-intro">Introduction</a></li>
-    </ul>
-
-  
-    <h5>Part 5</h5>
-    <p>Coming Soon!
-</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-five-intro">Introduction</a></li>
-    </ul>
-
-
-<br><br><hr><br>
-
-This tutorial is powered by <em><a href="https://realpython.com">Real Python</a></em>. Please support this open source project by purchasing our <a href="http://www.realpython.com/courses">courses</a> to learn Python and web development with Django and Flask!</p>
-
-<a href="https://realpython.com"><img src="//raw.githubusercontent.com/realpython/about/master/rp_small.png" alt="real python logo"></a>
+<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+<div class="row">
+<div class="input-field col s6">
+<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
+</div>
+</div>
+<div class="row">
+<div class="col s6">
+&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
+<i class="material-icons right">send</i>
+</button>
+</div>
+</div>
+</form>
 
 
           
@@ -627,198 +487,44 @@ This tutorial is powered by <em><a href="https://realpython.com">Real Python</a>
 
           <h2>Microservices with Docker, Flask, and React</h2>
 
-          <h3></h3>
-<hr><br>
+          <p><hr><br></p>
 
+<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance.</p>
 
+<h4 id="structure">Structure</h4>
 
-  
-    <h5>Part 1</h5>
-    <p>In this tutorial, you&#39;ll learn how to quickly spin up a reproducible development environment with Docker to create a RESTful API powered by Python, Postgres, and the Flask web framework....</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-intro">Introduction</a></li>
-    </ul>
+<ol>
+<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
+<li><em>flask-microservices-users</em> - Flask app</li>
+<li><em>flask-microservices-client</em> - client-side, React app</li>
+</ol>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-getting-started">Getting Started</a></li>
-    </ul>
+<div style="text-align:left;">
+  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+</div>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-docker-config">Docker Config</a></li>
-    </ul>
+<p><br><hr><br></p>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-postgres-setup">Postgres Setup</a></li>
-    </ul>
+<p>This tutorial is powered by <em><a href="https://realpython.com">Real Python</a></em>. Please support this open source project by purchasing our <a href="http://www.realpython.com/courses">courses</a> to learn Python and web development with Django and Flask!</p>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-test-setup">Test Setup</a></li>
-    </ul>
+<p><a href="https://realpython.com"><img src="//raw.githubusercontent.com/realpython/about/master/rp_small.png" alt="real python logo"></a></p>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-flask-blueprints">Flask Blueprints</a></li>
-    </ul>
+<p><em>Join our mailing list to be notified when a new part is released.</em></p>
 
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-restful-routes">RESTful Routes</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-aws-deployment">Deployment</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-jinja-templates">Jinja Templates</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-one-workflow">Workflow</a></li>
-    </ul>
-
-  
-    <h5>Part 2</h5>
-    <p>In Part 2, we&#39;ll split the project into three distinct projects. We&#39;ll also add code coverage and continuous integration testing to ensure that each service can be run and tested...</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-intro">Introduction</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-project-refactor">Project Refactor</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-code-coverage">Code Coverage</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-continuous-integration">Continuous Integration</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-react-setup">React Setup</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-flask-deployment">Flask Deployment</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-react-forms">React Forms</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-react-docker">React and Docker</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-two-flask-refactor">Flask Refactor</a></li>
-    </ul>
-
-  
-    <h5>Part 3</h5>
-    <p>In Part 3, we&#39;ll add database migrations along with password hashing in order to implement token-based authentication to the users service with JSON Web Tokens (JWTs). We&#39;ll then turn our...</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-intro">Introduction</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-flask-migrate">Flask Migrate</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-flask-bcrypt">Flask Bcrypt</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-jwt-setup">JWT Setup</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-auth-routes">Auth Routes</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-react-router">React Router</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-react-bootstrap">React Bootstrap</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-react-authentication">React Authentication</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-authorization">Authorization</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-update-component">Update Component</a></li>
-    </ul>
-
-  
-    <ul class="lessons-list">
-      <li><a href="/part-three-update-docker">Update Docker</a></li>
-    </ul>
-
-  
-    <h5>Part 4</h5>
-    <p>In Part 4, we&#39;ll add an end-to-end (e2e) testing solution, a Swagger service to document the API, and deal with some tech debt.
-
-
-
-Coming Soon!
-</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-four-intro">Introduction</a></li>
-    </ul>
-
-  
-    <h5>Part 5</h5>
-    <p>Coming Soon!
-</p>
-  
-    <ul class="lessons-list">
-      <li><a href="/part-five-intro">Introduction</a></li>
-    </ul>
-
-
-<br><br><hr><br>
-
-This tutorial is powered by <em><a href="https://realpython.com">Real Python</a></em>. Please support this open source project by purchasing our <a href="http://www.realpython.com/courses">courses</a> to learn Python and web development with Django and Flask!</p>
-
-<a href="https://realpython.com"><img src="//raw.githubusercontent.com/realpython/about/master/rp_small.png" alt="real python logo"></a>
+<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+<div class="row">
+<div class="input-field col s6">
+<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
+</div>
+</div>
+<div class="row">
+<div class="col s6">
+&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
+<i class="material-icons right">send</i>
+</button>
+</div>
+</div>
+</form>
 
 
           

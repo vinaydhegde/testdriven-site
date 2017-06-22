@@ -7,7 +7,7 @@ part: 1
 share: true
 ---
 
-In this tutorial, you'll learn how to quickly spin up a reproducible development environment with *Docker* to create a *RESTful API* powered by *Python*, *Postgres*, and the *Flask* web framework. After the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance.
+In this first part, you'll learn how to quickly spin up a reproducible development environment with *Docker* to create a *RESTful API* powered by *Python*, *Postgres*, and the *Flask* web framework. After the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance.
 
 > We'll take a practical approach to test driven development (TDD), where we'll write tests first *only* when it makes sense.
 
@@ -46,7 +46,7 @@ This series uses the following tools and technologies:
 1. PyJWT v1.5.0
 1. react-router-dom v4.1.1
 1. React Bootstrap v0.31.0
-1. React Router Bootstrap v@0.24.2
+1. React Router Bootstrap v0.24.2
 
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 

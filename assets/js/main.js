@@ -1,23 +1,6 @@
 $(function() {
 
-  /*
-    side bar - set position
-   */
-  var $obj = $('#toc-block');
-  var $top = $obj.offset().top;
-
-  setSideBarDisplay($obj, $top);
-
-  // $(window).scroll(function (event) {
-  //   setSideBarDisplay($obj, $top);
-  // });
-
-  /*
-    side bar - set active
-   */
-
   var currentLocation = window.location.href;
-
   setActivePart(currentLocation);
 
 });
@@ -25,15 +8,6 @@ $(function() {
 /*
   helpers
  */
-
-function setSideBarDisplay(obj, top) {
-  var y = $(window).scrollTop();
-  if (y >= top - 51) {
-    obj.css('position', 'fixed').css('top', '45px').css('max-width', '150px');
-  } else {
-    obj.css('position', 'static').css('top', '0px');
-  }
-}
 
 function setActivePart(url) {
   var active = url.split('-')[1];
