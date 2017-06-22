@@ -502,6 +502,15 @@ dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.0
 <p>Remove images:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
 </code></pre></div>
+<h4 id="postgres">Postgres</h4>
+
+<p>Want to access the database via psql?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
+</code></pre></div>
+<p>Then, you can connect to the database and run SQL queries. For example:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># \c users_dev</span>
+<span class="c"># select * from users;</span>
+</code></pre></div>
 
           
   <br><br>
@@ -606,6 +615,15 @@ dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.0
 </code></pre></div>
 <p>Remove images:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<h4 id="postgres">Postgres</h4>
+
+<p>Want to access the database via psql?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
+</code></pre></div>
+<p>Then, you can connect to the database and run SQL queries. For example:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># \c users_dev</span>
+<span class="c"># select * from users;</span>
 </code></pre></div>
 
           
