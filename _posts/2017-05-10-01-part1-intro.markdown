@@ -48,6 +48,10 @@ This series uses the following tools and technologies:
 1. React Bootstrap v0.31.0
 1. React Router Bootstrap v0.24.2
 
+**Part 4**
+
+1. TestCafe v0.16.1
+
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 
 | Topic            | Resource |

@@ -1,0 +1,21 @@
+---
+title: Introduction
+layout: post
+date: 2017-06-21 23:59:59
+permalink: part-four-intro
+part: 4
+share: true
+---
+
+In Part 4, we'll add an *end-to-end* (e2e) testing solution, a *Swagger* service to document the API, and deal with some tech debt. We'll also set up a staging environment to test on before the app goes into production.
+
+#### Objectives
+
+By the end of part 4, you should be able to...
+
+1. Test the entire set of services with functional, end-to-end tests via TestCafe
+1. Integrate TestCafe into a continuous integration process
+
+---
+
+WIP
