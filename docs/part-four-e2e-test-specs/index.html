@@ -56,7 +56,10 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li><a href="/course-contents">Contents</a></li>
+      <li>
+        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
+        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -412,7 +415,7 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-setup"
-            >e2e Test Setup</a>
+            >End-to-End Test Setup</a>
           </li>
         </ul>
       
@@ -423,6 +426,26 @@
               class="collection-item"
               href="/part-four-e2e-test-specs"
             >e2e Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-form-validation"
+            >React Form Validation</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-staging-environment"
+            >Staging Environment</a>
           </li>
         </ul>
       
@@ -453,7 +476,430 @@
 
           <h2>e2e Test Specs</h2>
 
-          <p>Coming soon!</p>
+          <p>With TestCafe in place, we can now write tests...</p>
+
+<hr>
+
+<p>What should we test?</p>
+
+<p>Turn to your app. Navigate through it as an end user. What are some common user interactions? How about frequent error cases that you expect <em>most</em> users to encounter?</p>
+
+<p>Turn your answers into test cases...</p>
+
+<h4 id="test-cases">Test Cases</h4>
+
+<p><code>/register</code>:</p>
+
+<ol>
+<li>should display the registration form</li>
+<li>should allow a user to register</li>
+<li>should throw an error if the username is taken</li>
+<li>should throw an error if the email is taken</li>
+</ol>
+
+<p><code>/login</code>:</p>
+
+<ol>
+<li>should display the sign in form</li>
+<li>should allow a user to sign in</li>
+<li>should throw an error if the credentials are incorrect</li>
+</ol>
+
+<p><code>/logout</code>:</p>
+
+<ol>
+<li>should log a user out</li>
+</ol>
+
+<p><code>/status</code>:</p>
+
+<ol>
+<li>should display user info if user is logged in</li>
+<li>should display the page if user is not logged in</li>
+</ol>
+
+<p><code>/</code>:</p>
+
+<ol>
+<li>should display the page correctly if a user is not logged in</li>
+</ol>
+
+<h4 id="register">Register</h4>
+
+<p>Add a new file called <em>register.test.js</em> to the &quot;e2e&quot; directory:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">TEST_URL</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TEST_URL</span><span class="p">;</span>
+
+
+<span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/register&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">);</span>
+</code></pre></div>
+<p>Now add the following test specs:</p>
+
+<ol>
+<li><p><em>should display the registration form</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">registration</span> <span class="nx">form</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div></li>
+<li><p><em>should allow a user to register</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">register</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// register user</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert user is redirected to &#39;/&#39;</span>
+  <span class="c1">// assert &#39;/&#39; is displayed properly</span>
+  <span class="kr">const</span> <span class="nx">tableRow</span> <span class="o">=</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">parent</span><span class="p">();</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;All Users&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// assert date is correct</span>
+  <span class="kr">const</span> <span class="nx">createdDate</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">innerText</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">formattedDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">createdDate</span><span class="p">)</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span>
+      <span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">())</span>
+
+<span class="p">});</span>
+</code></pre></div>
+<p>Add the import and global variables at the top:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">randomstring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;randomstring&#39;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">currentDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</code></pre></div>
+<p>Make sure to install the dependency as well:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install randomstring --save
+</code></pre></div></li>
+</ol>
+
+<p>Since we&#39;re not handling errors yet, let&#39;s hold off on these two test cases:</p>
+
+<ol>
+<li><em>should throw an error if the username is taken</em></li>
+<li><em>should throw an error if the email is taken</em></li>
+</ol>
+
+<h4 id="login">Login</h4>
+
+<p>Add a new file called <em>login.test.js</em> to the &quot;e2e&quot; directory:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">randomstring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;randomstring&#39;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">TEST_URL</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TEST_URL</span><span class="p">;</span>
+
+<span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">);</span>
+</code></pre></div>
+<p>Now add the following test specs:</p>
+
+<ol>
+<li><p><em>should display the sign in form</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">sign</span> <span class="k">in</span> <span class="nx">form</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Login&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div></li>
+<li><p><em>should allow a user to sign in</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">sign</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// register user</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user in</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert user is redirected to &#39;/&#39;</span>
+  <span class="c1">// assert &#39;/&#39; is displayed properly</span>
+  <span class="kr">const</span> <span class="nx">tableRow</span> <span class="o">=</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">parent</span><span class="p">();</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;All Users&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+<span class="p">});</span>
+</code></pre></div></li>
+</ol>
+
+<p>Again, since we&#39;re not handling errors yet, let&#39;s hold off on the following test case: <em>should throw an error if the credentials are incorrect</em>.</p>
+
+<h4 id="login">Login</h4>
+
+<p>Let&#39;s just add <em>should log a user out</em> to the previous test case in <em>login.test.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">sign</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// register user</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user in</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert user is redirected to &#39;/&#39;</span>
+  <span class="c1">// assert &#39;/&#39; is displayed properly</span>
+  <span class="kr">const</span> <span class="nx">tableRow</span> <span class="o">=</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">parent</span><span class="p">();</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;All Users&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert &#39;/logout&#39; is displayed properly</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;You are now logged out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+
+<span class="p">});</span>
+</code></pre></div>
+<h4 id="status">Status</h4>
+
+<p>Add a new file called <em>status.test.js</em> to the &quot;e2e&quot; directory:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">randomstring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;randomstring&#39;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">currentDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+
+<span class="kr">const</span> <span class="nx">TEST_URL</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TEST_URL</span><span class="p">;</span>
+
+<span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/status&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">status</span><span class="err">`</span><span class="p">);</span>
+</code></pre></div>
+<p>Add the following test specs:</p>
+
+<ol>
+<li><p><em>should display the page if user is not logged in</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">page</span> <span class="k">if</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">status</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;You must be logged in to view this.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div></li>
+<li><p><em>should display user info if user is logged in</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">user</span> <span class="nx">info</span> <span class="k">if</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// register user</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user in</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert &#39;/status&#39; is displayed properly</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User ID:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Email:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Username:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Created Date:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// assert date is correct</span>
+  <span class="kr">const</span> <span class="nx">createdDate</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+    <span class="s1">&#39;Created Date:&#39;</span><span class="p">).</span><span class="nx">parent</span><span class="p">().</span><span class="nx">child</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">innerText</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">formattedDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">createdDate</span><span class="p">)</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span>
+      <span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">())</span>
+
+<span class="p">});</span>
+</code></pre></div></li>
+</ol>
+
+<h4 id="main-page">Main Page</h4>
+
+<p>Within <em>index.test.js</em>, remove <em>users should be able to view the page</em> and, in its place, add <em>should display the page correctly if a user is not logged in</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">page</span> <span class="nx">correctly</span> <span class="k">if</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="nx">TEST_URL</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;All Users&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<h4 id="docker-compose">Docker Compose</h4>
+
+<p>Before running the tests, update the build context for each service to the local environment, to pull in the latest changes locally:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-users/project/db</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l-Scalar-Plain">healthcheck</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">exit 0</span>
+
+  <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-users</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5001:5000</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APP_SETTINGS=project.config.DevelopmentConfig</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SECRET_KEY=my_precious</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_healthy</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-db</span>
+
+  <span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
+    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">80:80</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+      <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">web-service</span>
+
+  <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">web-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-client</span>
+      <span class="l-Scalar-Plain">args</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+</code></pre></div>
+<h4 id="test">Test!</h4>
+
+<p>Set the environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+</code></pre></div>
+<p>Set the <code>TEST_URL</code> variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Run the tests to ensure they pass:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ testcafe chrome e2e
+Running tests in:
+- Chrome 58.0.3029 / Mac OS X 10.11.6
+
+/
+should display the page correctly if a user is not logged in
+
+/login
+should display the sign in form
+should allow a user to sign in
+
+/register
+should display the registration form
+should allow a user to register
+
+/status
+should display the page if user is not logged in
+should display user info if user is logged in
+
+
+7 passed (20s)
+</code></pre></div>
+<blockquote>
+<p>Want to run a single test or fixture to debug? Use the <a href="https://devexpress.github.io/testcafe/documentation/test-api/test-code-structure.html#skipping-tests">only</a> method.</p>
+</blockquote>
+
+<hr>
+
+<p>Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-ends tests since they are so expensive. Now is a great time to refactor! Do this on your own.</p>
 
 
           
@@ -464,10 +910,10 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-four-e2e-test-setup">&laquo; e2e Test Setup</a>
+              <a class="prev btn left-align" href="/part-four-e2e-test-setup">&laquo; End-to-End Test Setup</a>
             
             
-              <a class="next btn right-align" href="/part-five-intro">Introduction &raquo;</a>
+              <a class="next btn right-align" href="/part-four-react-form-validation">React Form Validation &raquo;</a>
             
           </div>
 
@@ -477,7 +923,430 @@
 
           <h2>e2e Test Specs</h2>
 
-          <p>Coming soon!</p>
+          <p>With TestCafe in place, we can now write tests...</p>
+
+<hr>
+
+<p>What should we test?</p>
+
+<p>Turn to your app. Navigate through it as an end user. What are some common user interactions? How about frequent error cases that you expect <em>most</em> users to encounter?</p>
+
+<p>Turn your answers into test cases...</p>
+
+<h4 id="test-cases">Test Cases</h4>
+
+<p><code>/register</code>:</p>
+
+<ol>
+<li>should display the registration form</li>
+<li>should allow a user to register</li>
+<li>should throw an error if the username is taken</li>
+<li>should throw an error if the email is taken</li>
+</ol>
+
+<p><code>/login</code>:</p>
+
+<ol>
+<li>should display the sign in form</li>
+<li>should allow a user to sign in</li>
+<li>should throw an error if the credentials are incorrect</li>
+</ol>
+
+<p><code>/logout</code>:</p>
+
+<ol>
+<li>should log a user out</li>
+</ol>
+
+<p><code>/status</code>:</p>
+
+<ol>
+<li>should display user info if user is logged in</li>
+<li>should display the page if user is not logged in</li>
+</ol>
+
+<p><code>/</code>:</p>
+
+<ol>
+<li>should display the page correctly if a user is not logged in</li>
+</ol>
+
+<h4 id="register">Register</h4>
+
+<p>Add a new file called <em>register.test.js</em> to the &quot;e2e&quot; directory:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">TEST_URL</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TEST_URL</span><span class="p">;</span>
+
+
+<span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/register&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">);</span>
+</code></pre></div>
+<p>Now add the following test specs:</p>
+
+<ol>
+<li><p><em>should display the registration form</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">registration</span> <span class="nx">form</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div></li>
+<li><p><em>should allow a user to register</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">register</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// register user</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert user is redirected to &#39;/&#39;</span>
+  <span class="c1">// assert &#39;/&#39; is displayed properly</span>
+  <span class="kr">const</span> <span class="nx">tableRow</span> <span class="o">=</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">parent</span><span class="p">();</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;All Users&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// assert date is correct</span>
+  <span class="kr">const</span> <span class="nx">createdDate</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">innerText</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">formattedDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">createdDate</span><span class="p">)</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span>
+      <span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">())</span>
+
+<span class="p">});</span>
+</code></pre></div>
+<p>Add the import and global variables at the top:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">randomstring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;randomstring&#39;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">currentDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+</code></pre></div>
+<p>Make sure to install the dependency as well:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install randomstring --save
+</code></pre></div></li>
+</ol>
+
+<p>Since we&#39;re not handling errors yet, let&#39;s hold off on these two test cases:</p>
+
+<ol>
+<li><em>should throw an error if the username is taken</em></li>
+<li><em>should throw an error if the email is taken</em></li>
+</ol>
+
+<h4 id="login">Login</h4>
+
+<p>Add a new file called <em>login.test.js</em> to the &quot;e2e&quot; directory:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">randomstring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;randomstring&#39;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">TEST_URL</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TEST_URL</span><span class="p">;</span>
+
+<span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/login&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">);</span>
+</code></pre></div>
+<p>Now add the following test specs:</p>
+
+<ol>
+<li><p><em>should display the sign in form</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">sign</span> <span class="k">in</span> <span class="nx">form</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Login&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div></li>
+<li><p><em>should allow a user to sign in</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">sign</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// register user</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user in</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert user is redirected to &#39;/&#39;</span>
+  <span class="c1">// assert &#39;/&#39; is displayed properly</span>
+  <span class="kr">const</span> <span class="nx">tableRow</span> <span class="o">=</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">parent</span><span class="p">();</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;All Users&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+<span class="p">});</span>
+</code></pre></div></li>
+</ol>
+
+<p>Again, since we&#39;re not handling errors yet, let&#39;s hold off on the following test case: <em>should throw an error if the credentials are incorrect</em>.</p>
+
+<h4 id="login">Login</h4>
+
+<p>Let&#39;s just add <em>should log a user out</em> to the previous test case in <em>login.test.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">sign</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// register user</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user in</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert user is redirected to &#39;/&#39;</span>
+  <span class="c1">// assert &#39;/&#39; is displayed properly</span>
+  <span class="kr">const</span> <span class="nx">tableRow</span> <span class="o">=</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">parent</span><span class="p">();</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;All Users&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">tableRow</span><span class="p">.</span><span class="nx">child</span><span class="p">().</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert &#39;/logout&#39; is displayed properly</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;You are now logged out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+
+<span class="p">});</span>
+</code></pre></div>
+<h4 id="status">Status</h4>
+
+<p>Add a new file called <em>status.test.js</em> to the &quot;e2e&quot; directory:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">randomstring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;randomstring&#39;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">currentDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+
+<span class="kr">const</span> <span class="nx">TEST_URL</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TEST_URL</span><span class="p">;</span>
+
+<span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/status&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">status</span><span class="err">`</span><span class="p">);</span>
+</code></pre></div>
+<p>Add the following test specs:</p>
+
+<ol>
+<li><p><em>should display the page if user is not logged in</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">page</span> <span class="k">if</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">status</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+      <span class="s1">&#39;You must be logged in to view this.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div></li>
+<li><p><em>should display user info if user is logged in</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">user</span> <span class="nx">info</span> <span class="k">if</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// register user</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user in</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// assert &#39;/status&#39; is displayed properly</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User ID:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Email:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">email</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Username:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="nx">username</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Created Date:&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// assert date is correct</span>
+  <span class="kr">const</span> <span class="nx">createdDate</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;li &gt; strong&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
+    <span class="s1">&#39;Created Date:&#39;</span><span class="p">).</span><span class="nx">parent</span><span class="p">().</span><span class="nx">child</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">innerText</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">formattedDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">createdDate</span><span class="p">)</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCMonth</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCDate</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span>
+      <span class="nx">currentDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">()).</span><span class="nx">eql</span><span class="p">(</span><span class="nx">formattedDate</span><span class="p">.</span><span class="nx">getUTCFullYear</span><span class="p">())</span>
+
+<span class="p">});</span>
+</code></pre></div></li>
+</ol>
+
+<h4 id="main-page">Main Page</h4>
+
+<p>Within <em>index.test.js</em>, remove <em>users should be able to view the page</em> and, in its place, add <em>should display the page correctly if a user is not logged in</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">page</span> <span class="nx">correctly</span> <span class="k">if</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="nx">TEST_URL</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;All Users&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;User Status&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Register&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<h4 id="docker-compose">Docker Compose</h4>
+
+<p>Before running the tests, update the build context for each service to the local environment, to pull in the latest changes locally:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-users/project/db</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l-Scalar-Plain">healthcheck</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">exit 0</span>
+
+  <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-users</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5001:5000</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APP_SETTINGS=project.config.DevelopmentConfig</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SECRET_KEY=my_precious</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_healthy</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-db</span>
+
+  <span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
+    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">80:80</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+      <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">web-service</span>
+
+  <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">web-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-client</span>
+      <span class="l-Scalar-Plain">args</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+</code></pre></div>
+<h4 id="test">Test!</h4>
+
+<p>Set the environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+</code></pre></div>
+<p>Set the <code>TEST_URL</code> variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Run the tests to ensure they pass:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ testcafe chrome e2e
+Running tests in:
+- Chrome 58.0.3029 / Mac OS X 10.11.6
+
+/
+should display the page correctly if a user is not logged in
+
+/login
+should display the sign in form
+should allow a user to sign in
+
+/register
+should display the registration form
+should allow a user to register
+
+/status
+should display the page if user is not logged in
+should display user info if user is logged in
+
+
+7 passed (20s)
+</code></pre></div>
+<blockquote>
+<p>Want to run a single test or fixture to debug? Use the <a href="https://devexpress.github.io/testcafe/documentation/test-api/test-code-structure.html#skipping-tests">only</a> method.</p>
+</blockquote>
+
+<hr>
+
+<p>Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-ends tests since they are so expensive. Now is a great time to refactor! Do this on your own.</p>
 
 
           
@@ -488,10 +1357,10 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-four-e2e-test-setup">&laquo; e2e Test Setup</a>
+              <a class="prev btn left-align" href="/part-four-e2e-test-setup">&laquo; End-to-End Test Setup</a>
             
             
-              <a class="next btn right-align" href="/part-five-intro">Introduction &raquo;</a>
+              <a class="next btn right-align" href="/part-four-react-form-validation">React Form Validation &raquo;</a>
             
           </div>
 

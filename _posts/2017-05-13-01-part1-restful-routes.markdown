@@ -34,7 +34,7 @@ def test_add_user(self):
         response = self.client.post(
             '/users',
             data=json.dumps(dict(
-                useruser='michael',
+                username='michael',
                 email='michael@realpython.com'
             )),
             content_type='application/json',

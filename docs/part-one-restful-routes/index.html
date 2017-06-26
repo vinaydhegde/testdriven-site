@@ -56,7 +56,10 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li><a href="/course-contents">Contents</a></li>
+      <li>
+        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
+        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -412,7 +415,7 @@
             <a
               class="collection-item"
               href="/part-four-e2e-test-setup"
-            >e2e Test Setup</a>
+            >End-to-End Test Setup</a>
           </li>
         </ul>
       
@@ -423,6 +426,26 @@
               class="collection-item"
               href="/part-four-e2e-test-specs"
             >e2e Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-form-validation"
+            >React Form Validation</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-staging-environment"
+            >Staging Environment</a>
           </li>
         </ul>
       
@@ -503,7 +526,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">&#39;/users&#39;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-                <span class="n">useruser</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span>
                 <span class="n">email</span><span class="o">=</span><span class="s">&#39;michael@realpython.com&#39;</span>
             <span class="p">)),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
@@ -888,7 +911,7 @@ OK
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">&#39;/users&#39;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-                <span class="n">useruser</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;michael&#39;</span><span class="p">,</span>
                 <span class="n">email</span><span class="o">=</span><span class="s">&#39;michael@realpython.com&#39;</span>
             <span class="p">)),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>

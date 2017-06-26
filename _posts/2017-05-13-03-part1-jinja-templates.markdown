@@ -48,7 +48,7 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
           <br>
           <h1>All Users</h1>
           <hr><br>
-          <form action="/test" method="POST">
+          <form action="/" method="POST">
             <div class="form-group">
               <input name="username" class="form-control input-lg" type="text" placeholder="Enter a username" required>
             </div>
