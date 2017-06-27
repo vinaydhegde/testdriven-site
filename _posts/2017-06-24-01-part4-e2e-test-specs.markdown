@@ -195,7 +195,7 @@ Now add the following test specs:
 
 Again, since we're not handling errors yet, let's hold off on the following test case: *should throw an error if the credentials are incorrect*.
 
-#### Login
+#### Logout
 
 Let's just add *should log a user out* to the previous test case in *login.test.js*:
 
@@ -461,3 +461,5 @@ should display user info if user is logged in
 ---
 
 Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-ends tests since they are so expensive. Now is a great time to refactor! Do this on your own.
+
+Commit your code once done.
