@@ -476,7 +476,381 @@
 
           <h2>React Form Validation</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll add form validation to the register and sign in forms...</p>
+
+<hr>
+
+<p>Turn to <em>flask-microservices-client</em>.</p>
+
+<p>Since we are using <a href="https://facebook.github.io/react/docs/forms.html#controlled-components">controlled inputs</a> to obtain the user submitted input, we can evaluate whether the form is valid on every value change since the input values are on the state.</p>
+
+<p>Validation rules:</p>
+
+<ol>
+<li>Username and email are greater than 5 characters</li>
+<li>Password must be greater than 10 characters</li>
+<li>Email is a valid email address (<code>something@something.something</code>)</li>
+</ol>
+
+<p>Since we now have a means of testing on the client, let&#39;s test-drive this change.</p>
+
+<h4 id="class-based-component">Class-based component</h4>
+
+<p>Before jumping into validation, let&#39;s refactor the <code>Form</code> component into a class-based component, so state can be managed in the component itself.</p>
+
+<p>Update <em>src/components/Form.jsx</em> like so:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">Form</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="o">/&gt;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+        <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;Register&#39;</span> <span class="o">&amp;&amp;</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">input</span>
+                <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
+                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+                <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+                <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+                <span class="nx">required</span>
+                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+                <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+              <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="p">}</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="nx">input</span>
+            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+            <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+          <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/form&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
+</code></pre></div>
+<p>Update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>And then run the tests to ensure we didn&#39;t break anything.</p>
+
+<p>Now, instead of passing everything down via the props, we can manage the state of the component within the component itself.</p>
+
+<p>Again, update <em>src/components/Form.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">Form</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">clearForm</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+      <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+  <span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+    <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span>
+    <span class="kd">let</span> <span class="nx">data</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+        <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+        <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+        <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">auth</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">formType</span><span class="p">}</span><span class="err">`</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="o">/&gt;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=</span><span class="s2">&quot;textTransform:capitalize;&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+        <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span> <span class="o">&amp;&amp;</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">input</span>
+                <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
+                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+                <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+                <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+                <span class="nx">required</span>
+                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+                <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+              <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="p">}</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="nx">input</span>
+            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+            <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+          <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/form&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
+</code></pre></div>
+<p>Then update <em>src/App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Route</span><span class="p">,</span> <span class="nx">Switch</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">About</span> <span class="nx">from</span> <span class="s1">&#39;./components/About&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">NavBar</span> <span class="nx">from</span> <span class="s1">&#39;./components/NavBar&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Form</span> <span class="nx">from</span> <span class="s1">&#39;./components/Form&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Logout</span> <span class="nx">from</span> <span class="s1">&#39;./components/Logout&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">UserStatus</span> <span class="nx">from</span> <span class="s1">&#39;./components/UserStatus&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">()</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;TestDriven.io&#39;</span><span class="p">,</span>
+      <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">users</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">logoutUser</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span> <span class="p">});</span>
+  <span class="p">}</span>
+  <span class="nx">loginUser</span><span class="p">(</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">,</span> <span class="nx">token</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">NavBar</span>
+          <span class="nx">title</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span>
+          <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+        <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="nx">Switch</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">UsersList</span>
+                    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">Form</span>
+                    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;register&#39;</span><span class="p">}</span>
+                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+                    <span class="nx">loginUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/login&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">Form</span>
+                    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;login&#39;</span><span class="p">}</span>
+                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+                    <span class="nx">loginUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/logout&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">Logout</span>
+                    <span class="nx">logoutUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/status&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">UserStatus</span>
+                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="err">/Switch&gt;</span>
+            <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span>
+</code></pre></div>
+<p>Review the changes. Notice anything new? There&#39;s a number of changes, but really the only thing new is the use of the <code>componentWillReceiveProps</code> <a href="https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle">Lifecycle Method</a>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This method is called <em>after</em> the initial rendering and <em>before</em> a component receives new props. So, if you have a change in props, not on the initial render, then this method will fire.</p>
+
+<p>Remember: We are sharing state for both signing up and logging in. This can cause problems with form validation on a route change - i.e., <code>/login</code> to <code>/register</code> - if the state is not cleared out. In other words, if an end user fills out the login form, and it validates correctly, and for whatever reason does not submit the form but instead navigates to <code>/register</code>, the registration form will automatically be valid. To prevent that from happening, <code>componentWillReceiveProps()</code> fires on the route change, clearing the form.</p>
+
+<p>It&#39;s important to note that this method can be called by React for strange reasons, at odd times. For that reason, you should <em>always</em> compare the current (<code>this.props.formType</code>) and next prop values (<code>nextProps.formType</code>) if you only want to do something based on a prop change.</p>
+
+<p>With that, update the containers and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+<span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<h4 id="disable-button">Disable button</h4>
+
+<p>Let&#39;s add a <code>disabled</code> attribute to the button and set the initial value to <code>true</code> so the form cannot be submitted. Then, when the form validates properly, <code>disabled</code> will be set to <code>false</code>.</p>
+
+<p>Add the following assert to <em>should display the registration form</em> and <em>should display the sign in form</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+</code></pre></div>
+<p>Re-build and then run the tests. Ensure they fail, and then update the <code>input</code> button in <em>src/components/Form.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">input</span>
+  <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+  <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+  <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+  <span class="nx">disabled</span>
+<span class="o">/&gt;</span>
+</code></pre></div>
+<p>Re-build and run again. Those specific tests will pass, but a number of new ones will fail since the form can no longer be submitted. To update that, let&#39;s validate the form on submit.</p>
+
+<p>Add a new property called <code>valid</code> to the state in the <code>Form()</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+  <span class="p">},</span>
+  <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>As the name suggests, when <code>valid</code> is <code>true</code>, the form input values are valid and the form can be properly submitted.</p>
+
+<p>Next, update the <code>input</code> button again, changing how the <code>disabled</code> attribute is set:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">input</span>
+  <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+  <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+  <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+  <span class="nx">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">valid</span><span class="p">}</span>
+<span class="o">/&gt;</span>
+</code></pre></div>
+<p>So, when the form is valid, <code>disabled</code> is <code>false</code>. Next, Add a method to update the state of <code>valid</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateForm</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>When should we call this method?</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+  <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">validateForm</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Re-build. Run the tests. Now, we need to add validation logic to <code>validateForm()</code>...</p>
+
+<h4 id="validation-rules">Validation rules</h4>
+
+<p>WIP</p>
 
 
           
@@ -500,7 +874,381 @@
 
           <h2>React Form Validation</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll add form validation to the register and sign in forms...</p>
+
+<hr>
+
+<p>Turn to <em>flask-microservices-client</em>.</p>
+
+<p>Since we are using <a href="https://facebook.github.io/react/docs/forms.html#controlled-components">controlled inputs</a> to obtain the user submitted input, we can evaluate whether the form is valid on every value change since the input values are on the state.</p>
+
+<p>Validation rules:</p>
+
+<ol>
+<li>Username and email are greater than 5 characters</li>
+<li>Password must be greater than 10 characters</li>
+<li>Email is a valid email address (<code>something@something.something</code>)</li>
+</ol>
+
+<p>Since we now have a means of testing on the client, let&#39;s test-drive this change.</p>
+
+<h4 id="class-based-component">Class-based component</h4>
+
+<p>Before jumping into validation, let&#39;s refactor the <code>Form</code> component into a class-based component, so state can be managed in the component itself.</p>
+
+<p>Update <em>src/components/Form.jsx</em> like so:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">Form</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="o">/&gt;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+        <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;Register&#39;</span> <span class="o">&amp;&amp;</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">input</span>
+                <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
+                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+                <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+                <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+                <span class="nx">required</span>
+                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+                <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+              <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="p">}</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="nx">input</span>
+            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+            <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+          <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/form&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
+</code></pre></div>
+<p>Update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>And then run the tests to ensure we didn&#39;t break anything.</p>
+
+<p>Now, instead of passing everything down via the props, we can manage the state of the component within the component itself.</p>
+
+<p>Again, update <em>src/components/Form.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">Form</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">clearForm</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+      <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+  <span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+    <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span>
+    <span class="kd">let</span> <span class="nx">data</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+        <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+        <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
+        <span class="nx">password</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">auth</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">formType</span><span class="p">}</span><span class="err">`</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="o">/&gt;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">h1</span> <span class="nx">style</span><span class="o">=</span><span class="s2">&quot;textTransform:capitalize;&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+        <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">}</span><span class="o">&gt;</span>
+          <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;register&#39;</span> <span class="o">&amp;&amp;</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">input</span>
+                <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
+                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+                <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+                <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+                <span class="nx">required</span>
+                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+                <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+              <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="p">}</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span>
+              <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
+              <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;password&quot;</span>
+              <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a password&quot;</span>
+              <span class="nx">required</span>
+              <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">}</span>
+              <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="nx">input</span>
+            <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+            <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+            <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+          <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/form&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Form</span>
+</code></pre></div>
+<p>Then update <em>src/App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Route</span><span class="p">,</span> <span class="nx">Switch</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-router-dom&#39;</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+
+<span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">About</span> <span class="nx">from</span> <span class="s1">&#39;./components/About&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">NavBar</span> <span class="nx">from</span> <span class="s1">&#39;./components/NavBar&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Form</span> <span class="nx">from</span> <span class="s1">&#39;./components/Form&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Logout</span> <span class="nx">from</span> <span class="s1">&#39;./components/Logout&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">UserStatus</span> <span class="nx">from</span> <span class="s1">&#39;./components/UserStatus&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">()</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
+      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;TestDriven.io&#39;</span><span class="p">,</span>
+      <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">users</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">users</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">logoutUser</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">false</span> <span class="p">});</span>
+  <span class="p">}</span>
+  <span class="nx">loginUser</span><span class="p">(</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">,</span> <span class="nx">token</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">NavBar</span>
+          <span class="nx">title</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span>
+          <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+        <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="nx">Switch</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">UsersList</span>
+                    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/about&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">About</span><span class="p">}</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">Form</span>
+                    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;register&#39;</span><span class="p">}</span>
+                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+                    <span class="nx">loginUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/login&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">Form</span>
+                    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;login&#39;</span><span class="p">}</span>
+                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+                    <span class="nx">loginUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">loginUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/logout&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">Logout</span>
+                    <span class="nx">logoutUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/status&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                  <span class="o">&lt;</span><span class="nx">UserStatus</span>
+                    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+                  <span class="o">/&gt;</span>
+                <span class="p">)}</span> <span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="err">/Switch&gt;</span>
+            <span class="o">&lt;</span><span class="err">/div&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span>
+</code></pre></div>
+<p>Review the changes. Notice anything new? There&#39;s a number of changes, but really the only thing new is the use of the <code>componentWillReceiveProps</code> <a href="https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle">Lifecycle Method</a>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span> <span class="o">!==</span> <span class="nx">nextProps</span><span class="p">.</span><span class="nx">formType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">clearForm</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This method is called <em>after</em> the initial rendering and <em>before</em> a component receives new props. So, if you have a change in props, not on the initial render, then this method will fire.</p>
+
+<p>Remember: We are sharing state for both signing up and logging in. This can cause problems with form validation on a route change - i.e., <code>/login</code> to <code>/register</code> - if the state is not cleared out. In other words, if an end user fills out the login form, and it validates correctly, and for whatever reason does not submit the form but instead navigates to <code>/register</code>, the registration form will automatically be valid. To prevent that from happening, <code>componentWillReceiveProps()</code> fires on the route change, clearing the form.</p>
+
+<p>It&#39;s important to note that this method can be called by React for strange reasons, at odd times. For that reason, you should <em>always</em> compare the current (<code>this.props.formType</code>) and next prop values (<code>nextProps.formType</code>) if you only want to do something based on a prop change.</p>
+
+<p>With that, update the containers and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+<span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<h4 id="disable-button">Disable button</h4>
+
+<p>Let&#39;s add a <code>disabled</code> attribute to the button and set the initial value to <code>true</code> so the form cannot be submitted. Then, when the form validates properly, <code>disabled</code> will be set to <code>false</code>.</p>
+
+<p>Add the following assert to <em>should display the registration form</em> and <em>should display the sign in form</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+</code></pre></div>
+<p>Re-build and then run the tests. Ensure they fail, and then update the <code>input</code> button in <em>src/components/Form.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">input</span>
+  <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+  <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+  <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+  <span class="nx">disabled</span>
+<span class="o">/&gt;</span>
+</code></pre></div>
+<p>Re-build and run again. Those specific tests will pass, but a number of new ones will fail since the form can no longer be submitted. To update that, let&#39;s validate the form on submit.</p>
+
+<p>Add a new property called <code>valid</code> to the state in the <code>Form()</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">formData</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="nx">password</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+  <span class="p">},</span>
+  <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>As the name suggests, when <code>valid</code> is <code>true</code>, the form input values are valid and the form can be properly submitted.</p>
+
+<p>Next, update the <code>input</code> button again, changing how the <code>disabled</code> attribute is set:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">input</span>
+  <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
+  <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
+  <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+  <span class="nx">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">valid</span><span class="p">}</span>
+<span class="o">/&gt;</span>
+</code></pre></div>
+<p>So, when the form is valid, <code>disabled</code> is <code>false</code>. Next, Add a method to update the state of <code>valid</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateForm</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>When should we call this method?</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+  <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">validateForm</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Re-build. Run the tests. Now, we need to add validation logic to <code>validateForm()</code>...</p>
+
+<h4 id="validation-rules">Validation rules</h4>
+
+<p>WIP</p>
 
 
           

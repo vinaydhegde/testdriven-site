@@ -7,3 +7,11 @@ share: true
 ---
 
 Coming Soon!
+
+---
+
+Environment overview
+
+1. URL
+2. docker-files
+3. how to run tests, how to setup, etc
