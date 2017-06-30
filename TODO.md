@@ -1,9 +1,12 @@
 # Todo
 
 1. Finish part 4
+1. Refactor React Form Validation
 1. Paywall
 1. Add CI/CD - open pr, test, merge, test, deploy
 1. Add microservices intro to part 1
+1. Add banner to mherman.org
+1. Autotweet when updates are made?
 
 ## Completed
 
