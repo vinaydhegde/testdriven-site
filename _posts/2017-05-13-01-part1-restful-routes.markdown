@@ -177,7 +177,7 @@ def add_user():
             }
             return make_response(jsonify(response_object)), 400
     except exc.IntegrityError as e:
-        db.session().rollback()
+        db.session.rollback()
         response_object = {
             'status': 'fail',
             'message': 'Invalid payload.'
