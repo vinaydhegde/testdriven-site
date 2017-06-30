@@ -1,12 +1,12 @@
 ---
 title: React Form Validation
 layout: post
-date: 2017-06-25 23:59:59
+date: 2017-06-26 23:59:59
 permalink: part-four-react-form-validation
 share: true
 ---
 
-In this lesson, we'll add form validation to the register and sign in forms...
+In this lesson, we'll add form validation to the register and sign in forms ([example](https://www.youtube.com/watch?v=cN1IzZDgxZo))...
 
 ---
 
