@@ -171,6 +171,10 @@ Now add the following test specs:
         .typeText('input[name="password"]', 'test')
         .click(Selector('input[type="submit"]'))
 
+      // log a user out
+      await t
+        .click(Selector('a').withText('Log Out'))
+
       // log a user in
       await t
         .navigateTo(`${TEST_URL}/login`)
@@ -209,6 +213,10 @@ test(`should allow a user to sign in`, async (t) => {
     .typeText('input[name="email"]', email)
     .typeText('input[name="password"]', 'test')
     .click(Selector('input[type="submit"]'))
+
+  // log a user out
+  await t
+    .click(Selector('a').withText('Log Out'))
 
   // log a user in
   await t

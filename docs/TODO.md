@@ -1,6 +1,8 @@
 # Todo
 
+1. Update auth - look to localStorage
 1. Finish part 4
+1. Add youtube embed
 1. Refactor React Form Validation
 1. Paywall
 1. Add CI/CD - open pr, test, merge, test, deploy

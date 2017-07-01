@@ -7,5 +7,3 @@ share: true
 ---
 
 Coming Soon!
-
----

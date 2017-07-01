@@ -56,9 +56,11 @@
       TDD Courses
     </a>
     <ul class="right">
-      <li>
-        <a class="hide-on-med-and-down" href="/course-contents">Contents</a>
-        <a class="hide-on-small-and-up" href="/course-contents">TOC</a>
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
       </li>
     </ul>
   </div>
@@ -654,6 +656,10 @@
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
 
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
+
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
     <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
@@ -691,6 +697,10 @@
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
 
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
@@ -1103,6 +1113,10 @@ should display user info if user is logged in
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
 
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
+
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
     <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">login</span><span class="err">`</span><span class="p">)</span>
@@ -1140,6 +1154,10 @@ should display user info if user is logged in
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
 
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
