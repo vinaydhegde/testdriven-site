@@ -329,7 +329,7 @@ const TEST_URL = process.env.TEST_URL;
 
 fixture('/register').page(`${TEST_URL}/register`);
 
-test(`should display flash messages correctly`, async (t) => {
+test.only(`should display flash messages correctly`, async (t) => {
 
   // register user
   await t
@@ -344,6 +344,10 @@ test(`should display flash messages correctly`, async (t) => {
     .expect(Selector('.alert-success').withText('Welcome!').exists).ok()
     .click(Selector('.alert > button'))
     .expect(Selector('.alert-success').withText('Welcome!').exists).notOk()
+
+  // log a user out
+  await t
+    .click(Selector('a').withText('Log Out'))
 
   // attempt to log in
   await t
@@ -370,6 +374,10 @@ test(`should display flash messages correctly`, async (t) => {
     .expect(Selector('.alert-success').withText('Welcome!').exists).ok()
     .expect(Selector('.alert-danger').withText(
       'User does not exist.').exists).notOk()
+
+  // log a user out
+  await t
+    .click(Selector('a').withText('Log Out'))
 
   // log a user in
   await t

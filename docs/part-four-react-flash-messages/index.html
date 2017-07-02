@@ -790,7 +790,7 @@
 
 <span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/register&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">);</span>
 
-<span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">flash</span> <span class="nx">messages</span> <span class="nx">correctly</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="nx">test</span><span class="p">.</span><span class="nx">only</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">flash</span> <span class="nx">messages</span> <span class="nx">correctly</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
 
   <span class="c1">// register user</span>
   <span class="nx">await</span> <span class="nx">t</span>
@@ -805,6 +805,10 @@
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-success&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Welcome!&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert &gt; button&#39;</span><span class="p">))</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-success&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Welcome!&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
 
   <span class="c1">// attempt to log in</span>
   <span class="nx">await</span> <span class="nx">t</span>
@@ -831,6 +835,10 @@
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-success&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Welcome!&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-danger&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
       <span class="s1">&#39;User does not exist.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
 
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>
@@ -1212,7 +1220,7 @@
 
 <span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/register&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">);</span>
 
-<span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">flash</span> <span class="nx">messages</span> <span class="nx">correctly</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="nx">test</span><span class="p">.</span><span class="nx">only</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">flash</span> <span class="nx">messages</span> <span class="nx">correctly</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
 
   <span class="c1">// register user</span>
   <span class="nx">await</span> <span class="nx">t</span>
@@ -1227,6 +1235,10 @@
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-success&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Welcome!&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert &gt; button&#39;</span><span class="p">))</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-success&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Welcome!&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
 
   <span class="c1">// attempt to log in</span>
   <span class="nx">await</span> <span class="nx">t</span>
@@ -1253,6 +1265,10 @@
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-success&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Welcome!&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-danger&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
       <span class="s1">&#39;User does not exist.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+
+  <span class="c1">// log a user out</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log Out&#39;</span><span class="p">))</span>
 
   <span class="c1">// log a user in</span>
   <span class="nx">await</span> <span class="nx">t</span>

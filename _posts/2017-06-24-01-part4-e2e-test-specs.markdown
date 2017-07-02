@@ -300,16 +300,9 @@ Add the following test specs:
         .typeText('input[name="password"]', 'test')
         .click(Selector('input[type="submit"]'))
 
-      // log a user in
-      await t
-        .navigateTo(`${TEST_URL}/login`)
-        .typeText('input[name="email"]', email)
-        .typeText('input[name="password"]', 'test')
-        .click(Selector('input[type="submit"]'))
-
       // assert '/status' is displayed properly
       await t
-        .click(Selector('a').withText('User Status'))
+        .navigateTo(`${TEST_URL}/status`)
         .expect(Selector('li > strong').withText('User ID:').exists).ok()
         .expect(Selector('li > strong').withText('Email:').exists).ok()
         .expect(Selector('li').withText(email).exists).ok()
@@ -438,7 +431,19 @@ Set the `TEST_URL` variable:
 $ export TEST_URL=DOCKER_MACHINE_DEV_IP
 ```
 
-Run the tests to ensure they pass:
+Run the tests. You should see *should display user info if user is logged in* fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigate to it in the browser. Try manually testing both scenarios - clicking the `/status` link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, `isAuthenticated` is getting reset to it's initial value of false.
+
+To fix this, we can set the state of `isAuthenticated` to `true` if there is a token in LocalStorage by adding the following Lifecycle Method to the `App` component:
+
+```javascript
+componentWillMount() {
+  if (window.localStorage.getItem('authToken')) {
+    this.setState({ isAuthenticated: true });
+  }
+}
+```
+
+Update the containers, and then run the tests again to ensure they pass:
 
 ```
 $ testcafe chrome e2e
