@@ -1,5 +1,5 @@
 ---
-title: e2e Test Specs
+title: End-to-End Test Specs
 layout: post
 date: 2017-06-24 23:59:59
 permalink: part-four-e2e-test-specs
