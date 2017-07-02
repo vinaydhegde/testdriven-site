@@ -893,7 +893,7 @@
 <p>Set the <code>TEST_URL</code> variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
 </code></pre></div>
-<p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigate to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is getting reset to it&#39;s initial value of false.</p>
+<p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is reset to its initial value of false.</p>
 
 <p>To fix this, we can set the state of <code>isAuthenticated</code> to <code>true</code> if there is a token in LocalStorage by adding the following Lifecycle Method to the <code>App</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
@@ -1352,7 +1352,7 @@ should display user info if user is logged in
 <p>Set the <code>TEST_URL</code> variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
 </code></pre></div>
-<p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigate to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is getting reset to it&#39;s initial value of false.</p>
+<p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is reset to its initial value of false.</p>
 
 <p>To fix this, we can set the state of <code>isAuthenticated</code> to <code>true</code> if there is a token in LocalStorage by adding the following Lifecycle Method to the <code>App</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillMount</span><span class="p">()</span> <span class="p">{</span>

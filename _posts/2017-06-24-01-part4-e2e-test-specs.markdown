@@ -431,7 +431,7 @@ Set the `TEST_URL` variable:
 $ export TEST_URL=DOCKER_MACHINE_DEV_IP
 ```
 
-Run the tests. You should see *should display user info if user is logged in* fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigate to it in the browser. Try manually testing both scenarios - clicking the `/status` link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, `isAuthenticated` is getting reset to it's initial value of false.
+Run the tests. You should see *should display user info if user is logged in* fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the `/status` link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, `isAuthenticated` is reset to its initial value of false.
 
 To fix this, we can set the state of `isAuthenticated` to `true` if there is a token in LocalStorage by adding the following Lifecycle Method to the `App` component:
 
