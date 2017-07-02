@@ -18,6 +18,12 @@ By the end of part 4, you should be able to...
 1. Handle form validation within React
 1. Add a flash messagign system to the React app
 
+#### App
+
+<div style="text-align:left;">
+  <img src="/assets/img/testdriven-architecture-part4.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
+</div>
+
 ---
 
 WIP

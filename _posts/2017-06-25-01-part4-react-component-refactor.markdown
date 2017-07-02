@@ -30,7 +30,7 @@ class Form extends Component {
       <div>
         <h1>{this.props.formType}</h1>
         <hr/><br/>
-        <form onSubmit={ (event) => this.props.handleUserFormSubmit(event) }>
+        <form onSubmit={(event) => this.props.handleUserFormSubmit(event)}>
           {this.props.formType === 'Register' &&
             <div className="form-group">
               <input
@@ -160,7 +160,7 @@ class Form extends Component {
       <div>
         <h1 style="textTransform:capitalize;">{this.props.formType}</h1>
         <hr/><br/>
-        <form onSubmit={ (event) => this.handleUserFormSubmit(event) }>
+        <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
           {this.props.formType === 'register' &&
             <div className="form-group">
               <input

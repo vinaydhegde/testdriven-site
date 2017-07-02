@@ -6,7 +6,7 @@ permalink: part-three-update-docker
 share: true
 ---
 
-In this lesson, we'll update Docker locally and on AWS...
+In this lesson, we'll update Docker locally and on AWS, since we've been working outside of Docker this entire part thus far...
 
 ---
 

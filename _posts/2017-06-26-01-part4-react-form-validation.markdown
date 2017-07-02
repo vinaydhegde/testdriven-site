@@ -249,7 +249,7 @@ Finally, render the component just above the form, back within the `Form` compon
     formType={this.props.formType}
     formRules={this.state.formRules}
   />
-  <form onSubmit={ (event) => this.handleUserFormSubmit(event) }>
+  <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
   ...
 ```
 

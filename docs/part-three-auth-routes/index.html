@@ -534,13 +534,13 @@
 </tr>
 <tr>
 <td>/auth/logout</td>
-<td>Get</td>
+<td>GET</td>
 <td>Yes</td>
 <td>log out a user</td>
 </tr>
 <tr>
 <td>/auth/status</td>
-<td>Get</td>
+<td>GET</td>
 <td>Yes</td>
 <td>get user status</td>
 </tr>
@@ -591,7 +591,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span>
                 <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
                 <span class="n">password</span><span class="o">=</span><span class="s">&#39;123456&#39;</span>
             <span class="p">)),</span>
@@ -676,7 +676,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -689,7 +689,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">)),</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">)),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -739,14 +739,7 @@
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
     <span class="c"># handler errors</span>
-    <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
-        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
-            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
-    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
@@ -1114,13 +1107,13 @@ TOTAL                     <span class="m">199</span>     <span class="m">37</spa
 </tr>
 <tr>
 <td>/auth/logout</td>
-<td>Get</td>
+<td>GET</td>
 <td>Yes</td>
 <td>log out a user</td>
 </tr>
 <tr>
 <td>/auth/status</td>
-<td>Get</td>
+<td>GET</td>
 <td>Yes</td>
 <td>get user status</td>
 </tr>
@@ -1171,7 +1164,7 @@ TOTAL                     <span class="m">199</span>     <span class="m">37</spa
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span>
                 <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span>
                 <span class="n">password</span><span class="o">=</span><span class="s">&#39;123456&#39;</span>
             <span class="p">)),</span>
@@ -1256,7 +1249,7 @@ TOTAL                     <span class="m">199</span>     <span class="m">37</spa
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -1269,7 +1262,7 @@ TOTAL                     <span class="m">199</span>     <span class="m">37</spa
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">&#39;/auth/register&#39;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
-                <span class="n">username</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">)),</span>
+                <span class="n">username</span><span class="o">=</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">&#39;test@test.com&#39;</span><span class="p">)),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -1319,14 +1312,7 @@ TOTAL                     <span class="m">199</span>     <span class="m">37</spa
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
     <span class="c"># handler errors</span>
-    <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
-        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
-            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
-    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>

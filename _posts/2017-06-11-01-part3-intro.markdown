@@ -36,8 +36,8 @@ You can also test out the following endpoints...
 |-----------------|-------------|-----------------|-----------|--------|
 | /auth/register  | POST        | No              | N/A       | N/A    |
 | /auth/login     | POST        | No              | N/A       | N/A    |
-| /auth/logout    | Get         | Yes             | Yes       | No     |
-| /auth/status    | Get         | Yes             | Yes       | No     |
+| /auth/logout    | GET         | Yes             | Yes       | No     |
+| /auth/status    | GET         | Yes             | Yes       | No     |
 | /users          | GET         | No              | N/A       | N/A    |
 | /users/:id      | GET         | No              | N/A       | N/A    |
 | /users          | POST        | Yes             | Yes       | Yes    |
