@@ -541,9 +541,9 @@
 <p>Spin up the new container:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
-<p>Once up, ensure you can see the sample docs (<a href="http://petstore.swagger.io/">Swagger Petstore</a>) in your browser at <a href="http://DOCKER_MACHINE_DEV_IP:8080/">http://DOCKER_MACHINE_DEV_IP:8080/</a>.</p>
+<p>Once up, ensure you can see the sample API docs (<a href="http://petstore.swagger.io/">Swagger Petstore</a>) in your browser at <a href="http://DOCKER_MACHINE_DEV_IP:8080/">http://DOCKER_MACHINE_DEV_IP:8080/</a>.</p>
 
-<h4 id="routes">Routes</h4>
+<p>Now, we simply need to provide our own custom <a href="https://swagger.io/specification/">spec file</a>. We could add additional logic to the Flask app, to automatically generate the the spec from the route handlers, but this is quite a bit of work. For now, let&#39;s just create this file by hand, based on the following routes:</p>
 
 <table><thead>
 <tr>
@@ -603,14 +603,52 @@
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr>
-<td>/ping</td>
-<td>GET</td>
-<td>No</td>
-<td>N/A</td>
-<td>N/A</td>
-</tr>
 </tbody></table>
+
+<p>Add a <em>swagger.json</em> file to <em>flask-microservices-swagger</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;swagger&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Users Service&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Swagger spec for documenting the users service.&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.99.100&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;schemes&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;http&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>Replace <code>192.168.99.100</code> with your local <code>DOCKER_MACHINE_DEV_IP</code>.</p>
+</blockquote>
+
+<p>Here, we defined some basic metadata about the users-service API. Be sure to review the official <a href="https://swagger.io/specification/">spec</a> documentation for more info.</p>
+
+<p>Commit your code and push it to GitHub.</p>
+
+<p>Then grab the raw JSON URL. For example: <a href="https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json">https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</a></p>
+
+<p>Add it as an environment variable in <em>docker-compose.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+  <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-swagger</span>
+  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+  <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+  <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Update the container. Test it out in the browser.</p>
+
+<h4 id="routes">Routes</h4>
+
+<p><code>/users</code>:</p>
 
 <hr>
 
@@ -671,9 +709,9 @@
 <p>Spin up the new container:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
 </code></pre></div>
-<p>Once up, ensure you can see the sample docs (<a href="http://petstore.swagger.io/">Swagger Petstore</a>) in your browser at <a href="http://DOCKER_MACHINE_DEV_IP:8080/">http://DOCKER_MACHINE_DEV_IP:8080/</a>.</p>
+<p>Once up, ensure you can see the sample API docs (<a href="http://petstore.swagger.io/">Swagger Petstore</a>) in your browser at <a href="http://DOCKER_MACHINE_DEV_IP:8080/">http://DOCKER_MACHINE_DEV_IP:8080/</a>.</p>
 
-<h4 id="routes">Routes</h4>
+<p>Now, we simply need to provide our own custom <a href="https://swagger.io/specification/">spec file</a>. We could add additional logic to the Flask app, to automatically generate the the spec from the route handlers, but this is quite a bit of work. For now, let&#39;s just create this file by hand, based on the following routes:</p>
 
 <table><thead>
 <tr>
@@ -733,14 +771,52 @@
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr>
-<td>/ping</td>
-<td>GET</td>
-<td>No</td>
-<td>N/A</td>
-<td>N/A</td>
-</tr>
 </tbody></table>
+
+<p>Add a <em>swagger.json</em> file to <em>flask-microservices-swagger</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;swagger&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Users Service&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Swagger spec for documenting the users service.&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.99.100&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;schemes&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;http&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>Replace <code>192.168.99.100</code> with your local <code>DOCKER_MACHINE_DEV_IP</code>.</p>
+</blockquote>
+
+<p>Here, we defined some basic metadata about the users-service API. Be sure to review the official <a href="https://swagger.io/specification/">spec</a> documentation for more info.</p>
+
+<p>Commit your code and push it to GitHub.</p>
+
+<p>Then grab the raw JSON URL. For example: <a href="https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json">https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</a></p>
+
+<p>Add it as an environment variable in <em>docker-compose.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+  <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-swagger</span>
+  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+  <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+  <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Update the container. Test it out in the browser.</p>
+
+<h4 id="routes">Routes</h4>
+
+<p><code>/users</code>:</p>
 
 <hr>
 

@@ -49,9 +49,9 @@ Spin up the new container:
 $ docker-compose up -d --build
 ```
 
-Once up, ensure you can see the sample docs ([Swagger Petstore](http://petstore.swagger.io/)) in your browser at [http://DOCKER_MACHINE_DEV_IP:8080/](http://DOCKER_MACHINE_DEV_IP:8080/).
+Once up, ensure you can see the sample API docs ([Swagger Petstore](http://petstore.swagger.io/)) in your browser at [http://DOCKER_MACHINE_DEV_IP:8080/](http://DOCKER_MACHINE_DEV_IP:8080/).
 
-#### Routes
+Now, we simply need to provide our own custom [spec file](https://swagger.io/specification/). We could add additional logic to the Flask app, to automatically generate the the spec from the route handlers, but this is quite a bit of work. For now, let's just create this file by hand, based on the following routes:
 
 | Endpoint        | HTTP Method | Authenticated?  | Active?   | Admin? |
 |-----------------|-------------|-----------------|-----------|--------|
@@ -62,7 +62,55 @@ Once up, ensure you can see the sample docs ([Swagger Petstore](http://petstore.
 | /users          | GET         | No              | N/A       | N/A    |
 | /users/:id      | GET         | No              | N/A       | N/A    |
 | /users          | POST        | Yes             | Yes       | Yes    |
-| /ping           | GET         | No              | N/A       | N/A    |
+
+Add a *swagger.json* file to *flask-microservices-swagger*:
+
+```json
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Users Service",
+    "description": "Swagger spec for documenting the users service."
+  },
+  "host": "192.168.99.100",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+  }
+}
+```
+
+> Replace `192.168.99.100` with your local `DOCKER_MACHINE_DEV_IP`.
+
+Here, we defined some basic metadata about the users-service API. Be sure to review the official [spec](https://swagger.io/specification/) documentation for more info.
+
+Commit your code and push it to GitHub.
+
+Then grab the raw JSON URL. For example: https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json
+
+Add it as an environment variable in *docker-compose.yml*:
+
+```yaml
+swagger:
+  container_name: swagger
+  build:
+    context: ../flask-microservices-swagger
+  ports:
+    - '8080:8080' # expose ports - HOST:CONTAINER
+  environment:
+    - API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json
+  depends_on:
+    users-service:
+      condition: service_started
+```
+
+Update the container. Test it out in the browser.
+
+#### Routes
+
+`/users`:
 
 ---
 
