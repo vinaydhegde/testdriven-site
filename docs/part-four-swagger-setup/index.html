@@ -508,11 +508,113 @@
 
           <h2>Swagger Setup</h2>
 
-          <p>In this lesson, we&#39;ll document the user-service API with Swagger...</p>
+          <p>In this lesson, we&#39;ll document the user-service API with <a href="https://swagger.io/">Swagger</a>...</p>
 
 <hr>
 
-<p>Coming soon!</p>
+<p>Swagger is a <a href="https://swagger.io/specification/">specification</a> for describing, producing, consuming, testing, and visualizing a RESTful API. It comes packed with a number of <a href="https://swagger.io/tools/">tools</a> for automatically generating documentation based on a given endpoint. The focus of this lesson will be on one of those tools - <a href="https://swagger.io/swagger-ui/">Swagger UI</a>, which is used to build client-side API docs.</p>
+
+<blockquote>
+<p>New to Swagger? Review the <a href="https://swagger.io/docs/specification/what-is-swagger/">What Is Swagger?</a> guide from the official documentation.</p>
+</blockquote>
+
+<h4 id="new-container">New container</h4>
+
+<p>Let&#39;s set up a new service for this. Create a new project and init a new Git repo:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>mkdir flask-microservices-swagger <span class="o">&amp;&amp;</span> <span class="nb">cd </span>flask-microservices-swagger
+<span class="nv">$ </span>git init
+</code></pre></div>
+<p>Next, add a new <em>Dockerfile</em>, to pull in the <a href="https://hub.docker.com/r/swaggerapi/swagger-ui/tags/">Swagger UI</a> image from <a href="https://hub.docker.com/">Docker Hub</a>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM swaggerapi/swagger-ui:v3.0.8
+</code></pre></div>
+<p>Add the new service to the <em>docker-compose.yml</em> file in <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+  <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-swagger</span>
+  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+  <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Spin up the new container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Once up, ensure you can see the sample docs (<a href="http://petstore.swagger.io/">Swagger Petstore</a>) in your browser at <a href="http://DOCKER_MACHINE_DEV_IP:8080/">http://DOCKER_MACHINE_DEV_IP:8080/</a>.</p>
+
+<h4 id="routes">Routes</h4>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Active?</th>
+<th>Admin?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<p>WIP</p>
 
 
           
@@ -536,11 +638,113 @@
 
           <h2>Swagger Setup</h2>
 
-          <p>In this lesson, we&#39;ll document the user-service API with Swagger...</p>
+          <p>In this lesson, we&#39;ll document the user-service API with <a href="https://swagger.io/">Swagger</a>...</p>
 
 <hr>
 
-<p>Coming soon!</p>
+<p>Swagger is a <a href="https://swagger.io/specification/">specification</a> for describing, producing, consuming, testing, and visualizing a RESTful API. It comes packed with a number of <a href="https://swagger.io/tools/">tools</a> for automatically generating documentation based on a given endpoint. The focus of this lesson will be on one of those tools - <a href="https://swagger.io/swagger-ui/">Swagger UI</a>, which is used to build client-side API docs.</p>
+
+<blockquote>
+<p>New to Swagger? Review the <a href="https://swagger.io/docs/specification/what-is-swagger/">What Is Swagger?</a> guide from the official documentation.</p>
+</blockquote>
+
+<h4 id="new-container">New container</h4>
+
+<p>Let&#39;s set up a new service for this. Create a new project and init a new Git repo:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>mkdir flask-microservices-swagger <span class="o">&amp;&amp;</span> <span class="nb">cd </span>flask-microservices-swagger
+<span class="nv">$ </span>git init
+</code></pre></div>
+<p>Next, add a new <em>Dockerfile</em>, to pull in the <a href="https://hub.docker.com/r/swaggerapi/swagger-ui/tags/">Swagger UI</a> image from <a href="https://hub.docker.com/">Docker Hub</a>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM swaggerapi/swagger-ui:v3.0.8
+</code></pre></div>
+<p>Add the new service to the <em>docker-compose.yml</em> file in <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+  <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">../flask-microservices-swagger</span>
+  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+  <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>Spin up the new container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Once up, ensure you can see the sample docs (<a href="http://petstore.swagger.io/">Swagger Petstore</a>) in your browser at <a href="http://DOCKER_MACHINE_DEV_IP:8080/">http://DOCKER_MACHINE_DEV_IP:8080/</a>.</p>
+
+<h4 id="routes">Routes</h4>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Active?</th>
+<th>Admin?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<p>WIP</p>
 
 
           
