@@ -482,6 +482,16 @@
         </ul>
       
         
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-tech-debt"
+            >Tech Debt</a>
+          </li>
+        </ul>
+      
+        
           <li>
             <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
               Part 5
@@ -603,6 +613,13 @@
 <td>Yes</td>
 <td>Yes</td>
 </tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
 </tbody></table>
 
 <p>Add a <em>swagger.json</em> file to <em>flask-microservices-swagger</em>:</p>
@@ -611,25 +628,29 @@
   <span class="nt">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Users Service&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Swagger spec for documenting the users service.&quot;</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Swagger spec for documenting the users service&quot;</span>
   <span class="p">},</span>
   <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.99.100&quot;</span><span class="p">,</span>
   <span class="nt">&quot;schemes&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">&quot;http&quot;</span>
   <span class="p">],</span>
   <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;definitions&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
 <p>Replace <code>192.168.99.100</code> with your local <code>DOCKER_MACHINE_DEV_IP</code>.</p>
-</blockquote>
 
 <p>Here, we defined some basic metadata about the users-service API. Be sure to review the official <a href="https://swagger.io/specification/">spec</a> documentation for more info.</p>
 
 <p>Commit your code and push it to GitHub.</p>
 
 <p>Then grab the raw JSON URL. For example: <a href="https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json">https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</a></p>
+
+<blockquote>
+<p>The configuration file can be written in YAML as well - i.e., <em>swagger.yaml</em>. The <a href="https://www.json2yaml.com/">JSON to YAML</a> online convertor can be used to convert the examples to YAML.</p>
+</blockquote>
 
 <p>Add it as an environment variable in <em>docker-compose.yml</em>:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
@@ -646,13 +667,285 @@
 </code></pre></div>
 <p>Update the container. Test it out in the browser.</p>
 
-<h4 id="routes">Routes</h4>
+<h4 id="unauthenticated-routes">Unauthenticated Routes</h4>
 
+<p>Add each of these as properties to the <code>paths</code> object in the <em>swagger.json</em> file...</p>
+
+<p><code>/ping</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/ping&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Just a sanity check&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Will return &#39;pong!&#39;&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><code>/users</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/users&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Returns all users&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>/users/:id</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/users/{id}&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Returns a user based on a single user ID&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;ID of user to fetch&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;int64&quot;</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>/auth/register</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/auth/register&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Creates a new user&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;User to add&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>/auth/login</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/auth/login&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Logs a user in&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;User to log in&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
 
-<hr>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully logged in&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="schemas">Schemas</h4>
 
-<p>WIP</p>
+<p>To keep things DRY, let&#39;s abstract out the schema definitions via a <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#referenceObject">reference object</a>. Add a new schema to the <code>definitions</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;definitions&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;User&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;username&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;email&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;password&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Now, turn back to the <code>/auth/register</code> and <code>/auth/login</code> routes and update the <code>schema</code> like so:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;schema&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;$ref&quot;</span><span class="p">:</span> <span class="s2">&quot;#/definitions/User&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This schema definition can now be reused.</p>
+
+<h4 id="authenticated-routes">Authenticated Routes</h4>
+
+<p>To access authenticated routes, we need to add a <a href="https://stackoverflow.com/questions/25838183/what-is-the-oauth-2-0-bearer-token-exactly">Bearer token</a> to the request header. Unfortunately, Swagger does not currently support this out of the box. There is a workaround though.</p>
+
+<p>Start by adding a <a href="https://swagger.io/specification/#securityDefinitionsObject">securityDefinitions</a> object to the <em>swagger.json</em> file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;swagger&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Users Service&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Swagger spec for documenting the users service&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.99.100&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;schemes&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;http&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;securityDefinitions&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;Bearer&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;apiKey&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Authorization&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;header&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Now, we can provide a security property to paths that require authentication...</p>
+
+<p><code>/auth/status</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/auth/status&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Returns the logged in user&#39;s status&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;security&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;Bearer&quot;</span><span class="p">:</span> <span class="p">[]</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>/auth/logout</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/auth/logout&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Logs a user out&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;security&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;Bearer&quot;</span><span class="p">:</span> <span class="p">[]</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully logged out&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Update the container. To test, first log a user in and grab the provided token. Then click the &quot;Authorize&quot; button at the top of the page and add the token to the input box like so:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Bearer PROVIDED_TOKEN
+</code></pre></div>
+<p>Finally, for the <code>/users</code> route, since we already defined a <code>users</code> path, we can just add a new request method to the current object:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/users&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Returns all users&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Adds a new user&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;User to add&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;$ref&quot;</span><span class="p">:</span> <span class="s2">&quot;#/definitions/User&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;security&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;Bearer&quot;</span><span class="p">:</span> <span class="p">[]</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;User added&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span><span class="err">,</span>
+</code></pre></div>
+<p>Remember: To test this route, you will need to be authenticated as an admin.</p>
+
+<h4 id="next-steps">Next steps</h4>
+
+<p>Before moving on, add error handling to the <code>responses</code> for each path, based on the actual error responses from the users service.</p>
+
+<p>Commit and push your code.</p>
 
 
           
@@ -771,6 +1064,13 @@
 <td>Yes</td>
 <td>Yes</td>
 </tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
 </tbody></table>
 
 <p>Add a <em>swagger.json</em> file to <em>flask-microservices-swagger</em>:</p>
@@ -779,25 +1079,29 @@
   <span class="nt">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Users Service&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Swagger spec for documenting the users service.&quot;</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Swagger spec for documenting the users service&quot;</span>
   <span class="p">},</span>
   <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.99.100&quot;</span><span class="p">,</span>
   <span class="nt">&quot;schemes&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">&quot;http&quot;</span>
   <span class="p">],</span>
   <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;definitions&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
 <p>Replace <code>192.168.99.100</code> with your local <code>DOCKER_MACHINE_DEV_IP</code>.</p>
-</blockquote>
 
 <p>Here, we defined some basic metadata about the users-service API. Be sure to review the official <a href="https://swagger.io/specification/">spec</a> documentation for more info.</p>
 
 <p>Commit your code and push it to GitHub.</p>
 
 <p>Then grab the raw JSON URL. For example: <a href="https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json">https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</a></p>
+
+<blockquote>
+<p>The configuration file can be written in YAML as well - i.e., <em>swagger.yaml</em>. The <a href="https://www.json2yaml.com/">JSON to YAML</a> online convertor can be used to convert the examples to YAML.</p>
+</blockquote>
 
 <p>Add it as an environment variable in <em>docker-compose.yml</em>:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
@@ -814,13 +1118,285 @@
 </code></pre></div>
 <p>Update the container. Test it out in the browser.</p>
 
-<h4 id="routes">Routes</h4>
+<h4 id="unauthenticated-routes">Unauthenticated Routes</h4>
 
+<p>Add each of these as properties to the <code>paths</code> object in the <em>swagger.json</em> file...</p>
+
+<p><code>/ping</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/ping&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Just a sanity check&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Will return &#39;pong!&#39;&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><code>/users</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/users&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Returns all users&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>/users/:id</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/users/{id}&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Returns a user based on a single user ID&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;ID of user to fetch&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;int64&quot;</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>/auth/register</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/auth/register&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Creates a new user&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;User to add&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;username&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;email&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;password&quot;</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>/auth/login</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/auth/login&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Logs a user in&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;User to log in&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
 
-<hr>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully logged in&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="schemas">Schemas</h4>
 
-<p>WIP</p>
+<p>To keep things DRY, let&#39;s abstract out the schema definitions via a <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#referenceObject">reference object</a>. Add a new schema to the <code>definitions</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;definitions&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;User&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;username&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;email&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;password&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Now, turn back to the <code>/auth/register</code> and <code>/auth/login</code> routes and update the <code>schema</code> like so:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;schema&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;$ref&quot;</span><span class="p">:</span> <span class="s2">&quot;#/definitions/User&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This schema definition can now be reused.</p>
+
+<h4 id="authenticated-routes">Authenticated Routes</h4>
+
+<p>To access authenticated routes, we need to add a <a href="https://stackoverflow.com/questions/25838183/what-is-the-oauth-2-0-bearer-token-exactly">Bearer token</a> to the request header. Unfortunately, Swagger does not currently support this out of the box. There is a workaround though.</p>
+
+<p>Start by adding a <a href="https://swagger.io/specification/#securityDefinitionsObject">securityDefinitions</a> object to the <em>swagger.json</em> file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;swagger&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Users Service&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Swagger spec for documenting the users service&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.99.100&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;schemes&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;http&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;securityDefinitions&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;Bearer&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;apiKey&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Authorization&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;header&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Now, we can provide a security property to paths that require authentication...</p>
+
+<p><code>/auth/status</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/auth/status&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Returns the logged in user&#39;s status&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;security&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;Bearer&quot;</span><span class="p">:</span> <span class="p">[]</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>/auth/logout</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/auth/logout&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Logs a user out&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;security&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;Bearer&quot;</span><span class="p">:</span> <span class="p">[]</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Successfully logged out&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Update the container. To test, first log a user in and grab the provided token. Then click the &quot;Authorize&quot; button at the top of the page and add the token to the input box like so:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Bearer PROVIDED_TOKEN
+</code></pre></div>
+<p>Finally, for the <code>/users</code> route, since we already defined a <code>users</code> path, we can just add a new request method to the current object:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;/users&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;get&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Returns all users&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;user object&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Adds a new user&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;produces&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;application/json&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;User to add&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;$ref&quot;</span><span class="p">:</span> <span class="s2">&quot;#/definitions/User&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;security&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;Bearer&quot;</span><span class="p">:</span> <span class="p">[]</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;responses&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;200&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;User added&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span><span class="err">,</span>
+</code></pre></div>
+<p>Remember: To test this route, you will need to be authenticated as an admin.</p>
+
+<h4 id="next-steps">Next steps</h4>
+
+<p>Before moving on, add error handling to the <code>responses</code> for each path, based on the actual error responses from the users service.</p>
+
+<p>Commit and push your code.</p>
 
 
           

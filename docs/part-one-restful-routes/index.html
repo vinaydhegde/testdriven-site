@@ -482,6 +482,16 @@
         </ul>
       
         
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-tech-debt"
+            >Tech Debt</a>
+          </li>
+        </ul>
+      
+        
           <li>
             <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
               Part 5
@@ -551,7 +561,7 @@
 
 <h4 id="post">POST</h4>
 
-<p>Add the test to <em>project/tests/test_user.py</em>:</p>
+<p>Add the test to <em>project/tests/test_users.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure a new user can be added to the database.&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
@@ -786,7 +796,7 @@ OK
 </code></pre></div>
 <h4 id="get-all-users">GET all users</h4>
 
-<p>Again, let&#39;s start with a test. Since we&#39;ll have to add a few users first, let&#39;s add a quick helper function to the top of the <em>project/tests/test_user.py</em> file, just above the <code>TestUserService()</code> class.</p>
+<p>Again, let&#39;s start with a test. Since we&#39;ll have to add a few users first, let&#39;s add a quick helper function to the top of the <em>project/tests/test_users.py</em> file, just above the <code>TestUserService()</code> class.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
@@ -936,7 +946,7 @@ OK
 
 <h4 id="post">POST</h4>
 
-<p>Add the test to <em>project/tests/test_user.py</em>:</p>
+<p>Add the test to <em>project/tests/test_users.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure a new user can be added to the database.&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
@@ -1171,7 +1181,7 @@ OK
 </code></pre></div>
 <h4 id="get-all-users">GET all users</h4>
 
-<p>Again, let&#39;s start with a test. Since we&#39;ll have to add a few users first, let&#39;s add a quick helper function to the top of the <em>project/tests/test_user.py</em> file, just above the <code>TestUserService()</code> class.</p>
+<p>Again, let&#39;s start with a test. Since we&#39;ll have to add a few users first, let&#39;s add a quick helper function to the top of the <em>project/tests/test_users.py</em> file, just above the <code>TestUserService()</code> class.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>

@@ -25,7 +25,7 @@ Let' start with the POST route...
 
 #### POST
 
-Add the test to *project/tests/test_user.py*:
+Add the test to *project/tests/test_users.py*:
 
 ```python
 def test_add_user(self):
@@ -295,7 +295,7 @@ def get_single_user(user_id):
 
 #### GET all users
 
-Again, let's start with a test. Since we'll have to add a few users first, let's add a quick helper function to the top of the *project/tests/test_user.py* file, just above the `TestUserService()` class.
+Again, let's start with a test. Since we'll have to add a few users first, let's add a quick helper function to the top of the *project/tests/test_users.py* file, just above the `TestUserService()` class.
 
 ```python
 def add_user(username, email):
