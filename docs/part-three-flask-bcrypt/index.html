@@ -486,26 +486,6 @@
           <li>
             <a
               class="collection-item"
-              href="/part-four-tech-debt"
-            >Tech Debt</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
-              href="/part-four-tech-debt"
-            >Material Design</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
               href="/part-four-workflow"
             >Workflow</a>
           </li>
@@ -595,7 +575,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">user_one</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="n">user_two</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
 </code></pre></div>
 <p>Update the helper to take a password:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
         <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
         <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
@@ -873,7 +853,7 @@ ValueError: Password must be non-empty.
     <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">user_one</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="n">user_two</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
 </code></pre></div>
 <p>Update the helper to take a password:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()):</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
         <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
         <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>

@@ -486,26 +486,6 @@
           <li>
             <a
               class="collection-item"
-              href="/part-four-tech-debt"
-            >Tech Debt</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
-              href="/part-four-tech-debt"
-            >Material Design</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
               href="/part-four-workflow"
             >Workflow</a>
           </li>
@@ -552,6 +532,7 @@
 <li>Describe the purpose of Swagger</li>
 <li>Generate a Swagger Spec based on an existing RESTful API</li>
 <li>Configure Swagger to interact with a service running inside a Docker Container</li>
+<li>Set up a staging environment on AWS</li>
 </ol>
 
 <h4 id="app">App</h4>
@@ -560,9 +541,81 @@
   <img src="/assets/img/testdriven-architecture-part4.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
 
-<hr>
+<p>Check out the live app, running on EC2 -</p>
 
-<p>WIP</p>
+<ol>
+<li>Main app - <a href="http://54.89.0.180/">http://54.89.0.180/</a></li>
+<li>Swagger - <a href="http://54.89.0.180:8080">http://54.89.0.180:8080</a></li>
+</ol>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
+
+<p>Grab the code:</p>
+
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-swagger">flask-microservices-swagger</a></li>
+</ol>
 
 
           
@@ -600,6 +653,7 @@
 <li>Describe the purpose of Swagger</li>
 <li>Generate a Swagger Spec based on an existing RESTful API</li>
 <li>Configure Swagger to interact with a service running inside a Docker Container</li>
+<li>Set up a staging environment on AWS</li>
 </ol>
 
 <h4 id="app">App</h4>
@@ -608,9 +662,81 @@
   <img src="/assets/img/testdriven-architecture-part4.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
 
-<hr>
+<p>Check out the live app, running on EC2 -</p>
 
-<p>WIP</p>
+<ol>
+<li>Main app - <a href="http://54.89.0.180/">http://54.89.0.180/</a></li>
+<li>Swagger - <a href="http://54.89.0.180:8080">http://54.89.0.180:8080</a></li>
+</ol>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
+
+<p>Grab the code:</p>
+
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-swagger">flask-microservices-swagger</a></li>
+</ol>
 
 
           

@@ -147,7 +147,7 @@ class User(db.Model):
     active = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
 
-    def __init__(self, username, email, created_at=datetime.datetime.now()):
+    def __init__(self, username, email, created_at=datetime.datetime.utcnow()):
         self.username = username
         self.email = email
         self.created_at = created_at
@@ -225,7 +225,7 @@ from project import db
 from project.api.models import User
 
 
-def add_user(username, email, created_at=datetime.datetime.now()):
+def add_user(username, email, created_at=datetime.datetime.utcnow()):
     user = User(username=username, email=email, created_at=created_at)
     db.session.add(user)
     db.session.commit()

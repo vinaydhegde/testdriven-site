@@ -486,26 +486,6 @@
           <li>
             <a
               class="collection-item"
-              href="/part-four-tech-debt"
-            >Tech Debt</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
-              href="/part-four-tech-debt"
-            >Material Design</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
               href="/part-four-workflow"
             >Workflow</a>
           </li>
@@ -538,8 +518,179 @@
 
           <h2>Workflow</h2>
 
-          <p>Coming Soon!</p>
+          <p>Updated workflow...</p>
 
+<h4 id="all-services">All Services</h4>
+
+<p>The following commands are for spinning up all the containers...</p>
+
+<h5 id="environment-variables">Environment Variables</h5>
+
+<p>Development:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Staging:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_STAGING_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span>SOMETHING_SUPER_SECRET
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_STAGING_IP
+</code></pre></div>
+<p>Production:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_PROD_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span>SOMETHING_SUPER_SECRET
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_PROD_IP
+</code></pre></div>
+<h5 id="start">Start</h5>
+
+<p>Build the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
+</code></pre></div>
+<p>Run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+</code></pre></div>
+<p>Create and seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the unit and integration tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Run the e2e tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<h5 id="stop">Stop</h5>
+
+<p>Stop the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose stop
+</code></pre></div>
+<p>Bring down the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<h4 id="individual-services">Individual Services</h4>
+
+<p>The following commands are for spinning up individual containers...</p>
+
+<h5 id="users-db">Users DB</h5>
+
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build users-db
+</code></pre></div>
+<p>Test:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
+</code></pre></div>
+<h5 id="users">Users</h5>
+
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build users-service
+</code></pre></div>
+<p>Create and seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the unit and integration tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<h5 id="web">Web</h5>
+
+<p>Set env variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build web-service
+</code></pre></div>
+<p>To test, navigate to <a href="http://DOCKER_MACHINE_DEV_IP:900">http://DOCKER_MACHINE_DEV_IP:9000</a> in your browser.</p>
+
+<blockquote>
+<p>Keep in mind that you won&#39;t be able to register or log in until Nginx is set up</p>
+</blockquote>
+
+<p>To take advantage of auto/hot/live reload, it is recommended to develop out of the container. Navigate to the <em>flask-microservices-client</em> directory, set the env variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Then run <code>npm start</code>.</p>
+
+<h5 id="nginx">Nginx</h5>
+
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build nginx
+</code></pre></div>
+<p>To test, navigate to <a href="http://DOCKER_MACHINE_DEV_IP">http://DOCKER_MACHINE_DEV_IP</a> in your browser. Also, run the e2e tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<h5 id="swagger">Swagger</h5>
+
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build swagger
+</code></pre></div>
+<p>To test, navigate to <a href="http://DOCKER_MACHINE_DEV_IP:8080">http://DOCKER_MACHINE_DEV_IP:8080</a> in your browser.</p>
+
+<h4 id="aliases">Aliases</h4>
+
+<p>To save some previous keystrokes, create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
+
+<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">alias dc=&#39;docker-compose&#39;
+alias dm=&#39;docker-machine&#39;
+</code></pre></div>
+<p>Save the file, then execute it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
+</code></pre></div>
+<p>Test out the new aliases!</p>
+
+<blockquote>
+<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
+</blockquote>
+
+<h4 id="quot-saved-quot-state">&quot;Saved&quot; State</h4>
+
+<p>Is the VM stuck in a &quot;Saved&quot; state?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Saved                                         Unknown
+</code></pre></div>
+<p>To break out of this, you&#39;ll need to power off the VM:</p>
+
+<ol>
+<li>Start virtualbox - <code>virtualbox</code></li>
+<li>Select the VM and click &quot;start&quot;</li>
+<li>Exit the VM and select &quot;Power off the machine&quot;</li>
+<li>Exit virtualbox</li>
+</ol>
+
+<p>The VM should now have a &quot;Stopped&quot; state:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Stopped                                       Unknown
+</code></pre></div>
+<p>Now you can start the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine start dev
+</code></pre></div>
+<p>It should be &quot;Running&quot;:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
+</code></pre></div>
+<h4 id="other-commands">Other Commands</h4>
+
+<p>Want to force a build?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<p><a href="https://stackoverflow.com/a/33251637/1799408">Reset</a> Docker environment back to localhost, unsetting all Docker environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env -u<span class="k">)</span>
+</code></pre></div>
 
           
   <br><br>
@@ -549,7 +700,7 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-four-tech-debt">&laquo; Material Design</a>
+              <a class="prev btn left-align" href="/part-four-staging-environment">&laquo; Staging Environment</a>
             
             
               <a class="next btn right-align" href="/part-five-intro">Introduction &raquo;</a>
@@ -562,8 +713,179 @@
 
           <h2>Workflow</h2>
 
-          <p>Coming Soon!</p>
+          <p>Updated workflow...</p>
 
+<h4 id="all-services">All Services</h4>
+
+<p>The following commands are for spinning up all the containers...</p>
+
+<h5 id="environment-variables">Environment Variables</h5>
+
+<p>Development:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Staging:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_STAGING_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span>SOMETHING_SUPER_SECRET
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_STAGING_IP
+</code></pre></div>
+<p>Production:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_PROD_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span>SOMETHING_SUPER_SECRET
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_PROD_IP
+</code></pre></div>
+<h5 id="start">Start</h5>
+
+<p>Build the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
+</code></pre></div>
+<p>Run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+</code></pre></div>
+<p>Create and seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the unit and integration tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Run the e2e tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<h5 id="stop">Stop</h5>
+
+<p>Stop the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose stop
+</code></pre></div>
+<p>Bring down the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<h4 id="individual-services">Individual Services</h4>
+
+<p>The following commands are for spinning up individual containers...</p>
+
+<h5 id="users-db">Users DB</h5>
+
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build users-db
+</code></pre></div>
+<p>Test:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
+</code></pre></div>
+<h5 id="users">Users</h5>
+
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build users-service
+</code></pre></div>
+<p>Create and seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the unit and integration tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<h5 id="web">Web</h5>
+
+<p>Set env variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build web-service
+</code></pre></div>
+<p>To test, navigate to <a href="http://DOCKER_MACHINE_DEV_IP:900">http://DOCKER_MACHINE_DEV_IP:9000</a> in your browser.</p>
+
+<blockquote>
+<p>Keep in mind that you won&#39;t be able to register or log in until Nginx is set up</p>
+</blockquote>
+
+<p>To take advantage of auto/hot/live reload, it is recommended to develop out of the container. Navigate to the <em>flask-microservices-client</em> directory, set the env variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Then run <code>npm start</code>.</p>
+
+<h5 id="nginx">Nginx</h5>
+
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build nginx
+</code></pre></div>
+<p>To test, navigate to <a href="http://DOCKER_MACHINE_DEV_IP">http://DOCKER_MACHINE_DEV_IP</a> in your browser. Also, run the e2e tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<h5 id="swagger">Swagger</h5>
+
+<p>Build and run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build swagger
+</code></pre></div>
+<p>To test, navigate to <a href="http://DOCKER_MACHINE_DEV_IP:8080">http://DOCKER_MACHINE_DEV_IP:8080</a> in your browser.</p>
+
+<h4 id="aliases">Aliases</h4>
+
+<p>To save some previous keystrokes, create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
+
+<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">alias dc=&#39;docker-compose&#39;
+alias dm=&#39;docker-machine&#39;
+</code></pre></div>
+<p>Save the file, then execute it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
+</code></pre></div>
+<p>Test out the new aliases!</p>
+
+<blockquote>
+<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
+</blockquote>
+
+<h4 id="quot-saved-quot-state">&quot;Saved&quot; State</h4>
+
+<p>Is the VM stuck in a &quot;Saved&quot; state?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Saved                                         Unknown
+</code></pre></div>
+<p>To break out of this, you&#39;ll need to power off the VM:</p>
+
+<ol>
+<li>Start virtualbox - <code>virtualbox</code></li>
+<li>Select the VM and click &quot;start&quot;</li>
+<li>Exit the VM and select &quot;Power off the machine&quot;</li>
+<li>Exit virtualbox</li>
+</ol>
+
+<p>The VM should now have a &quot;Stopped&quot; state:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Stopped                                       Unknown
+</code></pre></div>
+<p>Now you can start the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine start dev
+</code></pre></div>
+<p>It should be &quot;Running&quot;:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
+</code></pre></div>
+<h4 id="other-commands">Other Commands</h4>
+
+<p>Want to force a build?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<p><a href="https://stackoverflow.com/a/33251637/1799408">Reset</a> Docker environment back to localhost, unsetting all Docker environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env -u<span class="k">)</span>
+</code></pre></div>
 
           
   <br><br>
@@ -573,7 +895,7 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-four-tech-debt">&laquo; Material Design</a>
+              <a class="prev btn left-align" href="/part-four-staging-environment">&laquo; Staging Environment</a>
             
             
               <a class="next btn right-align" href="/part-five-intro">Introduction &raquo;</a>

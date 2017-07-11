@@ -20,6 +20,7 @@ By the end of part 4, you should be able to...
 1. Describe the purpose of Swagger
 1. Generate a Swagger Spec based on an existing RESTful API
 1. Configure Swagger to interact with a service running inside a Docker Container
+1. Set up a staging environment on AWS
 
 #### App
 
@@ -27,6 +28,27 @@ By the end of part 4, you should be able to...
   <img src="/assets/img/testdriven-architecture-part4.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
 
----
+Check out the live app, running on EC2 -
 
-WIP
+1. Main app - http://54.89.0.180/
+1. Swagger - http://54.89.0.180:8080
+
+You can also test out the following endpoints...
+
+| Endpoint        | HTTP Method | Authenticated?  | Result            |
+|-----------------|-------------|-----------------|-------------------|
+| /auth/register  | POST        | No              | register user     |
+| /auth/login     | POST        | No              | log in user       |
+| /auth/logout    | GET         | Yes             | log out user      |
+| /auth/status    | GET         | Yes             | check user status |
+| /users          | GET         | No              | get all users     |
+| /users/:id      | GET         | No              | get single user   |
+| /users          | POST        | Yes (admin)     | add a user        |
+| /ping           | GET         | No              | sanity check      |
+
+Grab the code:
+
+1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main)
+1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users)
+1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client)
+1. [flask-microservices-swagger](https://github.com/realpython/flask-microservices-swagger)

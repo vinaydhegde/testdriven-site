@@ -486,26 +486,6 @@
           <li>
             <a
               class="collection-item"
-              href="/part-four-tech-debt"
-            >Tech Debt</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
-              href="/part-four-tech-debt"
-            >Material Design</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
               href="/part-four-workflow"
             >Workflow</a>
           </li>
@@ -866,6 +846,7 @@
   <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">;</span>
   <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">;</span>
   <span class="kr">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
   <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">rule</span> <span class="nx">of</span> <span class="nx">rules</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
   <span class="p">}</span>
@@ -1239,6 +1220,7 @@
   <span class="kr">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">formType</span><span class="p">;</span>
   <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formRules</span><span class="p">;</span>
   <span class="kr">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
   <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">rule</span> <span class="nx">of</span> <span class="nx">rules</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">rule</span><span class="p">.</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
   <span class="p">}</span>

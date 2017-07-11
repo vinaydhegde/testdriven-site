@@ -74,7 +74,7 @@ def test_passwords_are_random(self):
 Update the helper to take a password:
 
 ```python
-def add_user(username, email, password, created_at=datetime.datetime.now()):
+def add_user(username, email, password, created_at=datetime.datetime.utcnow()):
     user = User(
         username=username,
         email=email,

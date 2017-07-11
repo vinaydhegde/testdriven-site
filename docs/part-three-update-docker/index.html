@@ -486,26 +486,6 @@
           <li>
             <a
               class="collection-item"
-              href="/part-four-tech-debt"
-            >Tech Debt</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
-              href="/part-four-tech-debt"
-            >Material Design</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
               href="/part-four-workflow"
             >Workflow</a>
           </li>
@@ -655,6 +635,7 @@
 
 <p>To create a key, open the Python shell and run:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">binascii</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
 <span class="n">b</span><span class="s">&#39;0ccd512f8c3493797a23557c32db38e7d51ed74f14fa7580&#39;</span>
 </code></pre></div>
@@ -664,7 +645,7 @@
 <p>Grab the IP for the <code>aws</code> machine and use it for the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_AWS_IP
 </code></pre></div>
-<p>Update the containers, e-create and seed the database, and run the tests:</p>
+<p>Update the containers, re-create and seed the database, and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
@@ -811,6 +792,7 @@
 
 <p>To create a key, open the Python shell and run:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">binascii</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
 <span class="n">b</span><span class="s">&#39;0ccd512f8c3493797a23557c32db38e7d51ed74f14fa7580&#39;</span>
 </code></pre></div>
@@ -820,7 +802,7 @@
 <p>Grab the IP for the <code>aws</code> machine and use it for the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_AWS_IP
 </code></pre></div>
-<p>Update the containers, e-create and seed the database, and run the tests:</p>
+<p>Update the containers, re-create and seed the database, and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
 <span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db

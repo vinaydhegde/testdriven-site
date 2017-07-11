@@ -486,26 +486,6 @@
           <li>
             <a
               class="collection-item"
-              href="/part-four-tech-debt"
-            >Tech Debt</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
-              href="/part-four-tech-debt"
-            >Material Design</a>
-          </li>
-        </ul>
-      
-        
-        <ul>
-          <li>
-            <a
-              class="collection-item"
               href="/part-four-workflow"
             >Workflow</a>
           </li>
@@ -580,7 +560,8 @@ services:
   - docker
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.11.2
+  global:
+    - DOCKER_COMPOSE_VERSION=1.11.2
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -663,7 +644,8 @@ services:
   - docker
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.11.2
+  global:
+    - DOCKER_COMPOSE_VERSION=1.11.2
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose

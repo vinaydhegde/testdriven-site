@@ -95,15 +95,6 @@ Now add the following test specs:
         .expect(Selector('a').withText('Register').exists).notOk()
         .expect(Selector('a').withText('Log In').exists).notOk()
 
-      // assert date is correct
-      const createdDate = await tableRow.child('td').nth(3).innerText;
-      const formattedDate = new Date(createdDate)
-      await t
-        .expect(currentDate.getUTCMonth()).eql(formattedDate.getUTCMonth())
-        .expect(currentDate.getUTCDate()).eql(formattedDate.getUTCDate())
-        .expect(
-          currentDate.getUTCFullYear()).eql(formattedDate.getUTCFullYear())
-
     });
     ```
 
@@ -114,7 +105,6 @@ Now add the following test specs:
 
     const username = randomstring.generate();
     const email = `${username}@test.com`;
-    const currentDate = new Date();
     ```
 
     Make sure to install the dependency as well:
@@ -308,21 +298,10 @@ Add the following test specs:
         .expect(Selector('li').withText(email).exists).ok()
         .expect(Selector('li > strong').withText('Username:').exists).ok()
         .expect(Selector('li').withText(username).exists).ok()
-        .expect(Selector('li > strong').withText('Created Date:').exists).ok()
         .expect(Selector('a').withText('User Status').exists).ok()
         .expect(Selector('a').withText('Log Out').exists).ok()
         .expect(Selector('a').withText('Register').exists).notOk()
         .expect(Selector('a').withText('Log In').exists).notOk()
-
-      // assert date is correct
-      const createdDate = await Selector('li > strong').withText(
-        'Created Date:').parent().child('li').nth(3).innerText;
-      const formattedDate = new Date(createdDate)
-      await t
-        .expect(currentDate.getUTCMonth()).eql(formattedDate.getUTCMonth())
-        .expect(currentDate.getUTCDate()).eql(formattedDate.getUTCDate())
-        .expect(
-          currentDate.getUTCFullYear()).eql(formattedDate.getUTCFullYear())
 
     });
     ```
