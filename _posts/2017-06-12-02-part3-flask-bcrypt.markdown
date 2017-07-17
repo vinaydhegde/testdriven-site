@@ -125,7 +125,7 @@ def add_user():
             'status': 'fail',
             'message': 'Invalid payload.'
         }
-        return make_response(jsonify(response_object)), 400
+        return jsonify(response_object), 400
     username = post_data.get('username')
     email = post_data.get('email')
     password = post_data.get('password')
@@ -141,20 +141,20 @@ def add_user():
                 'status': 'success',
                 'message': f'{email} was added!'
             }
-            return make_response(jsonify(response_object)), 201
+            return jsonify(response_object), 201
         else:
             response_object = {
                 'status': 'fail',
                 'message': 'Sorry. That email already exists.'
             }
-            return make_response(jsonify(response_object)), 400
+            return jsonify(response_object), 400
     except exc.IntegrityError as e:
         db.session().rollback()
         response_object = {
             'status': 'fail',
             'message': 'Invalid payload.'
         }
-        return make_response(jsonify(response_object)), 400
+        return jsonify(response_object), 400
 ```
 
 The tests should pass. Turning to the API, what if we don't pass a password in the payload? Write a test!
@@ -194,7 +194,7 @@ except (exc.IntegrityError, ValueError) as e:
         'status': 'fail',
         'message': 'Invalid payload.'
     }
-    return make_response(jsonify(response_object)), 400
+    return jsonify(response_object), 400
 ```
 
 Test again.

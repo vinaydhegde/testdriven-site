@@ -614,7 +614,7 @@ TypeError: __init__<span class="o">()</span> missing <span class="m">1</span> re
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="n">username</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
     <span class="n">password</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">)</span>
@@ -630,20 +630,20 @@ TypeError: __init__<span class="o">()</span> missing <span class="m">1</span> re
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s">&#39;{email} was added!&#39;</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">201</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">201</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Sorry. That email already exists.&#39;</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
 <p>The tests should pass. Turning to the API, what if we don&#39;t pass a password in the payload? Write a test!</p>
 
@@ -674,7 +674,7 @@ ValueError: Password must be non-empty.
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
 <p>Test again.</p>
 
@@ -892,7 +892,7 @@ TypeError: __init__<span class="o">()</span> missing <span class="m">1</span> re
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="n">username</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
     <span class="n">password</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">)</span>
@@ -908,20 +908,20 @@ TypeError: __init__<span class="o">()</span> missing <span class="m">1</span> re
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s">&#39;{email} was added!&#39;</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">201</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">201</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Sorry. That email already exists.&#39;</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
 <p>The tests should pass. Turning to the API, what if we don&#39;t pass a password in the payload? Write a test!</p>
 
@@ -952,7 +952,7 @@ ValueError: Password must be non-empty.
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
 <p>Test again.</p>
 

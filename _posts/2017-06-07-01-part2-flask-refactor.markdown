@@ -122,7 +122,7 @@ def get_all_users():
           'users': users_list
         }
     }
-    return make_response(jsonify(response_object)), 200
+    return jsonify(response_object), 200
 ```
 
 Run the tests! Deactivate the virtual environment. Commit and push your code. Did the tests pass on Travis CI?

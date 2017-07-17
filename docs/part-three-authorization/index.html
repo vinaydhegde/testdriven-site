@@ -656,26 +656,25 @@
                     <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
                     <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Something went wrong. Please contact us.&#39;</span>
                 <span class="p">}</span>
-                <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span>
-                    <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">401</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
                     <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully logged out.&#39;</span>
                 <span class="p">}</span>
-                <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">resp</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">401</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Provide a valid auth token.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">403</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">403</span>
 </code></pre></div>
 <p>Before moving on, let&#39;s do a quick refactor to keep our code DRY. We can move the auth logic out of the route handler and into a decorator.</p>
 
@@ -685,7 +684,7 @@
 
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 
-<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">make_response</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
 
 <span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
 
@@ -702,15 +701,15 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">auth_header</span><span class="p">:</span>
             <span class="n">response_object</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Provide a valid auth token.&#39;</span>
             <span class="n">code</span> <span class="o">=</span> <span class="mi">403</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="n">code</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="n">code</span>
         <span class="n">auth_token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">response_object</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resp</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="n">code</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="n">code</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">resp</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="n">code</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="n">code</span>
         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">decorated_function</span>
 </code></pre></div>
@@ -727,7 +726,7 @@
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully logged out.&#39;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
 <p>The code is DRY and now we can test the auth logic separate from the view in a unit test! Win-win. Let&#39;s do the same thing for the <code>/auth/status</code> endpoint.</p>
 
@@ -776,7 +775,7 @@
             <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
 <p>Make sure the tests pass.</p>
 
@@ -931,7 +930,7 @@
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;You do not have permission to do that.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">401</span>
 </code></pre></div>
 <p>Run the tests. There will be a number of failures. Add the following to the top of the failing tests, right after <code>add_user(&#39;test&#39;, &#39;test@test.com&#39;, &#39;test&#39;)</code>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># update user</span>
@@ -1105,26 +1104,25 @@
                     <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
                     <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Something went wrong. Please contact us.&#39;</span>
                 <span class="p">}</span>
-                <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span>
-                    <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">401</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
                     <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully logged out.&#39;</span>
                 <span class="p">}</span>
-                <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">resp</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">401</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Provide a valid auth token.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">403</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">403</span>
 </code></pre></div>
 <p>Before moving on, let&#39;s do a quick refactor to keep our code DRY. We can move the auth logic out of the route handler and into a decorator.</p>
 
@@ -1134,7 +1132,7 @@
 
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 
-<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">make_response</span><span class="p">,</span> <span class="n">jsonify</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
 
 <span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
 
@@ -1151,15 +1149,15 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">auth_header</span><span class="p">:</span>
             <span class="n">response_object</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Provide a valid auth token.&#39;</span>
             <span class="n">code</span> <span class="o">=</span> <span class="mi">403</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="n">code</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="n">code</span>
         <span class="n">auth_token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">response_object</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resp</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="n">code</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="n">code</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">resp</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="n">code</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="n">code</span>
         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">decorated_function</span>
 </code></pre></div>
@@ -1176,7 +1174,7 @@
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Successfully logged out.&#39;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
 <p>The code is DRY and now we can test the auth logic separate from the view in a unit test! Win-win. Let&#39;s do the same thing for the <code>/auth/status</code> endpoint.</p>
 
@@ -1225,7 +1223,7 @@
             <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
 <p>Make sure the tests pass.</p>
 
@@ -1380,7 +1378,7 @@
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;You do not have permission to do that.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">401</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">401</span>
 </code></pre></div>
 <p>Run the tests. There will be a number of failures. Add the following to the top of the failing tests, right after <code>add_user(&#39;test&#39;, &#39;test@test.com&#39;, &#39;test&#39;)</code>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># update user</span>

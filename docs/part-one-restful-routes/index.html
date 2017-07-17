@@ -561,7 +561,7 @@
 
 <h4 id="post">POST</h4>
 
-<p>Add the test to <em>project/tests/test_users.py</em>:</p>
+<p>Add the test to the <code>TestUserService()</code> class in <em>project/tests/test_users.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure a new user can be added to the database.&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
@@ -593,10 +593,10 @@
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s">&#39;{email} was added!&#39;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">201</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">201</span>
 </code></pre></div>
 <p>Update the imports as well:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">make_response</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span>
 
 <span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
@@ -675,7 +675,7 @@ OK
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="n">username</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -687,20 +687,20 @@ OK
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s">&#39;{email} was added!&#39;</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">201</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">201</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Sorry. That email already exists.&#39;</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
 <p>Add the import:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">exc</span>
@@ -741,7 +741,7 @@ OK
           <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
 <p>The tests should pass. Now, what about error handling?</p>
 
@@ -780,7 +780,7 @@ OK
     <span class="k">try</span><span class="p">:</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">404</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
@@ -790,9 +790,9 @@ OK
                   <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
                 <span class="p">}</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">404</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
 </code></pre></div>
 <h4 id="get-all-users">GET all users</h4>
 
@@ -856,7 +856,7 @@ OK
           <span class="s">&#39;users&#39;</span><span class="p">:</span> <span class="n">users_list</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
 <p>Does the test past?</p>
 
@@ -946,7 +946,7 @@ OK
 
 <h4 id="post">POST</h4>
 
-<p>Add the test to <em>project/tests/test_users.py</em>:</p>
+<p>Add the test to the <code>TestUserService()</code> class in <em>project/tests/test_users.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure a new user can be added to the database.&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
@@ -978,10 +978,10 @@ OK
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s">&#39;{email} was added!&#39;</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">201</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">201</span>
 </code></pre></div>
 <p>Update the imports as well:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">make_response</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span>
 
 <span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
@@ -1060,7 +1060,7 @@ OK
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="n">username</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -1072,20 +1072,20 @@ OK
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s">&#39;{email} was added!&#39;</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">201</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">201</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
                 <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Sorry. That email already exists.&#39;</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">400</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
 <p>Add the import:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">exc</span>
@@ -1126,7 +1126,7 @@ OK
           <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
 <p>The tests should pass. Now, what about error handling?</p>
 
@@ -1165,7 +1165,7 @@ OK
     <span class="k">try</span><span class="p">:</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">404</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
@@ -1175,9 +1175,9 @@ OK
                   <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
                 <span class="p">}</span>
             <span class="p">}</span>
-            <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">404</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
 </code></pre></div>
 <h4 id="get-all-users">GET all users</h4>
 
@@ -1241,7 +1241,7 @@ OK
           <span class="s">&#39;users&#39;</span><span class="p">:</span> <span class="n">users_list</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="k">return</span> <span class="n">make_response</span><span class="p">(</span><span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">)),</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
 <p>Does the test past?</p>
 
