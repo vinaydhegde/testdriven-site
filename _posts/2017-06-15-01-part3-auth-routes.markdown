@@ -27,8 +27,8 @@ Run the tests to make sure nothing broke.
 |-----------------|-------------|-----------------|-----------------|
 | /auth/register  | POST        | No              | register a user |
 | /auth/login     | POST        | No              | log in a user   |
-| /auth/logout    | Get         | Yes             | log out a user  |
-| /auth/status    | Get         | Yes             | get user status |
+| /auth/logout    | GET         | Yes             | log out a user  |
+| /auth/status    | GET         | Yes             | get user status |
 
 Add a new file to the "api" directory called *auth.py*:
 
@@ -36,7 +36,7 @@ Add a new file to the "api" directory called *auth.py*:
 # project/api/auth.py
 
 
-from flask import Blueprint, jsonify, request, make_response
+from flask import Blueprint, jsonify, request
 from sqlalchemy import exc, or_
 
 from project.api.models import User
@@ -86,7 +86,7 @@ def test_user_registration(self):
         response = self.client.post(
             '/auth/register',
             data=json.dumps(dict(
-                username='test@test.com',
+                username='justatest',
                 email='test@test.com',
                 password='123456'
             )),
@@ -172,7 +172,7 @@ def test_user_registration_invalid_json_keys_no_email(self):
         response = self.client.post(
             '/auth/register',
             data=json.dumps(dict(
-                username='test@test.com', password='test')),
+                username='justatest', password='test')),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
@@ -185,7 +185,7 @@ def test_user_registration_invalid_json_keys_no_password(self):
         response = self.client.post(
             '/auth/register',
             data=json.dumps(dict(
-                username='test@test.com', email='test@test.com')),
+                username='justatest', email='test@test.com')),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
@@ -206,7 +206,7 @@ def register_user():
             'status': 'error',
             'message': 'Invalid payload.'
         }
-        return make_response(jsonify(response_object)), 400
+        return jsonify(response_object), 400
     username = post_data.get('username')
     email = post_data.get('email')
     password = post_data.get('password')
@@ -230,28 +230,21 @@ def register_user():
                 'message': 'Successfully registered.',
                 'auth_token': auth_token.decode()
             }
-            return make_response(jsonify(response_object)), 201
+            return jsonify(response_object), 201
         else:
             response_object = {
                 'status': 'error',
                 'message': 'Sorry. That user already exists.'
             }
-            return make_response(jsonify(response_object)), 400
+            return jsonify(response_object), 400
     # handler errors
-    except exc.IntegrityError as e:
+    except (exc.IntegrityError, ValueError) as e:
         db.session().rollback()
         response_object = {
             'status': 'error',
             'message': 'Invalid payload.'
         }
-        return make_response(jsonify(response_object)), 400
-    except ValueError as e:
-        db.session().rollback()
-        response_object = {
-            'status': 'error',
-            'message': 'Invalid payload.'
-        }
-        return make_response(jsonify(response_object)), 400
+        return jsonify(response_object), 400
 ```
 
 #### Login Route
@@ -306,7 +299,7 @@ def login_user():
             'status': 'error',
             'message': 'Invalid payload.'
         }
-        return make_response(jsonify(response_object)), 400
+        return jsonify(response_object), 400
     email = post_data.get('email')
     password = post_data.get('password')
     try:
@@ -320,20 +313,20 @@ def login_user():
                     'message': 'Successfully logged in.',
                     'auth_token': auth_token.decode()
                 }
-                return make_response(jsonify(response_object)), 200
+                return jsonify(response_object), 200
         else:
             response_object = {
                 'status': 'error',
                 'message': 'User does not exist.'
             }
-            return make_response(jsonify(response_object)), 404
+            return jsonify(response_object), 404
     except Exception as e:
         print(e)
         response_object = {
             'status': 'error',
             'message': 'Try again.'
         }
-        return make_response(jsonify(response_object)), 500
+        return jsonify(response_object), 500
 ```
 
 #### Logout Route
@@ -431,19 +424,19 @@ def logout_user():
                 'status': 'success',
                 'message': 'Successfully logged out.'
             }
-            return make_response(jsonify(response_object)), 200
+            return jsonify(response_object), 200
         else:
             response_object = {
                 'status': 'error',
                 'message': resp
             }
-            return make_response(jsonify(response_object)), 401
+            return jsonify(response_object), 401
     else:
         response_object = {
             'status': 'error',
             'message': 'Provide a valid auth token.'
         }
-        return make_response(jsonify(response_object)), 403
+        return jsonify(response_object), 403
 ```
 
 Run the tests:
@@ -526,18 +519,18 @@ def get_user_status():
                     'created_at': user.created_at
                 }
             }
-            return make_response(jsonify(response_object)), 200
+            return jsonify(response_object), 200
         response_object = {
             'status': 'error',
             'message': resp
         }
-        return make_response(jsonify(response_object)), 401
+        return jsonify(response_object), 401
     else:
         response_object = {
             'status': 'error',
             'message': 'Provide a valid auth token.'
         }
-        return make_response(jsonify(response_object)), 401
+        return jsonify(response_object), 401
 ```
 
 Test one final time.

@@ -36,8 +36,8 @@ Routes:
 |-----------------|-------------|-----------------|-----------|--------|
 | /auth/register  | POST        | No              | N/A       | N/A    |
 | /auth/login     | POST        | No              | N/A       | N/A    |
-| /auth/logout    | Get         | Yes             | Yes       | No     |
-| /auth/status    | Get         | Yes             | Yes       | No     |
+| /auth/logout    | GET         | Yes             | Yes       | No     |
+| /auth/status    | GET         | Yes             | Yes       | No     |
 | /users          | GET         | No              | N/A       | N/A    |
 | /users/:id      | GET         | No              | N/A       | N/A    |
 | /users          | POST        | Yes             | Yes       | Yes    |
@@ -96,26 +96,25 @@ def logout_user():
                     'status': 'error',
                     'message': 'Something went wrong. Please contact us.'
                 }
-                return make_response(
-                    jsonify(response_object)), 401
+                return jsonify(response_object), 401
             else:
                 response_object = {
                     'status': 'success',
                     'message': 'Successfully logged out.'
                 }
-                return make_response(jsonify(response_object)), 200
+                return jsonify(response_object), 200
         else:
             response_object = {
                 'status': 'error',
                 'message': resp
             }
-            return make_response(jsonify(response_object)), 401
+            return jsonify(response_object), 401
     else:
         response_object = {
             'status': 'error',
             'message': 'Provide a valid auth token.'
         }
-        return make_response(jsonify(response_object)), 403
+        return jsonify(response_object), 403
 ```
 
 Before moving on, let's do a quick refactor to keep our code DRY. We can move the auth logic out of the route handler and into a decorator.
@@ -128,7 +127,7 @@ Create a new file in "project/api" called *utils.py*:
 
 from functools import wraps
 
-from flask import request, make_response, jsonify
+from flask import request, jsonify
 
 from project.api.models import User
 
@@ -145,15 +144,15 @@ def authenticate(f):
         if not auth_header:
             response_object['message'] = 'Provide a valid auth token.'
             code = 403
-            return make_response(jsonify(response_object)), code
+            return jsonify(response_object), code
         auth_token = auth_header.split(" ")[1]
         resp = User.decode_auth_token(auth_token)
         if isinstance(resp, str):
             response_object['message'] = resp
-            return make_response(jsonify(response_object)), code
+            return jsonify(response_object), code
         user = User.query.filter_by(id=resp).first()
         if not user or not user.active:
-            return make_response(jsonify(response_object)), code
+            return jsonify(response_object), code
         return f(resp, *args, **kwargs)
     return decorated_function
 ```
@@ -176,7 +175,7 @@ def logout_user(resp):
         'status': 'success',
         'message': 'Successfully logged out.'
     }
-    return make_response(jsonify(response_object)), 200
+    return jsonify(response_object), 200
 ```
 
 The code is DRY and now we can test the auth logic separate from the view in a unit test! Win-win. Let's do the same thing for the `/auth/status` endpoint.
@@ -231,7 +230,7 @@ def get_user_status(resp):
             'created_at': user.created_at
         }
     }
-    return make_response(jsonify(response_object)), 200
+    return jsonify(response_object), 200
 ```
 
 Make sure the tests pass.
@@ -332,9 +331,9 @@ Finally, in order to POST to the `/users` endpoint, you must be an admin. Turn t
 
 ```python
 def test_add_user(self):
-    user = add_user('test@test.com', 'test@test.com', 'test')
+    user = add_user('justatest', 'test@test.com', 'test')
     self.assertTrue(user.id)
-    self.assertEqual(user.username, 'test@test.com')
+    self.assertEqual(user.username, 'justatest')
     self.assertEqual(user.email, 'test@test.com')
     self.assertTrue(user.password)
     self.assertTrue(user.active)
@@ -403,9 +402,7 @@ Add a helper to *project/api/utils.py*:
 ```python
 def is_admin(user_id):
     user = User.query.filter_by(id=user_id).first()
-    if not user.admin:
-        return False
-    return True
+    return user.admin
 ```
 
 Import it in to *project/api/users.py*, and then add the check to the top of the function:
@@ -419,7 +416,7 @@ def add_user(resp):
             'status': 'error',
             'message': 'You do not have permission to do that.'
         }
-        return make_response(jsonify(response_object)), 401
+        return jsonify(response_object), 401
 ```
 
 Run the tests. There will be a number of failures. Add the following to the top of the failing tests, right after `add_user('test', 'test@test.com', 'test')`:
