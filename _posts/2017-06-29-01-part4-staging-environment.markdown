@@ -195,7 +195,8 @@ before_script:
 
 script:
   - docker-compose -f docker-compose-staging.yml run users-service python manage.py test
-  - testcafe chrome e2e/index.test.js
+  - docker-compose -f docker-compose-staging.yml run users-service python manage.py recreate_db
+  - testcafe chrome e2e
 ```
 
 Commit and push your code. Make sure the tests pass on Travis.

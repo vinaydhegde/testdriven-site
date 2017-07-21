@@ -679,7 +679,8 @@
 
 <span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-staging.yml run users-service python manage.py test</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e/index.test.js</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-staging.yml run users-service python manage.py recreate_db</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e</span>
 </code></pre></div>
 <p>Commit and push your code. Make sure the tests pass on Travis.</p>
 
@@ -1008,7 +1009,8 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
 
 <span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-staging.yml run users-service python manage.py test</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e/index.test.js</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-staging.yml run users-service python manage.py recreate_db</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e</span>
 </code></pre></div>
 <p>Commit and push your code. Make sure the tests pass on Travis.</p>
 
