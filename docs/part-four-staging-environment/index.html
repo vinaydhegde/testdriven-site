@@ -507,6 +507,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-docker-hub"
+            >Docker Hub Setup</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -702,7 +712,7 @@
 
 <h4 id="local">Local</h4>
 
-<p>To simplify, local development, let&#39;s make a few changes to the <em>docker-compose.yml</em> file:</p>
+<p>To simplify local development, let&#39;s make a few changes to the <em>docker-compose.yml</em> file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
 
 <span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
@@ -804,6 +814,14 @@ RUN npm install react-scripts@0.9.5 -g --silent
 
 # start app
 CMD [&quot;npm&quot;, &quot;start&quot;]
+</code></pre></div>
+<p>Also, you need to update the <code>start</code> script in <em>flask-microservices-client/package.json</em> to serve up the app on port 9000:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;scripts&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;PORT=9000 react-scripts start&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;build&quot;</span><span class="p">:</span> <span class="s2">&quot;react-scripts build&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;react-scripts test --env=jsdom&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;eject&quot;</span><span class="p">:</span> <span class="s2">&quot;react-scripts eject&quot;</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>To test, switch to the dev machine:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
@@ -1023,7 +1041,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
 
 <h4 id="local">Local</h4>
 
-<p>To simplify, local development, let&#39;s make a few changes to the <em>docker-compose.yml</em> file:</p>
+<p>To simplify local development, let&#39;s make a few changes to the <em>docker-compose.yml</em> file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
 
 <span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
@@ -1125,6 +1143,14 @@ RUN npm install react-scripts@0.9.5 -g --silent
 
 # start app
 CMD [&quot;npm&quot;, &quot;start&quot;]
+</code></pre></div>
+<p>Also, you need to update the <code>start</code> script in <em>flask-microservices-client/package.json</em> to serve up the app on port 9000:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;scripts&quot;</span><span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;PORT=9000 react-scripts start&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;build&quot;</span><span class="p">:</span> <span class="s2">&quot;react-scripts build&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;react-scripts test --env=jsdom&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;eject&quot;</span><span class="p">:</span> <span class="s2">&quot;react-scripts eject&quot;</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>To test, switch to the dev machine:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev

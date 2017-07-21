@@ -149,7 +149,7 @@ def add_user():
             }
             return jsonify(response_object), 400
     except exc.IntegrityError as e:
-        db.session().rollback()
+        db.session.rollback()
         response_object = {
             'status': 'fail',
             'message': 'Invalid payload.'
@@ -189,7 +189,7 @@ To fix, add a another exception handler to the try/except block in the `add_user
 
 ```python
 except (exc.IntegrityError, ValueError) as e:
-    db.session().rollback()
+    db.session.rollback()
     response_object = {
         'status': 'fail',
         'message': 'Invalid payload.'

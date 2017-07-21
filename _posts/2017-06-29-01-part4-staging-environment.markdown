@@ -241,7 +241,7 @@ Ensure all is well.
 
 #### Local
 
-To simplify, local development, let's make a few changes to the *docker-compose.yml* file:
+To simplify local development, let's make a few changes to the *docker-compose.yml* file:
 
 ```yaml
 version: '2.1'
@@ -348,6 +348,17 @@ RUN npm install react-scripts@0.9.5 -g --silent
 
 # start app
 CMD ["npm", "start"]
+```
+
+Also, you need to update the `start` script in *flask-microservices-client/package.json* to serve up the app on port 9000:
+
+```json
+"scripts": {
+  "start": "PORT=9000 react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test --env=jsdom",
+  "eject": "react-scripts eject"
+}
 ```
 
 To test, switch to the dev machine:

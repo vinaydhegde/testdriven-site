@@ -507,6 +507,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-docker-hub"
+            >Docker Hub Setup</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -695,7 +705,7 @@ OK
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
@@ -1080,7 +1090,7 @@ OK
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>

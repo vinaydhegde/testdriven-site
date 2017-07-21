@@ -507,6 +507,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-docker-hub"
+            >Docker Hub Setup</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -638,7 +648,7 @@ TypeError: __init__<span class="o">()</span> missing <span class="m">1</span> re
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
@@ -669,7 +679,7 @@ ValueError: Password must be non-empty.
 </code></pre></div>
 <p>To fix, add a another exception handler to the try/except block in the <code>add_user</code> view handler:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">except</span> <span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
     <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
@@ -916,7 +926,7 @@ TypeError: __init__<span class="o">()</span> missing <span class="m">1</span> re
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
     <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
             <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
@@ -947,7 +957,7 @@ ValueError: Password must be non-empty.
 </code></pre></div>
 <p>To fix, add a another exception handler to the try/except block in the <code>add_user</code> view handler:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">except</span> <span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
     <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>

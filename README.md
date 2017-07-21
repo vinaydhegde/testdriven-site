@@ -11,6 +11,8 @@
 - Can be slower since multiple requests and responses are often required
 - Smaller code base, less coupled, solid API design, not having to understand the full system = easier to read code
 
+> More: http://flagzeta.org/blog/a-python-microservice-stack/
+
 ### Stateful vs stateless services
 
 - Stateful - databases, message queues, service discovery
