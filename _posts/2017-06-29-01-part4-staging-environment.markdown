@@ -328,9 +328,9 @@ services:
         condition: service_started
 ```
 
-Not too many changes, right? We added volumes and are now referencing a new, development-only Dockerfile for the web service - *Dockerfile-local*.
+Not too many changes, right? We added volumes and are now referencing new, development-only *Dockerfiles* for the web and users service.
 
-Be sure to add the new file:
+*flask-microservices-client/Dockerfile-local*:
 
 ```
 FROM node:latest
@@ -349,6 +349,25 @@ RUN npm install react-scripts@0.9.5 -g --silent
 
 # start app
 CMD ["npm", "start"]
+```
+
+*flask-microservices-users/Dockerfile-local*:
+
+```
+FROM python:3.6.1
+
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# run server
+CMD python manage.py runserver -h 0.0.0.0
 ```
 
 Also, you need to update the `start` script in *flask-microservices-client/package.json* to serve up the app on port 9000:
