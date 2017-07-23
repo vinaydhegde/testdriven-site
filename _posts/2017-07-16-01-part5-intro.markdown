@@ -15,6 +15,12 @@ Topics covered:
 1. Configuring Redis
 1. Scaling the application with ECS/Kubernetes/Docker Swarm
 
+#### Objectives
+
+By the end of part 5, you should be able to...
+
+1. Push and pull images to [Docker Hub](https://docs.docker.com/docker-hub/), an image registry
+
 ---
 
-Coming Soon!
+WIP

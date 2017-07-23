@@ -517,6 +517,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-ec2-container-registry"
+            >EC2 Container Registry</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -528,7 +538,361 @@
 
           <h2>Docker Hub Setup</h2>
 
-          <p>Coming soon!</p>
+          <p>Let&#39;s update the CI process to include <a href="https://docs.docker.com/docker-hub/">Docker Hub</a>, an image registry:</p>
+
+<ol>
+<li>Create new feature branch</li>
+<li>Open PR against the <code>master</code> branch</li>
+<li>New build is triggered on Travis</li>
+<li>If the tests pass, images are created and pushed to Docker Hub</li>
+</ol>
+
+<h4 id="docker-hub">Docker Hub</h4>
+
+<p><a href="https://docs.docker.com/docker-hub/">Docker Hub</a> is an image registry, which is simply a service that stores Docker images - basically GitHub for Docker images.</p>
+
+<p>Sign up for <a href="https://hub.docker.com/">Docker Hub</a> (if necessary), and then define the following environment variables within the <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings">Repository Settings</a> for <em>flask-microservices-main</em>:</p>
+
+<ol>
+<li>DOCKER_EMAIL - YOUREMAILATSOMETHING.COM</li>
+<li>DOCKER_ID - YOUR_ID/USERNAME</li>
+<li>DOCKER_PASSWORD - YOUR_PASSWORD</li>
+</ol>
+
+<p>Next, create four new <a href="https://stackoverflow.com/a/34004418/1799408">repositories</a> on Docker Hub:</p>
+
+<ol>
+<li><em>flask-microservices-users</em></li>
+<li><em>flask-microservices-users_db</em></li>
+<li><em>flask-microservices-client</em></li>
+<li><em>flask-microservices-swagger</em></li>
+<li><em>flask-microservices-nginx</em></li>
+</ol>
+
+<h4 id="users">Users</h4>
+
+<p>Let&#39;s update the <em>.travis.yml</em> file in <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">node_js</span>
+<span class="l-Scalar-Plain">node_js</span><span class="p-Indicator">:</span> <span class="s">&#39;7&#39;</span>
+
+<span class="l-Scalar-Plain">before_install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">stty cols 80</span>
+
+<span class="l-Scalar-Plain">dist</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">trusty</span>
+<span class="l-Scalar-Plain">sudo</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">required</span>
+
+<span class="l-Scalar-Plain">addons</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">apt</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">sources</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">google-chrome</span>
+    <span class="l-Scalar-Plain">packages</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">google-chrome-stable</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker</span>
+
+<span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DOCKER_COMPOSE_VERSION=1.11.2</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">COMMIT=${TRAVIS_COMMIT::8}</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">USERS=flask-microservices-users</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">USERS_REPO=https://github.com/realpython/$USERS.git</span>
+
+<span class="l-Scalar-Plain">before_install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo rm /usr/local/bin/docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod +x docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo mv docker-compose /usr/local/bin</span>
+
+<span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export TEST_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export SECRET_KEY=my_precious</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export DISPLAY=:99.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sh -e /etc/init.d/xvfb start</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 3</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-ci.yml up -d --build</span>
+
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run users-service python manage.py test</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run users-service python manage.py recreate_db</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e</span>
+
+<span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose down</span>
+
+<span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker login -e $DOCKER_EMAIL -u $DOCKER_ID -p $DOCKER_PASSWORD</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export TAG=`if [ &quot;$TRAVIS_BRANCH&quot; == &quot;master&quot; ]; then echo &quot;latest&quot;; else echo $TRAVIS_BRANCH ; fi`</span>
+  <span class="c1"># users</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $USERS_REPO -t $USERS:$COMMIT</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $USERS:$COMMIT $DOCKER_ID/$USERS:$TAG</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$USERS</span>
+</code></pre></div>
+<p>What changed?</p>
+
+<ol>
+<li>Environment variables:
+
+<ol>
+<li><code>COMMIT=${TRAVIS_COMMIT::8}</code> - sets a new environment variable, called <code>COMMIT</code>, which contains the first 8 characters of the git commit hash.</li>
+<li><code>USERS</code> - defines the name of the Git repo and image name.</li>
+<li><code>USERS_REPO</code> - defines the full GitHub URL.</li>
+</ol></li>
+<li>Finally, within <code>after_success</code>, we login to the Docker Hub registry, generate a tag based on the branch name, build an image from the <em>Dockerfile</em>, tag the image, and then push the image to Docker Hub.</li>
+</ol>
+
+<blockquote>
+<p>Update the value of <code>USERS_REPO</code> to your repo.</p>
+</blockquote>
+
+<p>We also referenced a new Docker Compose file, <em>docker-compose-ci.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+
+  <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git#master:project/db</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l-Scalar-Plain">healthcheck</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">exit 0</span>
+
+  <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git</span>
+    <span class="l-Scalar-Plain">expose</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;5000&#39;</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APP_SETTINGS=project.config.StagingConfig</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_staging</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SECRET_KEY=${SECRET_KEY}</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_healthy</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">command</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">gunicorn -b 0.0.0.0:5000 manage:app</span>
+
+  <span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
+    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">80:80</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+      <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">web-service</span>
+
+  <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">web-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-client.git</span>
+      <span class="l-Scalar-Plain">args</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+
+  <span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-swagger.git</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>To test, commit your code and then push to GitHub. Make sure the build passes on Travis and that a new <a href="https://docs.docker.com/docker-hub/repos/#viewing-repository-tags">tag</a> was added to Docker Hub.</p>
+
+<h4 id="users-db">Users DB</h4>
+
+<p>For the users database, add the environment variables to <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">USERS_DB=flask-microservices-users_db</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">USERS_DB_REPO=https://github.com/realpython/$USERS.git#master:project/db</span>
+</code></pre></div>
+<p>Then add the following to <code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># users db</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $USERS_DB_REPO -t $USERS_DB:$COMMIT</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $USERS_DB:$COMMIT $DOCKER_ID/$USERS_DB:$TAG</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$USERS_DB</span>
+</code></pre></div>
+<p>Commit, push, and ensure all is well.</p>
+
+<p>For each of the next three services, we need to make the updates to <em>.travis.yml</em>, commit and push the code, and then ensure the build passes and the tag is added to Docker Hub....</p>
+
+<h4 id="web">Web</h4>
+
+<p>Environment variables:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">CLIENT=flask-microservices-client</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">CLIENT_REPO=https://github.com/realpython/$CLIENT.git</span>
+</code></pre></div>
+<p><code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># client</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $CLIENT_REPO -t $CLIENT:$COMMIT</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $CLIENT:$COMMIT $DOCKER_ID/$CLIENT:$TAG</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$CLIENT</span>
+</code></pre></div>
+<h4 id="swagger">Swagger</h4>
+
+<p>Environment variables:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SWAGGER=flask-microservices-swagger</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SWAGGER_REPO=https://github.com/realpython/$SWAGGER.git</span>
+</code></pre></div>
+<p><code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># swagger</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $SWAGGER:$COMMIT $DOCKER_ID/$SWAGGER:$TAG</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$SWAGGER</span>
+</code></pre></div>
+<h4 id="nginx">Nginx</h4>
+
+<p>Environment variables:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NGINX=flask-microservices-nginx</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NGINX_REPO=https://github.com/realpython/flask-microservices-main.git#master:nginx</span>
+</code></pre></div>
+<p><code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># nginx</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $NGINX_REPO -t $NGINX:$COMMIT</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $NGINX:$COMMIT $DOCKER_ID/$NGINX:$TAG</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$NGINX</span>
+</code></pre></div>
+<h4 id="scripts">Scripts</h4>
+
+<p>Since we only want the <code>after_success</code> to run when the branch is <code>master</code>, let&#39;s create a simple shell script:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="sb">`</span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nb">echo</span> <span class="s2">&quot;latest&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="nb">echo</span> <span class="nv">$TRAVIS_BRANCH</span> <span class="p">;</span> <span class="k">fi</span><span class="sb">`</span>
+    <span class="c"># users</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>
+    <span class="c"># users db</span>
+    docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>
+    <span class="c"># client</span>
+    docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>
+    <span class="c"># swagger</span>
+    docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>
+    <span class="c"># nginx</span>
+    docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Save this as <em>docker_deploy.sh</em> within <em>flask-microservices-main</em>, and then update <code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
+</code></pre></div>
+<p>We can speed up the building of new images by first pulling in the latest image from Docker Hub. Add a new script called <em>docker_build.sh</em> to the project root:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
+
+docker-compose -f docker-compose-ci.yml up -d --build
+</code></pre></div>
+<blockquote>
+<p>Want to speed things up even more? <a href="https://github.com/start-jsk/jsk_apc/commit/7c12afa1c8c460f1b148c6ca887203d915fa9846">Cache images on Travis</a>.</p>
+</blockquote>
+
+<p>Update the <code>before_script</code> in <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export TEST_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export SECRET_KEY=my_precious</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export DISPLAY=:99.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sh -e /etc/init.d/xvfb start</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 3</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_build.sh</span>
+</code></pre></div>
+<p>To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with <em>docker_deploy.sh</em>. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.</p>
+
+<h4 id="architecture">Architecture</h4>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Repo</th>
+<th>Image</th>
+<th>Container</th>
+<th>Tech</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Users API</td>
+<td><a href="https://github.com/realpython/flask-microservices-users">users</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-users">users</a></td>
+<td><code>users-service</code></td>
+<td>Flask, gunicorn</td>
+</tr>
+<tr>
+<td>Users DB</td>
+<td><a href="https://github.com/realpython/flask-microservices-users/tree/master/project/db">users</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-users_db">users_db</a></td>
+<td><code>users-db</code></td>
+<td>Postgres</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="https://github.com/realpython/flask-microservices-client">client</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-client">client</a></td>
+<td><code>web-service</code></td>
+<td>React, React-Router</td>
+</tr>
+<tr>
+<td>Swagger</td>
+<td><a href="https://github.com/realpython/flask-microservices-swagger">swagger</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-swagger">swagger</a></td>
+<td><code>swagger</code></td>
+<td>Swagger UI</td>
+</tr>
+<tr>
+<td>e2e Tests</td>
+<td><a href="https://github.com/realpython/flask-microservices-main/tree/master/e2e">main</a></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>TestCafe</td>
+</tr>
+<tr>
+<td>Nginx</td>
+<td><a href="https://github.com/realpython/flask-microservices-main/tree/master/nginx">main</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-nginx">nginx</a></td>
+<td><code>nginx</code></td>
+<td>Nginx</td>
+</tr>
+</tbody></table>
 
 
           
@@ -541,6 +905,8 @@
             
               <a class="prev btn left-align" href="/part-five-intro">&laquo; Introduction</a>
             
+            
+              <a class="next btn right-align" href="/part-ec2-container-registry">EC2 Container Registry &raquo;</a>
             
           </div>
 
@@ -550,7 +916,361 @@
 
           <h2>Docker Hub Setup</h2>
 
-          <p>Coming soon!</p>
+          <p>Let&#39;s update the CI process to include <a href="https://docs.docker.com/docker-hub/">Docker Hub</a>, an image registry:</p>
+
+<ol>
+<li>Create new feature branch</li>
+<li>Open PR against the <code>master</code> branch</li>
+<li>New build is triggered on Travis</li>
+<li>If the tests pass, images are created and pushed to Docker Hub</li>
+</ol>
+
+<h4 id="docker-hub">Docker Hub</h4>
+
+<p><a href="https://docs.docker.com/docker-hub/">Docker Hub</a> is an image registry, which is simply a service that stores Docker images - basically GitHub for Docker images.</p>
+
+<p>Sign up for <a href="https://hub.docker.com/">Docker Hub</a> (if necessary), and then define the following environment variables within the <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings">Repository Settings</a> for <em>flask-microservices-main</em>:</p>
+
+<ol>
+<li>DOCKER_EMAIL - YOUREMAILATSOMETHING.COM</li>
+<li>DOCKER_ID - YOUR_ID/USERNAME</li>
+<li>DOCKER_PASSWORD - YOUR_PASSWORD</li>
+</ol>
+
+<p>Next, create four new <a href="https://stackoverflow.com/a/34004418/1799408">repositories</a> on Docker Hub:</p>
+
+<ol>
+<li><em>flask-microservices-users</em></li>
+<li><em>flask-microservices-users_db</em></li>
+<li><em>flask-microservices-client</em></li>
+<li><em>flask-microservices-swagger</em></li>
+<li><em>flask-microservices-nginx</em></li>
+</ol>
+
+<h4 id="users">Users</h4>
+
+<p>Let&#39;s update the <em>.travis.yml</em> file in <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">node_js</span>
+<span class="l-Scalar-Plain">node_js</span><span class="p-Indicator">:</span> <span class="s">&#39;7&#39;</span>
+
+<span class="l-Scalar-Plain">before_install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">stty cols 80</span>
+
+<span class="l-Scalar-Plain">dist</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">trusty</span>
+<span class="l-Scalar-Plain">sudo</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">required</span>
+
+<span class="l-Scalar-Plain">addons</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">apt</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">sources</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">google-chrome</span>
+    <span class="l-Scalar-Plain">packages</span><span class="p-Indicator">:</span>
+     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">google-chrome-stable</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker</span>
+
+<span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DOCKER_COMPOSE_VERSION=1.11.2</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">COMMIT=${TRAVIS_COMMIT::8}</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">USERS=flask-microservices-users</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">USERS_REPO=https://github.com/realpython/$USERS.git</span>
+
+<span class="l-Scalar-Plain">before_install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo rm /usr/local/bin/docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod +x docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo mv docker-compose /usr/local/bin</span>
+
+<span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export TEST_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export SECRET_KEY=my_precious</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export DISPLAY=:99.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sh -e /etc/init.d/xvfb start</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 3</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-ci.yml up -d --build</span>
+
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run users-service python manage.py test</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run users-service python manage.py recreate_db</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">testcafe chrome e2e</span>
+
+<span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose down</span>
+
+<span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker login -e $DOCKER_EMAIL -u $DOCKER_ID -p $DOCKER_PASSWORD</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export TAG=`if [ &quot;$TRAVIS_BRANCH&quot; == &quot;master&quot; ]; then echo &quot;latest&quot;; else echo $TRAVIS_BRANCH ; fi`</span>
+  <span class="c1"># users</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $USERS_REPO -t $USERS:$COMMIT</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $USERS:$COMMIT $DOCKER_ID/$USERS:$TAG</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$USERS</span>
+</code></pre></div>
+<p>What changed?</p>
+
+<ol>
+<li>Environment variables:
+
+<ol>
+<li><code>COMMIT=${TRAVIS_COMMIT::8}</code> - sets a new environment variable, called <code>COMMIT</code>, which contains the first 8 characters of the git commit hash.</li>
+<li><code>USERS</code> - defines the name of the Git repo and image name.</li>
+<li><code>USERS_REPO</code> - defines the full GitHub URL.</li>
+</ol></li>
+<li>Finally, within <code>after_success</code>, we login to the Docker Hub registry, generate a tag based on the branch name, build an image from the <em>Dockerfile</em>, tag the image, and then push the image to Docker Hub.</li>
+</ol>
+
+<blockquote>
+<p>Update the value of <code>USERS_REPO</code> to your repo.</p>
+</blockquote>
+
+<p>We also referenced a new Docker Compose file, <em>docker-compose-ci.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+
+  <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git#master:project/db</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l-Scalar-Plain">healthcheck</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">exit 0</span>
+
+  <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">users-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git</span>
+    <span class="l-Scalar-Plain">expose</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;5000&#39;</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">APP_SETTINGS=project.config.StagingConfig</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_staging</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SECRET_KEY=${SECRET_KEY}</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-db</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_healthy</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-db</span>
+    <span class="l-Scalar-Plain">command</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">gunicorn -b 0.0.0.0:5000 manage:app</span>
+
+  <span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">./nginx/</span>
+    <span class="l-Scalar-Plain">restart</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">always</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">80:80</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+      <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">web-service</span>
+
+  <span class="l-Scalar-Plain">web-service</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">web-service</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-client.git</span>
+      <span class="l-Scalar-Plain">args</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+    <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
+
+  <span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swagger</span>
+    <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">context</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">https://github.com/realpython/flask-microservices-swagger.git</span>
+    <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+    <span class="l-Scalar-Plain">depends_on</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">users-service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">condition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service_started</span>
+</code></pre></div>
+<p>To test, commit your code and then push to GitHub. Make sure the build passes on Travis and that a new <a href="https://docs.docker.com/docker-hub/repos/#viewing-repository-tags">tag</a> was added to Docker Hub.</p>
+
+<h4 id="users-db">Users DB</h4>
+
+<p>For the users database, add the environment variables to <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">USERS_DB=flask-microservices-users_db</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">USERS_DB_REPO=https://github.com/realpython/$USERS.git#master:project/db</span>
+</code></pre></div>
+<p>Then add the following to <code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># users db</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $USERS_DB_REPO -t $USERS_DB:$COMMIT</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $USERS_DB:$COMMIT $DOCKER_ID/$USERS_DB:$TAG</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$USERS_DB</span>
+</code></pre></div>
+<p>Commit, push, and ensure all is well.</p>
+
+<p>For each of the next three services, we need to make the updates to <em>.travis.yml</em>, commit and push the code, and then ensure the build passes and the tag is added to Docker Hub....</p>
+
+<h4 id="web">Web</h4>
+
+<p>Environment variables:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">CLIENT=flask-microservices-client</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">CLIENT_REPO=https://github.com/realpython/$CLIENT.git</span>
+</code></pre></div>
+<p><code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># client</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $CLIENT_REPO -t $CLIENT:$COMMIT</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $CLIENT:$COMMIT $DOCKER_ID/$CLIENT:$TAG</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$CLIENT</span>
+</code></pre></div>
+<h4 id="swagger">Swagger</h4>
+
+<p>Environment variables:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SWAGGER=flask-microservices-swagger</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SWAGGER_REPO=https://github.com/realpython/$SWAGGER.git</span>
+</code></pre></div>
+<p><code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># swagger</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $SWAGGER_REPO -t $SWAGGER:$COMMIT</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $SWAGGER:$COMMIT $DOCKER_ID/$SWAGGER:$TAG</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$SWAGGER</span>
+</code></pre></div>
+<h4 id="nginx">Nginx</h4>
+
+<p>Environment variables:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NGINX=flask-microservices-nginx</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NGINX_REPO=https://github.com/realpython/flask-microservices-main.git#master:nginx</span>
+</code></pre></div>
+<p><code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># nginx</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker build $NGINX_REPO -t $NGINX:$COMMIT</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker tag $NGINX:$COMMIT $DOCKER_ID/$NGINX:$TAG</span>
+<span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker push $DOCKER_ID/$NGINX</span>
+</code></pre></div>
+<h4 id="scripts">Scripts</h4>
+
+<p>Since we only want the <code>after_success</code> to run when the branch is <code>master</code>, let&#39;s create a simple shell script:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="sb">`</span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nb">echo</span> <span class="s2">&quot;latest&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="nb">echo</span> <span class="nv">$TRAVIS_BRANCH</span> <span class="p">;</span> <span class="k">fi</span><span class="sb">`</span>
+    <span class="c"># users</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>
+    <span class="c"># users db</span>
+    docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>
+    <span class="c"># client</span>
+    docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>
+    <span class="c"># swagger</span>
+    docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>
+    <span class="c"># nginx</span>
+    docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Save this as <em>docker_deploy.sh</em> within <em>flask-microservices-main</em>, and then update <code>after_success</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
+</code></pre></div>
+<p>We can speed up the building of new images by first pulling in the latest image from Docker Hub. Add a new script called <em>docker_build.sh</em> to the project root:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>
+docker pull <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
+
+docker-compose -f docker-compose-ci.yml up -d --build
+</code></pre></div>
+<blockquote>
+<p>Want to speed things up even more? <a href="https://github.com/start-jsk/jsk_apc/commit/7c12afa1c8c460f1b148c6ca887203d915fa9846">Cache images on Travis</a>.</p>
+</blockquote>
+
+<p>Update the <code>before_script</code> in <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export TEST_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export SECRET_KEY=my_precious</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export DISPLAY=:99.0</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sh -e /etc/init.d/xvfb start</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 3</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_build.sh</span>
+</code></pre></div>
+<p>To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with <em>docker_deploy.sh</em>. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.</p>
+
+<h4 id="architecture">Architecture</h4>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Repo</th>
+<th>Image</th>
+<th>Container</th>
+<th>Tech</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Users API</td>
+<td><a href="https://github.com/realpython/flask-microservices-users">users</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-users">users</a></td>
+<td><code>users-service</code></td>
+<td>Flask, gunicorn</td>
+</tr>
+<tr>
+<td>Users DB</td>
+<td><a href="https://github.com/realpython/flask-microservices-users/tree/master/project/db">users</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-users_db">users_db</a></td>
+<td><code>users-db</code></td>
+<td>Postgres</td>
+</tr>
+<tr>
+<td>Client</td>
+<td><a href="https://github.com/realpython/flask-microservices-client">client</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-client">client</a></td>
+<td><code>web-service</code></td>
+<td>React, React-Router</td>
+</tr>
+<tr>
+<td>Swagger</td>
+<td><a href="https://github.com/realpython/flask-microservices-swagger">swagger</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-swagger">swagger</a></td>
+<td><code>swagger</code></td>
+<td>Swagger UI</td>
+</tr>
+<tr>
+<td>e2e Tests</td>
+<td><a href="https://github.com/realpython/flask-microservices-main/tree/master/e2e">main</a></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>TestCafe</td>
+</tr>
+<tr>
+<td>Nginx</td>
+<td><a href="https://github.com/realpython/flask-microservices-main/tree/master/nginx">main</a></td>
+<td><a href="https://hub.docker.com/r/realpython/flask-microservices-nginx">nginx</a></td>
+<td><code>nginx</code></td>
+<td>Nginx</td>
+</tr>
+</tbody></table>
 
 
           
@@ -563,6 +1283,8 @@
             
               <a class="prev btn left-align" href="/part-five-intro">&laquo; Introduction</a>
             
+            
+              <a class="next btn right-align" href="/part-ec2-container-registry">EC2 Container Registry &raquo;</a>
             
           </div>
 
