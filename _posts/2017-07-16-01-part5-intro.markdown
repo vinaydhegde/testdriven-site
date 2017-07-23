@@ -19,7 +19,7 @@ Topics covered:
 
 By the end of part 5, you should be able to...
 
-1. Push and pull images to [Docker Hub](https://docs.docker.com/docker-hub/), an image registry
+1. Integrate [Docker Hub](https://docs.docker.com/docker-hub/), an image registry, into the continuous integration process
 
 ---
 

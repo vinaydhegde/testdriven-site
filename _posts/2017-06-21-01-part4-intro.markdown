@@ -14,7 +14,7 @@ In Part 4, we'll add an *end-to-end* (e2e) testing solution, *form validation* t
 By the end of part 4, you should be able to...
 
 1. Test the entire set of services with functional, end-to-end tests via TestCafe
-1. Integrate TestCafe into a continuous integration process
+1. Integrate TestCafe into the continuous integration process
 1. Handle form validation within React
 1. Add a flash messaging system to the React app
 1. Describe the purpose of Swagger
