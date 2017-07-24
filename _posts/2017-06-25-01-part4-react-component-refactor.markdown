@@ -158,7 +158,7 @@ class Form extends Component {
     }
     return (
       <div>
-        <h1 style="textTransform:capitalize;">{this.props.formType}</h1>
+        <h1 style={{'textTransform':'capitalize'}}>{this.props.formType}</h1>
         <hr/><br/>
         <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
           {this.props.formType === 'register' &&
