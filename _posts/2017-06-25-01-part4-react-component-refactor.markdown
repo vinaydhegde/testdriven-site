@@ -92,6 +92,7 @@ Now, instead of passing everything down via the props, we can manage the state o
 
 Again, update *src/components/Form.jsx*:
 
+{% raw %}
 ```javascript
 import React, { Component } from 'react';
 import axios from 'axios';
@@ -209,6 +210,7 @@ class Form extends Component {
 
 export default Form
 ```
+{% endraw %}
 
 Then update *src/App.jsx*:
 

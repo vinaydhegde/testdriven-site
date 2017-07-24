@@ -241,6 +241,7 @@ li:before {
 
 Finally, render the component just above the form, back within the `Form` component:
 
+{% raw %}
 ```javascript
 <div>
   <h1 style={{'textTransform':'capitalize'}}>{this.props.formType}</h1>
@@ -252,6 +253,7 @@ Finally, render the component just above the form, back within the `Form` compon
   <form onSubmit={(event) => this.handleUserFormSubmit(event)}>
   ...
 ```
+{% endraw %}
 
 Run the tests.
 
