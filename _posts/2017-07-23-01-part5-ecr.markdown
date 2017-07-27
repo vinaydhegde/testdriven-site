@@ -2,7 +2,7 @@
 title: EC2 Container Registry
 layout: post
 date: 2017-07-23 23:59:59
-permalink: part-ec2-container-registry
+permalink: part-five-ec2-container-registry
 share: true
 ---
 

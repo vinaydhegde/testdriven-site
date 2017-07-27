@@ -2,7 +2,7 @@
 title: EC2 Container Service
 layout: post
 date: 2017-07-27 23:59:59
-permalink: part-ec2-container-service
+permalink: part-five-ec2-container-service
 share: true
 ---
 
