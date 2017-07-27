@@ -8,7 +8,7 @@ share: true
 
 Let's update the CI process to include [Docker Hub](https://docs.docker.com/docker-hub/), an image registry:
 
-1. Create new feature branch
+1. Create a new feature branch
 1. Open PR against the `master` branch
 1. New build is triggered on Travis
 1. If the tests pass, images are created and pushed to Docker Hub
