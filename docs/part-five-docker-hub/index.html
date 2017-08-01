@@ -537,6 +537,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-elastic-load-balancing"
+            >Elastic Load Balancing</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -817,9 +827,9 @@
     docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
 <span class="k">fi</span>
 </code></pre></div>
-<p>Save this as <em>docker_deploy.sh</em> within <em>flask-microservices-main</em>, and then update <code>after_success</code>:</p>
+<p>Save this as <em>docker_push.sh</em> within <em>flask-microservices-main</em>, and then update <code>after_success</code>:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_push.sh</span>
 </code></pre></div>
 <p>We can speed up the building of new images by first pulling in the latest image from Docker Hub. Add a new script called <em>docker_build.sh</em> to the project root:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
@@ -847,7 +857,7 @@ docker-compose -f docker-compose-ci.yml up -d --build
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 3</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_build.sh</span>
 </code></pre></div>
-<p>To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with <em>docker_deploy.sh</em>. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.</p>
+<p>To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with <em>docker_push.sh</em>. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.</p>
 
 <h4 id="architecture">Architecture</h4>
 
@@ -1195,9 +1205,9 @@ docker-compose -f docker-compose-ci.yml up -d --build
     docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
 <span class="k">fi</span>
 </code></pre></div>
-<p>Save this as <em>docker_deploy.sh</em> within <em>flask-microservices-main</em>, and then update <code>after_success</code>:</p>
+<p>Save this as <em>docker_push.sh</em> within <em>flask-microservices-main</em>, and then update <code>after_success</code>:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_push.sh</span>
 </code></pre></div>
 <p>We can speed up the building of new images by first pulling in the latest image from Docker Hub. Add a new script called <em>docker_build.sh</em> to the project root:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
@@ -1225,7 +1235,7 @@ docker-compose -f docker-compose-ci.yml up -d --build
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sleep 3</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_build.sh</span>
 </code></pre></div>
-<p>To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with <em>docker_deploy.sh</em>. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.</p>
+<p>To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with <em>docker_push.sh</em>. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.</p>
 
 <h4 id="architecture">Architecture</h4>
 

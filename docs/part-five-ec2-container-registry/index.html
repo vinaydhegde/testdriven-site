@@ -537,6 +537,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-elastic-load-balancing"
+            >Elastic Load Balancing</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -587,56 +597,60 @@
 
 docker-compose -f docker-compose-ci.yml up -d --build
 </code></pre></div>
-<p>Next, update <em>docker_deploy.sh</em>:</p>
+<p>Next, update <em>docker_push.sh</em>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span>
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
 <span class="k">then</span>
-  docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
-  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
-  <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$DOCKER_ID</span>
-<span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  curl <span class="s2">&quot;https://s3.amazonaws.com/aws-cli/awscli-bundle.zip&quot;</span> -o <span class="s2">&quot;awscli-bundle.zip&quot;</span>
-  unzip awscli-bundle.zip
-  ./awscli-bundle/install -b ~/bin/aws
-  <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/bin:<span class="nv">$PATH</span>
-  <span class="c"># add AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY env vars</span>
-  <span class="nb">eval</span> <span class="k">$(</span>aws ecr get-login --region us-east-1<span class="k">)</span>
-  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
-  <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$AWS_ACCOUNT_ID</span>.dkr.ecr.us-east-1.amazonaws.com
-<span class="k">fi</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
+    <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$DOCKER_ID</span>
+  <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  <span class="c"># users</span>
-  docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-  <span class="c"># users db</span>
-  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-  <span class="c"># client</span>
-  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-  <span class="c"># swagger</span>
-  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-  <span class="c"># nginx</span>
-  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    curl <span class="s2">&quot;https://s3.amazonaws.com/aws-cli/awscli-bundle.zip&quot;</span> -o <span class="s2">&quot;awscli-bundle.zip&quot;</span>
+    unzip awscli-bundle.zip
+    ./awscli-bundle/install -b ~/bin/aws
+    <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/bin:<span class="nv">$PATH</span>
+    <span class="c"># add AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY env vars</span>
+    <span class="nb">eval</span> <span class="k">$(</span>aws ecr get-login --region us-east-1<span class="k">)</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
+    <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$AWS_ACCOUNT_ID</span>.dkr.ecr.us-east-1.amazonaws.com
+  <span class="k">fi</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    <span class="c"># users</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    <span class="c"># users db</span>
+    docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    <span class="c"># client</span>
+    docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    <span class="c"># swagger</span>
+    docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    <span class="c"># nginx</span>
+    docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  <span class="k">fi</span>
 <span class="k">fi</span>
 </code></pre></div>
-<p>So, if the branch is <code>staging</code> or <code>production</code>, we download the <a href="http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-bundle.html">AWS CLI</a>, log in to AWS, and then set the appropriate <code>TAG</code> and <code>REPO</code>.</p>
+<p>So, if the branch is <code>staging</code> or <code>production</code> and it&#39;s not a pull request, we download the <a href="http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-bundle.html">AWS CLI</a>, log in to AWS, and then set the appropriate <code>TAG</code> and <code>REPO</code>.</p>
 
 <p>Grab your AWS credentials from the <em>~/.aws/credentials</em> file:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>cat ~/.aws/credentials
@@ -655,7 +669,7 @@ docker-compose -f docker-compose-ci.yml up -d --build
 
 <p>We can remove the <em>docker-compose-prod.yml</em> and <em>docker-compose-staging.yml</em> files and, instead, use <em>docker-compose-ci.yml</em> for both staging and production.</p>
 
-<p>Next, for the staging and production builds, we&#39;ll need to update the following environment variables before the images are built in <em>docker_deploy.sh</em>:</p>
+<p>Next, for the staging and production builds, we&#39;ll need to update the following environment variables before the images are built in <em>docker_push.sh</em>:</p>
 
 <ol>
 <li><code>REACT_APP_USERS_SERVICE_URL</code></li>
@@ -666,65 +680,69 @@ docker-compose -f docker-compose-ci.yml up -d --build
 <p>These are branch specific and the <code>SECRET_KEY</code> needs to be encrypted.</p>
 </blockquote>
 
-<p>Update <em>docker_deploy.sh</em>, like so:</p>
+<p>Update <em>docker_push.sh</em>, like so:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
-
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span>
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
 <span class="k">then</span>
-  docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
-  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
-  <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$DOCKER_ID</span>
-<span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  curl <span class="s2">&quot;https://s3.amazonaws.com/aws-cli/awscli-bundle.zip&quot;</span> -o <span class="s2">&quot;awscli-bundle.zip&quot;</span>
-  unzip awscli-bundle.zip
-  ./awscli-bundle/install -b ~/bin/aws
-  <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/bin:<span class="nv">$PATH</span>
-  <span class="c"># add AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY env vars</span>
-  <span class="nb">eval</span> <span class="k">$(</span>aws ecr get-login --region us-east-1<span class="k">)</span>
-  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
-  <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$AWS_ACCOUNT_ID</span>.dkr.ecr.us-east-1.amazonaws.com
-<span class="k">fi</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
+    <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$DOCKER_ID</span>
+  <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
-  <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
-<span class="k">fi</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    curl <span class="s2">&quot;https://s3.amazonaws.com/aws-cli/awscli-bundle.zip&quot;</span> -o <span class="s2">&quot;awscli-bundle.zip&quot;</span>
+    unzip awscli-bundle.zip
+    ./awscli-bundle/install -b ~/bin/aws
+    <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/bin:<span class="nv">$PATH</span>
+    <span class="c"># add AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY env vars</span>
+    <span class="nb">eval</span> <span class="k">$(</span>aws ecr get-login --region us-east-1<span class="k">)</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
+    <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$AWS_ACCOUNT_ID</span>.dkr.ecr.us-east-1.amazonaws.com
+  <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
-  <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
-<span class="k">fi</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+    <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+  <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  <span class="c"># users</span>
-  docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-  <span class="c"># users db</span>
-  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-  <span class="c"># client</span>
-  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-  <span class="c"># swagger</span>
-  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-  <span class="c"># nginx</span>
-  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+    <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+  <span class="k">fi</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    <span class="c"># users</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    <span class="c"># users db</span>
+    docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    <span class="c"># client</span>
+    docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    <span class="c"># swagger</span>
+    docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    <span class="c"># nginx</span>
+    docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  <span class="k">fi</span>
+
 <span class="k">fi</span>
 </code></pre></div>
 <p>Hold off on updating those variables for now. We&#39;ll get to it when we set up the EC2 Container Service.</p>
@@ -826,56 +844,60 @@ docker-compose -f docker-compose-ci.yml up -d --build
 
 docker-compose -f docker-compose-ci.yml up -d --build
 </code></pre></div>
-<p>Next, update <em>docker_deploy.sh</em>:</p>
+<p>Next, update <em>docker_push.sh</em>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span>
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
 <span class="k">then</span>
-  docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
-  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
-  <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$DOCKER_ID</span>
-<span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  curl <span class="s2">&quot;https://s3.amazonaws.com/aws-cli/awscli-bundle.zip&quot;</span> -o <span class="s2">&quot;awscli-bundle.zip&quot;</span>
-  unzip awscli-bundle.zip
-  ./awscli-bundle/install -b ~/bin/aws
-  <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/bin:<span class="nv">$PATH</span>
-  <span class="c"># add AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY env vars</span>
-  <span class="nb">eval</span> <span class="k">$(</span>aws ecr get-login --region us-east-1<span class="k">)</span>
-  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
-  <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$AWS_ACCOUNT_ID</span>.dkr.ecr.us-east-1.amazonaws.com
-<span class="k">fi</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
+    <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$DOCKER_ID</span>
+  <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  <span class="c"># users</span>
-  docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-  <span class="c"># users db</span>
-  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-  <span class="c"># client</span>
-  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-  <span class="c"># swagger</span>
-  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-  <span class="c"># nginx</span>
-  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    curl <span class="s2">&quot;https://s3.amazonaws.com/aws-cli/awscli-bundle.zip&quot;</span> -o <span class="s2">&quot;awscli-bundle.zip&quot;</span>
+    unzip awscli-bundle.zip
+    ./awscli-bundle/install -b ~/bin/aws
+    <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/bin:<span class="nv">$PATH</span>
+    <span class="c"># add AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY env vars</span>
+    <span class="nb">eval</span> <span class="k">$(</span>aws ecr get-login --region us-east-1<span class="k">)</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
+    <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$AWS_ACCOUNT_ID</span>.dkr.ecr.us-east-1.amazonaws.com
+  <span class="k">fi</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    <span class="c"># users</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    <span class="c"># users db</span>
+    docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    <span class="c"># client</span>
+    docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    <span class="c"># swagger</span>
+    docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    <span class="c"># nginx</span>
+    docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  <span class="k">fi</span>
 <span class="k">fi</span>
 </code></pre></div>
-<p>So, if the branch is <code>staging</code> or <code>production</code>, we download the <a href="http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-bundle.html">AWS CLI</a>, log in to AWS, and then set the appropriate <code>TAG</code> and <code>REPO</code>.</p>
+<p>So, if the branch is <code>staging</code> or <code>production</code> and it&#39;s not a pull request, we download the <a href="http://docs.aws.amazon.com/cli/latest/userguide/awscli-install-bundle.html">AWS CLI</a>, log in to AWS, and then set the appropriate <code>TAG</code> and <code>REPO</code>.</p>
 
 <p>Grab your AWS credentials from the <em>~/.aws/credentials</em> file:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>cat ~/.aws/credentials
@@ -894,7 +916,7 @@ docker-compose -f docker-compose-ci.yml up -d --build
 
 <p>We can remove the <em>docker-compose-prod.yml</em> and <em>docker-compose-staging.yml</em> files and, instead, use <em>docker-compose-ci.yml</em> for both staging and production.</p>
 
-<p>Next, for the staging and production builds, we&#39;ll need to update the following environment variables before the images are built in <em>docker_deploy.sh</em>:</p>
+<p>Next, for the staging and production builds, we&#39;ll need to update the following environment variables before the images are built in <em>docker_push.sh</em>:</p>
 
 <ol>
 <li><code>REACT_APP_USERS_SERVICE_URL</code></li>
@@ -905,65 +927,69 @@ docker-compose -f docker-compose-ci.yml up -d --build
 <p>These are branch specific and the <code>SECRET_KEY</code> needs to be encrypted.</p>
 </blockquote>
 
-<p>Update <em>docker_deploy.sh</em>, like so:</p>
+<p>Update <em>docker_push.sh</em>, like so:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
-
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span>
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
 <span class="k">then</span>
-  docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
-  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
-  <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$DOCKER_ID</span>
-<span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  curl <span class="s2">&quot;https://s3.amazonaws.com/aws-cli/awscli-bundle.zip&quot;</span> -o <span class="s2">&quot;awscli-bundle.zip&quot;</span>
-  unzip awscli-bundle.zip
-  ./awscli-bundle/install -b ~/bin/aws
-  <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/bin:<span class="nv">$PATH</span>
-  <span class="c"># add AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY env vars</span>
-  <span class="nb">eval</span> <span class="k">$(</span>aws ecr get-login --region us-east-1<span class="k">)</span>
-  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
-  <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$AWS_ACCOUNT_ID</span>.dkr.ecr.us-east-1.amazonaws.com
-<span class="k">fi</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
+    <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$DOCKER_ID</span>
+  <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
-  <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
-<span class="k">fi</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    curl <span class="s2">&quot;https://s3.amazonaws.com/aws-cli/awscli-bundle.zip&quot;</span> -o <span class="s2">&quot;awscli-bundle.zip&quot;</span>
+    unzip awscli-bundle.zip
+    ./awscli-bundle/install -b ~/bin/aws
+    <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>~/bin:<span class="nv">$PATH</span>
+    <span class="c"># add AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY env vars</span>
+    <span class="nb">eval</span> <span class="k">$(</span>aws ecr get-login --region us-east-1<span class="k">)</span>
+    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="nv">$TRAVIS_BRANCH</span>
+    <span class="nb">export </span><span class="nv">REPO</span><span class="o">=</span><span class="nv">$AWS_ACCOUNT_ID</span>.dkr.ecr.us-east-1.amazonaws.com
+  <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
-  <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
-<span class="k">fi</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+    <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+  <span class="k">fi</span>
 
-<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
-   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
-<span class="k">then</span>
-  <span class="c"># users</span>
-  docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-  <span class="c"># users db</span>
-  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-  <span class="c"># client</span>
-  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-  <span class="c"># swagger</span>
-  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-  <span class="c"># nginx</span>
-  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
-  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
-  docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+    <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+  <span class="k">fi</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+     <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    <span class="c"># users</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+    <span class="c"># users db</span>
+    docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+    <span class="c"># client</span>
+    docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+    <span class="c"># swagger</span>
+    docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+    <span class="c"># nginx</span>
+    docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+    docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+    docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  <span class="k">fi</span>
+
 <span class="k">fi</span>
 </code></pre></div>
 <p>Hold off on updating those variables for now. We&#39;ll get to it when we set up the EC2 Container Service.</p>

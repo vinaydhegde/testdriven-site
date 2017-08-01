@@ -537,6 +537,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-elastic-load-balancing"
+            >Elastic Load Balancing</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -548,7 +558,333 @@
 
           <h2>EC2 Container Service</h2>
 
-          <p>Coming soon!</p>
+          <p>With ECR setup, we now need to create a task definition along with a cluster and a service within EC2 Container Service (ECS)...</p>
+
+<hr>
+
+<p><a href="https://aws.amazon.com/ecs/">ECS</a> is a container orchestration system used for managing and deploying Docker-based containers.</p>
+
+<h4 id="key-pair">Key Pair</h4>
+
+<p>To start, let&#39;s create a new <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">EC2 Key Pair</a> so we can SSH into the EC2 instances managed by ECS.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Key Pairs&quot; on the sidebar, and then click the &quot;Create Key Pair&quot; button. Name the the new key pair <code>ecs</code> and add it to &quot;~/.ssh&quot;.</p>
+
+<h4 id="task-definition">Task Definition</h4>
+
+<p>The <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definition</a> defines which containers make up the overall app and how much resources are allocated to each container. It is similar to a Docker Compose file.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ecs">Amazon ECS</a>, click &quot;Task Definitions&quot;, and then click the button &quot;Create new Task Definition&quot;. First, Update the &quot;Task Definition Name&quot; to <code>testdriven-staging</code> and then add two new containers. Once done, make sure to click the &quot;Create&quot; button.</p>
+
+<blockquote>
+<p>To add a new container, click the button &quot;Add container&quot;.</p>
+</blockquote>
+
+<h5 id="container-1-flask-microservices-users">Container 1: <em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-service</code></li>
+<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>80</code> host, <code>5000</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>APP_SETTINGS</code> - <code>project.config.StagingConfig</code></li>
+<li><code>DATABASE_URL</code> - <code>postgres://postgres:postgres@users-db:5432/users_staging</code></li>
+<li><code>DATABASE_TEST_URL</code> - <code>postgres://postgres:postgres@users-db:5432/users_test</code></li>
+<li><code>SECRET_KEY</code> - <code>my_precious</code></li>
+</ul></li>
+<li>&quot;Links&quot;: <code>users-db</code></li>
+</ol>
+
+<h5 id="container-2-flask-microservices-users-db">Container 2: <em>flask-microservices-users-db</em></h5>
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-db</code></li>
+<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>5432</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>POSTGRES_USER</code> - <code>postgres</code></li>
+<li><code>POSTGRES_PASSWORD</code> - <code>postgres</code></li>
+</ul></li>
+</ol>
+
+<h4 id="cluster">Cluster</h4>
+
+<p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_clusters.html">Clusters</a> are where the actual containers run. They are just groups of EC2 instances that run Docker containers managed by ECS. To create a Cluster, click &quot;Clusters&quot; on the sidebar, and then click the &quot;Create Cluster&quot; button.</p>
+
+<p>Add:</p>
+
+<ol>
+<li>&quot;Cluster name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.micro</code></li>
+<li>&quot;Number of instances&quot;: <code>2</code></li>
+<li>&quot;Key pair&quot;: <code>ecs</code></li>
+</ol>
+
+<p>This will create a number of EC2 resources, like the Internet Gateway, VPC, Security Group, Auto Scaling group, etc. It will take a few minutes to setup.</p>
+
+<h4 id="service">Service</h4>
+
+<p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a> instantiate the containers from the Task Definition and run them within the Cluster. To define a Service, on the &quot;Services&quot; tab within the newly created Cluster, click &quot;Create&quot;.</p>
+
+<p>Add:</p>
+
+<ol>
+<li>&quot;Service name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Number of tasks&quot;: <code>2</code></li>
+</ol>
+
+<h4 id="sanity-check">Sanity Check</h4>
+
+<p>Add ports 80 and 22 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>. Then grab the Public IP address of the EC2 instance, and navigate to <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a> in your browser. If all went well, you should see:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;pong!&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Try the <code>/users</code> endpoint: <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error since the migrations have not been ran. To do this, let&#39;s SSH into the EC2 instance:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
+</code></pre></div>
+<blockquote>
+<p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
+</blockquote>
+
+<p>Next, grab the Container ID for the <em>flask-microservices-users</em>, enter the Shell within the running container, and then update the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
+<span class="c"># python manage.py recreate_db</span>
+<span class="c"># python manage.py seed_db</span>
+</code></pre></div>
+<p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
+
+<h4 id="travis-update-task-definition">Travis - update task definition</h4>
+
+<p>To incorporate the updating of ECS into the CI/CD process, create a new feature branch called <code>ecs</code> in <em>flask-microservices-main</em>, and then add a new script called <em>docker_deploy.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+
+    <span class="nv">JQ</span><span class="o">=</span><span class="s2">&quot;jq --raw-output --exit-status&quot;</span>
+
+    configure_aws_cli<span class="o">()</span> <span class="o">{</span>
+        aws --version
+        aws configure <span class="nb">set </span>default.region us-east-1
+        aws configure <span class="nb">set </span>default.output json
+        <span class="nb">echo</span> <span class="s2">&quot;AWS Configured!&quot;</span>
+    <span class="o">}</span>
+
+    make_task_def<span class="o">()</span> <span class="o">{</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat ecs_taskdefinition.json<span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;$task_def&quot;</span>
+    <span class="o">}</span>
+
+    register_definition<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="nv">revision</span><span class="o">=</span><span class="k">$(</span>aws ecs register-task-definition --cli-input-json <span class="s2">&quot;$task_def&quot;</span> --family <span class="nv">$family</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.taskDefinition.taskDefinitionArn&#39;</span><span class="k">)</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Revision: $revision&quot;</span>
+      <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Failed to register task definition&quot;</span>
+        <span class="k">return</span> 1
+      <span class="k">fi</span>
+    <span class="o">}</span>
+
+    deploy_cluster<span class="o">()</span> <span class="o">{</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;testdriven-staging&quot;</span>
+      make_task_def
+      register_definition
+    <span class="o">}</span>
+
+    configure_aws_cli
+    deploy_cluster
+
+  <span class="k">fi</span>
+
+<span class="k">fi</span>
+</code></pre></div>
+<p>Here, if the branch is <code>staging</code> and it&#39;s not a a pull request the AWS CLI is configured and then the <code>deploy_cluser</code> function is fired, which sets the Task Definition family name and then fires the <code>make_task_def</code> and <code>register_definition</code> functions. These simply update the existing Task Definition with the definition found in <em>ecs_taskdefinition.json</em> and set a new revision.</p>
+
+<p>Add <em>ecs_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-service&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.StagingConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_TEST_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@users-db:5432/users_test&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@users-db:5432/users_staging&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;my_precious&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;links&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;users-db&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-db&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users_db:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5432</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_PASSWORD&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_USER&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This should look almost identical to the Task Definition defined in the ECS GUI, except for the logging info. Essentially, you can pipe out the container logs to <a href="https://aws.amazon.com/cloudwatch/">AWS CloudWatch</a>. To set up, navigate to <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, click &quot;Logs&quot;, click the &quot;Actions&quot; drop-down button, and then select &quot;Create log group&quot;. Name the group <code>flask-microservices-staging</code>.</p>
+
+<p>Update the <code>after_success</code> in <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_push.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
+</code></pre></div>
+<p>Then, update the <code>SECRET_KEY</code> environment variables for <code>staging</code> in <em>docker_push.sh</em>, to match the Task Definition:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+  <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;my_precious&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Commit. Push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes, to trigger a new build.</p>
+
+<p>After the next build passes, make sure a new revision to the Task Definition is created, and then navigate to the Service itself. Update it so that it references the new revision of the Task Definition, and then stop the currently running Task. This will cause the Service to fire up a new Task, based on the new revision. Ensure all is still well <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a>.</p>
+
+<p>Open the <code>flask-microservices-staging</code> Log Group in Cloud Watch. Find the logs for the database. In a different browser window, navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error. Refresh the logs. You should see <code>ERROR: relation &quot;users&quot; does not exist at character 227</code>.</p>
+
+<h4 id="update-dockerfile">Update <em>Dockerfile</em></h4>
+
+<p>Next, within <em>flask-microservices-users</em>, update the <em>Dockerfile</em> to run a shell script rather than the server:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
+
+# install environment dependencies
+RUN apt-get update -yqq \
+  &amp;&amp; apt-get install -yqq --no-install-recommends \
+    netcat \
+  &amp;&amp; apt-get -q clean
+
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# add entrypoint.sh
+ADD ./entrypoint.sh /usr/src/app/entrypoint.sh
+
+# add app
+ADD . /usr/src/app
+
+# run server
+CMD [&quot;./entrypoint.sh&quot;]
+</code></pre></div>
+<p>Add <em>entrypoint.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Waiting for postgres...&quot;</span>
+
+<span class="k">while</span> ! nc -z users-db 5432<span class="p">;</span> <span class="k">do</span>
+  sleep 0.1
+<span class="k">done</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;PostgreSQL started&quot;</span>
+
+python manage.py recreate_db
+python manage.py seed_db
+gunicorn -b 0.0.0.0:5000 manage:app
+</code></pre></div>
+<p>Here, we wait for the <code>users-db</code> service to be up before updating and seeding the database and then firing the server.</p>
+
+<p>Commit and push your code.</p>
+
+<h4 id="travis-update-cluster-and-service">Travis - update cluster and service</h4>
+
+<p>Next, using the same feature branch as before, update the <code>deploy_cluster</code> function in <em>docker_deploy.sh</em> in the <em>flask-microservices-main</em> project:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">deploy_cluster<span class="o">()</span> <span class="o">{</span>
+
+  <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;testdriven-staging&quot;</span>
+  <span class="nv">cluster</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging&quot;</span>
+  <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging&quot;</span>
+
+  make_task_def
+  register_definition
+
+  <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span>aws ecs update-service --cluster <span class="nv">$cluster</span> --service <span class="nv">$service</span> --task-definition <span class="nv">$revision</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.service.taskDefinition&#39;</span><span class="k">)</span> !<span class="o">=</span> <span class="nv">$revision</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Error updating service.&quot;</span>
+    <span class="k">return</span> 1
+  <span class="k">fi</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>Now, the service will automatically be updated with the new Task Definition revision.</p>
+
+<p>Again, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a Task based on that revision.</p>
+
+<p>Finally, ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
+
+<hr>
+
+<p>Well, we still need to add the remaining containers to ECS, but first let&#39;s take a look at load balancing...</p>
 
 
           
@@ -561,6 +897,8 @@
             
               <a class="prev btn left-align" href="/part-five-ec2-container-registry">&laquo; EC2 Container Registry</a>
             
+            
+              <a class="next btn right-align" href="/part-five-elastic-load-balancing">Elastic Load Balancing &raquo;</a>
             
           </div>
 
@@ -570,7 +908,333 @@
 
           <h2>EC2 Container Service</h2>
 
-          <p>Coming soon!</p>
+          <p>With ECR setup, we now need to create a task definition along with a cluster and a service within EC2 Container Service (ECS)...</p>
+
+<hr>
+
+<p><a href="https://aws.amazon.com/ecs/">ECS</a> is a container orchestration system used for managing and deploying Docker-based containers.</p>
+
+<h4 id="key-pair">Key Pair</h4>
+
+<p>To start, let&#39;s create a new <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">EC2 Key Pair</a> so we can SSH into the EC2 instances managed by ECS.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Key Pairs&quot; on the sidebar, and then click the &quot;Create Key Pair&quot; button. Name the the new key pair <code>ecs</code> and add it to &quot;~/.ssh&quot;.</p>
+
+<h4 id="task-definition">Task Definition</h4>
+
+<p>The <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definition</a> defines which containers make up the overall app and how much resources are allocated to each container. It is similar to a Docker Compose file.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ecs">Amazon ECS</a>, click &quot;Task Definitions&quot;, and then click the button &quot;Create new Task Definition&quot;. First, Update the &quot;Task Definition Name&quot; to <code>testdriven-staging</code> and then add two new containers. Once done, make sure to click the &quot;Create&quot; button.</p>
+
+<blockquote>
+<p>To add a new container, click the button &quot;Add container&quot;.</p>
+</blockquote>
+
+<h5 id="container-1-flask-microservices-users">Container 1: <em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-service</code></li>
+<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>80</code> host, <code>5000</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>APP_SETTINGS</code> - <code>project.config.StagingConfig</code></li>
+<li><code>DATABASE_URL</code> - <code>postgres://postgres:postgres@users-db:5432/users_staging</code></li>
+<li><code>DATABASE_TEST_URL</code> - <code>postgres://postgres:postgres@users-db:5432/users_test</code></li>
+<li><code>SECRET_KEY</code> - <code>my_precious</code></li>
+</ul></li>
+<li>&quot;Links&quot;: <code>users-db</code></li>
+</ol>
+
+<h5 id="container-2-flask-microservices-users-db">Container 2: <em>flask-microservices-users-db</em></h5>
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-db</code></li>
+<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>5432</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>POSTGRES_USER</code> - <code>postgres</code></li>
+<li><code>POSTGRES_PASSWORD</code> - <code>postgres</code></li>
+</ul></li>
+</ol>
+
+<h4 id="cluster">Cluster</h4>
+
+<p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_clusters.html">Clusters</a> are where the actual containers run. They are just groups of EC2 instances that run Docker containers managed by ECS. To create a Cluster, click &quot;Clusters&quot; on the sidebar, and then click the &quot;Create Cluster&quot; button.</p>
+
+<p>Add:</p>
+
+<ol>
+<li>&quot;Cluster name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.micro</code></li>
+<li>&quot;Number of instances&quot;: <code>2</code></li>
+<li>&quot;Key pair&quot;: <code>ecs</code></li>
+</ol>
+
+<p>This will create a number of EC2 resources, like the Internet Gateway, VPC, Security Group, Auto Scaling group, etc. It will take a few minutes to setup.</p>
+
+<h4 id="service">Service</h4>
+
+<p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a> instantiate the containers from the Task Definition and run them within the Cluster. To define a Service, on the &quot;Services&quot; tab within the newly created Cluster, click &quot;Create&quot;.</p>
+
+<p>Add:</p>
+
+<ol>
+<li>&quot;Service name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Number of tasks&quot;: <code>2</code></li>
+</ol>
+
+<h4 id="sanity-check">Sanity Check</h4>
+
+<p>Add ports 80 and 22 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>. Then grab the Public IP address of the EC2 instance, and navigate to <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a> in your browser. If all went well, you should see:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;pong!&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Try the <code>/users</code> endpoint: <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error since the migrations have not been ran. To do this, let&#39;s SSH into the EC2 instance:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
+</code></pre></div>
+<blockquote>
+<p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
+</blockquote>
+
+<p>Next, grab the Container ID for the <em>flask-microservices-users</em>, enter the Shell within the running container, and then update the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
+<span class="c"># python manage.py recreate_db</span>
+<span class="c"># python manage.py seed_db</span>
+</code></pre></div>
+<p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
+
+<h4 id="travis-update-task-definition">Travis - update task definition</h4>
+
+<p>To incorporate the updating of ECS into the CI/CD process, create a new feature branch called <code>ecs</code> in <em>flask-microservices-main</em>, and then add a new script called <em>docker_deploy.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+
+    <span class="nv">JQ</span><span class="o">=</span><span class="s2">&quot;jq --raw-output --exit-status&quot;</span>
+
+    configure_aws_cli<span class="o">()</span> <span class="o">{</span>
+        aws --version
+        aws configure <span class="nb">set </span>default.region us-east-1
+        aws configure <span class="nb">set </span>default.output json
+        <span class="nb">echo</span> <span class="s2">&quot;AWS Configured!&quot;</span>
+    <span class="o">}</span>
+
+    make_task_def<span class="o">()</span> <span class="o">{</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat ecs_taskdefinition.json<span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;$task_def&quot;</span>
+    <span class="o">}</span>
+
+    register_definition<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="nv">revision</span><span class="o">=</span><span class="k">$(</span>aws ecs register-task-definition --cli-input-json <span class="s2">&quot;$task_def&quot;</span> --family <span class="nv">$family</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.taskDefinition.taskDefinitionArn&#39;</span><span class="k">)</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Revision: $revision&quot;</span>
+      <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Failed to register task definition&quot;</span>
+        <span class="k">return</span> 1
+      <span class="k">fi</span>
+    <span class="o">}</span>
+
+    deploy_cluster<span class="o">()</span> <span class="o">{</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;testdriven-staging&quot;</span>
+      make_task_def
+      register_definition
+    <span class="o">}</span>
+
+    configure_aws_cli
+    deploy_cluster
+
+  <span class="k">fi</span>
+
+<span class="k">fi</span>
+</code></pre></div>
+<p>Here, if the branch is <code>staging</code> and it&#39;s not a a pull request the AWS CLI is configured and then the <code>deploy_cluser</code> function is fired, which sets the Task Definition family name and then fires the <code>make_task_def</code> and <code>register_definition</code> functions. These simply update the existing Task Definition with the definition found in <em>ecs_taskdefinition.json</em> and set a new revision.</p>
+
+<p>Add <em>ecs_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-service&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.StagingConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_TEST_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@users-db:5432/users_test&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@users-db:5432/users_staging&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;my_precious&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;links&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;users-db&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-db&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users_db:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5432</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_PASSWORD&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_USER&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This should look almost identical to the Task Definition defined in the ECS GUI, except for the logging info. Essentially, you can pipe out the container logs to <a href="https://aws.amazon.com/cloudwatch/">AWS CloudWatch</a>. To set up, navigate to <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, click &quot;Logs&quot;, click the &quot;Actions&quot; drop-down button, and then select &quot;Create log group&quot;. Name the group <code>flask-microservices-staging</code>.</p>
+
+<p>Update the <code>after_success</code> in <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_push.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
+</code></pre></div>
+<p>Then, update the <code>SECRET_KEY</code> environment variables for <code>staging</code> in <em>docker_push.sh</em>, to match the Task Definition:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+  <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;my_precious&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Commit. Push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes, to trigger a new build.</p>
+
+<p>After the next build passes, make sure a new revision to the Task Definition is created, and then navigate to the Service itself. Update it so that it references the new revision of the Task Definition, and then stop the currently running Task. This will cause the Service to fire up a new Task, based on the new revision. Ensure all is still well <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a>.</p>
+
+<p>Open the <code>flask-microservices-staging</code> Log Group in Cloud Watch. Find the logs for the database. In a different browser window, navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error. Refresh the logs. You should see <code>ERROR: relation &quot;users&quot; does not exist at character 227</code>.</p>
+
+<h4 id="update-dockerfile">Update <em>Dockerfile</em></h4>
+
+<p>Next, within <em>flask-microservices-users</em>, update the <em>Dockerfile</em> to run a shell script rather than the server:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
+
+# install environment dependencies
+RUN apt-get update -yqq \
+  &amp;&amp; apt-get install -yqq --no-install-recommends \
+    netcat \
+  &amp;&amp; apt-get -q clean
+
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# add entrypoint.sh
+ADD ./entrypoint.sh /usr/src/app/entrypoint.sh
+
+# add app
+ADD . /usr/src/app
+
+# run server
+CMD [&quot;./entrypoint.sh&quot;]
+</code></pre></div>
+<p>Add <em>entrypoint.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Waiting for postgres...&quot;</span>
+
+<span class="k">while</span> ! nc -z users-db 5432<span class="p">;</span> <span class="k">do</span>
+  sleep 0.1
+<span class="k">done</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;PostgreSQL started&quot;</span>
+
+python manage.py recreate_db
+python manage.py seed_db
+gunicorn -b 0.0.0.0:5000 manage:app
+</code></pre></div>
+<p>Here, we wait for the <code>users-db</code> service to be up before updating and seeding the database and then firing the server.</p>
+
+<p>Commit and push your code.</p>
+
+<h4 id="travis-update-cluster-and-service">Travis - update cluster and service</h4>
+
+<p>Next, using the same feature branch as before, update the <code>deploy_cluster</code> function in <em>docker_deploy.sh</em> in the <em>flask-microservices-main</em> project:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">deploy_cluster<span class="o">()</span> <span class="o">{</span>
+
+  <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;testdriven-staging&quot;</span>
+  <span class="nv">cluster</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging&quot;</span>
+  <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging&quot;</span>
+
+  make_task_def
+  register_definition
+
+  <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span>aws ecs update-service --cluster <span class="nv">$cluster</span> --service <span class="nv">$service</span> --task-definition <span class="nv">$revision</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.service.taskDefinition&#39;</span><span class="k">)</span> !<span class="o">=</span> <span class="nv">$revision</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Error updating service.&quot;</span>
+    <span class="k">return</span> 1
+  <span class="k">fi</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>Now, the service will automatically be updated with the new Task Definition revision.</p>
+
+<p>Again, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a Task based on that revision.</p>
+
+<p>Finally, ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
+
+<hr>
+
+<p>Well, we still need to add the remaining containers to ECS, but first let&#39;s take a look at load balancing...</p>
 
 
           
@@ -583,6 +1247,8 @@
             
               <a class="prev btn left-align" href="/part-five-ec2-container-registry">&laquo; EC2 Container Registry</a>
             
+            
+              <a class="next btn right-align" href="/part-five-elastic-load-balancing">Elastic Load Balancing &raquo;</a>
             
           </div>
 

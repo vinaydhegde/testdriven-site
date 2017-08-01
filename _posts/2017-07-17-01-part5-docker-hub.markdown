@@ -295,11 +295,11 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
 fi
 ```
 
-Save this as *docker_deploy.sh* within *flask-microservices-main*, and then update `after_success`:
+Save this as *docker_push.sh* within *flask-microservices-main*, and then update `after_success`:
 
 ```yaml
 after_success:
-  - bash ./docker_deploy.sh
+  - bash ./docker_push.sh
 ```
 
 We can speed up the building of new images by first pulling in the latest image from Docker Hub. Add a new script called *docker_build.sh* to the project root:
@@ -332,7 +332,7 @@ before_script:
   - bash ./docker_build.sh
 ```
 
-To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with *docker_deploy.sh*. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.
+To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with *docker_push.sh*. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.
 
 #### Architecture
 
