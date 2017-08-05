@@ -547,6 +547,26 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-ec2-container-service-staging"
+            >ECS Staging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-ec2-relational-database-service"
+            >Relational Database Service</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -558,7 +578,137 @@
 
           <h2>Elastic Load Balancing</h2>
 
-          <p>Coming Soon!</p>
+          <p>In the lesson, we&#39;ll add load balancing to ECS via Elastic Load Balancing...</p>
+
+<hr>
+
+<p>The <a href="https://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancing</a> provides two different types of load balancers - Application Load Balancers and Classic Load Balancers. We&#39;ll be using the former...</p>
+
+<p>The <a href="https://aws.amazon.com/elasticloadbalancing/applicationloadbalancer/">Application Load Balancer</a> (ALB) integrates with ECS via <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Service Load Balancing</a>, which:</p>
+
+<ol>
+<li>Dynamically maps container services to ports (as defined in the ECS Task Definition)</li>
+<li>Distributes traffic evenly across the entire ECS Service</li>
+<li>Runs status health checks against each service</li>
+<li>Allows for zero-downtime deploys</li>
+</ol>
+
+<p>Plus, when a new Task is added to the Service it will automatically be added to the ALB.</p>
+
+<h4 id="configure-alb">Configure ALB</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
+
+<p>&quot;Step 1: Configure Load Balancer&quot;:</p>
+
+<ol>
+<li>&quot;Name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Availability Zones&quot;: <code>us-east-1a</code>, <code>us-east-1b</code></li>
+</ol>
+
+<p>&quot;Step 3: Configure Security Groups&quot;:</p>
+
+<p>Select an existing security group or create a new security group, making sure at least HTTP and SSH 22 are open.</p>
+
+<p>&quot;Step 4: Configure Routing&quot;:</p>
+
+<ol>
+<li>&quot;Name&quot;: <code>sample</code></li>
+<li>&quot;Port&quot;: <code>5000</code></li>
+<li>&quot;Path&quot;: <code>/ping</code></li>
+</ol>
+
+<p>&quot;Step 5: Register Targets&quot;:</p>
+
+<p>We don&#39;t need to assign any instances manually since this will be managed by ECS.</p>
+
+<h4 id="ecs">ECS</h4>
+
+<p>So, a new <a href="https://aws.amazon.com/vpc/">VPC</a> and <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security Group</a> were created with the ALB. We need to associate them with a new Cluster. Otherwise, we will get an error (<code>The following targets are not in the target group VPC</code>) when we spin up new Tasks and ECS tries to register them with the ALB.</p>
+
+<h5 id="cluster">Cluster</h5>
+
+<p>Navigate back to ECS and delete the <code>flask-microservices-staging</code> cluster, and then create a new one:</p>
+
+<ol>
+<li>&quot;Cluster name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.medium</code></li>
+<li>&quot;Number of instances&quot;: <code>2</code></li>
+<li>&quot;Key pair&quot;: <code>ecs</code></li>
+</ol>
+
+<p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
+
+<h5 id="task-definition">Task Definition</h5>
+
+<p>Create a new revision of <code>testdriven-staging</code> Task Definition, changing the host port of the <code>users-service</code> to 0. This port will be dynamically assigned when the Task is spun up.</p>
+
+<h5 id="service">Service</h5>
+
+<p>Create a new Service:</p>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>test-driven-staging:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Number of tasks&quot;: <code>2</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Select a Container&quot;: <code>users-service:0:5000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>sample</code></li>
+</ol>
+
+<p>Click &quot;Configure Service Auto scaling&quot;, and then select &quot;Configure Service Auto Scaling to adjust your service’s desired count&quot;.</p>
+
+<ol>
+<li>&quot;Minimum number of tasks&quot;: <code>1</code></li>
+<li>&quot;Desired number of tasks&quot;: <code>1</code></li>
+<li>&quot;Maximum number of tasks&quot;: <code>2</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h4 id="sanity-check">Sanity Check</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. With the <code>sample</code> group selected, click the &quot;Targets&quot; tab. You should see a single registered instance. It should be healthy.</p>
+
+<p>Then, navigate back to the Load Balance and grab the &quot;DNS name&quot; from the &quot;Description&quot; tab. Test this in your browser:</p>
+
+<ol>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/ping">http://LOAD_BALANCER_DNS_NAME/ping</a></li>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a></li>
+</ol>
+
+<h4 id="update-task-definition">Update Task Definition</h4>
+
+<p>Next, within <em>ecs_taskdefinition.json</em>, update the <code>hostPort</code> for the <code>users-service</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;hostPort&quot;</span><span class="err">:</span> <span class="mi">0</span><span class="err">,</span>
+</code></pre></div>
+<p>Assuming you are still using the <code>ecs</code> feature branch, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a new Task based on that revision.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. With the <code>sample</code> group selected, click the &quot;Targets&quot; tab. You should now see two registered instances. Both should be healthy. If you navigate back to ECS Service and click the &quot;Events&quot; tab, you should see an event for <code>draining connections</code>, indicating that one Task is being spun down. This should take about five minutes. Once done, you should see a new event - <code>stopped 1 running tasks</code>. Essentially, we scaled up temporarily to two Tasks, and then, since we set the desired number of Tasks to 1, the old Task was spun down.</p>
+
+<p>Test this in your browser:</p>
+
+<ol>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/ping">http://LOAD_BALANCER_DNS_NAME/ping</a></li>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a></li>
+</ol>
+
+<h4 id="test-load-balancing">Test Load Balancing</h4>
+
+<p>What happens if an instance goes does?</p>
+
+<p>Within the &quot;Tasks&quot; tab on the Service, click the currently running Task and then on the Task page click the &quot;Stop&quot; button. On the &quot;Events&quot; tab you should see an event for a Task being drained as well as an event for a new Task starting. Perfect.</p>
 
 
           
@@ -571,6 +721,8 @@
             
               <a class="prev btn left-align" href="/part-five-ec2-container-service">&laquo; EC2 Container Service</a>
             
+            
+              <a class="next btn right-align" href="/part-five-ec2-container-service-staging">ECS Staging &raquo;</a>
             
           </div>
 
@@ -580,7 +732,137 @@
 
           <h2>Elastic Load Balancing</h2>
 
-          <p>Coming Soon!</p>
+          <p>In the lesson, we&#39;ll add load balancing to ECS via Elastic Load Balancing...</p>
+
+<hr>
+
+<p>The <a href="https://aws.amazon.com/elasticloadbalancing/">Elastic Load Balancing</a> provides two different types of load balancers - Application Load Balancers and Classic Load Balancers. We&#39;ll be using the former...</p>
+
+<p>The <a href="https://aws.amazon.com/elasticloadbalancing/applicationloadbalancer/">Application Load Balancer</a> (ALB) integrates with ECS via <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Service Load Balancing</a>, which:</p>
+
+<ol>
+<li>Dynamically maps container services to ports (as defined in the ECS Task Definition)</li>
+<li>Distributes traffic evenly across the entire ECS Service</li>
+<li>Runs status health checks against each service</li>
+<li>Allows for zero-downtime deploys</li>
+</ol>
+
+<p>Plus, when a new Task is added to the Service it will automatically be added to the ALB.</p>
+
+<h4 id="configure-alb">Configure ALB</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
+
+<p>&quot;Step 1: Configure Load Balancer&quot;:</p>
+
+<ol>
+<li>&quot;Name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Availability Zones&quot;: <code>us-east-1a</code>, <code>us-east-1b</code></li>
+</ol>
+
+<p>&quot;Step 3: Configure Security Groups&quot;:</p>
+
+<p>Select an existing security group or create a new security group, making sure at least HTTP and SSH 22 are open.</p>
+
+<p>&quot;Step 4: Configure Routing&quot;:</p>
+
+<ol>
+<li>&quot;Name&quot;: <code>sample</code></li>
+<li>&quot;Port&quot;: <code>5000</code></li>
+<li>&quot;Path&quot;: <code>/ping</code></li>
+</ol>
+
+<p>&quot;Step 5: Register Targets&quot;:</p>
+
+<p>We don&#39;t need to assign any instances manually since this will be managed by ECS.</p>
+
+<h4 id="ecs">ECS</h4>
+
+<p>So, a new <a href="https://aws.amazon.com/vpc/">VPC</a> and <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security Group</a> were created with the ALB. We need to associate them with a new Cluster. Otherwise, we will get an error (<code>The following targets are not in the target group VPC</code>) when we spin up new Tasks and ECS tries to register them with the ALB.</p>
+
+<h5 id="cluster">Cluster</h5>
+
+<p>Navigate back to ECS and delete the <code>flask-microservices-staging</code> cluster, and then create a new one:</p>
+
+<ol>
+<li>&quot;Cluster name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.medium</code></li>
+<li>&quot;Number of instances&quot;: <code>2</code></li>
+<li>&quot;Key pair&quot;: <code>ecs</code></li>
+</ol>
+
+<p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
+
+<h5 id="task-definition">Task Definition</h5>
+
+<p>Create a new revision of <code>testdriven-staging</code> Task Definition, changing the host port of the <code>users-service</code> to 0. This port will be dynamically assigned when the Task is spun up.</p>
+
+<h5 id="service">Service</h5>
+
+<p>Create a new Service:</p>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>test-driven-staging:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Number of tasks&quot;: <code>2</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Select a Container&quot;: <code>users-service:0:5000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>sample</code></li>
+</ol>
+
+<p>Click &quot;Configure Service Auto scaling&quot;, and then select &quot;Configure Service Auto Scaling to adjust your service’s desired count&quot;.</p>
+
+<ol>
+<li>&quot;Minimum number of tasks&quot;: <code>1</code></li>
+<li>&quot;Desired number of tasks&quot;: <code>1</code></li>
+<li>&quot;Maximum number of tasks&quot;: <code>2</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h4 id="sanity-check">Sanity Check</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. With the <code>sample</code> group selected, click the &quot;Targets&quot; tab. You should see a single registered instance. It should be healthy.</p>
+
+<p>Then, navigate back to the Load Balance and grab the &quot;DNS name&quot; from the &quot;Description&quot; tab. Test this in your browser:</p>
+
+<ol>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/ping">http://LOAD_BALANCER_DNS_NAME/ping</a></li>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a></li>
+</ol>
+
+<h4 id="update-task-definition">Update Task Definition</h4>
+
+<p>Next, within <em>ecs_taskdefinition.json</em>, update the <code>hostPort</code> for the <code>users-service</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;hostPort&quot;</span><span class="err">:</span> <span class="mi">0</span><span class="err">,</span>
+</code></pre></div>
+<p>Assuming you are still using the <code>ecs</code> feature branch, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a new Task based on that revision.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. With the <code>sample</code> group selected, click the &quot;Targets&quot; tab. You should now see two registered instances. Both should be healthy. If you navigate back to ECS Service and click the &quot;Events&quot; tab, you should see an event for <code>draining connections</code>, indicating that one Task is being spun down. This should take about five minutes. Once done, you should see a new event - <code>stopped 1 running tasks</code>. Essentially, we scaled up temporarily to two Tasks, and then, since we set the desired number of Tasks to 1, the old Task was spun down.</p>
+
+<p>Test this in your browser:</p>
+
+<ol>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/ping">http://LOAD_BALANCER_DNS_NAME/ping</a></li>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a></li>
+</ol>
+
+<h4 id="test-load-balancing">Test Load Balancing</h4>
+
+<p>What happens if an instance goes does?</p>
+
+<p>Within the &quot;Tasks&quot; tab on the Service, click the currently running Task and then on the Task page click the &quot;Stop&quot; button. On the &quot;Events&quot; tab you should see an event for a Task being drained as well as an event for a new Task starting. Perfect.</p>
 
 
           
@@ -593,6 +875,8 @@
             
               <a class="prev btn left-align" href="/part-five-ec2-container-service">&laquo; EC2 Container Service</a>
             
+            
+              <a class="next btn right-align" href="/part-five-ec2-container-service-staging">ECS Staging &raquo;</a>
             
           </div>
 

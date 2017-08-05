@@ -25,6 +25,12 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Repositorie
 1. *flask-microservices-swagger*
 1. *flask-microservices-nginx*
 
+> You can also create a new repository with the [AWS CLI](http://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_AWSCLI.html#AWSCLI_create_repository):
+>
+```sh
+$ aws ecr create-repository --repository-name REPOSITORY_NAME
+```
+
 #### Update Travis
 
 Update *docker_build.sh* to only pull images from Docker Hub if the branch is `development`:
