@@ -692,6 +692,10 @@
 
 <h4 id="login">Login</h4>
 
+<blockquote>
+<p>Try writing the next few tests on your own!</p>
+</blockquote>
+
 <p>Add a new file called <em>login.test.js</em> to the &quot;e2e&quot; directory:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
 
@@ -954,13 +958,17 @@
 </code></pre></div>
 <p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is reset to its initial value of false.</p>
 
-<p>To fix this, we can set the state of <code>isAuthenticated</code> to <code>true</code> if there is a token in LocalStorage by adding the following Lifecycle Method to the <code>App</code> component:</p>
+<p>To fix this, we can set the state of <code>isAuthenticated</code> to <code>true</code> if there is a token in LocalStorage by adding the following <a href="https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle">Lifecycle Method</a> to the <code>App</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<blockquote>
+<p>What would happen at this point if an unauthorized user simply added an object to LocalStorage with a key of <code>authToken</code> and a dummy value? What would be displayed? Would they have access to any sensitive data for the server-side? Why or why not?</p>
+</blockquote>
+
 <p>Update the containers, and then run the tests again to ensure they pass:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ testcafe chrome e2e
 Running tests in:
@@ -990,7 +998,7 @@ should display user info if user is logged in
 
 <hr>
 
-<p>Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-ends tests since they are so expensive. Now is a great time to refactor! Do this on your own.</p>
+<p>Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-end tests since they are so expensive. Now is a great time to refactor! Do this on your own.</p>
 
 <p>Commit your code once done.</p>
 
@@ -1130,6 +1138,10 @@ should display user info if user is logged in
 
 <h4 id="login">Login</h4>
 
+<blockquote>
+<p>Try writing the next few tests on your own!</p>
+</blockquote>
+
 <p>Add a new file called <em>login.test.js</em> to the &quot;e2e&quot; directory:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
 
@@ -1392,13 +1404,17 @@ should display user info if user is logged in
 </code></pre></div>
 <p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is reset to its initial value of false.</p>
 
-<p>To fix this, we can set the state of <code>isAuthenticated</code> to <code>true</code> if there is a token in LocalStorage by adding the following Lifecycle Method to the <code>App</code> component:</p>
+<p>To fix this, we can set the state of <code>isAuthenticated</code> to <code>true</code> if there is a token in LocalStorage by adding the following <a href="https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle">Lifecycle Method</a> to the <code>App</code> component:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentWillMount</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;authToken&#39;</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<blockquote>
+<p>What would happen at this point if an unauthorized user simply added an object to LocalStorage with a key of <code>authToken</code> and a dummy value? What would be displayed? Would they have access to any sensitive data for the server-side? Why or why not?</p>
+</blockquote>
+
 <p>Update the containers, and then run the tests again to ensure they pass:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ testcafe chrome e2e
 Running tests in:
@@ -1428,7 +1444,7 @@ should display user info if user is logged in
 
 <hr>
 
-<p>Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-ends tests since they are so expensive. Now is a great time to refactor! Do this on your own.</p>
+<p>Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-end tests since they are so expensive. Now is a great time to refactor! Do this on your own.</p>
 
 <p>Commit your code once done.</p>
 

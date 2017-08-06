@@ -51,7 +51,7 @@ $ docker-compose up -d --build
 
 Once up, ensure you can see the sample API docs ([Swagger Petstore](http://petstore.swagger.io/)) in your browser at [http://DOCKER_MACHINE_DEV_IP:8080/](http://DOCKER_MACHINE_DEV_IP:8080/).
 
-Now, we simply need to provide our own custom [spec file](https://swagger.io/specification/). We could add additional logic to the Flask app, to automatically generate the the spec from the route handlers, but this is quite a bit of work. For now, let's just create this file by hand, based on the following routes:
+Now, we simply need to provide our own custom [spec file](https://swagger.io/specification/). We could add additional logic to the Flask app, to automatically generate the spec from the route handlers, but this is quite a bit of work. For now, let's just create this file by hand, based on the following routes:
 
 | Endpoint        | HTTP Method | Authenticated?  | Active?   | Admin? |
 |-----------------|-------------|-----------------|-----------|--------|

@@ -1,14 +1,11 @@
 # Todo
 
-1. Update auth - look to localStorage
-1. Finish part 4
-1. Merge 3b into master
-1. Add youtube embed
-1. Refactor React Form Validation
+1. Finish part 5
+1. Add banner to mherman.org (addthis?)
+1. Add some lesson numbers - 4.1, 4.2, etc.
 1. Paywall
-1. Add CI/CD - open pr, test, merge, test, deploy
+1. Add CI/CD - open pr, test, merge, test, deploy (for jekyll)
 1. Add microservices intro to part 1
-1. Add banner to mherman.org
 1. Autotweet when updates are made?
 1. Tech debt:
   - "In the test util file: "def add_user(username, email, created_at=datetime.datetime.now()):" - this is arguably more correct usage, but might even want to mock out time (otherwise the test success technically depends on when it was run)"
@@ -39,3 +36,6 @@
 1. Outline part 4
 1. Update readmes for each project
 1. Splash page with mailchimp
+1. Finish part 4
+1. Merge 3b into master
+1. Refactor React Form Validation

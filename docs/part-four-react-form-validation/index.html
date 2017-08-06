@@ -608,7 +608,7 @@
   <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
   <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
   <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
-  <span class="nx">disabled</span>
+  <span class="nx">disabled</span><span class="o">=</span><span class="kc">true</span>
 <span class="o">/&gt;</span>
 </code></pre></div>
 <p>Re-build and run again. Those specific tests will pass, but a number of new ones will fail since the form can no longer be submitted. To update that, let&#39;s validate the form on submit.</p>
@@ -648,7 +648,7 @@
 </code></pre></div>
 <p>Re-build. Run the tests.</p>
 
-<p>We still need to add validation logic to <code>validateForm()</code>, but before that we need to defined the rules...</p>
+<p>We still need to add validation logic to <code>validateForm()</code>, but before that we need to define the rules...</p>
 
 <h4 id="validation-rules">Validation rules</h4>
 
@@ -663,7 +663,7 @@
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
-      <span class="s1">&#39;Email must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+      <span class="s1">&#39;Email must be greater than 5 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
 <span class="p">});</span>
 </code></pre></div>
 <p>Update <em>should display the registration form</em></p>
@@ -695,7 +695,7 @@
     <span class="p">{</span>
       <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
       <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
-      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Email must be greater than 10 characters.&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Email must be greater than 5 characters.&#39;</span><span class="p">,</span>
       <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
     <span class="p">},</span>
     <span class="p">{</span>
@@ -914,14 +914,14 @@
     <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="p">}</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">validateEmail</span><span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">))</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">formRules</span><span class="o">:</span> <span class="nx">rules</span><span class="p">})</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">allTrue</span><span class="p">())</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Add:</p>
+<p>Add the following <a href="https://stackoverflow.com/a/46181/1799408">regular expression</a> to validate the email address:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateEmail</span><span class="p">(</span><span class="nx">email</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// eslint-disable-next-line</span>
   <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="sr">/^(([^&lt;&gt;()\[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()\[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/</span><span class="p">;</span>
@@ -982,7 +982,7 @@
   <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
   <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
   <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
-  <span class="nx">disabled</span>
+  <span class="nx">disabled</span><span class="o">=</span><span class="kc">true</span>
 <span class="o">/&gt;</span>
 </code></pre></div>
 <p>Re-build and run again. Those specific tests will pass, but a number of new ones will fail since the form can no longer be submitted. To update that, let&#39;s validate the form on submit.</p>
@@ -1022,7 +1022,7 @@
 </code></pre></div>
 <p>Re-build. Run the tests.</p>
 
-<p>We still need to add validation logic to <code>validateForm()</code>, but before that we need to defined the rules...</p>
+<p>We still need to add validation logic to <code>validateForm()</code>, but before that we need to define the rules...</p>
 
 <h4 id="validation-rules">Validation rules</h4>
 
@@ -1037,7 +1037,7 @@
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[disabled]&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.validation-list &gt; .error&#39;</span><span class="p">).</span><span class="nx">nth</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span>
-      <span class="s1">&#39;Email must be greater than 10 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+      <span class="s1">&#39;Email must be greater than 5 characters.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
 <span class="p">});</span>
 </code></pre></div>
 <p>Update <em>should display the registration form</em></p>
@@ -1069,7 +1069,7 @@
     <span class="p">{</span>
       <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
       <span class="nx">field</span><span class="o">:</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
-      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Email must be greater than 10 characters.&#39;</span><span class="p">,</span>
+      <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Email must be greater than 5 characters.&#39;</span><span class="p">,</span>
       <span class="nx">valid</span><span class="o">:</span> <span class="kc">false</span>
     <span class="p">},</span>
     <span class="p">{</span>
@@ -1288,14 +1288,14 @@
     <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">username</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="p">}</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">formType</span> <span class="o">===</span> <span class="s1">&#39;login&#39;</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">validateEmail</span><span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">email</span><span class="p">))</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">formData</span><span class="p">.</span><span class="nx">password</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="nx">rules</span><span class="p">[</span><span class="mi">3</span><span class="p">].</span><span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">formRules</span><span class="o">:</span> <span class="nx">rules</span><span class="p">})</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">allTrue</span><span class="p">())</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="nx">valid</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Add:</p>
+<p>Add the following <a href="https://stackoverflow.com/a/46181/1799408">regular expression</a> to validate the email address:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">validateEmail</span><span class="p">(</span><span class="nx">email</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// eslint-disable-next-line</span>
   <span class="kd">var</span> <span class="nx">re</span> <span class="o">=</span> <span class="sr">/^(([^&lt;&gt;()\[\]\\.,;:\s@&quot;]+(\.[^&lt;&gt;()\[\]\\.,;:\s@&quot;]+)*)|(&quot;.+&quot;))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/</span><span class="p">;</span>

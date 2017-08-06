@@ -578,7 +578,7 @@
 
           <h2>React Flash Messaging</h2>
 
-          <p>Let&#39;s add flash Messaging to send quick alerts to the user...</p>
+          <p>Let&#39;s add flash messaging to send quick alerts to the end user...</p>
 
 <hr>
 
@@ -847,13 +847,17 @@
 </code></pre></div>
 <p>Update the containers, and then test.</p>
 
+<blockquote>
+<p><code>User does not exist</code> isn&#39;t really accurate if it was just an incorrect password; <code>Login failed</code> is probably a better generic error message. Check your understanding and update this on your own.</p>
+</blockquote>
+
 <h4 id="delete-message">Delete Message</h4>
 
 <p>Next, the message should disappear when any of these occur-</p>
 
 <ol>
 <li>An end user clicks the <code>x</code>, on the right side of the message</li>
-<li>A new message message is flashed</li>
+<li>A new message is flashed</li>
 <li>Three seconds passes</li>
 </ol>
 
@@ -973,7 +977,13 @@
   <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Run the tests again. Did you notice that the next set of expects passed - <code>assert flash message is removed when a new message is flashed</code>? To get the last set to pass, add a <code>setTimeout</code> to <code>createMessage()</code>:</p>
+<p>Run the tests again.</p>
+
+<blockquote>
+<p>Is there any way to mock the wait time so that the test doesn&#39;t <em>actually</em> take an extra four seconds to run?</p>
+</blockquote>
+
+<p>Did you notice that the next set of expects passed - <code>assert flash message is removed when a new message is flashed</code>? To get the last set to pass, add a <code>setTimeout</code> to <code>createMessage()</code>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">createMessage</span><span class="p">(</span><span class="nx">name</span><span class="o">=</span><span class="s1">&#39;Sanity Check&#39;</span><span class="p">,</span> <span class="nx">type</span><span class="o">=</span><span class="s1">&#39;success&#39;</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
     <span class="nx">messageName</span><span class="o">:</span> <span class="nx">name</span><span class="p">,</span>
@@ -1008,7 +1018,7 @@
 
           <h2>React Flash Messaging</h2>
 
-          <p>Let&#39;s add flash Messaging to send quick alerts to the user...</p>
+          <p>Let&#39;s add flash messaging to send quick alerts to the end user...</p>
 
 <hr>
 
@@ -1277,13 +1287,17 @@
 </code></pre></div>
 <p>Update the containers, and then test.</p>
 
+<blockquote>
+<p><code>User does not exist</code> isn&#39;t really accurate if it was just an incorrect password; <code>Login failed</code> is probably a better generic error message. Check your understanding and update this on your own.</p>
+</blockquote>
+
 <h4 id="delete-message">Delete Message</h4>
 
 <p>Next, the message should disappear when any of these occur-</p>
 
 <ol>
 <li>An end user clicks the <code>x</code>, on the right side of the message</li>
-<li>A new message message is flashed</li>
+<li>A new message is flashed</li>
 <li>Three seconds passes</li>
 </ol>
 
@@ -1403,7 +1417,13 @@
   <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Run the tests again. Did you notice that the next set of expects passed - <code>assert flash message is removed when a new message is flashed</code>? To get the last set to pass, add a <code>setTimeout</code> to <code>createMessage()</code>:</p>
+<p>Run the tests again.</p>
+
+<blockquote>
+<p>Is there any way to mock the wait time so that the test doesn&#39;t <em>actually</em> take an extra four seconds to run?</p>
+</blockquote>
+
+<p>Did you notice that the next set of expects passed - <code>assert flash message is removed when a new message is flashed</code>? To get the last set to pass, add a <code>setTimeout</code> to <code>createMessage()</code>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">createMessage</span><span class="p">(</span><span class="nx">name</span><span class="o">=</span><span class="s1">&#39;Sanity Check&#39;</span><span class="p">,</span> <span class="nx">type</span><span class="o">=</span><span class="s1">&#39;success&#39;</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
     <span class="nx">messageName</span><span class="o">:</span> <span class="nx">name</span><span class="p">,</span>

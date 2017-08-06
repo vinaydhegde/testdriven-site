@@ -120,6 +120,8 @@ Since we're not handling errors yet, let's hold off on these two test cases:
 
 #### Login
 
+> Try writing the next few tests on your own!
+
 Add a new file called *login.test.js* to the "e2e" directory:
 
 ```javascript
@@ -412,7 +414,7 @@ $ export TEST_URL=DOCKER_MACHINE_DEV_IP
 
 Run the tests. You should see *should display user info if user is logged in* fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the `/status` link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, `isAuthenticated` is reset to its initial value of false.
 
-To fix this, we can set the state of `isAuthenticated` to `true` if there is a token in LocalStorage by adding the following Lifecycle Method to the `App` component:
+To fix this, we can set the state of `isAuthenticated` to `true` if there is a token in LocalStorage by adding the following [Lifecycle Method](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle) to the `App` component:
 
 ```javascript
 componentWillMount() {
@@ -421,6 +423,8 @@ componentWillMount() {
   }
 }
 ```
+
+> What would happen at this point if an unauthorized user simply added an object to LocalStorage with a key of `authToken` and a dummy value? What would be displayed? Would they have access to any sensitive data for the server-side? Why or why not?
 
 Update the containers, and then run the tests again to ensure they pass:
 
@@ -452,6 +456,6 @@ should display user info if user is logged in
 
 ---
 
-Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-ends tests since they are so expensive. Now is a great time to refactor! Do this on your own.
+Keep in mind that these tests are nowhere near being DRY. Plus, multiple tests are testing the same thing. Although this is fine on the first go around, you generally want to avoid this, especially with end-to-end tests since they are so expensive. Now is a great time to refactor! Do this on your own.
 
 Commit your code once done.

@@ -6,7 +6,7 @@ permalink: part-four-react-flash-messages
 share: true
 ---
 
-Let's add flash Messaging to send quick alerts to the user...
+Let's add flash messaging to send quick alerts to the end user...
 
 ---
 
@@ -306,12 +306,14 @@ handleUserFormSubmit(event) {
 
 Update the containers, and then test.
 
+> `User does not exist` isn't really accurate if it was just an incorrect password; `Login failed` is probably a better generic error message. Check your understanding and update this on your own.
+
 #### Delete Message
 
 Next, the message should disappear when any of these occur-
 
 1. An end user clicks the `x`, on the right side of the message
-1. A new message message is flashed
+1. A new message is flashed
 1. Three seconds passes
 
 Create a new test file called *message.test.js*:
@@ -442,7 +444,11 @@ const Message = (props) => {
 }
 ```
 
-Run the tests again. Did you notice that the next set of expects passed - `assert flash message is removed when a new message is flashed`? To get the last set to pass, add a `setTimeout` to `createMessage()`:
+Run the tests again.
+
+> Is there any way to mock the wait time so that the test doesn't *actually* take an extra four seconds to run?
+
+Did you notice that the next set of expects passed - `assert flash message is removed when a new message is flashed`? To get the last set to pass, add a `setTimeout` to `createMessage()`:
 
 
 ```javascript

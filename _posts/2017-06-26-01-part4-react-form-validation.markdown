@@ -40,7 +40,7 @@ Re-build and then run the tests. Ensure they fail, and then update the `input` b
   type="submit"
   className="btn btn-primary btn-lg btn-block"
   value="Submit"
-  disabled
+  disabled=true
 />
 ```
 
@@ -93,7 +93,7 @@ handleFormChange(event) {
 
 Re-build. Run the tests.
 
-We still need to add validation logic to `validateForm()`, but before that we need to defined the rules...
+We still need to add validation logic to `validateForm()`, but before that we need to define the rules...
 
 #### Validation rules
 
@@ -110,7 +110,7 @@ test(`should display the sign in form`, async (t) => {
     .expect(Selector('input[disabled]').exists).ok()
     .expect(Selector('.validation-list').exists).ok()
     .expect(Selector('.validation-list > .error').nth(0).withText(
-      'Email must be greater than 10 characters.').exists).ok()
+      'Email must be greater than 5 characters.').exists).ok()
 });
 ```
 
@@ -148,7 +148,7 @@ this.state = {
     {
       id: 2,
       field: 'email',
-      name: 'Email must be greater than 10 characters.',
+      name: 'Email must be greater than 5 characters.',
       valid: false
     },
     {
@@ -406,7 +406,7 @@ validateForm() {
     if (formData.username.length > 5) rules[0].valid = true;
   }
   if (formType === 'login') rules[0].valid = true;
-  if (formData.email.length > 10) rules[1].valid = true;
+  if (formData.email.length > 5) rules[1].valid = true;
   if (this.validateEmail(formData.email)) rules[2].valid = true;
   if (formData.password.length > 10) rules[3].valid = true;
   this.setState({formRules: rules})
@@ -414,7 +414,7 @@ validateForm() {
 }
 ```
 
-Add:
+Add the following [regular expression](https://stackoverflow.com/a/46181/1799408) to validate the email address:
 
 ```javascript
 validateEmail(email) {
