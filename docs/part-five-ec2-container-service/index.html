@@ -618,7 +618,7 @@
 <li>&quot;Links&quot;: <code>users-db</code></li>
 </ol>
 
-<h5 id="container-2-flask-microservices-users-db">Container 2: <em>flask-microservices-users-db</em></h5>
+<h5 id="container-2-flask-microservices-users_db">Container 2: <em>flask-microservices-users_db</em></h5>
 
 <ol>
 <li>&quot;Container name&quot;: <code>users-db</code></li>
@@ -674,7 +674,7 @@
 <p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
 </blockquote>
 
-<p>Next, grab the Container ID for the <em>flask-microservices-users</em>, enter the Shell within the running container, and then update the database:</p>
+<p>Next, grab the Container ID for the <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
 <span class="c"># python manage.py recreate_db</span>
 <span class="c"># python manage.py seed_db</span>
@@ -815,7 +815,7 @@
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_push.sh</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
 </code></pre></div>
-<p>Then, update the <code>SECRET_KEY</code> environment variables for <code>staging</code> in <em>docker_push.sh</em>, to match the Task Definition:</p>
+<p>Then, update the <code>SECRET_KEY</code> environment variable for <code>staging</code> in <em>docker_push.sh</em>, to match the Task Definition:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
 <span class="k">then</span>
   <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
@@ -900,7 +900,71 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Again, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a Task based on that revision.</p>
 
-<p>Finally, ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
+<p>Ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
+
+<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+
+<p>Test out each of the endpoints:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
+
+<p><br></p>
 
 <hr>
 
@@ -968,7 +1032,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 <li>&quot;Links&quot;: <code>users-db</code></li>
 </ol>
 
-<h5 id="container-2-flask-microservices-users-db">Container 2: <em>flask-microservices-users-db</em></h5>
+<h5 id="container-2-flask-microservices-users_db">Container 2: <em>flask-microservices-users_db</em></h5>
 
 <ol>
 <li>&quot;Container name&quot;: <code>users-db</code></li>
@@ -1024,7 +1088,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 <p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
 </blockquote>
 
-<p>Next, grab the Container ID for the <em>flask-microservices-users</em>, enter the Shell within the running container, and then update the database:</p>
+<p>Next, grab the Container ID for the <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
 <span class="c"># python manage.py recreate_db</span>
 <span class="c"># python manage.py seed_db</span>
@@ -1165,7 +1229,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_push.sh</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
 </code></pre></div>
-<p>Then, update the <code>SECRET_KEY</code> environment variables for <code>staging</code> in <em>docker_push.sh</em>, to match the Task Definition:</p>
+<p>Then, update the <code>SECRET_KEY</code> environment variable for <code>staging</code> in <em>docker_push.sh</em>, to match the Task Definition:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
 <span class="k">then</span>
   <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
@@ -1250,7 +1314,71 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Again, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a Task based on that revision.</p>
 
-<p>Finally, ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
+<p>Ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
+
+<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+
+<p>Test out each of the endpoints:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
+
+<p><br></p>
 
 <hr>
 

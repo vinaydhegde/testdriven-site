@@ -39,7 +39,7 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Task Defini
     - `SECRET_KEY` - `my_precious`
 1. "Links": `users-db`
 
-##### Container 2: *flask-microservices-users-db*
+##### Container 2: *flask-microservices-users_db*
 
 1. "Container name": `users-db`
 1. "Image": `046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging`
@@ -90,7 +90,7 @@ $ ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
 
 > You may need to update the permissions on the Pem file - i.e., `chmod 400 ~/.ssh/ecs.pem`.
 
-Next, grab the Container ID for the *flask-microservices-users*, enter the Shell within the running container, and then update the database:
+Next, grab the Container ID for the *flask-microservices-users*, enter the shell within the running container, and then update the database:
 
 ```sh
 $ docker exec -it Container_ID bash
@@ -243,7 +243,7 @@ after_success:
   - bash ./docker_deploy.sh
 ```
 
-Then, update the `SECRET_KEY` environment variables for `staging` in *docker_push.sh*, to match the Task Definition:
+Then, update the `SECRET_KEY` environment variable for `staging` in *docker_push.sh*, to match the Task Definition:
 
 ```sh
 if [ "$TRAVIS_BRANCH" == "staging" ]
@@ -340,7 +340,24 @@ Now, the service will automatically be updated with the new Task Definition revi
 
 Again, commit and push your code to GitHub. Open a PR against the `staging` branch, and then merge the PR once the Travis build passes. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a Task based on that revision.
 
-Finally, ensure [http://EC2_PUBLIC_IP/users](http://EC2_PUBLIC_IP/users) works as expected.
+Ensure [http://EC2_PUBLIC_IP/users](http://EC2_PUBLIC_IP/users) works as expected.
+
+#### Sanity Check (take 2)
+
+Test out each of the endpoints:
+
+| Endpoint        | HTTP Method | Authenticated?  | Result            |
+|-----------------|-------------|-----------------|-------------------|
+| /auth/register  | POST        | No              | register user     |
+| /auth/login     | POST        | No              | log in user       |
+| /auth/logout    | GET         | Yes             | log out user      |
+| /auth/status    | GET         | Yes             | check user status |
+| /users          | GET         | No              | get all users     |
+| /users/:id      | GET         | No              | get single user   |
+| /users          | POST        | Yes (admin)     | add a user        |
+| /ping           | GET         | No              | sanity check      |
+
+<br>
 
 ---
 

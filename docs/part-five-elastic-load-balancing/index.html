@@ -608,7 +608,9 @@
 
 <p>&quot;Step 3: Configure Security Groups&quot;:</p>
 
-<p>Select an existing security group or create a new security group, making sure at least HTTP and SSH 22 are open.</p>
+<ol>
+<li>Select an existing security group or create a new security group, making sure at least HTTP 80 and SSH 22 are open.</li>
+</ol>
 
 <p>&quot;Step 4: Configure Routing&quot;:</p>
 
@@ -620,11 +622,13 @@
 
 <p>&quot;Step 5: Register Targets&quot;:</p>
 
-<p>We don&#39;t need to assign any instances manually since this will be managed by ECS.</p>
+<ol>
+<li>We don&#39;t need to assign any instances manually since this will be managed by ECS.</li>
+</ol>
 
 <h4 id="ecs">ECS</h4>
 
-<p>So, a new <a href="https://aws.amazon.com/vpc/">VPC</a> and <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security Group</a> were created with the ALB. We need to associate them with a new Cluster. Otherwise, we will get an error (<code>The following targets are not in the target group VPC</code>) when we spin up new Tasks and ECS tries to register them with the ALB.</p>
+<p>So, a new <a href="https://aws.amazon.com/vpc/">VPC</a> and <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security Group</a> were created with the ALB. We need to associate them with a new Cluster. If we use the current Cluster, we will get an error (<code>The following targets are not in the target group VPC</code>) when we spin up new Tasks and ECS tries to register them with the ALB.</p>
 
 <h5 id="cluster">Cluster</h5>
 
@@ -681,7 +685,7 @@
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. With the <code>sample</code> group selected, click the &quot;Targets&quot; tab. You should see a single registered instance. It should be healthy.</p>
 
-<p>Then, navigate back to the Load Balance and grab the &quot;DNS name&quot; from the &quot;Description&quot; tab. Test this in your browser:</p>
+<p>Then, navigate back to the Load Balancer and grab the &quot;DNS name&quot; from the &quot;Description&quot; tab. Test this in your browser:</p>
 
 <ol>
 <li><a href="http://LOAD_BALANCER_DNS_NAME/ping">http://LOAD_BALANCER_DNS_NAME/ping</a></li>
@@ -709,6 +713,68 @@
 <p>What happens if an instance goes does?</p>
 
 <p>Within the &quot;Tasks&quot; tab on the Service, click the currently running Task and then on the Task page click the &quot;Stop&quot; button. On the &quot;Events&quot; tab you should see an event for a Task being drained as well as an event for a new Task starting. Perfect.</p>
+
+<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+
+<p>Finally, test out each of the endpoints:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
 
 
           
@@ -762,7 +828,9 @@
 
 <p>&quot;Step 3: Configure Security Groups&quot;:</p>
 
-<p>Select an existing security group or create a new security group, making sure at least HTTP and SSH 22 are open.</p>
+<ol>
+<li>Select an existing security group or create a new security group, making sure at least HTTP 80 and SSH 22 are open.</li>
+</ol>
 
 <p>&quot;Step 4: Configure Routing&quot;:</p>
 
@@ -774,11 +842,13 @@
 
 <p>&quot;Step 5: Register Targets&quot;:</p>
 
-<p>We don&#39;t need to assign any instances manually since this will be managed by ECS.</p>
+<ol>
+<li>We don&#39;t need to assign any instances manually since this will be managed by ECS.</li>
+</ol>
 
 <h4 id="ecs">ECS</h4>
 
-<p>So, a new <a href="https://aws.amazon.com/vpc/">VPC</a> and <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security Group</a> were created with the ALB. We need to associate them with a new Cluster. Otherwise, we will get an error (<code>The following targets are not in the target group VPC</code>) when we spin up new Tasks and ECS tries to register them with the ALB.</p>
+<p>So, a new <a href="https://aws.amazon.com/vpc/">VPC</a> and <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security Group</a> were created with the ALB. We need to associate them with a new Cluster. If we use the current Cluster, we will get an error (<code>The following targets are not in the target group VPC</code>) when we spin up new Tasks and ECS tries to register them with the ALB.</p>
 
 <h5 id="cluster">Cluster</h5>
 
@@ -835,7 +905,7 @@
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. With the <code>sample</code> group selected, click the &quot;Targets&quot; tab. You should see a single registered instance. It should be healthy.</p>
 
-<p>Then, navigate back to the Load Balance and grab the &quot;DNS name&quot; from the &quot;Description&quot; tab. Test this in your browser:</p>
+<p>Then, navigate back to the Load Balancer and grab the &quot;DNS name&quot; from the &quot;Description&quot; tab. Test this in your browser:</p>
 
 <ol>
 <li><a href="http://LOAD_BALANCER_DNS_NAME/ping">http://LOAD_BALANCER_DNS_NAME/ping</a></li>
@@ -863,6 +933,68 @@
 <p>What happens if an instance goes does?</p>
 
 <p>Within the &quot;Tasks&quot; tab on the Service, click the currently running Task and then on the Task page click the &quot;Stop&quot; button. On the &quot;Events&quot; tab you should see an event for a Task being drained as well as an event for a new Task starting. Perfect.</p>
+
+<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+
+<p>Finally, test out each of the endpoints:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
 
 
           

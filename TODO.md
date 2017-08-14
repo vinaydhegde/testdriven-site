@@ -1,6 +1,7 @@
 # Todo
 
 1. Finish part 5
+1. Update docker cache from tavis - `--cache-from image:latest`
 1. Add banner to mherman.org (addthis?)
 1. Add some lesson numbers - 4.1, 4.2, etc.
 1. Paywall

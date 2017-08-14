@@ -6,6 +6,8 @@ permalink: part-one-workflow
 share: true
 ---
 
+Reference guide...
+
 #### Aliases
 
 To save some previous keystrokes, let's create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
