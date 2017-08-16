@@ -7,3 +7,7 @@ share: true
 ---
 
 Coming Soon!
+
+Workflow
+  - remove exited containers: docker rm -v $(docker ps -a -q -f status=exited)
+  - docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’)
