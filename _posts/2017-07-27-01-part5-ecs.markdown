@@ -29,7 +29,7 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Task Defini
 ##### Container 1: *flask-microservices-users*
 
 1. "Container name": `users-service`
-1. "Image": `046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging`
+1. "Image": `YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging`
 1. "Memory Limits (MB)": `300` soft limit
 1. "Port mappings": `80` host, `5000` container
 1. "Env Variables":
@@ -42,7 +42,7 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Task Defini
 ##### Container 2: *flask-microservices-users_db*
 
 1. "Container name": `users-db`
-1. "Image": `046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging`
+1. "Image": `YOUR_AWS_CCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging`
 1. "Memory Limits (MB)": `300` soft limit
 1. "Port mappings": `5432` container
 1. "Env Variables":
@@ -90,7 +90,7 @@ $ ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
 
 > You may need to update the permissions on the Pem file - i.e., `chmod 400 ~/.ssh/ecs.pem`.
 
-Next, grab the Container ID for the *flask-microservices-users*, enter the shell within the running container, and then update the database:
+Next, grab the Container ID for *flask-microservices-users*, enter the shell within the running container, and then update the database:
 
 ```sh
 $ docker exec -it Container_ID bash

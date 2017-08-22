@@ -65,7 +65,7 @@ Then, under "Health check settings":
 
 #### Update ALB
 
-Back on the "Load Balancers" page, click the `flask-microservices-staging-alb` Load Balancer, and then select the "Listeners" tab. Here, we can add [listeners](http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) to the ALB, which are then forwarded to a specific Target Group.
+Back on the "Load Balancers" page, click the `flask-microservices-staging-alb` Load Balancer, and then select the "Listeners" tab. Here, we can add [Listeners](http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) to the ALB, which are then forwarded to a specific Target Group.
 
 There should already be a listener for "HTTP : 80". Click the "View/edit rules >" link, and then insert three new rules:
 
@@ -100,7 +100,7 @@ Create the following Task Definitions...
 1. "Task Definition Name": `flask-microservices-client-td`
 1. Container:
   1. "Container name": `client`
-  1. "Image": `046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-client:staging`
+  1. "Image": `YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-client:staging`
   1. "Memory Limits (MB)": `300` soft limit
   1. "Port mappings": `0` host, `9000` container
   1. "Env Variables":
@@ -112,7 +112,7 @@ Create the following Task Definitions...
 1. "Task Definition Name": `flask-microservices-swagger-td`
 1. Container:
   1. "Container name": `swagger`
-  1. "Image": `046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-swagger:staging`
+  1. "Image": `YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-swagger:staging`
   1. "Memory Limits (MB)": `300` soft limit
   1. "Port mappings": `0` host, `8080` container
   1. "Env Variables":
@@ -120,7 +120,7 @@ Create the following Task Definitions...
 
 ##### *flask-microservices-users*
 
-Since the containers are already set up for this under the `testdriven-staging` Task Definion, we can just rename it. Create a new revision of `testdriven-staging` Task Definition, changing the name to `flask-microservices-users-td`. This will actually create a new Task Definion.
+Since the containers are already set up for this under the `testdriven-staging` Task Definion, we can just rename it. Create a new revision of `testdriven-staging` Task Definition, changing the name to `flask-microservices-users-td`. This will actually create a new Task Definition.
 
 #### Services
 
@@ -171,7 +171,7 @@ Click "Save" and then "Create Service".
 Click "Configure ELB".
 
 1. "ELB Name": `flask-microservices-staging-alb`
-1. "Select a Container": `users-service:0:9000`
+1. "Select a Container": `users-service:0:5000`
 
 Click "Add to ELB".
 
@@ -253,7 +253,7 @@ Next, create a new folder called "ecs" to house the Task Definition JSON files..
         },
         {
           "name": "REACT_APP_USERS_SERVICE_URL",
-          "value": "http://flask-microservices-staging-alb-1366920567.us-east-1.elb.amazonaws.com"
+          "value": "http://LOAD_BALANCER_DNS_NAME"
         }
       ],
       "logConfiguration": {

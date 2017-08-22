@@ -577,6 +577,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -614,7 +624,7 @@
 
 <ol>
 <li>&quot;Container name&quot;: <code>users-service</code></li>
-<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging</code></li>
 <li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
 <li>&quot;Port mappings&quot;: <code>80</code> host, <code>5000</code> container</li>
 <li>&quot;Env Variables&quot;:
@@ -632,7 +642,7 @@
 
 <ol>
 <li>&quot;Container name&quot;: <code>users-db</code></li>
-<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_CCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging</code></li>
 <li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
 <li>&quot;Port mappings&quot;: <code>5432</code> container</li>
 <li>&quot;Env Variables&quot;:
@@ -684,7 +694,7 @@
 <p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
 </blockquote>
 
-<p>Next, grab the Container ID for the <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
+<p>Next, grab the Container ID for <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
 <span class="c"># python manage.py recreate_db</span>
 <span class="c"># python manage.py seed_db</span>
@@ -1028,7 +1038,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <ol>
 <li>&quot;Container name&quot;: <code>users-service</code></li>
-<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging</code></li>
 <li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
 <li>&quot;Port mappings&quot;: <code>80</code> host, <code>5000</code> container</li>
 <li>&quot;Env Variables&quot;:
@@ -1046,7 +1056,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <ol>
 <li>&quot;Container name&quot;: <code>users-db</code></li>
-<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_CCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging</code></li>
 <li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
 <li>&quot;Port mappings&quot;: <code>5432</code> container</li>
 <li>&quot;Env Variables&quot;:
@@ -1098,7 +1108,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 <p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
 </blockquote>
 
-<p>Next, grab the Container ID for the <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
+<p>Next, grab the Container ID for <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
 <span class="c"># python manage.py recreate_db</span>
 <span class="c"># python manage.py seed_db</span>

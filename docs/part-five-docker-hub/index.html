@@ -577,6 +577,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -833,28 +843,28 @@
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
 
 <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
-    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="sb">`</span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nb">echo</span> <span class="s2">&quot;latest&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="nb">echo</span> <span class="nv">$TRAVIS_BRANCH</span> <span class="p">;</span> <span class="k">fi</span><span class="sb">`</span>
-    <span class="c"># users</span>
-    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>
-    <span class="c"># users db</span>
-    docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>
-    <span class="c"># client</span>
-    docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>
-    <span class="c"># swagger</span>
-    docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>
-    <span class="c"># nginx</span>
-    docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
+  docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="sb">`</span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nb">echo</span> <span class="s2">&quot;latest&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="nb">echo</span> <span class="nv">$TRAVIS_BRANCH</span> <span class="p">;</span> <span class="k">fi</span><span class="sb">`</span>
+  <span class="c"># users</span>
+  docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>
+  <span class="c"># users db</span>
+  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>
+  <span class="c"># client</span>
+  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>
+  <span class="c"># swagger</span>
+  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>
+  <span class="c"># nginx</span>
+  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
 <span class="k">fi</span>
 </code></pre></div>
 <p>Save this as <em>docker_push.sh</em> within <em>flask-microservices-main</em>, and then update <code>after_success</code>:</p>
@@ -1211,28 +1221,28 @@ docker-compose -f docker-compose-ci.yml up -d --build
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
 
 <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
-    <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="sb">`</span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nb">echo</span> <span class="s2">&quot;latest&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="nb">echo</span> <span class="nv">$TRAVIS_BRANCH</span> <span class="p">;</span> <span class="k">fi</span><span class="sb">`</span>
-    <span class="c"># users</span>
-    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>
-    <span class="c"># users db</span>
-    docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>
-    <span class="c"># client</span>
-    docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>
-    <span class="c"># swagger</span>
-    docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>
-    <span class="c"># nginx</span>
-    docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
-    docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
-    docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
+  docker login -e <span class="nv">$DOCKER_EMAIL</span> -u <span class="nv">$DOCKER_ID</span> -p <span class="nv">$DOCKER_PASSWORD</span>
+  <span class="nb">export </span><span class="nv">TAG</span><span class="o">=</span><span class="sb">`</span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;master&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span> <span class="nb">echo</span> <span class="s2">&quot;latest&quot;</span><span class="p">;</span> <span class="k">else</span> <span class="nb">echo</span> <span class="nv">$TRAVIS_BRANCH</span> <span class="p">;</span> <span class="k">fi</span><span class="sb">`</span>
+  <span class="c"># users</span>
+  docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS</span>
+  <span class="c"># users db</span>
+  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$USERS_DB</span>
+  <span class="c"># client</span>
+  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$CLIENT</span>
+  <span class="c"># swagger</span>
+  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$SWAGGER</span>
+  <span class="c"># nginx</span>
+  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$DOCKER_ID</span>/<span class="nv">$NGINX</span>
 <span class="k">fi</span>
 </code></pre></div>
 <p>Save this as <em>docker_push.sh</em> within <em>flask-microservices-main</em>, and then update <code>after_success</code>:</p>

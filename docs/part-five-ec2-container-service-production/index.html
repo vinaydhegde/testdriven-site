@@ -577,6 +577,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -588,11 +598,671 @@
 
           <h2>ECS Production</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll set up our production Cluster on ECS...</p>
 
-<p>Workflow
-  - remove exited containers: docker rm -v $(docker ps -a -q -f status=exited)
-  - docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’)</p>
+<hr>
+
+<p>Start by reviewing the Staging Cluster. Which AWS resources do we need to set up for the Production Cluster? Think about the steps we have to take...</p>
+
+<ol>
+<li>Create an Application Load Balancer (ALB)</li>
+<li>Configure Target Groups</li>
+<li>Add Listeners to the ALB</li>
+<li>Create an ECS Cluster</li>
+<li>Create new <em>Dockerfile</em> for <em>flask-microservices-users</em></li>
+<li>Update the <em>docker_push.sh</em> file</li>
+<li>Add images to ECR</li>
+<li>Create new Swagger Spec</li>
+<li>Create Task Definitions</li>
+<li>Add new local Task Definition JSON files</li>
+<li>Create Services</li>
+<li>Sanity Check (take one)</li>
+<li>Create a Docker deploy file</li>
+<li>Update Travis file</li>
+<li>Sanity Check (take two)</li>
+</ol>
+
+<p>Let&#39;s get to it!</p>
+
+<blockquote>
+<p>This is a great time to check your understanding. There are a number of steps, but the only difference between production and staging is the RDS database. Do your best to configure everything on your own before reviewing the lesson.</p>
+</blockquote>
+
+<h4 id="create-an-alb">Create an ALB</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
+
+<p>&quot;Step 1: Configure Load Balancer&quot;:</p>
+
+<ol>
+<li>&quot;Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Availability Zones&quot;: <code>us-east-1a</code>, <code>us-east-1b</code></li>
+</ol>
+
+<p>&quot;Step 3: Configure Security Groups&quot;:</p>
+
+<ol>
+<li>Select an existing security group or create a new security group, making sure at least HTTP 80 and SSH 22 are open.</li>
+</ol>
+
+<p>&quot;Step 4: Configure Routing&quot;:</p>
+
+<ol>
+<li>&quot;Name&quot;: <code>client-prod-tg</code></li>
+<li>&quot;Port&quot;: <code>9000</code></li>
+<li>&quot;Path&quot;: <code>/</code></li>
+</ol>
+
+<p>&quot;Step 5: Register Targets&quot;:</p>
+
+<ol>
+<li>Don&#39;t assign any instances manually since this will be managed by ECS.</li>
+</ol>
+
+<h4 id="target-groups">Target Groups</h4>
+
+<p>Next, set up new Target Groups for <code>swagger</code> and <code>users-service</code>. Within <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Target Groups&quot;, and then create the following Target Groups:</p>
+
+<h5 id="target-group-1-flask-microservices-users">Target Group 1: <em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Target group name&quot;: <code>users-prod-tg</code></li>
+<li>&quot;Port&quot;: <code>5000</code></li>
+</ol>
+
+<p>Then, under &quot;Health check settings&quot;:</p>
+
+<ol>
+<li>&quot;Port&quot;: <code>/ping</code></li>
+</ol>
+
+<h5 id="target-group-2-flask-microservices-swagger">Target Group 2: <em>flask-microservices-swagger</em></h5>
+
+<ol>
+<li>&quot;Target group name&quot;: <code>swagger-prod-tg</code></li>
+<li>&quot;Port&quot;: <code>8080</code></li>
+</ol>
+
+<p>Then, under &quot;Health check settings&quot;:</p>
+
+<ol>
+<li>&quot;Port&quot;: <code>/</code></li>
+</ol>
+
+<h4 id="add-listeners-to-the-alb">Add Listeners to the ALB</h4>
+
+<p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-prod-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
+
+<p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules &gt;&quot; link, and then insert three new rules:</p>
+
+<ol>
+<li>If <code>/auth/*</code>, Then <code>users-tg</code></li>
+<li>If <code>/users</code>, Then <code>users-tg</code></li>
+<li>If <code>/users/*</code>, Then <code>users-tg</code></li>
+<li>If <code>/ping</code>, Then <code>users-tg</code></li>
+</ol>
+
+<p>Add a new listener:</p>
+
+<ol>
+<li>&quot;Protocol&quot;: <code>HTTP</code></li>
+<li>&quot;Port&quot;: <code>8080</code></li>
+<li>&quot;Default target group&quot;: <code>swagger-tg</code></li>
+</ol>
+
+<h4 id="create-an-ecs-cluster">Create an ECS Cluster</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ecs">Amazon ECS</a>, and create a new Cluster:</p>
+
+<ol>
+<li>&quot;Cluster name&quot;: <code>flask-microservices-prod-cluster</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.medium</code></li>
+<li>&quot;Number of instances&quot;: <code>6</code></li>
+<li>&quot;Key pair&quot;: <code>ecs</code></li>
+</ol>
+
+<p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
+
+<h4 id="create-new-dockerfile-for-flask-microservices-users">Create new <em>Dockerfile</em> for <em>flask-microservices-users</em></h4>
+
+<p>Next, within <em>flask-microservices-users</em>, create a new file called <em>Dockerfile-prod</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
+
+# install environment dependencies
+RUN apt-get update -yqq \
+  &amp;&amp; apt-get install -yqq --no-install-recommends \
+    netcat \
+  &amp;&amp; apt-get -q clean
+
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# add app
+ADD . /usr/src/app
+
+# run server
+CMD gunicorn -b 0.0.0.0:5000 manage:app
+</code></pre></div>
+<p>So, instead of running <em>entrypoint.sh</em>, we are now just running Gunicorn. Why? Well, first off, we will not be using a <code>users-db</code> container in production. Also, we only want to create the database and seed it once, rather than on every deploy, to persist the data.</p>
+
+<p>Commit and push your changes to GitHub.</p>
+
+<h4 id="update-the-docker_push-sh-file">Update the <em>docker_push.sh</em> file</h4>
+
+<p>Within <em>flask-microservices-main</em>, update the environment variables for <code>production</code> in <em>docker_push.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;LOAD_BALANCER_DNS_NAME&quot;</span>
+  <span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">&quot;$AWS_RDS_URI&quot;</span>
+  <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;$PRODUCTION_SECRET_KEY&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Add the <code>AWS_RDS_URI</code> and <code>PRODUCTION_SECRET_KEY</code> environment variables to the <em>flask-microservices-main</em> Travis project.</p>
+
+<p>To create a key, open the Python shell and run:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">binascii</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
+<span class="n">b</span><span class="s">&#39;958185f1b6ec1290d5aec4eb4dc77e67846ce85cdb7a212a&#39;</span>
+</code></pre></div>
+<p>Also, update the building, tagging, and pushing of images section in <em>docker_push.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="c"># users</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> -f Dockerfile-prod
+  <span class="k">else</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+  <span class="k">fi</span>
+  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  <span class="c"># users db</span>
+  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  <span class="c"># client</span>
+  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  <span class="c"># swagger</span>
+  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  <span class="c"># nginx</span>
+  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+<span class="k">fi</span>
+</code></pre></div>
+<h4 id="add-images-to-ecr">Add images to ECR</h4>
+
+<p>Assuming you are still using the <code>ecs</code> feature branch, create a new branch on GitHub called <code>production</code>. Within <em>flask-microservices-main</em>, commit and push your code to GitHub. Open a PR against the <code>production</code> branch, and then merge the PR once the Travis build passes, to trigger a new build.</p>
+
+<p>Once done, you should see that a new image image was added to each of the repositories on ECR with a tag of <code>production</code>.</p>
+
+<blockquote>
+<p>Since we&#39;re not using <em>flask-microservices-users_db</em> or <em>flask-microservices-nginx</em> in production, you may want to update the <em>docker_push.sh</em> file so they are not built, tagged, or pushed when the branch is <code>production</code>.</p>
+</blockquote>
+
+<h4 id="create-new-swagger-spec">Create new Swagger Spec</h4>
+
+<p>Next, let&#39;s add a production Swagger Spec file. Within <em>flask-microservices-swagger</em>, create a duplicate of the current Spec file, <em>swagger.json</em>, called <em>swagger-prod.json</em>. Update the <code>host</code> to the LOAD_BALANCER_DNS_NAME.</p>
+
+<p>Commit and push the changes up to GitHub.</p>
+
+<h4 id="create-task-definitions">Create Task Definitions</h4>
+
+<p>Create the following Task Definitions...</p>
+
+<h5 id="flask-microservices-client"><em>flask-microservices-client</em></h5>
+
+<ol>
+<li>&quot;Task Definition Name&quot;: <code>flask-microservices-client-prod-td</code></li>
+<li>Container:
+
+<ol>
+<li>&quot;Container name&quot;: <code>client-prod</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-client:production</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>0</code> host, <code>9000</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>NODE_ENV</code> - <code>production</code></li>
+<li><code>REACT_APP_USERS_SERVICE_URL</code> - <a href="http://LOAD_BALANCER_DNS_NAME">http://LOAD_BALANCER_DNS_NAME</a></li>
+</ul></li>
+</ol></li>
+</ol>
+
+<h5 id="flask-microservices-swagger"><em>flask-microservices-swagger</em></h5>
+
+<ol>
+<li>&quot;Task Definition Name&quot;: <code>flask-microservices-swagger-prod-td</code></li>
+<li>Container:
+
+<ol>
+<li>&quot;Container name&quot;: <code>swagger-prod</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-swagger:production</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>0</code> host, <code>8080</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>API_URL</code> - <code>https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger-prod.json</code></li>
+</ul></li>
+</ol></li>
+</ol>
+
+<h5 id="flask-microservices-users"><em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Task Definition Name&quot;: <code>flask-microservices-users-prod-td</code></li>
+<li>Container:
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-service-prod</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:production</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>0</code> host, <code>5000</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>APP_SETTINGS</code> - <code>project.config.ProductionConfig</code></li>
+<li><code>DATABASE_URL</code> - YOUR_RDS_URI</li>
+<li><code>SECRET_KEY</code> - TBD</li>
+</ul></li>
+</ol></li>
+</ol>
+
+<h4 id="add-new-local-task-definition-json-files">Add new local Task Definition JSON files</h4>
+
+<p>Next, within the &quot;ecs&quot; folder, add the Task Definition JSON files to match the Task Definitions we just added...</p>
+
+<p><em>ecs_client_prod_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;client-prod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-client:production&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">9000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;NODE_ENV&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;production&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;REACT_APP_USERS_SERVICE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://LOAD_BALANCER_DNS_NAME&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-production&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><em>ecs_swagger_prod_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;swagger-prod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-swagger:production&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">8080</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;API_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger-prod.json&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-production&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><em>ecs_users_prod_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-service-prod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users:production&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.ProductionConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;%s&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;%s&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-production&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Make sure you update <code>http://LOAD_BALANCER_DNS_NAME</code> in <em>ecs_client_prod_taskdefinition.json</em> and set up the production logs. To set up, navigate to <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, click &quot;Logs&quot;, click the &quot;Actions&quot; drop-down button, and then select &quot;Create log group&quot;. Name the group <code>flask-microservices-production</code>.</p>
+
+<h4 id="create-services">Create Services</h4>
+
+<p>Add the following Services...</p>
+
+<h5 id="flask-microservices-client"><em>flask-microservices-client</em></h5>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-client-prod-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-prod-client</code></li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>client-prod:0:9000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>client-prod-tg</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h5 id="flask-microservices-swagger"><em>flask-microservices-swagger</em></h5>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-swagger-prod-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-prod-swagger</code></li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>swagger-prod:0:8080</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>8080:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>swagger-prod-tg</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h5 id="flask-microservices-users"><em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-users-prod-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-prod-users</code></li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>users-service-prod:0:5000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>users-prod-tg</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h4 id="sanity-check-take-one">Sanity Check (take one)</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. Make sure <code>client-prod-tg</code>, <code>swagger-prod-tg</code>, and <code>users-prod-tg</code> have a single registered instance each. They should all be healthy.</p>
+
+<p>Then, navigate back to the Load Balancer and grab the &quot;DNS name&quot; from the &quot;Description&quot; tab. Test each in your browser:</p>
+
+<ol>
+<li><a href="http://LOAD_BALANCER_DNS_NAME">http://LOAD_BALANCER_DNS_NAME</a></li>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/ping">http://LOAD_BALANCER_DNS_NAME/ping</a></li>
+<li><a href="http://LOAD_BALANCER_DNS_NAME:8080">http://LOAD_BALANCER_DNS_NAME:8080</a></li>
+</ol>
+
+<p>Try the <code>/users</code> endpoint: <a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a>. You should see a 500 error since the migrations have not been ran. To do this, let&#39;s SSH into the EC2 instance associated with the <code>users-prod-tg</code> Target Group:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
+</code></pre></div>
+<blockquote>
+<p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
+</blockquote>
+
+<p>Next, grab the Container ID for <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
+<span class="c"># python manage.py recreate_db</span>
+<span class="c"># python manage.py seed_db</span>
+</code></pre></div>
+<p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
+
+<p>Now for the real sanity check - run the e2e tests!</p>
+
+<p>Within, <em>flask-microservices-main</em>, set the <code>TEST_URL</code> environment variable and then run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>LOAD_BALANCER_DNS_NAME
+<span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<p>They should pass!</p>
+
+<h4 id="create-a-docker-deploy-file">Create a Docker deploy file</h4>
+
+<p>Create a new file in <em>flask-microservices-main</em> called <em>docker_deploy_prod.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+
+    <span class="nv">JQ</span><span class="o">=</span><span class="s2">&quot;jq --raw-output --exit-status&quot;</span>
+
+    configure_aws_cli<span class="o">()</span> <span class="o">{</span>
+        aws --version
+        aws configure <span class="nb">set </span>default.region us-east-1
+        aws configure <span class="nb">set </span>default.output json
+        <span class="nb">echo</span> <span class="s2">&quot;AWS Configured!&quot;</span>
+    <span class="o">}</span>
+
+    register_definition<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="nv">revision</span><span class="o">=</span><span class="k">$(</span>aws ecs register-task-definition --cli-input-json <span class="s2">&quot;$task_def&quot;</span> --family <span class="nv">$family</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.taskDefinition.taskDefinitionArn&#39;</span><span class="k">)</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Revision: $revision&quot;</span>
+      <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Failed to register task definition&quot;</span>
+        <span class="k">return</span> 1
+      <span class="k">fi</span>
+    <span class="o">}</span>
+
+    update_service<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span>aws ecs update-service --cluster <span class="nv">$cluster</span> --service <span class="nv">$service</span> --task-definition <span class="nv">$revision</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.service.taskDefinition&#39;</span><span class="k">)</span> !<span class="o">=</span> <span class="nv">$revision</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Error updating service.&quot;</span>
+        <span class="k">return</span> 1
+      <span class="k">fi</span>
+    <span class="o">}</span>
+
+    deploy_cluster<span class="o">()</span> <span class="o">{</span>
+
+      <span class="nv">cluster</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-cluster&quot;</span>
+
+      <span class="c"># users</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-users-prod-td&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-users&quot;</span>
+      <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_users_prod_taskdefinition.json&quot;</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_RDS_URI</span> <span class="nv">$PRODUCTION_SECRET_KEY</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;$task_def&quot;</span>
+      register_definition
+      update_service
+
+      <span class="c"># client</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-client-prod-td&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-client&quot;</span>
+      <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_client_prod_taskdefinition.json&quot;</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;$task_def&quot;</span>
+      register_definition
+      update_service
+
+      <span class="c"># swagger</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-swagger-prod-td&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-swagger&quot;</span>
+      <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_swagger_prod_taskdefinition.json&quot;</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;$task_def&quot;</span>
+      register_definition
+      update_service
+
+    <span class="o">}</span>
+
+    configure_aws_cli
+    deploy_cluster
+
+  <span class="k">fi</span>
+
+<span class="k">fi</span>
+</code></pre></div>
+<p>Compare this file to <em>docker_deploy.sh</em>. What are the differences?</p>
+
+<h4 id="update-travis-file">Update Travis file</h4>
+
+<p>Update the <code>after_success</code> in <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_push.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy_prod.sh</span>
+</code></pre></div>
+<h4 id="sanity-check-take-two">Sanity Check (take two)</h4>
+
+<p>Assuming you are still using the <code>ecs</code> feature branch, commit and push your code to GitHub. Open a PR against the <code>production</code> branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the each Task Definition and the Services should now be running a new Task based on that revision.</p>
+
+<p>Test everything out again, manually and with the e2e tests!</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
 
 
           
@@ -605,6 +1275,8 @@
             
               <a class="prev btn left-align" href="/part-five-ec2-relational-database-service">&laquo; Setting up RDS</a>
             
+            
+              <a class="next btn right-align" href="/part-five-workflow">Workflow &raquo;</a>
             
           </div>
 
@@ -614,11 +1286,671 @@
 
           <h2>ECS Production</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll set up our production Cluster on ECS...</p>
 
-<p>Workflow
-  - remove exited containers: docker rm -v $(docker ps -a -q -f status=exited)
-  - docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’)</p>
+<hr>
+
+<p>Start by reviewing the Staging Cluster. Which AWS resources do we need to set up for the Production Cluster? Think about the steps we have to take...</p>
+
+<ol>
+<li>Create an Application Load Balancer (ALB)</li>
+<li>Configure Target Groups</li>
+<li>Add Listeners to the ALB</li>
+<li>Create an ECS Cluster</li>
+<li>Create new <em>Dockerfile</em> for <em>flask-microservices-users</em></li>
+<li>Update the <em>docker_push.sh</em> file</li>
+<li>Add images to ECR</li>
+<li>Create new Swagger Spec</li>
+<li>Create Task Definitions</li>
+<li>Add new local Task Definition JSON files</li>
+<li>Create Services</li>
+<li>Sanity Check (take one)</li>
+<li>Create a Docker deploy file</li>
+<li>Update Travis file</li>
+<li>Sanity Check (take two)</li>
+</ol>
+
+<p>Let&#39;s get to it!</p>
+
+<blockquote>
+<p>This is a great time to check your understanding. There are a number of steps, but the only difference between production and staging is the RDS database. Do your best to configure everything on your own before reviewing the lesson.</p>
+</blockquote>
+
+<h4 id="create-an-alb">Create an ALB</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
+
+<p>&quot;Step 1: Configure Load Balancer&quot;:</p>
+
+<ol>
+<li>&quot;Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Availability Zones&quot;: <code>us-east-1a</code>, <code>us-east-1b</code></li>
+</ol>
+
+<p>&quot;Step 3: Configure Security Groups&quot;:</p>
+
+<ol>
+<li>Select an existing security group or create a new security group, making sure at least HTTP 80 and SSH 22 are open.</li>
+</ol>
+
+<p>&quot;Step 4: Configure Routing&quot;:</p>
+
+<ol>
+<li>&quot;Name&quot;: <code>client-prod-tg</code></li>
+<li>&quot;Port&quot;: <code>9000</code></li>
+<li>&quot;Path&quot;: <code>/</code></li>
+</ol>
+
+<p>&quot;Step 5: Register Targets&quot;:</p>
+
+<ol>
+<li>Don&#39;t assign any instances manually since this will be managed by ECS.</li>
+</ol>
+
+<h4 id="target-groups">Target Groups</h4>
+
+<p>Next, set up new Target Groups for <code>swagger</code> and <code>users-service</code>. Within <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Target Groups&quot;, and then create the following Target Groups:</p>
+
+<h5 id="target-group-1-flask-microservices-users">Target Group 1: <em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Target group name&quot;: <code>users-prod-tg</code></li>
+<li>&quot;Port&quot;: <code>5000</code></li>
+</ol>
+
+<p>Then, under &quot;Health check settings&quot;:</p>
+
+<ol>
+<li>&quot;Port&quot;: <code>/ping</code></li>
+</ol>
+
+<h5 id="target-group-2-flask-microservices-swagger">Target Group 2: <em>flask-microservices-swagger</em></h5>
+
+<ol>
+<li>&quot;Target group name&quot;: <code>swagger-prod-tg</code></li>
+<li>&quot;Port&quot;: <code>8080</code></li>
+</ol>
+
+<p>Then, under &quot;Health check settings&quot;:</p>
+
+<ol>
+<li>&quot;Port&quot;: <code>/</code></li>
+</ol>
+
+<h4 id="add-listeners-to-the-alb">Add Listeners to the ALB</h4>
+
+<p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-prod-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
+
+<p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules &gt;&quot; link, and then insert three new rules:</p>
+
+<ol>
+<li>If <code>/auth/*</code>, Then <code>users-tg</code></li>
+<li>If <code>/users</code>, Then <code>users-tg</code></li>
+<li>If <code>/users/*</code>, Then <code>users-tg</code></li>
+<li>If <code>/ping</code>, Then <code>users-tg</code></li>
+</ol>
+
+<p>Add a new listener:</p>
+
+<ol>
+<li>&quot;Protocol&quot;: <code>HTTP</code></li>
+<li>&quot;Port&quot;: <code>8080</code></li>
+<li>&quot;Default target group&quot;: <code>swagger-tg</code></li>
+</ol>
+
+<h4 id="create-an-ecs-cluster">Create an ECS Cluster</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ecs">Amazon ECS</a>, and create a new Cluster:</p>
+
+<ol>
+<li>&quot;Cluster name&quot;: <code>flask-microservices-prod-cluster</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.medium</code></li>
+<li>&quot;Number of instances&quot;: <code>6</code></li>
+<li>&quot;Key pair&quot;: <code>ecs</code></li>
+</ol>
+
+<p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
+
+<h4 id="create-new-dockerfile-for-flask-microservices-users">Create new <em>Dockerfile</em> for <em>flask-microservices-users</em></h4>
+
+<p>Next, within <em>flask-microservices-users</em>, create a new file called <em>Dockerfile-prod</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
+
+# install environment dependencies
+RUN apt-get update -yqq \
+  &amp;&amp; apt-get install -yqq --no-install-recommends \
+    netcat \
+  &amp;&amp; apt-get -q clean
+
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# add app
+ADD . /usr/src/app
+
+# run server
+CMD gunicorn -b 0.0.0.0:5000 manage:app
+</code></pre></div>
+<p>So, instead of running <em>entrypoint.sh</em>, we are now just running Gunicorn. Why? Well, first off, we will not be using a <code>users-db</code> container in production. Also, we only want to create the database and seed it once, rather than on every deploy, to persist the data.</p>
+
+<p>Commit and push your changes to GitHub.</p>
+
+<h4 id="update-the-docker_push-sh-file">Update the <em>docker_push.sh</em> file</h4>
+
+<p>Within <em>flask-microservices-main</em>, update the environment variables for <code>production</code> in <em>docker_push.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;LOAD_BALANCER_DNS_NAME&quot;</span>
+  <span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span><span class="s2">&quot;$AWS_RDS_URI&quot;</span>
+  <span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;$PRODUCTION_SECRET_KEY&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Add the <code>AWS_RDS_URI</code> and <code>PRODUCTION_SECRET_KEY</code> environment variables to the <em>flask-microservices-main</em> Travis project.</p>
+
+<p>To create a key, open the Python shell and run:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">binascii</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">))</span>
+<span class="n">b</span><span class="s">&#39;958185f1b6ec1290d5aec4eb4dc77e67846ce85cdb7a212a&#39;</span>
+</code></pre></div>
+<p>Also, update the building, tagging, and pushing of images section in <em>docker_push.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+   <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="c"># users</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> -f Dockerfile-prod
+  <span class="k">else</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+  <span class="k">fi</span>
+  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  <span class="c"># users db</span>
+  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  <span class="c"># client</span>
+  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  <span class="c"># swagger</span>
+  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  <span class="c"># nginx</span>
+  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+<span class="k">fi</span>
+</code></pre></div>
+<h4 id="add-images-to-ecr">Add images to ECR</h4>
+
+<p>Assuming you are still using the <code>ecs</code> feature branch, create a new branch on GitHub called <code>production</code>. Within <em>flask-microservices-main</em>, commit and push your code to GitHub. Open a PR against the <code>production</code> branch, and then merge the PR once the Travis build passes, to trigger a new build.</p>
+
+<p>Once done, you should see that a new image image was added to each of the repositories on ECR with a tag of <code>production</code>.</p>
+
+<blockquote>
+<p>Since we&#39;re not using <em>flask-microservices-users_db</em> or <em>flask-microservices-nginx</em> in production, you may want to update the <em>docker_push.sh</em> file so they are not built, tagged, or pushed when the branch is <code>production</code>.</p>
+</blockquote>
+
+<h4 id="create-new-swagger-spec">Create new Swagger Spec</h4>
+
+<p>Next, let&#39;s add a production Swagger Spec file. Within <em>flask-microservices-swagger</em>, create a duplicate of the current Spec file, <em>swagger.json</em>, called <em>swagger-prod.json</em>. Update the <code>host</code> to the LOAD_BALANCER_DNS_NAME.</p>
+
+<p>Commit and push the changes up to GitHub.</p>
+
+<h4 id="create-task-definitions">Create Task Definitions</h4>
+
+<p>Create the following Task Definitions...</p>
+
+<h5 id="flask-microservices-client"><em>flask-microservices-client</em></h5>
+
+<ol>
+<li>&quot;Task Definition Name&quot;: <code>flask-microservices-client-prod-td</code></li>
+<li>Container:
+
+<ol>
+<li>&quot;Container name&quot;: <code>client-prod</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-client:production</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>0</code> host, <code>9000</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>NODE_ENV</code> - <code>production</code></li>
+<li><code>REACT_APP_USERS_SERVICE_URL</code> - <a href="http://LOAD_BALANCER_DNS_NAME">http://LOAD_BALANCER_DNS_NAME</a></li>
+</ul></li>
+</ol></li>
+</ol>
+
+<h5 id="flask-microservices-swagger"><em>flask-microservices-swagger</em></h5>
+
+<ol>
+<li>&quot;Task Definition Name&quot;: <code>flask-microservices-swagger-prod-td</code></li>
+<li>Container:
+
+<ol>
+<li>&quot;Container name&quot;: <code>swagger-prod</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-swagger:production</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>0</code> host, <code>8080</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>API_URL</code> - <code>https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger-prod.json</code></li>
+</ul></li>
+</ol></li>
+</ol>
+
+<h5 id="flask-microservices-users"><em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Task Definition Name&quot;: <code>flask-microservices-users-prod-td</code></li>
+<li>Container:
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-service-prod</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:production</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>0</code> host, <code>5000</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>APP_SETTINGS</code> - <code>project.config.ProductionConfig</code></li>
+<li><code>DATABASE_URL</code> - YOUR_RDS_URI</li>
+<li><code>SECRET_KEY</code> - TBD</li>
+</ul></li>
+</ol></li>
+</ol>
+
+<h4 id="add-new-local-task-definition-json-files">Add new local Task Definition JSON files</h4>
+
+<p>Next, within the &quot;ecs&quot; folder, add the Task Definition JSON files to match the Task Definitions we just added...</p>
+
+<p><em>ecs_client_prod_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;client-prod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-client:production&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">9000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;NODE_ENV&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;production&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;REACT_APP_USERS_SERVICE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://LOAD_BALANCER_DNS_NAME&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-production&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><em>ecs_swagger_prod_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;swagger-prod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-swagger:production&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">8080</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;API_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger-prod.json&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-production&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><em>ecs_users_prod_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-service-prod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users:production&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.ProductionConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;%s&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;%s&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-production&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Make sure you update <code>http://LOAD_BALANCER_DNS_NAME</code> in <em>ecs_client_prod_taskdefinition.json</em> and set up the production logs. To set up, navigate to <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, click &quot;Logs&quot;, click the &quot;Actions&quot; drop-down button, and then select &quot;Create log group&quot;. Name the group <code>flask-microservices-production</code>.</p>
+
+<h4 id="create-services">Create Services</h4>
+
+<p>Add the following Services...</p>
+
+<h5 id="flask-microservices-client"><em>flask-microservices-client</em></h5>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-client-prod-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-prod-client</code></li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>client-prod:0:9000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>client-prod-tg</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h5 id="flask-microservices-swagger"><em>flask-microservices-swagger</em></h5>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-swagger-prod-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-prod-swagger</code></li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>swagger-prod:0:8080</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>8080:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>swagger-prod-tg</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h5 id="flask-microservices-users"><em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-users-prod-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-prod-users</code></li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>users-service-prod:0:5000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>users-prod-tg</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h4 id="sanity-check-take-one">Sanity Check (take one)</h4>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. Make sure <code>client-prod-tg</code>, <code>swagger-prod-tg</code>, and <code>users-prod-tg</code> have a single registered instance each. They should all be healthy.</p>
+
+<p>Then, navigate back to the Load Balancer and grab the &quot;DNS name&quot; from the &quot;Description&quot; tab. Test each in your browser:</p>
+
+<ol>
+<li><a href="http://LOAD_BALANCER_DNS_NAME">http://LOAD_BALANCER_DNS_NAME</a></li>
+<li><a href="http://LOAD_BALANCER_DNS_NAME/ping">http://LOAD_BALANCER_DNS_NAME/ping</a></li>
+<li><a href="http://LOAD_BALANCER_DNS_NAME:8080">http://LOAD_BALANCER_DNS_NAME:8080</a></li>
+</ol>
+
+<p>Try the <code>/users</code> endpoint: <a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a>. You should see a 500 error since the migrations have not been ran. To do this, let&#39;s SSH into the EC2 instance associated with the <code>users-prod-tg</code> Target Group:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
+</code></pre></div>
+<blockquote>
+<p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
+</blockquote>
+
+<p>Next, grab the Container ID for <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
+<span class="c"># python manage.py recreate_db</span>
+<span class="c"># python manage.py seed_db</span>
+</code></pre></div>
+<p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
+
+<p>Now for the real sanity check - run the e2e tests!</p>
+
+<p>Within, <em>flask-microservices-main</em>, set the <code>TEST_URL</code> environment variable and then run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>LOAD_BALANCER_DNS_NAME
+<span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<p>They should pass!</p>
+
+<h4 id="create-a-docker-deploy-file">Create a Docker deploy file</h4>
+
+<p>Create a new file in <em>flask-microservices-main</em> called <em>docker_deploy_prod.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_PULL_REQUEST&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+
+    <span class="nv">JQ</span><span class="o">=</span><span class="s2">&quot;jq --raw-output --exit-status&quot;</span>
+
+    configure_aws_cli<span class="o">()</span> <span class="o">{</span>
+        aws --version
+        aws configure <span class="nb">set </span>default.region us-east-1
+        aws configure <span class="nb">set </span>default.output json
+        <span class="nb">echo</span> <span class="s2">&quot;AWS Configured!&quot;</span>
+    <span class="o">}</span>
+
+    register_definition<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="nv">revision</span><span class="o">=</span><span class="k">$(</span>aws ecs register-task-definition --cli-input-json <span class="s2">&quot;$task_def&quot;</span> --family <span class="nv">$family</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.taskDefinition.taskDefinitionArn&#39;</span><span class="k">)</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Revision: $revision&quot;</span>
+      <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Failed to register task definition&quot;</span>
+        <span class="k">return</span> 1
+      <span class="k">fi</span>
+    <span class="o">}</span>
+
+    update_service<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span>aws ecs update-service --cluster <span class="nv">$cluster</span> --service <span class="nv">$service</span> --task-definition <span class="nv">$revision</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.service.taskDefinition&#39;</span><span class="k">)</span> !<span class="o">=</span> <span class="nv">$revision</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Error updating service.&quot;</span>
+        <span class="k">return</span> 1
+      <span class="k">fi</span>
+    <span class="o">}</span>
+
+    deploy_cluster<span class="o">()</span> <span class="o">{</span>
+
+      <span class="nv">cluster</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-cluster&quot;</span>
+
+      <span class="c"># users</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-users-prod-td&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-users&quot;</span>
+      <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_users_prod_taskdefinition.json&quot;</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_RDS_URI</span> <span class="nv">$PRODUCTION_SECRET_KEY</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;$task_def&quot;</span>
+      register_definition
+      update_service
+
+      <span class="c"># client</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-client-prod-td&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-client&quot;</span>
+      <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_client_prod_taskdefinition.json&quot;</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;$task_def&quot;</span>
+      register_definition
+      update_service
+
+      <span class="c"># swagger</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-swagger-prod-td&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-swagger&quot;</span>
+      <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_swagger_prod_taskdefinition.json&quot;</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;$task_def&quot;</span>
+      register_definition
+      update_service
+
+    <span class="o">}</span>
+
+    configure_aws_cli
+    deploy_cluster
+
+  <span class="k">fi</span>
+
+<span class="k">fi</span>
+</code></pre></div>
+<p>Compare this file to <em>docker_deploy.sh</em>. What are the differences?</p>
+
+<h4 id="update-travis-file">Update Travis file</h4>
+
+<p>Update the <code>after_success</code> in <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_push.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy_prod.sh</span>
+</code></pre></div>
+<h4 id="sanity-check-take-two">Sanity Check (take two)</h4>
+
+<p>Assuming you are still using the <code>ecs</code> feature branch, commit and push your code to GitHub. Open a PR against the <code>production</code> branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the each Task Definition and the Services should now be running a new Task based on that revision.</p>
+
+<p>Test everything out again, manually and with the e2e tests!</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
 
 
           
@@ -631,6 +1963,8 @@
             
               <a class="prev btn left-align" href="/part-five-ec2-relational-database-service">&laquo; Setting up RDS</a>
             
+            
+              <a class="next btn right-align" href="/part-five-workflow">Workflow &raquo;</a>
             
           </div>
 

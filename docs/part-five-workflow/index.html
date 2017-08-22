@@ -598,113 +598,19 @@
 
           <h2>Workflow</h2>
 
-          <p>Reference guide...</p>
+          <p>Coming Soon!</p>
 
-<h4 id="aliases">Aliases</h4>
-
-<p>To save some previous keystrokes, let&#39;s create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
-
-<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">alias dc=&#39;docker-compose&#39;
-alias dm=&#39;docker-machine&#39;
-</code></pre></div>
-<p>Save the file, then execute it:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
-</code></pre></div>
-<p>Test out the new aliases!</p>
-
-<blockquote>
-<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
-</blockquote>
-
-<h4 id="quot-saved-quot-state">&quot;Saved&quot; State</h4>
-
-<p>Is the VM stuck in a &quot;Saved&quot; state?</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
-
-NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
-aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
-dev    -        virtualbox   Saved                                         Unknown
-</code></pre></div>
-<p>To break out of this, you&#39;ll need to power off the VM:</p>
-
-<ol>
-<li>Start virtualbox - <code>virtualbox</code></li>
-<li>Select the VM and click &quot;start&quot;</li>
-<li>Exit the VM and select &quot;Power off the machine&quot;</li>
-<li>Exit virtualbox</li>
-</ol>
-
-<p>The VM should now have a &quot;Stopped&quot; state:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
-
-NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
-aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
-dev    -        virtualbox   Stopped                                       Unknown
-</code></pre></div>
-<p>Now you can start the machine:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine start dev
-</code></pre></div>
-<p>It should be &quot;Running&quot;:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
-
-NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
-aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
-dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
-</code></pre></div>
-<h4 id="common-commands">Common Commands</h4>
-
-<p>Build the images:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
-</code></pre></div>
-<p>Run the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
-</code></pre></div>
-<p>Create the database:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
-</code></pre></div>
-<p>Seed the database:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
-</code></pre></div>
-<p>Run the tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
-</code></pre></div>
-<h4 id="other-commands">Other commands</h4>
-
-<p>To stop the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose stop
-</code></pre></div>
-<p>To bring down the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
-</code></pre></div>
-<p>Want to force a build?</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
-</code></pre></div>
-<p>Remove images:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
-</code></pre></div>
-<h4 id="postgres">Postgres</h4>
-
-<p>Want to access the database via psql?</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
-</code></pre></div>
-<p>Then, you can connect to the database and run SQL queries. For example:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># \c users_dev</span>
-<span class="c"># select * from users;</span>
-</code></pre></div>
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Workflow&amp;url=http%3A%2F%2Ftestdriven.io/part-one-workflow&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Workflow&amp;url=http%3A%2F%2Ftestdriven.io/part-five-workflow&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-one-jinja-templates">&laquo; Jinja Templates</a>
+              <a class="prev btn left-align" href="/part-five-ec2-container-service-production">&laquo; ECS Production</a>
             
-            
-              <a class="next btn right-align" href="/part-two-intro">Introduction &raquo;</a>
             
           </div>
 
@@ -714,113 +620,19 @@ dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.0
 
           <h2>Workflow</h2>
 
-          <p>Reference guide...</p>
+          <p>Coming Soon!</p>
 
-<h4 id="aliases">Aliases</h4>
-
-<p>To save some previous keystrokes, let&#39;s create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
-
-<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">alias dc=&#39;docker-compose&#39;
-alias dm=&#39;docker-machine&#39;
-</code></pre></div>
-<p>Save the file, then execute it:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
-</code></pre></div>
-<p>Test out the new aliases!</p>
-
-<blockquote>
-<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
-</blockquote>
-
-<h4 id="quot-saved-quot-state">&quot;Saved&quot; State</h4>
-
-<p>Is the VM stuck in a &quot;Saved&quot; state?</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
-
-NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
-aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
-dev    -        virtualbox   Saved                                         Unknown
-</code></pre></div>
-<p>To break out of this, you&#39;ll need to power off the VM:</p>
-
-<ol>
-<li>Start virtualbox - <code>virtualbox</code></li>
-<li>Select the VM and click &quot;start&quot;</li>
-<li>Exit the VM and select &quot;Power off the machine&quot;</li>
-<li>Exit virtualbox</li>
-</ol>
-
-<p>The VM should now have a &quot;Stopped&quot; state:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
-
-NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
-aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
-dev    -        virtualbox   Stopped                                       Unknown
-</code></pre></div>
-<p>Now you can start the machine:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine start dev
-</code></pre></div>
-<p>It should be &quot;Running&quot;:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
-
-NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
-aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
-dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
-</code></pre></div>
-<h4 id="common-commands">Common Commands</h4>
-
-<p>Build the images:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
-</code></pre></div>
-<p>Run the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
-</code></pre></div>
-<p>Create the database:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
-</code></pre></div>
-<p>Seed the database:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
-</code></pre></div>
-<p>Run the tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
-</code></pre></div>
-<h4 id="other-commands">Other commands</h4>
-
-<p>To stop the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose stop
-</code></pre></div>
-<p>To bring down the containers:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
-</code></pre></div>
-<p>Want to force a build?</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
-</code></pre></div>
-<p>Remove images:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
-</code></pre></div>
-<h4 id="postgres">Postgres</h4>
-
-<p>Want to access the database via psql?</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
-</code></pre></div>
-<p>Then, you can connect to the database and run SQL queries. For example:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># \c users_dev</span>
-<span class="c"># select * from users;</span>
-</code></pre></div>
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Workflow&amp;url=http%3A%2F%2Ftestdriven.io/part-one-workflow&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Workflow&amp;url=http%3A%2F%2Ftestdriven.io/part-five-workflow&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-one-jinja-templates">&laquo; Jinja Templates</a>
+              <a class="prev btn left-align" href="/part-five-ec2-container-service-production">&laquo; ECS Production</a>
             
-            
-              <a class="next btn right-align" href="/part-two-intro">Introduction &raquo;</a>
             
           </div>
 

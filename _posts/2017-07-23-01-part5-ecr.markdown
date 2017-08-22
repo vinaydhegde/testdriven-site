@@ -120,7 +120,7 @@ Set them as environment variables within the [Repository Settings](https://docs.
 1. AWS_ACCESS_KEY_ID - YOUR_ACCCES_KEY_ID
 1. AWS_SECRET_ACCESS_KEY - YOUR_SECRET_ACCESS_KEY
 
-Let's test this out. Create a `staging` branch, commit your code, and then push it to GitHub. If all goes well, the build should pass and new image should be added to each of the repositories.
+Let's test this out. Create a `staging` branch, commit your code, and then push it to GitHub. If all goes well, the build should pass and a new image should be added to each of the repositories.
 
 #### Docker Compose
 

@@ -577,6 +577,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -665,7 +675,7 @@
 
 <h4 id="update-alb">Update ALB</h4>
 
-<p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-staging-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
+<p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-staging-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
 
 <p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules &gt;&quot; link, and then insert three new rules:</p>
 
@@ -709,7 +719,7 @@
 
 <ol>
 <li>&quot;Container name&quot;: <code>client</code></li>
-<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-client:staging</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-client:staging</code></li>
 <li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
 <li>&quot;Port mappings&quot;: <code>0</code> host, <code>9000</code> container</li>
 <li>&quot;Env Variables&quot;:
@@ -729,7 +739,7 @@
 
 <ol>
 <li>&quot;Container name&quot;: <code>swagger</code></li>
-<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-swagger:staging</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-swagger:staging</code></li>
 <li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
 <li>&quot;Port mappings&quot;: <code>0</code> host, <code>8080</code> container</li>
 <li>&quot;Env Variables&quot;:
@@ -742,7 +752,7 @@
 
 <h5 id="flask-microservices-users"><em>flask-microservices-users</em></h5>
 
-<p>Since the containers are already set up for this under the <code>testdriven-staging</code> Task Definion, we can just rename it. Create a new revision of <code>testdriven-staging</code> Task Definition, changing the name to <code>flask-microservices-users-td</code>. This will actually create a new Task Definion.</p>
+<p>Since the containers are already set up for this under the <code>testdriven-staging</code> Task Definion, we can just rename it. Create a new revision of <code>testdriven-staging</code> Task Definition, changing the name to <code>flask-microservices-users-td</code>. This will actually create a new Task Definition.</p>
 
 <h4 id="services">Services</h4>
 
@@ -808,7 +818,7 @@
 
 <ol>
 <li>&quot;ELB Name&quot;: <code>flask-microservices-staging-alb</code></li>
-<li>&quot;Select a Container&quot;: <code>users-service:0:9000</code></li>
+<li>&quot;Select a Container&quot;: <code>users-service:0:5000</code></li>
 </ol>
 
 <p>Click &quot;Add to ELB&quot;.</p>
@@ -887,7 +897,7 @@
         <span class="p">},</span>
         <span class="p">{</span>
           <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;REACT_APP_USERS_SERVICE_URL&quot;</span><span class="p">,</span>
-          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://flask-microservices-staging-alb-1366920567.us-east-1.elb.amazonaws.com&quot;</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://LOAD_BALANCER_DNS_NAME&quot;</span>
         <span class="p">}</span>
       <span class="p">],</span>
       <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
@@ -1195,7 +1205,7 @@
 
 <h4 id="update-alb">Update ALB</h4>
 
-<p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-staging-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
+<p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-staging-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
 
 <p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules &gt;&quot; link, and then insert three new rules:</p>
 
@@ -1239,7 +1249,7 @@
 
 <ol>
 <li>&quot;Container name&quot;: <code>client</code></li>
-<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-client:staging</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-client:staging</code></li>
 <li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
 <li>&quot;Port mappings&quot;: <code>0</code> host, <code>9000</code> container</li>
 <li>&quot;Env Variables&quot;:
@@ -1259,7 +1269,7 @@
 
 <ol>
 <li>&quot;Container name&quot;: <code>swagger</code></li>
-<li>&quot;Image&quot;: <code>046505967931.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-swagger:staging</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-swagger:staging</code></li>
 <li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
 <li>&quot;Port mappings&quot;: <code>0</code> host, <code>8080</code> container</li>
 <li>&quot;Env Variables&quot;:
@@ -1272,7 +1282,7 @@
 
 <h5 id="flask-microservices-users"><em>flask-microservices-users</em></h5>
 
-<p>Since the containers are already set up for this under the <code>testdriven-staging</code> Task Definion, we can just rename it. Create a new revision of <code>testdriven-staging</code> Task Definition, changing the name to <code>flask-microservices-users-td</code>. This will actually create a new Task Definion.</p>
+<p>Since the containers are already set up for this under the <code>testdriven-staging</code> Task Definion, we can just rename it. Create a new revision of <code>testdriven-staging</code> Task Definition, changing the name to <code>flask-microservices-users-td</code>. This will actually create a new Task Definition.</p>
 
 <h4 id="services">Services</h4>
 
@@ -1338,7 +1348,7 @@
 
 <ol>
 <li>&quot;ELB Name&quot;: <code>flask-microservices-staging-alb</code></li>
-<li>&quot;Select a Container&quot;: <code>users-service:0:9000</code></li>
+<li>&quot;Select a Container&quot;: <code>users-service:0:5000</code></li>
 </ol>
 
 <p>Click &quot;Add to ELB&quot;.</p>
@@ -1417,7 +1427,7 @@
         <span class="p">},</span>
         <span class="p">{</span>
           <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;REACT_APP_USERS_SERVICE_URL&quot;</span><span class="p">,</span>
-          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://flask-microservices-staging-alb-1366920567.us-east-1.elb.amazonaws.com&quot;</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://LOAD_BALANCER_DNS_NAME&quot;</span>
         <span class="p">}</span>
       <span class="p">],</span>
       <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
