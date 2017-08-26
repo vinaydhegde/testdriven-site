@@ -182,7 +182,7 @@ To test, navigate to [http://DOCKER_MACHINE_DEV_IP:8080](http://DOCKER_MACHINE_D
 
 #### Aliases
 
-To save some previous keystrokes, create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
+To save some precious keystrokes, create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
 
 Simply add the following lines to your *.bashrc* file:
 

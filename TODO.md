@@ -1,6 +1,5 @@
 # Todo
 
-1. Finish part 5
 1. Update service placement strategy - http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html
 1. In ECS Staging, prefix the Target Groups and Task Definitions and local task definition JSON files with `staging`
 1. Environment variables - do they go in the image or in the Task Definitions?
@@ -43,3 +42,4 @@
 1. Finish part 4
 1. Merge 3b into master
 1. Refactor React Form Validation
+1. Finish part 5

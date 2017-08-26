@@ -10,7 +10,7 @@ Reference guide...
 
 #### Aliases
 
-To save some previous keystrokes, let's create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
+To save some precious keystrokes, let's create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
 
 Simply add the following lines to your *.bashrc* file:
 

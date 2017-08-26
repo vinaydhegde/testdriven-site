@@ -28,7 +28,7 @@ By the end of part 3, you should be able to...
   <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
 
-Check out the live app, running on EC2 - [http://54.89.0.180/](http://54.89.0.180/)
+Check out the live app, running on EC2 - [http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com](http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com)
 
 You can also test out the following endpoints...
 

@@ -1,0 +1,10 @@
+---
+title: Introduction
+layout: post
+date: 2017-08-27 23:59:59
+permalink: part-six-intro
+part: 6
+share: true
+---
+
+Coming Soon!

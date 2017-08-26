@@ -587,6 +587,22 @@
           </li>
         </ul>
       
+        
+          <li>
+            <h5 data-part="6" class="collapsible-header  waves-effect waves-teal">
+              Part 6
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -598,7 +614,150 @@
 
           <h2>Workflow</h2>
 
-          <p>Coming Soon!</p>
+          <p>Updated reference guide...</p>
+
+<h4 id="development-environment">Development Environment</h4>
+
+<p>The following commands are for spinning up all the containers in your <code>development</code> environment...</p>
+
+<h5 id="environment-variables">Environment Variables</h5>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<h5 id="start">Start</h5>
+
+<p>Build the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
+</code></pre></div>
+<p>Run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+</code></pre></div>
+<p>Create and seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the unit and integration tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Run the e2e tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<p>Enter psql:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
+</code></pre></div>
+<h5 id="stop">Stop</h5>
+
+<p>Stop the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose stop
+</code></pre></div>
+<p>Bring down the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
+</code></pre></div>
+<h4 id="aliases">Aliases</h4>
+
+<p>To save some precious keystrokes, create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
+
+<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">alias dc=&#39;docker-compose&#39;
+alias dm=&#39;docker-machine&#39;
+</code></pre></div>
+<p>Save the file, then execute it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
+</code></pre></div>
+<p>Test out the new aliases!</p>
+
+<blockquote>
+<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
+</blockquote>
+
+<h4 id="quot-saved-quot-state">&quot;Saved&quot; State</h4>
+
+<p>Is the VM stuck in a &quot;Saved&quot; state?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Saved                                         Unknown
+</code></pre></div>
+<p>To break out of this, you&#39;ll need to power off the VM:</p>
+
+<ol>
+<li>Start virtualbox - <code>virtualbox</code></li>
+<li>Select the VM and click &quot;start&quot;</li>
+<li>Exit the VM and select &quot;Power off the machine&quot;</li>
+<li>Exit virtualbox</li>
+</ol>
+
+<p>The VM should now have a &quot;Stopped&quot; state:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Stopped                                       Unknown
+</code></pre></div>
+<p>Now you can start the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine start dev
+</code></pre></div>
+<p>It should be &quot;Running&quot;:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
+</code></pre></div>
+<h4 id="other-commands">Other Commands</h4>
+
+<p>Want to force a build?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
+</code></pre></div>
+<p>Remove exited containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rm -v <span class="k">$(</span>docker ps -a -q -f <span class="nv">status</span><span class="o">=</span>exited<span class="k">)</span>
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<p>Remove untagged images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images <span class="p">|</span> grep “^&lt;none&gt;” <span class="p">|</span> awk ‘<span class="o">{</span>print <span class="nv">$3</span><span class="o">}</span>’<span class="k">)</span>
+</code></pre></div>
+<p><a href="https://stackoverflow.com/a/33251637/1799408">Reset</a> Docker environment back to localhost, unsetting all Docker environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env -u<span class="k">)</span>
+</code></pre></div>
+<h4 id="development-workflow">Development Workflow</h4>
+
+<p>Try out the following development workflow...</p>
+
+<p><strong>Development</strong>:</p>
+
+<ol>
+<li>Create a new feature branch from the <code>master</code> branch</li>
+<li>Make code changes locally</li>
+<li>Open PR against the <code>development</code> branch</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, merge the PR</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, images are created, tagged <code>development</code>, and pushed to Docker Hub</li>
+</ol>
+
+<p><strong>Staging</strong>:</p>
+
+<ol>
+<li>Open PR from the <code>development</code> branch against the <code>staging</code> branch</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, merge the PR</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, images are created, tagged <code>staging</code>, and pushed to ECR</li>
+</ol>
+
+<p><strong>Production</strong>:</p>
+
+<ol>
+<li>Open PR from the <code>development</code> branch against the <code>staging</code> branch</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, merge the PR</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, images are created, tagged <code>production</code>, and pushed to ECR</li>
+<li>Merge the changes into the <code>master</code> branch</li>
+</ol>
 
 
           
@@ -611,6 +770,8 @@
             
               <a class="prev btn left-align" href="/part-five-ec2-container-service-production">&laquo; ECS Production</a>
             
+            
+              <a class="next btn right-align" href="/part-six-intro">Introduction &raquo;</a>
             
           </div>
 
@@ -620,7 +781,150 @@
 
           <h2>Workflow</h2>
 
-          <p>Coming Soon!</p>
+          <p>Updated reference guide...</p>
+
+<h4 id="development-environment">Development Environment</h4>
+
+<p>The following commands are for spinning up all the containers in your <code>development</code> environment...</p>
+
+<h5 id="environment-variables">Environment Variables</h5>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<h5 id="start">Start</h5>
+
+<p>Build the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build
+</code></pre></div>
+<p>Run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
+</code></pre></div>
+<p>Create and seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the unit and integration tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Run the e2e tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>testcafe chrome e2e
+</code></pre></div>
+<p>Enter psql:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
+</code></pre></div>
+<h5 id="stop">Stop</h5>
+
+<p>Stop the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose stop
+</code></pre></div>
+<p>Bring down the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
+</code></pre></div>
+<h4 id="aliases">Aliases</h4>
+
+<p>To save some precious keystrokes, create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
+
+<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">alias dc=&#39;docker-compose&#39;
+alias dm=&#39;docker-machine&#39;
+</code></pre></div>
+<p>Save the file, then execute it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
+</code></pre></div>
+<p>Test out the new aliases!</p>
+
+<blockquote>
+<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
+</blockquote>
+
+<h4 id="quot-saved-quot-state">&quot;Saved&quot; State</h4>
+
+<p>Is the VM stuck in a &quot;Saved&quot; state?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Saved                                         Unknown
+</code></pre></div>
+<p>To break out of this, you&#39;ll need to power off the VM:</p>
+
+<ol>
+<li>Start virtualbox - <code>virtualbox</code></li>
+<li>Select the VM and click &quot;start&quot;</li>
+<li>Exit the VM and select &quot;Power off the machine&quot;</li>
+<li>Exit virtualbox</li>
+</ol>
+
+<p>The VM should now have a &quot;Stopped&quot; state:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Stopped                                       Unknown
+</code></pre></div>
+<p>Now you can start the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine start dev
+</code></pre></div>
+<p>It should be &quot;Running&quot;:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
+</code></pre></div>
+<h4 id="other-commands">Other Commands</h4>
+
+<p>Want to force a build?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
+</code></pre></div>
+<p>Remove exited containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rm -v <span class="k">$(</span>docker ps -a -q -f <span class="nv">status</span><span class="o">=</span>exited<span class="k">)</span>
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<p>Remove untagged images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker rmi <span class="k">$(</span>docker images <span class="p">|</span> grep “^&lt;none&gt;” <span class="p">|</span> awk ‘<span class="o">{</span>print <span class="nv">$3</span><span class="o">}</span>’<span class="k">)</span>
+</code></pre></div>
+<p><a href="https://stackoverflow.com/a/33251637/1799408">Reset</a> Docker environment back to localhost, unsetting all Docker environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env -u<span class="k">)</span>
+</code></pre></div>
+<h4 id="development-workflow">Development Workflow</h4>
+
+<p>Try out the following development workflow...</p>
+
+<p><strong>Development</strong>:</p>
+
+<ol>
+<li>Create a new feature branch from the <code>master</code> branch</li>
+<li>Make code changes locally</li>
+<li>Open PR against the <code>development</code> branch</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, merge the PR</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, images are created, tagged <code>development</code>, and pushed to Docker Hub</li>
+</ol>
+
+<p><strong>Staging</strong>:</p>
+
+<ol>
+<li>Open PR from the <code>development</code> branch against the <code>staging</code> branch</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, merge the PR</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, images are created, tagged <code>staging</code>, and pushed to ECR</li>
+</ol>
+
+<p><strong>Production</strong>:</p>
+
+<ol>
+<li>Open PR from the <code>development</code> branch against the <code>staging</code> branch</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, merge the PR</li>
+<li>New build is triggered on Travis CI</li>
+<li>If the tests pass, images are created, tagged <code>production</code>, and pushed to ECR</li>
+<li>Merge the changes into the <code>master</code> branch</li>
+</ol>
 
 
           
@@ -633,6 +937,8 @@
             
               <a class="prev btn left-align" href="/part-five-ec2-container-service-production">&laquo; ECS Production</a>
             
+            
+              <a class="next btn right-align" href="/part-six-intro">Introduction &raquo;</a>
             
           </div>
 
