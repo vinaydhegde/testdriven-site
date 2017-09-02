@@ -12,6 +12,7 @@ In this course, you will learn how to quickly spin up a reproducible development
 1. *flask-microservices-main* - Docker Compose files, Nginx, admin scripts
 1. *flask-microservices-users* - Flask app
 1. *flask-microservices-client* - client-side, React app
+1. *flask-microservices-swagger* - Swagger API docs
 
 <div style="text-align:left;">
   <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
