@@ -151,7 +151,7 @@ then
 fi
 ```
 
-Here, if the branch is `staging` and it's not a a pull request the AWS CLI is configured and then the `deploy_cluser` function is fired, which sets the Task Definition family name and then fires the `make_task_def` and `register_definition` functions. These simply update the existing Task Definition with the definition found in *ecs_taskdefinition.json* and set a new revision.
+Here, if the branch is `staging` and it's not a a pull request the AWS CLI is configured and then the `deploy_cluster` function is fired, which sets the Task Definition family name and then fires the `make_task_def` and `register_definition` functions. These simply update the existing Task Definition with the definition found in *ecs_taskdefinition.json* and set a new revision.
 
 Add *ecs_taskdefinition.json*:
 

@@ -4,8 +4,10 @@
 1. In ECS Staging, prefix the Target Groups and Task Definitions and local task definition JSON files with `staging`
 1. Environment variables - do they go in the image or in the Task Definitions?
 1. Update docker cache from tavis - `--cache-from image:latest`
-1. Add banner to mherman.org (addthis?)
+1. Add banner to mherman.org (addthis?, hello-bar)
 1. Add some lesson numbers - 4.1, 4.2, etc.
+1. Good comprehensive description of steps involved in deploying to ECS.
+One thing that I did not see was information about the required IAM setup. It might be helpful to identify specific AWS IAM policies that need to be granted to the AWS user for working with ECS.
 1. Paywall
 1. Add CI/CD - open pr, test, merge, test, deploy (for jekyll)
 1. Add microservices intro to part 1

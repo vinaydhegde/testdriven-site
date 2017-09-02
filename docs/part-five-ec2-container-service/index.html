@@ -765,7 +765,7 @@
 
 <span class="k">fi</span>
 </code></pre></div>
-<p>Here, if the branch is <code>staging</code> and it&#39;s not a a pull request the AWS CLI is configured and then the <code>deploy_cluser</code> function is fired, which sets the Task Definition family name and then fires the <code>make_task_def</code> and <code>register_definition</code> functions. These simply update the existing Task Definition with the definition found in <em>ecs_taskdefinition.json</em> and set a new revision.</p>
+<p>Here, if the branch is <code>staging</code> and it&#39;s not a a pull request the AWS CLI is configured and then the <code>deploy_cluster</code> function is fired, which sets the Task Definition family name and then fires the <code>make_task_def</code> and <code>register_definition</code> functions. These simply update the existing Task Definition with the definition found in <em>ecs_taskdefinition.json</em> and set a new revision.</p>
 
 <p>Add <em>ecs_taskdefinition.json</em>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
@@ -1179,7 +1179,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <span class="k">fi</span>
 </code></pre></div>
-<p>Here, if the branch is <code>staging</code> and it&#39;s not a a pull request the AWS CLI is configured and then the <code>deploy_cluser</code> function is fired, which sets the Task Definition family name and then fires the <code>make_task_def</code> and <code>register_definition</code> functions. These simply update the existing Task Definition with the definition found in <em>ecs_taskdefinition.json</em> and set a new revision.</p>
+<p>Here, if the branch is <code>staging</code> and it&#39;s not a a pull request the AWS CLI is configured and then the <code>deploy_cluster</code> function is fired, which sets the Task Definition family name and then fires the <code>make_task_def</code> and <code>register_definition</code> functions. These simply update the existing Task Definition with the definition found in <em>ecs_taskdefinition.json</em> and set a new revision.</p>
 
 <p>Add <em>ecs_taskdefinition.json</em>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
