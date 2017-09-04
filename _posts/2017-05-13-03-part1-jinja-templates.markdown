@@ -162,4 +162,4 @@ def index():
 Finally, let's update the code on AWS.
 
 1. `eval $(docker-machine env aws)`
-1. `docker-compose -f docker-compose-prod.yml up -d`
+1. `docker-compose -f docker-compose-prod.yml up -d --build`

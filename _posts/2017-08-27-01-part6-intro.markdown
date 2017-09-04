@@ -7,4 +7,12 @@ part: 6
 share: true
 ---
 
+Topics covered:
+
+1. Setting up a new service
+1. Configuring Redis
+1. Adding Materialize CSS
+
+---
+
 Coming Soon!
