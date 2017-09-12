@@ -114,7 +114,7 @@ db.session.add(User(username=username, email=email))
 TypeError: __init__() missing 1 required positional argument: 'password'
 ```
 
-To get the tests green, update `add_user()` in "flask-microservices-users/project/api/views.py":
+To get the tests green, update `add_user()` in *flask-microservices-users/project/api/views.py*:
 
 ```python
 @users_blueprint.route('/users', methods=['POST'])
@@ -155,6 +155,36 @@ def add_user():
             'message': 'Invalid payload.'
         }
         return jsonify(response_object), 400
+```
+
+Then update the model in *flask-microservices-users/project/api/models.py*:
+
+```python
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(128), unique=True, nullable=False)
+    email = db.Column(db.String(128), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    active = db.Column(db.Boolean, default=True, nullable=False)
+    admin = db.Column(db.Boolean, default=False, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(
+            self, username, email, password,
+            created_at=datetime.datetime.utcnow()):
+        self.username = username
+        self.email = email
+        self.password = bcrypt.generate_password_hash(
+            password, current_app.config.get('BCRYPT_LOG_ROUNDS')
+        ).decode()
+        self.created_at = created_at
+```
+
+Add the `bcrypt` import:
+
+```python
+from project import db, bcrypt
 ```
 
 The tests should pass. Turning to the API, what if we don't pass a password in the payload? Write a test!
