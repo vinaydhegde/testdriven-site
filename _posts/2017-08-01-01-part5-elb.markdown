@@ -17,7 +17,7 @@ The [Application Load Balancer](https://aws.amazon.com/elasticloadbalancing/appl
 1. Dynamically maps container services to ports (as defined in the ECS Task Definition)
 1. Distributes traffic evenly across the entire ECS Service
 1. Runs status health checks against each service
-1. Allows for zero-downtime deploys
+1. Allows for zero-downtime deploys and A/B testing
 
 Plus, when a new Task is added to the Service it will automatically be added to the ALB.
 

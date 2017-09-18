@@ -11,7 +11,7 @@
 One thing that I did not see was information about the required IAM setup. It might be helpful to identify specific AWS IAM policies that need to be granted to the AWS user for working with ECS.
 1. Paywall
 1. Add CI/CD - open pr, test, merge, test, deploy (for jekyll)
-1. Add microservices intro to part 1
+1. Add microservices intro, from readme, to part 1
 1. Autotweet when updates are made?
 1. Tech debt:
   - "In the test util file: "def add_user(username, email, created_at=datetime.datetime.now()):" - this is arguably more correct usage, but might even want to mock out time (otherwise the test success technically depends on when it was run)"

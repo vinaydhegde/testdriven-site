@@ -15,6 +15,7 @@
 - Zero downtime deployments
 - More resilient to server crashes
 - Easier to integrate new languages and technologies
+- Can be slower than a monolith if it requires multiple HTTP requests
 
 > More: http://flagzeta.org/blog/a-python-microservice-stack/
 
