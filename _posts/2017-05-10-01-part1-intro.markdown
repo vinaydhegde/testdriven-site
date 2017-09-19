@@ -54,6 +54,16 @@ This series uses the following tools and technologies:
 1. node-randomstring v1.1.5
 1. Swagger UI v3.0.8
 
+**Part 6**
+
+1. Flask v0.12.2
+1. Flask-Cors v3.0.3
+1. Flask-Script v2.0.6
+1. Flask-Testing v0.6.2
+1. Gunicorn v19.7.1
+1. Coverage.py v4.4.1
+1. Requests v2.18.4
+
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 
 | Topic            | Resource |

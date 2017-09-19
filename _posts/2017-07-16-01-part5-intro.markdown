@@ -46,7 +46,7 @@ You can also test out the following endpoints...
 
 Grab the code:
 
-1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main)
+1. [flask-microservices-main](https://github.com/realpython/flask-microservices-main/releases/tag/part5)
 1. [flask-microservices-users](https://github.com/realpython/flask-microservices-users)
 1. [flask-microservices-client](https://github.com/realpython/flask-microservices-client)
 1. [flask-microservices-swagger](https://github.com/realpython/flask-microservices-swagger)
