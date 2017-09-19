@@ -27,5 +27,8 @@ function setActivePart(url) {
     if (active === 'five') {
       $('h5[data-part="5"]').addClass('active');
     }
+    if (active === 'six') {
+      $('h5[data-part="6"]').addClass('active');
+    }
   }
 }
