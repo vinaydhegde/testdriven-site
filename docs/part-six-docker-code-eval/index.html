@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Microservices with Docker, Flask, and React - Setting up RDS</title>
+    <title>Microservices with Docker, Flask, and React - Docker Code Eval</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link
@@ -632,78 +632,25 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Setting up RDS</h2>
+          <h2>Docker Code Eval</h2>
 
-          <p>Before adding our production Cluster, let&#39;s set up Amazon RDS...</p>
+          <p>In this lesson, we&#39;ll test-drive the actual code evaluation portion of the new  service....</p>
 
 <hr>
 
-<p>First off, why should we set up Amazon <a href="https://aws.amazon.com/rds/">Relational Database Service</a> (RDS)? Why should we not just manage Postgres within the Cluster itself?</p>
-
-<ol>
-<li>Since the recommended means of <a href="https://en.wikipedia.org/wiki/Service_discovery">service discovery</a> in ECS is load balancing, we&#39;ll have to register the Postgres instance with the ALB. There&#39;s additional costs and overhead associated with this. We&#39;ll also have to assign a public IP to it and expose it to the internet. It&#39;s best to keep it private.</li>
-<li>Data integrity is an issue as well. What happens if the container crashes?</li>
-</ol>
-
-<blockquote>
-<p>For more, check out <a href="https://www.reddit.com/r/devops/comments/4tt6za/use_aws_ecs_with_docker_for_a_postgres_db_or_aws/">this</a> Reddit post.</p>
-</blockquote>
-
-<h4 id="rds-setup">RDS Setup</h4>
-
-<p>Navigate to <a href="https://console.aws.amazon.com/rds">Amazon RDS</a>, click &quot;Instances&quot; on the sidebar, and then click the &quot;Launch DB Instance&quot; button.</p>
-
-<blockquote>
-<p>You <em>probably</em> want to click the &quot;Free tier eligible only&quot;. More <a href="https://aws.amazon.com/free/">info</a>.</p>
-</blockquote>
-
-<p>Select the &quot;PostgreSQL&quot; engine and then &quot;Dev/Test&quot;. Under &quot;Specify DB Details&quot;:</p>
-
-<ol>
-<li>&quot;DB Engine Version&quot;: <code>PostgreSQL 9.6.2-R1</code></li>
-<li>&quot;DB Instance Class&quot;: <code>db.t2.micro</code></li>
-<li>&quot;Multi-AZ Deployment&quot;: <code>No</code></li>
-<li>&quot;Storage Type&quot;: <code>General Purpose (SSD)</code></li>
-<li>&quot;Allocated Storage&quot;: <code>5 GB</code></li>
-<li>&quot;DB Instance Identifier&quot;: <code>flask-microservices-production</code></li>
-<li>&quot;Master Username&quot;: <code>webapp</code></li>
-<li>&quot;Master Password&quot;: <code>something_super_secret</code></li>
-</ol>
-
-<p>Click &quot;Next Step&quot;. Under &quot;Network &amp; Security&quot;, make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
-
-<p>Change the DB name to <code>users_prod</code> and then create the new database.</p>
-
-<p>You can quickly check the status via:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>aws rds describe-db-instances <span class="se">\</span>
-  --db-instance-identifier flask-microservices-production <span class="se">\</span>
-  --query <span class="s1">&#39;DBInstances[].{DBInstanceStatus:DBInstanceStatus}&#39;</span>
-</code></pre></div>
-<p>Then, once the status is &quot;available&quot;, grab the address:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>aws rds describe-db-instances <span class="se">\</span>
-  --db-instance-identifier flask-microservices-production <span class="se">\</span>
-  --query <span class="s1">&#39;DBInstances[].{Address:Endpoint.Address}&#39;</span>
-</code></pre></div>
-<p>Take note of the production URI:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">postgres://webapp:YOUR_PASSWORD@YOUR_ADDRESS:5432/users_prod
-</code></pre></div>
-<blockquote>
-<p>Keep in mind that you cannot access the DB outside the VPC. So, if you want to connect to the instance, you will need to use <a href="https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling">SSH tunneling</a> via SSHing into an EC2 instance on the same VPC and, from there, connecting to the database.  </p>
-</blockquote>
+<p>Coming Soon!</p>
 
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Setting up RDS&amp;url=http%3A%2F%2Ftestdriven.io/part-five-ec2-relational-database-service&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Docker Code Eval&amp;url=http%3A%2F%2Ftestdriven.io/part-six-docker-code-eval&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-five-ec2-container-service-staging">&laquo; ECS Staging</a>
+              <a class="prev btn left-align" href="/part-six-eval-service-setup">&laquo; Eval Service Setup</a>
             
-            
-              <a class="next btn right-align" href="/part-five-ec2-container-service-production">ECS Production &raquo;</a>
             
           </div>
 
@@ -711,78 +658,25 @@
 
         <div class="hide-on-med-and-up">
 
-          <h2>Setting up RDS</h2>
+          <h2>Docker Code Eval</h2>
 
-          <p>Before adding our production Cluster, let&#39;s set up Amazon RDS...</p>
+          <p>In this lesson, we&#39;ll test-drive the actual code evaluation portion of the new  service....</p>
 
 <hr>
 
-<p>First off, why should we set up Amazon <a href="https://aws.amazon.com/rds/">Relational Database Service</a> (RDS)? Why should we not just manage Postgres within the Cluster itself?</p>
-
-<ol>
-<li>Since the recommended means of <a href="https://en.wikipedia.org/wiki/Service_discovery">service discovery</a> in ECS is load balancing, we&#39;ll have to register the Postgres instance with the ALB. There&#39;s additional costs and overhead associated with this. We&#39;ll also have to assign a public IP to it and expose it to the internet. It&#39;s best to keep it private.</li>
-<li>Data integrity is an issue as well. What happens if the container crashes?</li>
-</ol>
-
-<blockquote>
-<p>For more, check out <a href="https://www.reddit.com/r/devops/comments/4tt6za/use_aws_ecs_with_docker_for_a_postgres_db_or_aws/">this</a> Reddit post.</p>
-</blockquote>
-
-<h4 id="rds-setup">RDS Setup</h4>
-
-<p>Navigate to <a href="https://console.aws.amazon.com/rds">Amazon RDS</a>, click &quot;Instances&quot; on the sidebar, and then click the &quot;Launch DB Instance&quot; button.</p>
-
-<blockquote>
-<p>You <em>probably</em> want to click the &quot;Free tier eligible only&quot;. More <a href="https://aws.amazon.com/free/">info</a>.</p>
-</blockquote>
-
-<p>Select the &quot;PostgreSQL&quot; engine and then &quot;Dev/Test&quot;. Under &quot;Specify DB Details&quot;:</p>
-
-<ol>
-<li>&quot;DB Engine Version&quot;: <code>PostgreSQL 9.6.2-R1</code></li>
-<li>&quot;DB Instance Class&quot;: <code>db.t2.micro</code></li>
-<li>&quot;Multi-AZ Deployment&quot;: <code>No</code></li>
-<li>&quot;Storage Type&quot;: <code>General Purpose (SSD)</code></li>
-<li>&quot;Allocated Storage&quot;: <code>5 GB</code></li>
-<li>&quot;DB Instance Identifier&quot;: <code>flask-microservices-production</code></li>
-<li>&quot;Master Username&quot;: <code>webapp</code></li>
-<li>&quot;Master Password&quot;: <code>something_super_secret</code></li>
-</ol>
-
-<p>Click &quot;Next Step&quot;. Under &quot;Network &amp; Security&quot;, make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
-
-<p>Change the DB name to <code>users_prod</code> and then create the new database.</p>
-
-<p>You can quickly check the status via:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>aws rds describe-db-instances <span class="se">\</span>
-  --db-instance-identifier flask-microservices-production <span class="se">\</span>
-  --query <span class="s1">&#39;DBInstances[].{DBInstanceStatus:DBInstanceStatus}&#39;</span>
-</code></pre></div>
-<p>Then, once the status is &quot;available&quot;, grab the address:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>aws rds describe-db-instances <span class="se">\</span>
-  --db-instance-identifier flask-microservices-production <span class="se">\</span>
-  --query <span class="s1">&#39;DBInstances[].{Address:Endpoint.Address}&#39;</span>
-</code></pre></div>
-<p>Take note of the production URI:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">postgres://webapp:YOUR_PASSWORD@YOUR_ADDRESS:5432/users_prod
-</code></pre></div>
-<blockquote>
-<p>Keep in mind that you cannot access the DB outside the VPC. So, if you want to connect to the instance, you will need to use <a href="https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling">SSH tunneling</a> via SSHing into an EC2 instance on the same VPC and, from there, connecting to the database.  </p>
-</blockquote>
+<p>Coming Soon!</p>
 
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Setting up RDS&amp;url=http%3A%2F%2Ftestdriven.io/part-five-ec2-relational-database-service&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Docker Code Eval&amp;url=http%3A%2F%2Ftestdriven.io/part-six-docker-code-eval&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-five-ec2-container-service-staging">&laquo; ECS Staging</a>
+              <a class="prev btn left-align" href="/part-six-eval-service-setup">&laquo; Eval Service Setup</a>
             
-            
-              <a class="next btn right-align" href="/part-five-ec2-container-service-production">ECS Production &raquo;</a>
             
           </div>
 

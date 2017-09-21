@@ -63,6 +63,7 @@ This series uses the following tools and technologies:
 1. Gunicorn v19.7.1
 1. Coverage.py v4.4.1
 1. Requests v2.18.4
+1. Docker Python SDK v2.5.1
 
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 
