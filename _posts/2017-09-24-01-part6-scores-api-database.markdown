@@ -1,8 +1,8 @@
 ---
-title: Scores API Database Setup
+title: Scores API Database
 layout: post
 date: 2017-09-24 23:59:59
-permalink: part-six-scores-api-database-setup
+permalink: part-six-scores-api-database
 share: true
 ---
 
