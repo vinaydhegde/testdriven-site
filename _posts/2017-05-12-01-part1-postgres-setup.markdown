@@ -188,7 +188,7 @@ if __name__ == '__main__':
     manager.run()
 ```
 
-This registers a new command, `recreate_db`,  to the manager so that we can run the it from the command line Apply the model to the dev database:
+This registers a new command, `recreate_db`,  to the manager so that we can run the it from the command line. Apply the model to the dev database:
 
 ```
 $ docker-compose run users-service python manage.py recreate_db

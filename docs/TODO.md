@@ -17,6 +17,7 @@ One thing that I did not see was information about the required IAM setup. It mi
   - "In the test util file: "def add_user(username, email, created_at=datetime.datetime.now()):" - this is arguably more correct usage, but might even want to mock out time (otherwise the test success technically depends on when it was run)"
   - "Minor, but in "test_add_user_invalid_json_keys_no_password" why create a dict() object instead of directly define in {}?"
   - "It seems like some of these tests could also be trimmed down with some shared setup code, although it could also make them more difficult to read individually - maybe for a future refactoring"
+1. Add testimonials/reviews
 
 ## Completed
 

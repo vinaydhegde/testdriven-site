@@ -6,7 +6,7 @@ permalink: part-three-flask-migrate
 share: true
 ---
 
-In this lesson, we'll utilize Flask Migration to handle database migrations...
+In this lesson, we'll utilize Flask Migrate to handle database migrations...
 
 ---
 

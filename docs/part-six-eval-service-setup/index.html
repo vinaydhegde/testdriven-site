@@ -618,8 +618,18 @@
           <li>
             <a
               class="collection-item"
-              href="/part-six-docker-code-eval"
-            >Docker Code Eval</a>
+              href="/part-six-scores-api-database-setup"
+            >Scores API Database Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-scores-api-routes"
+            >Scores API Routes</a>
           </li>
         </ul>
       
@@ -638,12 +648,16 @@
 
 <hr>
 
-<p>In the next few lessons we&#39;ll spin up a new microservice that is responsible for running code securely via Docker containers.</p>
+<p>In the next few lessons we&#39;ll spin up a new microservice that is responsible for keeping track of user scores.</p>
 
 <p>Start by cloning down the repo containing the project boilerplate:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git clone https://github.com/realpython/flask-microservices-eval
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git clone https://github.com/realpython/flask-microservices-eval  <span class="se">\</span>
+  --branch v0 --single-branch
 </code></pre></div>
-<p>Open the project in your code editor of choice, and quickly review the code. Then, within the <em>flask-microservices-main</em> project, add the service to <em>docker-compose.yml</em>:</p>
+<p>Then, check out the <a href="https://github.com/realpython/flask-microservices-eval/releases/tag/v0">v0</a> tag to the master branch and install the dependencies:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git checkout tags/v0 -b master
+</code></pre></div>
+<p>Open the project in your code editor of choice, and quickly review the code. Then, within the <em>flask-microservices-main</em> project, add the service to <em>docker-compose.yml</em>:``</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">eval-service</span><span class="p-Indicator">:</span>
   <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">eval-service</span>
   <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
@@ -662,7 +676,7 @@
   <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
 </code></pre></div>
-<p>Take note of the <code>USERS_SERVICE_URL</code> above. Then, jump to the <code>ensure_authenticated</code> function <em>flask-microservices-eval/project/api/utils.py</em>:</p>
+<p>Take note of the <code>USERS_SERVICE_URL</code> above. Then, jump to the <code>ensure_authenticated</code> function in <em>flask-microservices-eval/project/api/utils.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">ensure_authenticated</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">True</span>
@@ -671,12 +685,14 @@
     <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;Authorization&#39;</span><span class="p">:</span> <span class="n">bearer</span><span class="p">}</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> \
+       <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span> <span class="ow">and</span> \
+       <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;active&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">data</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">False</span>
 </code></pre></div>
-<p>In this case, we&#39;ll be making a request from one container to another so we&#39;ll need to reference the container name rather than the Docker Machine IP.</p>
+<p>In this case, we&#39;ll make a request from one container to another so we need to reference the container name rather than the Docker Machine IP.</p>
 
 <blockquote>
 <p>Did you notice that we simply return <code>True</code> in the <code>ensure_authenticated</code> function in test mode? It&#39;s probably better to <a href="https://stackoverflow.com/questions/3459287/whats-the-difference-between-a-mock-stub">mock</a> the <code>authenticate</code> function in the test suite to separate the source code from the test code. Refactor on your own.</p>
@@ -737,7 +753,7 @@ inspect <span class="nv">$?</span> e2e
               <a class="prev btn left-align" href="/part-six-intro">&laquo; Introduction</a>
             
             
-              <a class="next btn right-align" href="/part-six-docker-code-eval">Docker Code Eval &raquo;</a>
+              <a class="next btn right-align" href="/part-six-scores-api-database-setup">Scores API Database Setup &raquo;</a>
             
           </div>
 
@@ -751,12 +767,16 @@ inspect <span class="nv">$?</span> e2e
 
 <hr>
 
-<p>In the next few lessons we&#39;ll spin up a new microservice that is responsible for running code securely via Docker containers.</p>
+<p>In the next few lessons we&#39;ll spin up a new microservice that is responsible for keeping track of user scores.</p>
 
 <p>Start by cloning down the repo containing the project boilerplate:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git clone https://github.com/realpython/flask-microservices-eval
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git clone https://github.com/realpython/flask-microservices-eval  <span class="se">\</span>
+  --branch v0 --single-branch
 </code></pre></div>
-<p>Open the project in your code editor of choice, and quickly review the code. Then, within the <em>flask-microservices-main</em> project, add the service to <em>docker-compose.yml</em>:</p>
+<p>Then, check out the <a href="https://github.com/realpython/flask-microservices-eval/releases/tag/v0">v0</a> tag to the master branch and install the dependencies:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git checkout tags/v0 -b master
+</code></pre></div>
+<p>Open the project in your code editor of choice, and quickly review the code. Then, within the <em>flask-microservices-main</em> project, add the service to <em>docker-compose.yml</em>:``</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">eval-service</span><span class="p-Indicator">:</span>
   <span class="l-Scalar-Plain">container_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">eval-service</span>
   <span class="l-Scalar-Plain">build</span><span class="p-Indicator">:</span>
@@ -775,7 +795,7 @@ inspect <span class="nv">$?</span> e2e
   <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
     <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
 </code></pre></div>
-<p>Take note of the <code>USERS_SERVICE_URL</code> above. Then, jump to the <code>ensure_authenticated</code> function <em>flask-microservices-eval/project/api/utils.py</em>:</p>
+<p>Take note of the <code>USERS_SERVICE_URL</code> above. Then, jump to the <code>ensure_authenticated</code> function in <em>flask-microservices-eval/project/api/utils.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">ensure_authenticated</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">True</span>
@@ -784,12 +804,14 @@ inspect <span class="nv">$?</span> e2e
     <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;Authorization&#39;</span><span class="p">:</span> <span class="n">bearer</span><span class="p">}</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> \
+       <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;success&#39;</span> <span class="ow">and</span> \
+       <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;active&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">data</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">False</span>
 </code></pre></div>
-<p>In this case, we&#39;ll be making a request from one container to another so we&#39;ll need to reference the container name rather than the Docker Machine IP.</p>
+<p>In this case, we&#39;ll make a request from one container to another so we need to reference the container name rather than the Docker Machine IP.</p>
 
 <blockquote>
 <p>Did you notice that we simply return <code>True</code> in the <code>ensure_authenticated</code> function in test mode? It&#39;s probably better to <a href="https://stackoverflow.com/questions/3459287/whats-the-difference-between-a-mock-stub">mock</a> the <code>authenticate</code> function in the test suite to separate the source code from the test code. Refactor on your own.</p>
@@ -850,7 +872,7 @@ inspect <span class="nv">$?</span> e2e
               <a class="prev btn left-align" href="/part-six-intro">&laquo; Introduction</a>
             
             
-              <a class="next btn right-align" href="/part-six-docker-code-eval">Docker Code Eval &raquo;</a>
+              <a class="next btn right-align" href="/part-six-scores-api-database-setup">Scores API Database Setup &raquo;</a>
             
           </div>
 
