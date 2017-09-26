@@ -633,6 +633,16 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-react-material-ui"
+            >React Material UI</a>
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -701,7 +711,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">updated_at</span><span class="p">)</span>
 </code></pre></div>
-<p>Create the <em>utils</em> file as well in &quot;project/tests&quot;:</p>
+<p>Make sure to add an <em>__init__.py</em> file to &quot;scores&quot; as well. Then, create the <em>utils</em> file as well in &quot;project/tests&quot;:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/utils.py</span>
 
 
@@ -709,7 +719,7 @@
 
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
-<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">Score</span>
+<span class="kn">from</span> <span class="nn">project.api.scores.models</span> <span class="kn">import</span> <span class="n">Score</span>
 
 
 <span class="k">def</span> <span class="nf">add_score</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">exercise_id</span><span class="p">,</span> <span class="n">correct</span><span class="p">,</span>
@@ -964,7 +974,7 @@ ADD create.sql /docker-entrypoint-initdb.d
         <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">created_at</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span> <span class="o">=</span> <span class="n">updated_at</span>
 </code></pre></div>
-<p>Run the tests. They should pass.</p>
+<p>Add an <em>__init__.py</em> file to &quot;scores&quot;, and then run the tests. They should pass.</p>
 
 <h5 id="update-manage-py">Update <em>manage.py</em>:</h5>
 
@@ -1154,7 +1164,7 @@ You are now connected to database <span class="s2">&quot;eval_dev&quot;</span> a
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">updated_at</span><span class="p">)</span>
 </code></pre></div>
-<p>Create the <em>utils</em> file as well in &quot;project/tests&quot;:</p>
+<p>Make sure to add an <em>__init__.py</em> file to &quot;scores&quot; as well. Then, create the <em>utils</em> file as well in &quot;project/tests&quot;:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/utils.py</span>
 
 
@@ -1162,7 +1172,7 @@ You are now connected to database <span class="s2">&quot;eval_dev&quot;</span> a
 
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
-<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">Score</span>
+<span class="kn">from</span> <span class="nn">project.api.scores.models</span> <span class="kn">import</span> <span class="n">Score</span>
 
 
 <span class="k">def</span> <span class="nf">add_score</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">exercise_id</span><span class="p">,</span> <span class="n">correct</span><span class="p">,</span>
@@ -1417,7 +1427,7 @@ ADD create.sql /docker-entrypoint-initdb.d
         <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">created_at</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span> <span class="o">=</span> <span class="n">updated_at</span>
 </code></pre></div>
-<p>Run the tests. They should pass.</p>
+<p>Add an <em>__init__.py</em> file to &quot;scores&quot;, and then run the tests. They should pass.</p>
 
 <h5 id="update-manage-py">Update <em>manage.py</em>:</h5>
 

@@ -119,7 +119,7 @@ def get_all_users():
     response_object = {
         'status': 'success',
         'data': {
-          'users': users_list
+            'users': users_list
         }
     }
     return jsonify(response_object), 200

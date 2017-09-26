@@ -74,7 +74,7 @@ class TestScoreModel(BaseTestCase):
         self.assertTrue(score.updated_at)
 ```
 
-Create the *utils* file as well in "project/tests":
+Make sure to add an *\_\_init\_\_.py* file to "scores" as well. Then, create the *utils* file as well in "project/tests":
 
 ```python
 # project/tests/utils.py
@@ -84,7 +84,7 @@ import datetime
 
 
 from project import db
-from project.api.models import Score
+from project.api.scores.models import Score
 
 
 def add_score(user_id, exercise_id, correct,
@@ -370,7 +370,7 @@ class Score(db.Model):
         self.updated_at = updated_at
 ```
 
-Run the tests. They should pass.
+Add an *\_\_init\_\_.py* file to "scores", and then run the tests. They should pass.
 
 ##### Update *manage.py*:
 
