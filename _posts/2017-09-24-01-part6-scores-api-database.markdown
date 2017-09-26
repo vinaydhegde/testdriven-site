@@ -51,14 +51,14 @@ Steps:
 
 ##### Write a test
 
-Create a new file called *test_scores_model.py* in "project/tests":
+Create a new folder called "scores" in "project/tests", and then add a new file to "scores" called *test_scores_model.py*:
 
 ```python
-# project/tests/test_scores_model.py
+# project/tests/scores/test_scores_model.py
 
 
 from project import db
-from project.api.models import Score
+from project.api.scores.models import Score
 from project.tests.base import BaseTestCase
 from project.tests.utils import add_score
 
@@ -74,7 +74,7 @@ class TestScoreModel(BaseTestCase):
         self.assertTrue(score.updated_at)
 ```
 
-Create the *utils* file as well:
+Create the *utils* file as well in "project/tests":
 
 ```python
 # project/tests/utils.py
@@ -339,10 +339,10 @@ eval-service:
 
 ##### Add the model
 
-Within "project/api/" add a *models.py* file:
+Within "project/api", add a new directory called "scores", and then add a new file called *models.py* to "scores":
 
 ```python
-# project/api/models.py
+# project/api/scores/models.py
 
 
 import datetime
@@ -387,7 +387,7 @@ from flask_script import Manager
 from flask_migrate import MigrateCommand
 
 from project import create_app, db
-from project.api.models import Score
+from project.api.scores.models import Score
 
 
 COV = coverage.coverage(
