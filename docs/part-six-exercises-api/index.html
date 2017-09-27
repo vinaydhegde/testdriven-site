@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  
+    <title>Microservices with Docker, Flask, and React - Exercises API</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link
+    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <link
+    rel="stylesheet"
+    href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  >
+  <link
+    href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link href="/assets/css/styles.css" rel="stylesheet">
+  <script
+    src="//code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    type="text/javascript"
+    src="/assets/js/main.js"
+  ></script>
+</head>
+
+
+  <body>
+
+    <nav class="red darken-1">
+  <div class="nav-wrapper">
+    <a href="/" class="brand-logo center hide-on-small-and-down">
+      Test Driven Development Courses
+    </a>
+    <a href="/" class="brand-logo hide-on-med-and-up">
+      TDD Courses
+    </a>
+    <ul class="right">
+      <li class="hide-on-med-and-down">
+        <a  href="/course-contents">Contents</a>
+      </li>
+      <li class="hide-on-large-only">
+        <a href="/course-contents">TOC</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+    <br>
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col m3 hide-on-small-and-down">
+  <br>
+  <div id="toc-block" class="collection hide-on-small-and-down">
+    <ul class="collapsible collapsible-accordion">
+      
+        
+          <li>
+            <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+              Part 1
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-getting-started"
+            >Getting Started</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-docker-config"
+            >Docker Config</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-postgres-setup"
+            >Postgres Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-test-setup"
+            >Test Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-flask-blueprints"
+            >Flask Blueprints</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-restful-routes"
+            >RESTful Routes</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-aws-deployment"
+            >Deployment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-jinja-templates"
+            >Jinja Templates</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-one-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+              Part 2
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-project-refactor"
+            >Project Refactor</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-code-coverage"
+            >Code Coverage</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-continuous-integration"
+            >Continuous Integration</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-react-setup"
+            >React Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-flask-deployment"
+            >Flask Deployment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-react-forms"
+            >React Forms</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-react-docker"
+            >React and Docker</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-two-flask-refactor"
+            >Flask Refactor</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
+              Part 3
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-flask-migrate"
+            >Flask Migrate</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-flask-bcrypt"
+            >Flask Bcrypt</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-jwt-setup"
+            >JWT Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-auth-routes"
+            >Auth Routes</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-router"
+            >React Router</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-bootstrap"
+            >React Bootstrap</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-react-authentication"
+            >React Authentication</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-authorization"
+            >Authorization</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-update-component"
+            >Update Component</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-three-update-docker"
+            >Update Docker</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="4" class="collapsible-header  waves-effect waves-teal">
+              Part 4
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-e2e-test-setup"
+            >End-to-End Test Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-e2e-test-specs"
+            >End-to-End Test Specs</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-component-refactor"
+            >React Component Refactor</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-form-validation"
+            >React Form Validation</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-react-flash-messages"
+            >React Flash Messaging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-swagger-setup"
+            >Swagger Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-staging-environment"
+            >Staging Environment</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-four-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
+              Part 5
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-docker-hub"
+            >Docker Hub</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-ec2-container-registry"
+            >EC2 Container Registry</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-ec2-container-service"
+            >EC2 Container Service</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-elastic-load-balancing"
+            >Elastic Load Balancing</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-ec2-container-service-staging"
+            >ECS Staging</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-ec2-relational-database-service"
+            >Setting up RDS</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-ec2-container-service-production"
+            >ECS Production</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-five-workflow"
+            >Workflow</a>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="6" class="collapsible-header  waves-effect waves-teal">
+              Part 6
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-intro"
+            >Introduction</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-eval-service-setup"
+            >Eval Service Setup</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-scores-api-database"
+            >Scores API Database</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-scores-api-routes"
+            >Scores API Routes</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-exercises-api"
+            >Exercises API</a>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            <a
+              class="collection-item"
+              href="/part-six-react-material-ui"
+            >React Material UI</a>
+          </li>
+        </ul>
+      
+    </div>
+  </li>
+    </ul>
+  </div>
+</div>
+
+
+        <div class="col m9 hide-on-small-and-down">
+
+          <h2>Exercises API</h2>
+
+          <p>In this lesson, we&#39;ll add an exercises API...</p>
+
+<hr>
+
+<h4 id="check-your-understanding">Check Your Understanding</h4>
+
+<p>It&#39;s highly, highly recommended to do this all on your own! Put your skills to test!</p>
+
+<h5 id="model">Model</h5>
+
+<p>Set up an <code>Exercise</code> model with the following columns:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>id</code></td>
+<td>integer</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>exercise_body</code></td>
+<td>string</td>
+<td>Define a function called sum that takes two integers as arguments and returns their sum.</td>
+</tr>
+<tr>
+<td><code>test_code</code></td>
+<td>string</td>
+<td>sum(2, 2)</td>
+</tr>
+<tr>
+<td><code>test_code_solution</code></td>
+<td>string</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>2017-09-27 13:26:48.579621</td>
+</tr>
+</tbody></table>
+
+<h5 id="routes">Routes</h5>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
+
+<h4 id="database-setup">Database Setup</h4>
+
+<p>Steps:</p>
+
+<ol>
+<li>Write a test</li>
+<li>Add the model</li>
+<li>Sanity check</li>
+</ol>
+
+<h5 id="write-a-test">Write a test</h5>
+
+<p>Start by adding an &quot;exercises&quot; folder to &quot;project/tests&quot;, and then add a new file to &quot;exercises&quot; called <em>test_exercises_model.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/exercises/test_exercises_model.py</span>
+
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">project.api.exercises.models</span> <span class="kn">import</span> <span class="n">Exercise</span>
+<span class="kn">from</span> <span class="nn">project.tests.base</span> <span class="kn">import</span> <span class="n">BaseTestCase</span>
+<span class="kn">from</span> <span class="nn">project.tests.utils</span> <span class="kn">import</span> <span class="n">add_exercise</span>
+
+
+<span class="k">class</span> <span class="nc">TestExerciseModel</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_add_exercise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">exercise</span> <span class="o">=</span> <span class="n">add_exercise</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">exercise_body</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">test_code</span><span class="p">,</span> <span class="s">&#39;sum(2, 2)&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">test_code_solution</span><span class="p">,</span> <span class="s">&#39;4&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span>
+</code></pre></div>
+<p>Don&#39;t forget to add an <em>__init__.py</em> file to &quot;exercises&quot;. Then, add the <code>add_exercise</code> helper function to <em>utils.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Define a function called sum that takes two integers as arguments and returns their sum&#39;</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;sum(2, 2)&#39;</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;4&#39;</span><span class="p">,</span>
+        <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
+    <span class="n">exercise</span> <span class="o">=</span> <span class="n">Exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="n">exercise_body</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="n">test_code</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="n">test_code_solution</span><span class="p">,</span>
+        <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span>
+    <span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">exercise</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">exercise</span>
+</code></pre></div>
+<p>Add the import as well:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">project.api.exercises.models</span> <span class="kn">import</span> <span class="n">Exercise</span>
+</code></pre></div>
+<p>Ensure the tests fail.</p>
+
+<h5 id="add-the-model">Add the model</h5>
+
+<p>Add an &quot;exercises&quot; folder to &quot;project/api&quot;, and then add a new file called <em>models.py</em> to &quot;exercises&quot;:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/api/exercises/models.py</span>
+
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
+
+
+<span class="k">class</span> <span class="nc">Exercise</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&quot;exercises&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">exercise_body</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">test_code</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">test_code_solution</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">exercise_body</span><span class="p">,</span> <span class="n">test_code</span><span class="p">,</span> <span class="n">test_code_solution</span><span class="p">,</span>
+            <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exercise_body</span> <span class="o">=</span> <span class="n">exercise_body</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_code</span> <span class="o">=</span> <span class="n">test_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_code_solution</span> <span class="o">=</span> <span class="n">test_code_solution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">created_at</span>
+</code></pre></div>
+<p>Add an <em>__init__.py</em> file to &quot;exercises&quot;, and then run the tests. They should pass.</p>
+
+<h5 id="sanity-check">Sanity check</h5>
+
+<p>Be sure to add the import to <em>manage.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">project.api.exercises.models</span> <span class="kn">import</span> <span class="n">Exercise</span>
+</code></pre></div>
+<p>Recreate the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py recreate_db
+</code></pre></div>
+<p>Then, ensure the new model was applied:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti <span class="k">$(</span>docker ps -aqf <span class="s2">&quot;name=eval-db&quot;</span><span class="k">)</span> psql -U postgres
+
+<span class="c"># \c eval_dev</span>
+You are now connected to database <span class="s2">&quot;eval_dev&quot;</span> as user <span class="s2">&quot;postgres&quot;</span>.
+
+<span class="c"># \dt</span>
+         List of relations
+ Schema <span class="p">|</span>  Name  <span class="p">|</span> Type  <span class="p">|</span>  Owner
+--------+--------+-------+----------
+ public <span class="p">|</span> exercises <span class="p">|</span> table <span class="p">|</span> postgres
+ public <span class="p">|</span> scores    <span class="p">|</span> table <span class="p">|</span> postgres
+<span class="o">(</span><span class="m">1</span> row<span class="o">)</span>
+
+<span class="c"># \q</span>
+</code></pre></div>
+<h4 id="routes">Routes</h4>
+
+<p>Next, let&#39;s set up the following routes...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
+
+<p>Process:</p>
+
+<ol>
+<li>write a test</li>
+<li>run the test to ensure it fails (<strong>red</strong>)</li>
+<li>write just enough code to get the test to pass (<strong>green</strong>)</li>
+<li><strong>refactor</strong> (if necessary)</li>
+</ol>
+
+<p>Files:</p>
+
+<ol>
+<li>Test - <em>project/tests/exercises/test_exercises_api.py</em></li>
+<li>API - <em>project/api/exercises/exercises.py</em></li>
+</ol>
+
+<h4 id="get-all-exercises">GET all exercises</h4>
+
+<p>Test:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_all_exercises</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure get all exercises behaves correctly.&quot;&quot;&quot;</span>
+    <span class="n">add_exercise</span><span class="p">()</span>
+    <span class="n">add_exercise</span><span class="p">(</span>
+        <span class="s">&#39;Just a sample&#39;</span><span class="p">,</span> <span class="s">&#39;print(&quot;Hello, World!&quot;)&#39;</span><span class="p">,</span> <span class="s">&#39;Hello, World!&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/exercises&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
+            <span class="s">&#39;Define a function called sum&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;exercise_body&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;Just a sample&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;exercise_body&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;sum(2, 2)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;test_code&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;print(&quot;Hello, World!&quot;)&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;test_code&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;test_code_solution&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;Hello, World!&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;test_code_solution&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s">&#39;created_at&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s">&#39;created_at&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>Route:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@exercises_blueprint.route</span><span class="p">(</span><span class="s">&#39;/exercises&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_all_exercises</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Get all exercises&quot;&quot;&quot;</span>
+    <span class="n">exercises</span> <span class="o">=</span> <span class="n">Exercise</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">exercises_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">exercise</span> <span class="ow">in</span> <span class="n">exercises</span><span class="p">:</span>
+        <span class="n">exercise_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="s">&#39;exercise_body&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">exercise_body</span><span class="p">,</span>
+            <span class="s">&#39;test_code&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">test_code</span><span class="p">,</span>
+            <span class="s">&#39;test_code_solution&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">test_code_solution</span><span class="p">,</span>
+            <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">exercises_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exercise_object</span><span class="p">)</span>
+    <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;exercises&#39;</span><span class="p">:</span> <span class="n">exercises_list</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
+</code></pre></div>
+<h4 id="post">POST</h4>
+
+<p>Tests:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_exercise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure a new exercise can be added to the database.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/exercises&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Sample sample&#39;</span><span class="p">,</span>
+                <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;get_sum(2, 2)&#39;</span><span class="p">,</span>
+                <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;4&#39;</span><span class="p">,</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer test&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;New exercise was added!&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_add_exercise_invalid_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure error is thrown if the JSON object is empty.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/exercises&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">()),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer test&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;fail&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_add_exercise_invalid_json_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure error is thrown if the JSON object is invalid.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/exercises&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer test&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;fail&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_add_exercise_no_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure error is thrown if &#39;Authorization&#39; header is empty.&quot;&quot;&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s">&#39;/exercises&#39;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Sample sample&#39;</span><span class="p">,</span>
+            <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;get_sum(2, 2)&#39;</span><span class="p">,</span>
+            <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;4&#39;</span><span class="p">,</span>
+        <span class="p">)),</span>
+        <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+    <span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">403</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Provide a valid auth token.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>Route:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@exercises_blueprint.route</span><span class="p">(</span><span class="s">&#39;/exercises&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">add_exercise</span><span class="p">(</span><span class="n">resp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add exercise&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s">&#39;admin&#39;</span><span class="p">]:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;You do not have permission to do that.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">401</span>
+    <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">post_data</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
+    <span class="n">exercise_body</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;exercise_body&#39;</span><span class="p">)</span>
+    <span class="n">test_code</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;test_code&#39;</span><span class="p">)</span>
+    <span class="n">test_code_solution</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;test_code_solution&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Exercise</span><span class="p">(</span>
+            <span class="n">exercise_body</span><span class="o">=</span><span class="n">exercise_body</span><span class="p">,</span>
+            <span class="n">test_code</span><span class="o">=</span><span class="n">test_code</span><span class="p">,</span>
+            <span class="n">test_code_solution</span><span class="o">=</span><span class="n">test_code_solution</span><span class="p">))</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;New exercise was added!&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">201</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
+</code></pre></div>
+<h4 id="sanity-check">Sanity Check</h4>
+
+<p>Do the tests pass?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Did code coverage increase?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py cov
+</code></pre></div>
+<p>It went down about 2% on my end. Why?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">Coverage Summary:
+Name                                 Stmts   Miss Branch BrPart  Cover
+----------------------------------------------------------------------
+project/__init__.py                     <span class="m">21</span>      <span class="m">8</span>      <span class="m">0</span>      <span class="m">0</span>    62%
+project/api/eval.py                      <span class="m">8</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
+project/api/exercises/exercises.py      <span class="m">35</span>      <span class="m">2</span>      <span class="m">6</span>      <span class="m">1</span>    93%
+project/api/exercises/models.py         <span class="m">14</span>     <span class="m">10</span>      <span class="m">0</span>      <span class="m">0</span>    29%
+project/api/scores/models.py            <span class="m">16</span>     <span class="m">11</span>      <span class="m">0</span>      <span class="m">0</span>    31%
+project/api/scores/scores.py            <span class="m">87</span>      <span class="m">1</span>     <span class="m">16</span>      <span class="m">1</span>    98%
+project/api/utils.py                    <span class="m">33</span>     <span class="m">11</span>      <span class="m">8</span>      <span class="m">2</span>    63%
+project/config.py                       <span class="m">19</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
+----------------------------------------------------------------------
+TOTAL                                  <span class="m">233</span>     <span class="m">43</span>     <span class="m">30</span>      <span class="m">4</span>    81%
+</code></pre></div>
+<p>Write any additional routes and tests. Once done, commit and push your code to GitHub.</p>
+
+
+          
+  <br><br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Exercises API&amp;url=http%3A%2F%2Ftestdriven.io/part-six-exercises-api&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-six-scores-api-routes">&laquo; Scores API Routes</a>
+            
+            
+              <a class="next btn right-align" href="/part-six-react-material-ui">React Material UI &raquo;</a>
+            
+          </div>
+
+        </div>
+
+        <div class="hide-on-med-and-up">
+
+          <h2>Exercises API</h2>
+
+          <p>In this lesson, we&#39;ll add an exercises API...</p>
+
+<hr>
+
+<h4 id="check-your-understanding">Check Your Understanding</h4>
+
+<p>It&#39;s highly, highly recommended to do this all on your own! Put your skills to test!</p>
+
+<h5 id="model">Model</h5>
+
+<p>Set up an <code>Exercise</code> model with the following columns:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Example</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>id</code></td>
+<td>integer</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>exercise_body</code></td>
+<td>string</td>
+<td>Define a function called sum that takes two integers as arguments and returns their sum.</td>
+</tr>
+<tr>
+<td><code>test_code</code></td>
+<td>string</td>
+<td>sum(2, 2)</td>
+</tr>
+<tr>
+<td><code>test_code_solution</code></td>
+<td>string</td>
+<td>4</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td>datetime</td>
+<td>2017-09-27 13:26:48.579621</td>
+</tr>
+</tbody></table>
+
+<h5 id="routes">Routes</h5>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
+
+<h4 id="database-setup">Database Setup</h4>
+
+<p>Steps:</p>
+
+<ol>
+<li>Write a test</li>
+<li>Add the model</li>
+<li>Sanity check</li>
+</ol>
+
+<h5 id="write-a-test">Write a test</h5>
+
+<p>Start by adding an &quot;exercises&quot; folder to &quot;project/tests&quot;, and then add a new file to &quot;exercises&quot; called <em>test_exercises_model.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/tests/exercises/test_exercises_model.py</span>
+
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">project.api.exercises.models</span> <span class="kn">import</span> <span class="n">Exercise</span>
+<span class="kn">from</span> <span class="nn">project.tests.base</span> <span class="kn">import</span> <span class="n">BaseTestCase</span>
+<span class="kn">from</span> <span class="nn">project.tests.utils</span> <span class="kn">import</span> <span class="n">add_exercise</span>
+
+
+<span class="k">class</span> <span class="nc">TestExerciseModel</span><span class="p">(</span><span class="n">BaseTestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_add_exercise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">exercise</span> <span class="o">=</span> <span class="n">add_exercise</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">exercise_body</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">test_code</span><span class="p">,</span> <span class="s">&#39;sum(2, 2)&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">test_code_solution</span><span class="p">,</span> <span class="s">&#39;4&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exercise</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span>
+</code></pre></div>
+<p>Don&#39;t forget to add an <em>__init__.py</em> file to &quot;exercises&quot;. Then, add the <code>add_exercise</code> helper function to <em>utils.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Define a function called sum that takes two integers as arguments and returns their sum&#39;</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;sum(2, 2)&#39;</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;4&#39;</span><span class="p">,</span>
+        <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
+    <span class="n">exercise</span> <span class="o">=</span> <span class="n">Exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="n">exercise_body</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="n">test_code</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="n">test_code_solution</span><span class="p">,</span>
+        <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span>
+    <span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">exercise</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">exercise</span>
+</code></pre></div>
+<p>Add the import as well:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">project.api.exercises.models</span> <span class="kn">import</span> <span class="n">Exercise</span>
+</code></pre></div>
+<p>Ensure the tests fail.</p>
+
+<h5 id="add-the-model">Add the model</h5>
+
+<p>Add an &quot;exercises&quot; folder to &quot;project/api&quot;, and then add a new file called <em>models.py</em> to &quot;exercises&quot;:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># project/api/exercises/models.py</span>
+
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
+
+
+<span class="k">class</span> <span class="nc">Exercise</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&quot;exercises&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">autoincrement</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">exercise_body</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">test_code</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">test_code_solution</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">DateTime</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">exercise_body</span><span class="p">,</span> <span class="n">test_code</span><span class="p">,</span> <span class="n">test_code_solution</span><span class="p">,</span>
+            <span class="n">created_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exercise_body</span> <span class="o">=</span> <span class="n">exercise_body</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_code</span> <span class="o">=</span> <span class="n">test_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_code_solution</span> <span class="o">=</span> <span class="n">test_code_solution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">created_at</span>
+</code></pre></div>
+<p>Add an <em>__init__.py</em> file to &quot;exercises&quot;, and then run the tests. They should pass.</p>
+
+<h5 id="sanity-check">Sanity check</h5>
+
+<p>Be sure to add the import to <em>manage.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">project.api.exercises.models</span> <span class="kn">import</span> <span class="n">Exercise</span>
+</code></pre></div>
+<p>Recreate the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py recreate_db
+</code></pre></div>
+<p>Then, ensure the new model was applied:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -ti <span class="k">$(</span>docker ps -aqf <span class="s2">&quot;name=eval-db&quot;</span><span class="k">)</span> psql -U postgres
+
+<span class="c"># \c eval_dev</span>
+You are now connected to database <span class="s2">&quot;eval_dev&quot;</span> as user <span class="s2">&quot;postgres&quot;</span>.
+
+<span class="c"># \dt</span>
+         List of relations
+ Schema <span class="p">|</span>  Name  <span class="p">|</span> Type  <span class="p">|</span>  Owner
+--------+--------+-------+----------
+ public <span class="p">|</span> exercises <span class="p">|</span> table <span class="p">|</span> postgres
+ public <span class="p">|</span> scores    <span class="p">|</span> table <span class="p">|</span> postgres
+<span class="o">(</span><span class="m">1</span> row<span class="o">)</span>
+
+<span class="c"># \q</span>
+</code></pre></div>
+<h4 id="routes">Routes</h4>
+
+<p>Next, let&#39;s set up the following routes...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
+
+<p>Process:</p>
+
+<ol>
+<li>write a test</li>
+<li>run the test to ensure it fails (<strong>red</strong>)</li>
+<li>write just enough code to get the test to pass (<strong>green</strong>)</li>
+<li><strong>refactor</strong> (if necessary)</li>
+</ol>
+
+<p>Files:</p>
+
+<ol>
+<li>Test - <em>project/tests/exercises/test_exercises_api.py</em></li>
+<li>API - <em>project/api/exercises/exercises.py</em></li>
+</ol>
+
+<h4 id="get-all-exercises">GET all exercises</h4>
+
+<p>Test:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_all_exercises</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure get all exercises behaves correctly.&quot;&quot;&quot;</span>
+    <span class="n">add_exercise</span><span class="p">()</span>
+    <span class="n">add_exercise</span><span class="p">(</span>
+        <span class="s">&#39;Just a sample&#39;</span><span class="p">,</span> <span class="s">&#39;print(&quot;Hello, World!&quot;)&#39;</span><span class="p">,</span> <span class="s">&#39;Hello, World!&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/exercises&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
+            <span class="s">&#39;Define a function called sum&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;exercise_body&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;Just a sample&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;exercise_body&#39;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;sum(2, 2)&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;test_code&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;print(&quot;Hello, World!&quot;)&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;test_code&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;test_code_solution&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="s">&#39;Hello, World!&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;test_code_solution&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s">&#39;created_at&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s">&#39;created_at&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">][</span><span class="s">&#39;exercises&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>Route:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@exercises_blueprint.route</span><span class="p">(</span><span class="s">&#39;/exercises&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">get_all_exercises</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Get all exercises&quot;&quot;&quot;</span>
+    <span class="n">exercises</span> <span class="o">=</span> <span class="n">Exercise</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">exercises_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">exercise</span> <span class="ow">in</span> <span class="n">exercises</span><span class="p">:</span>
+        <span class="n">exercise_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="s">&#39;exercise_body&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">exercise_body</span><span class="p">,</span>
+            <span class="s">&#39;test_code&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">test_code</span><span class="p">,</span>
+            <span class="s">&#39;test_code_solution&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">test_code_solution</span><span class="p">,</span>
+            <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="n">exercise</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">exercises_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exercise_object</span><span class="p">)</span>
+    <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;exercises&#39;</span><span class="p">:</span> <span class="n">exercises_list</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
+</code></pre></div>
+<h4 id="post">POST</h4>
+
+<p>Tests:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_exercise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure a new exercise can be added to the database.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/exercises&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Sample sample&#39;</span><span class="p">,</span>
+                <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;get_sum(2, 2)&#39;</span><span class="p">,</span>
+                <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;4&#39;</span><span class="p">,</span>
+            <span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer test&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;New exercise was added!&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_add_exercise_invalid_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure error is thrown if the JSON object is empty.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/exercises&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">()),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer test&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;fail&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_add_exercise_invalid_json_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure error is thrown if the JSON object is invalid.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="s">&#39;/exercises&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)),</span>
+            <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Authorization</span><span class="o">=</span><span class="s">&#39;Bearer test&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Invalid payload.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;fail&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">test_add_exercise_no_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Ensure error is thrown if &#39;Authorization&#39; header is empty.&quot;&quot;&quot;</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s">&#39;/exercises&#39;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Sample sample&#39;</span><span class="p">,</span>
+            <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;get_sum(2, 2)&#39;</span><span class="p">,</span>
+            <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;4&#39;</span><span class="p">,</span>
+        <span class="p">)),</span>
+        <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span>
+    <span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">403</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Provide a valid auth token.&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>Route:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@exercises_blueprint.route</span><span class="p">(</span><span class="s">&#39;/exercises&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="nd">@authenticate</span>
+<span class="k">def</span> <span class="nf">add_exercise</span><span class="p">(</span><span class="n">resp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add exercise&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">resp</span><span class="p">[</span><span class="s">&#39;admin&#39;</span><span class="p">]:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;You do not have permission to do that.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">401</span>
+    <span class="n">post_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">post_data</span><span class="p">:</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
+    <span class="n">exercise_body</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;exercise_body&#39;</span><span class="p">)</span>
+    <span class="n">test_code</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;test_code&#39;</span><span class="p">)</span>
+    <span class="n">test_code_solution</span> <span class="o">=</span> <span class="n">post_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;test_code_solution&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Exercise</span><span class="p">(</span>
+            <span class="n">exercise_body</span><span class="o">=</span><span class="n">exercise_body</span><span class="p">,</span>
+            <span class="n">test_code</span><span class="o">=</span><span class="n">test_code</span><span class="p">,</span>
+            <span class="n">test_code_solution</span><span class="o">=</span><span class="n">test_code_solution</span><span class="p">))</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;New exercise was added!&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">201</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+        <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="s">&#39;fail&#39;</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="s">&#39;Invalid payload.&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
+</code></pre></div>
+<h4 id="sanity-check">Sanity Check</h4>
+
+<p>Do the tests pass?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Did code coverage increase?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py cov
+</code></pre></div>
+<p>It went down about 2% on my end. Why?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">Coverage Summary:
+Name                                 Stmts   Miss Branch BrPart  Cover
+----------------------------------------------------------------------
+project/__init__.py                     <span class="m">21</span>      <span class="m">8</span>      <span class="m">0</span>      <span class="m">0</span>    62%
+project/api/eval.py                      <span class="m">8</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
+project/api/exercises/exercises.py      <span class="m">35</span>      <span class="m">2</span>      <span class="m">6</span>      <span class="m">1</span>    93%
+project/api/exercises/models.py         <span class="m">14</span>     <span class="m">10</span>      <span class="m">0</span>      <span class="m">0</span>    29%
+project/api/scores/models.py            <span class="m">16</span>     <span class="m">11</span>      <span class="m">0</span>      <span class="m">0</span>    31%
+project/api/scores/scores.py            <span class="m">87</span>      <span class="m">1</span>     <span class="m">16</span>      <span class="m">1</span>    98%
+project/api/utils.py                    <span class="m">33</span>     <span class="m">11</span>      <span class="m">8</span>      <span class="m">2</span>    63%
+project/config.py                       <span class="m">19</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
+----------------------------------------------------------------------
+TOTAL                                  <span class="m">233</span>     <span class="m">43</span>     <span class="m">30</span>      <span class="m">4</span>    81%
+</code></pre></div>
+<p>Write any additional routes and tests. Once done, commit and push your code to GitHub.</p>
+
+
+          
+  <br><br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Exercises API&amp;url=http%3A%2F%2Ftestdriven.io/part-six-exercises-api&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-six-scores-api-routes">&laquo; Scores API Routes</a>
+            
+            
+              <a class="next btn right-align" href="/part-six-react-material-ui">React Material UI &raquo;</a>
+            
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+     <footer class="page-footer white">
+  <div class="container footer-container center-align">
+    <ul>
+      <li>Content by Michael Herman (michael@realpython.com)</li>
+      <li>&copy; Copyright 2017 <a href="http://realpython.com">Real Python</a></li>
+    </ul>
+  </div>
+</footer>
+
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+
+    
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-100160465-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+
+  </body>
+</html>

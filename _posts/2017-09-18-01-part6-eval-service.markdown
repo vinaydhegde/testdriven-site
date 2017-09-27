@@ -10,7 +10,7 @@ In this lesson, we'll quickly wire up a new service...
 
 ---
 
-In the next few lessons we'll spin up a new microservice that is responsible for keeping track of user scores.
+In the next few lessons we'll spin up a new microservice that is responsible for maintaining exercises and keeping track of user scores.
 
 Start by cloning down the repo containing the project boilerplate:
 

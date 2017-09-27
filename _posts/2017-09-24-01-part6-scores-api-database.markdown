@@ -74,7 +74,7 @@ class TestScoreModel(BaseTestCase):
         self.assertTrue(score.updated_at)
 ```
 
-Make sure to add an *\_\_init\_\_.py* file to "scores" as well. Then, create the *utils* file as well in "project/tests":
+Make sure to add an *\_\_init\_\_.py* file to "scores" as well. Then, create the *utils.py* file as well in "project/tests":
 
 ```python
 # project/tests/utils.py
