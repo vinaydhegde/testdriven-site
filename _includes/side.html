@@ -12,10 +12,17 @@
         {% endif %}
         <ul>
           <li>
-            <a
-              class="collection-item"
-              href="{{ site.baseurl }}{{ post.url }}"
-            >{{ post.title }}</a>
+            {% if post.part %}
+              <a
+                class="collection-item"
+                href="{{ site.baseurl }}{{ post.url }}"
+              >Introduction</a>
+            {% else %}
+              <a
+                class="collection-item"
+                href="{{ site.baseurl }}{{ post.url }}"
+              >{{ post.title }}</a>
+            {% endif %}
           </li>
         </ul>
       {% endfor %}

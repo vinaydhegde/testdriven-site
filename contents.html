@@ -14,7 +14,11 @@ permalink: course-contents/
     <p>{{ post.content | strip_html | truncatewords:30}}</p>
   {% endif %}
     <ul class="lessons-list">
-      <li><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></li>
+      {% if post.part %}
+        <li><a href="{{ site.baseurl }}{{ post.url }}">Introduction</a></li>
+      {% else %}
+        <li><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></li>
+      {% endif %}
     </ul>
 {% endfor %}
 
