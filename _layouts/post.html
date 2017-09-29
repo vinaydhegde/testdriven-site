@@ -16,7 +16,11 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>{{ page.title }}</h2>
+          {% if page.part %}
+            <h2>Part {{ page.part }} {{ page.title }}</h2>
+          {% else %}
+            <h2>{{ page.title }}</h2>
+          {% endif %}
 
           {{ content }}
 

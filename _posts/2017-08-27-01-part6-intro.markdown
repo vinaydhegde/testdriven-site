@@ -7,12 +7,8 @@ part: 6
 share: true
 ---
 
-Topics covered:
-
-1. Setting up a new service
-1. Configuring Redis
-1. Adding Materialize CSS
+In the final part, we'll focus our attention on adding a new service to evaluate user-submitted code.
 
 ---
 
-Coming Soon!
+In progress...
