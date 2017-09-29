@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Microservices with Docker, Flask, and React - Introduction</title>
+    <title>Microservices with Docker, Flask, and React - React Material UI</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link
@@ -672,114 +672,60 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Introduction</h2>
+          <h2>React Material UI</h2>
 
-          <p>In Part 3, we&#39;ll add <em>database migrations</em> along with <em>password hashing</em> in order to implement <em>token-based authentication</em> to the users service with JSON Web Tokens (JWTs). We&#39;ll then turn our attention to the client and add <em>React Router</em> to the React app to enable client-side routing along with client-side authentication.</p>
+          <p>In this lesson, we&#39;ll add Bootstrap 4 to the React front-end...</p>
 
-<h4 id="objectives">Objectives</h4>
+<hr>
 
-<p>By the end of part 3, you should be able to...</p>
+<p>Coming soon!</p>
 
-<ol>
-<li>Use Flask Migration to handle database migrations</li>
-<li>Configure Flask Bcrypt for password hashing</li>
-<li>Implement user authentication with JWTs</li>
-<li>Write tests to create and verify JWTs and user authentication</li>
-<li>Use React Router to define client-side routes in React</li>
-<li>Build UI components with React Bootstrap</li>
-<li>Explain the difference between user authentication and authorization</li>
-<li>Implement user authorization</li>
-</ol>
+<h4 id="getting-started">Getting Started</h4>
 
-<h4 id="app">App</h4>
+<p>Material UI is a set of React components that implement <a href="https://material.io/guidelines/material-design/introduction.html">Material Design</a>. If you prefer Bootstrap, you are more than welcoem to stick with it.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Within <em>flask-microservices-client</em>, install <a href="http://www.material-ui.com/">Material UI</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --save material-ui@1.0.0-beta.12
+</code></pre></div>
+<p>As <a href="https://material-ui-1dab0.firebaseapp.com/getting-started/installation/#roboto-font">suggested</a>, let&#39;s also grab the <a href="https://fonts.google.com/specimen/Roboto">Roboto</a> font.</p>
 
-<p>Check out the live app, running on EC2 - <a href="http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com">http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com</a></p>
+<p>Add it to a new file called <em>main.css</em> in the &quot;public&quot; folder:</p>
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">html</span> <span class="p">{</span>
+  <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;Roboto&#39;</span><span class="o">,</span> <span class="k">sans-serif</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">font</span><span class="o">-</span><span class="n">smoothing</span><span class="o">:</span> <span class="n">antialiased</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then add the font along with the <em>main.css</em> to <em>public/index.html</em> in the <code>head</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span>
+  <span class="na">href=</span><span class="s">&quot;//fonts.googleapis.com/css?family=Roboto:300,400,500&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
+<span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;main.css&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+<p>Make sure you remove the following line since we&#39;re not longer using the Bootstrap styles:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span>
+  <span class="na">href=</span><span class="s">&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span>
+  <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
+<span class="nt">&gt;</span>
+</code></pre></div>
+<h4 id="navbar">Navbar</h4>
 
-<p>You can also test out the following endpoints...</p>
-
-<table><thead>
-<tr>
-<th>Endpoint</th>
-<th>HTTP Method</th>
-<th>Authenticated?</th>
-<th>Result</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>/auth/register</td>
-<td>POST</td>
-<td>No</td>
-<td>register user</td>
-</tr>
-<tr>
-<td>/auth/login</td>
-<td>POST</td>
-<td>No</td>
-<td>log in user</td>
-</tr>
-<tr>
-<td>/auth/logout</td>
-<td>GET</td>
-<td>Yes</td>
-<td>log out user</td>
-</tr>
-<tr>
-<td>/auth/status</td>
-<td>GET</td>
-<td>Yes</td>
-<td>check user status</td>
-</tr>
-<tr>
-<td>/users</td>
-<td>GET</td>
-<td>No</td>
-<td>get all users</td>
-</tr>
-<tr>
-<td>/users/:id</td>
-<td>GET</td>
-<td>No</td>
-<td>get single user</td>
-</tr>
-<tr>
-<td>/users</td>
-<td>POST</td>
-<td>Yes (admin)</td>
-<td>add a user</td>
-</tr>
-<tr>
-<td>/ping</td>
-<td>GET</td>
-<td>No</td>
-<td>sanity check</td>
-</tr>
-</tbody></table>
-
-<p>Grab the code:</p>
+<p>Coming soon!</p>
 
 <ol>
-<li><a href="https://github.com/realpython/flask-microservices-main/releases/tag/part3">flask-microservices-main</a></li>
-<li><a href="https://github.com/realpython/flask-microservices-users/releases/tag/part3">flask-microservices-users</a></li>
-<li><a href="https://github.com/realpython/flask-microservices-client/releases/tag/part3">flask-microservices-client</a></li>
+<li>Material CSS</li>
+<li>Evaluation with AWS Lambda</li>
+<li>Material CSS</li>
 </ol>
 
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-three-intro&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Material UI&amp;url=http%3A%2F%2Ftestdriven.io/part-six-react-material-ui&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-two-flask-refactor">&laquo; Flask Refactor</a>
-            
-            
-              <a class="next btn right-align" href="/part-three-flask-migrate">Flask Migrate &raquo;</a>
             
           </div>
 
@@ -787,114 +733,60 @@
 
         <div class="hide-on-med-and-up">
 
-          <h2>Introduction</h2>
+          <h2>React Material UI</h2>
 
-          <p>In Part 3, we&#39;ll add <em>database migrations</em> along with <em>password hashing</em> in order to implement <em>token-based authentication</em> to the users service with JSON Web Tokens (JWTs). We&#39;ll then turn our attention to the client and add <em>React Router</em> to the React app to enable client-side routing along with client-side authentication.</p>
+          <p>In this lesson, we&#39;ll add Bootstrap 4 to the React front-end...</p>
 
-<h4 id="objectives">Objectives</h4>
+<hr>
 
-<p>By the end of part 3, you should be able to...</p>
+<p>Coming soon!</p>
 
-<ol>
-<li>Use Flask Migration to handle database migrations</li>
-<li>Configure Flask Bcrypt for password hashing</li>
-<li>Implement user authentication with JWTs</li>
-<li>Write tests to create and verify JWTs and user authentication</li>
-<li>Use React Router to define client-side routes in React</li>
-<li>Build UI components with React Bootstrap</li>
-<li>Explain the difference between user authentication and authorization</li>
-<li>Implement user authorization</li>
-</ol>
+<h4 id="getting-started">Getting Started</h4>
 
-<h4 id="app">App</h4>
+<p>Material UI is a set of React components that implement <a href="https://material.io/guidelines/material-design/introduction.html">Material Design</a>. If you prefer Bootstrap, you are more than welcoem to stick with it.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Within <em>flask-microservices-client</em>, install <a href="http://www.material-ui.com/">Material UI</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --save material-ui@1.0.0-beta.12
+</code></pre></div>
+<p>As <a href="https://material-ui-1dab0.firebaseapp.com/getting-started/installation/#roboto-font">suggested</a>, let&#39;s also grab the <a href="https://fonts.google.com/specimen/Roboto">Roboto</a> font.</p>
 
-<p>Check out the live app, running on EC2 - <a href="http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com">http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com</a></p>
+<p>Add it to a new file called <em>main.css</em> in the &quot;public&quot; folder:</p>
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">html</span> <span class="p">{</span>
+  <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;Roboto&#39;</span><span class="o">,</span> <span class="k">sans-serif</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">font</span><span class="o">-</span><span class="n">smoothing</span><span class="o">:</span> <span class="n">antialiased</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then add the font along with the <em>main.css</em> to <em>public/index.html</em> in the <code>head</code>:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span>
+  <span class="na">href=</span><span class="s">&quot;//fonts.googleapis.com/css?family=Roboto:300,400,500&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
+<span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;main.css&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+<p>Make sure you remove the following line since we&#39;re not longer using the Bootstrap styles:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span>
+  <span class="na">href=</span><span class="s">&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span>
+  <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
+<span class="nt">&gt;</span>
+</code></pre></div>
+<h4 id="navbar">Navbar</h4>
 
-<p>You can also test out the following endpoints...</p>
-
-<table><thead>
-<tr>
-<th>Endpoint</th>
-<th>HTTP Method</th>
-<th>Authenticated?</th>
-<th>Result</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>/auth/register</td>
-<td>POST</td>
-<td>No</td>
-<td>register user</td>
-</tr>
-<tr>
-<td>/auth/login</td>
-<td>POST</td>
-<td>No</td>
-<td>log in user</td>
-</tr>
-<tr>
-<td>/auth/logout</td>
-<td>GET</td>
-<td>Yes</td>
-<td>log out user</td>
-</tr>
-<tr>
-<td>/auth/status</td>
-<td>GET</td>
-<td>Yes</td>
-<td>check user status</td>
-</tr>
-<tr>
-<td>/users</td>
-<td>GET</td>
-<td>No</td>
-<td>get all users</td>
-</tr>
-<tr>
-<td>/users/:id</td>
-<td>GET</td>
-<td>No</td>
-<td>get single user</td>
-</tr>
-<tr>
-<td>/users</td>
-<td>POST</td>
-<td>Yes (admin)</td>
-<td>add a user</td>
-</tr>
-<tr>
-<td>/ping</td>
-<td>GET</td>
-<td>No</td>
-<td>sanity check</td>
-</tr>
-</tbody></table>
-
-<p>Grab the code:</p>
+<p>Coming soon!</p>
 
 <ol>
-<li><a href="https://github.com/realpython/flask-microservices-main/releases/tag/part3">flask-microservices-main</a></li>
-<li><a href="https://github.com/realpython/flask-microservices-users/releases/tag/part3">flask-microservices-users</a></li>
-<li><a href="https://github.com/realpython/flask-microservices-client/releases/tag/part3">flask-microservices-client</a></li>
+<li>Material CSS</li>
+<li>Evaluation with AWS Lambda</li>
+<li>Material CSS</li>
 </ol>
 
 
           
   <br><br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-three-intro&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Material UI&amp;url=http%3A%2F%2Ftestdriven.io/part-six-react-material-ui&amp;via=RealPython" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-two-flask-refactor">&laquo; Flask Refactor</a>
-            
-            
-              <a class="next btn right-align" href="/part-three-flask-migrate">Flask Migrate &raquo;</a>
             
           </div>
 
