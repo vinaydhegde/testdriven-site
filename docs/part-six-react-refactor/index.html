@@ -867,7 +867,7 @@
   <span class="o">&lt;</span><span class="nx">footer</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;footer&quot;</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
       <span class="o">&lt;</span><span class="nx">small</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;text-muted&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Copyright</span> <span class="mi">2017</span> <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;http://realpython.com&quot;</span><span class="o">&gt;</span><span class="nx">Real</span> <span class="nx">Python</span><span class="o">&lt;</span><span class="err">/a&gt;.&lt;/span&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Copyright</span> <span class="mi">2017</span> <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;http://testdriven.io&quot;</span><span class="o">&gt;</span><span class="nx">TestDriven</span><span class="p">.</span><span class="nx">io</span><span class="o">&lt;</span><span class="err">/a&gt;.&lt;/span&gt;</span>
       <span class="o">&lt;</span><span class="err">/small&gt;</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="o">&lt;</span><span class="err">/footer&gt;</span>
@@ -1283,6 +1283,27 @@
 <span class="p">)}</span> <span class="o">/&gt;</span>
 </code></pre></div>
 <p>Take note of what changed in each of these files. How would you DRY out the forms to remove the duplicate methods?</p>
+
+<h4 id="users">Users</h4>
+
+<p>Next, let&#39;s move the <code>UsersList</code> component to a new route. Within the <code>render()</code> in <em>src/App.jsx</em>, update the main route to:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Something</span><span class="p">.</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Then, create a new route for the  <code>UsersList</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/users&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">UsersList</span>
+    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Finally, add a new link just below the <code>/about</code> link in <em>src/components/NavBar.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">NavItem</span><span class="o">&gt;</span><span class="nx">Users</span><span class="o">&lt;</span><span class="err">/NavItem&gt;</span>
+<span class="o">&lt;</span><span class="err">/LinkContainer&gt;</span>
+</code></pre></div>
+<hr>
 
 <p>Commit and push your code.</p>
 
@@ -1391,7 +1412,7 @@
   <span class="o">&lt;</span><span class="nx">footer</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;footer&quot;</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
       <span class="o">&lt;</span><span class="nx">small</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;text-muted&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Copyright</span> <span class="mi">2017</span> <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;http://realpython.com&quot;</span><span class="o">&gt;</span><span class="nx">Real</span> <span class="nx">Python</span><span class="o">&lt;</span><span class="err">/a&gt;.&lt;/span&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Copyright</span> <span class="mi">2017</span> <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;http://testdriven.io&quot;</span><span class="o">&gt;</span><span class="nx">TestDriven</span><span class="p">.</span><span class="nx">io</span><span class="o">&lt;</span><span class="err">/a&gt;.&lt;/span&gt;</span>
       <span class="o">&lt;</span><span class="err">/small&gt;</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="o">&lt;</span><span class="err">/footer&gt;</span>
@@ -1808,6 +1829,27 @@
 </code></pre></div>
 <p>Take note of what changed in each of these files. How would you DRY out the forms to remove the duplicate methods?</p>
 
+<h4 id="users">Users</h4>
+
+<p>Next, let&#39;s move the <code>UsersList</code> component to a new route. Within the <code>render()</code> in <em>src/App.jsx</em>, update the main route to:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Something</span><span class="p">.</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Then, create a new route for the  <code>UsersList</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/users&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">UsersList</span>
+    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Finally, add a new link just below the <code>/about</code> link in <em>src/components/NavBar.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nx">NavItem</span><span class="o">&gt;</span><span class="nx">Users</span><span class="o">&lt;</span><span class="err">/NavItem&gt;</span>
+<span class="o">&lt;</span><span class="err">/LinkContainer&gt;</span>
+</code></pre></div>
+<hr>
+
 <p>Commit and push your code.</p>
 
 
@@ -1845,17 +1887,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 
     
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-100160465-1', 'auto');
-    ga('send', 'pageview');
-
-  </script>
-
 
 
   </body>

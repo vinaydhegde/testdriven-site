@@ -97,7 +97,7 @@ const Footer = (props) => (
   <footer className="footer">
     <div className="container">
       <small className="text-muted">
-        <span>Copyright 2017 <a href="http://realpython.com">Real Python</a>.</span>
+        <span>Copyright 2017 <a href="http://testdriven.io">TestDriven.io</a>.</span>
       </small>
     </div>
   </footer>
@@ -548,5 +548,35 @@ Finally, update the following routes in the `render()`:
 ```
 
 Take note of what changed in each of these files. How would you DRY out the forms to remove the duplicate methods?
+
+#### Users
+
+Next, let's move the `UsersList` component to a new route. Within the `render()` in *src/App.jsx*, update the main route to:
+
+```javascript
+<Route exact path='/' render={() => (
+  <p>Something.</p>
+)} />
+```
+
+Then, create a new route for the  `UsersList` component:
+
+```javascript
+<Route exact path='/users' render={() => (
+  <UsersList
+    users={this.state.users}
+  />
+)} />
+```
+
+Finally, add a new link just below the `/about` link in *src/components/NavBar.jsx*:
+
+```javascript
+<LinkContainer to="/users">
+  <NavItem>Users</NavItem>
+</LinkContainer>
+```
+
+---
 
 Commit and push your code.
