@@ -67,6 +67,7 @@ This series uses the following tools and technologies:
 1. Flask-SQLAlchemy v2.2
 1. Flask-Migrate v2.0.4
 1. psycopg2 v2.7.1
+1. React-Ace v5.2.1
 
 Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 

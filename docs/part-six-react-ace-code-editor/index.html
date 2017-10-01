@@ -784,7 +784,185 @@
 
           <h2>React Ace Code Editor</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll add some exercises to the client-side using the Ace code editor plugin...</p>
+
+<hr>
+
+<h4 id="seed-data">Seed Data</h4>
+
+<p>Within <em>flask-microservices-eval</em>, start by adding a seed command to the <em>manage.py</em> file to populate the database with some initial data:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">seed_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Seeds the database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Define a function called sum that takes two integers as arguments and returns their sum.&#39;</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;print(sum(2, 3))&#39;</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;5&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Define a function called reverse that takes a string as an argument and returns the string in reversed order.&#39;</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;print(reverse(racecar))&#39;</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;racecar&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Define a function called factorial that takes a random number as an argument and then returns the factorial of that given number.&#39;</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;print(factorial(5))&#39;</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;120&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div>
+<p>Set <code>dev</code> as the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5001
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Fire up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Create the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py recreate_db
+</code></pre></div>
+<p>Apply the seed:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py seed_db
+</code></pre></div>
+<h4 id="exercise-component">Exercise Component</h4>
+
+<p>Next, let&#39;s add a new Component to the React app. Within <em>flask-microservices-client</em>, add a new class-based component called <em>Exercises.jsx</em> to &quot;src/components&quot;:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">Exercises</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="p">,</span> <span class="nx">world</span><span class="o">!&lt;</span><span class="err">/p&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Exercises</span>
+</code></pre></div>
+<p>Update the main route in <em>src/App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Exercises</span> <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Add the import at the top:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">Exercises</span> <span class="nx">from</span> <span class="s1">&#39;./components/Exercises&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>You should see <code>Hello, world!</code> in your browser.</p>
+
+<p>Next, let&#39;s wire up an AJAX call to grab the exercises from the Flask eval service and render them in the component.</p>
+
+<p>Add a new method to the component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getExercises</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_EVAL_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">exercises</span><span class="err">`</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">exercises</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">exercises</span> <span class="p">});</span> <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Import axios:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>And set the environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+</code></pre></div>
+<p>Add <code>exercises</code> to the state:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">exercises</span><span class="o">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Call <code>getExercises()</code> in the <code>componentDidMount</code> <a href="https://reactjs.org/docs/react-component.html#componentdidmount">Lifecycle</a> method:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">getExercises</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Finally, update the <code>render()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span>
+              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+              <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="p">)</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="ace-code-editor">Ace Code Editor</h4>
+
+<p><a href="https://ace.c9.io/">Ace</a> is an embeddable code editor, which we&#39;ll use to allow end users to submit their exercise solutions directly in the browser. We&#39;ll use a pre-configured Component for Ace called <a href="https://github.com/securingsincity/react-ace">React-Ace</a>.</p>
+
+<p>Install:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --svae react-ace@5.2.1
+</code></pre></div>
+<p>Add the imports:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">AceEditor</span> <span class="nx">from</span> <span class="s1">&#39;react-ace&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="s1">&#39;brace/mode/python&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="s1">&#39;brace/theme/solarized_dark&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Update the <code>render()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span>
+              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h4&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">AceEditor</span>
+                    <span class="nx">mode</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>
+                    <span class="nx">theme</span><span class="o">=</span><span class="s2">&quot;solarized_dark&quot;</span>
+                    <span class="nx">name</span><span class="o">=</span><span class="p">{(</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nx">toString</span><span class="p">()}</span>
+                    <span class="nx">onLoad</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">}</span>
+                    <span class="nx">fontSize</span><span class="o">=</span><span class="p">{</span><span class="mi">14</span><span class="p">}</span>
+                    <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;175px&#39;</span><span class="p">}</span>
+                    <span class="nx">showPrintMargin</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                    <span class="nx">showGutter</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                    <span class="nx">highlightActiveLine</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                    <span class="nx">defaultValue</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">}</span>
+                    <span class="nx">style</span><span class="o">=</span><span class="p">{{</span>
+                      <span class="nx">marginBottom</span><span class="o">:</span> <span class="s1">&#39;10px&#39;</span>
+                    <span class="p">}}</span>
+                  <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+                <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="p">)</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Take note of how we created a new instance of the Ace Editor. Experiment with the available <a href="https://github.com/securingsincity/react-ace/blob/master/docs/Ace.md#available-props">props</a> if you&#39;d like. We also added a Bootstrap-styled button with <a href="https://react-bootstrap.github.io/components.html#buttons">React Bootstrap</a>. Make sure you add the import:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Button</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Jump back to the browser. You should see something similar to:</p>
+
+<div style="text-align:left;">
+  <img src="/assets/img/react-ace-code-editor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ace code editor">
+</div>
+
+<hr>
+
+<p>WIP</p>
 
 
           
@@ -806,7 +984,185 @@
 
           <h2>React Ace Code Editor</h2>
 
-          <p>Coming Soon!</p>
+          <p>In this lesson, we&#39;ll add some exercises to the client-side using the Ace code editor plugin...</p>
+
+<hr>
+
+<h4 id="seed-data">Seed Data</h4>
+
+<p>Within <em>flask-microservices-eval</em>, start by adding a seed command to the <em>manage.py</em> file to populate the database with some initial data:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
+<span class="k">def</span> <span class="nf">seed_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Seeds the database.&quot;&quot;&quot;</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Define a function called sum that takes two integers as arguments and returns their sum.&#39;</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;print(sum(2, 3))&#39;</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;5&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Define a function called reverse that takes a string as an argument and returns the string in reversed order.&#39;</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;print(reverse(racecar))&#39;</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;racecar&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Exercise</span><span class="p">(</span>
+        <span class="n">exercise_body</span><span class="o">=</span><span class="s">&#39;Define a function called factorial that takes a random number as an argument and then returns the factorial of that given number.&#39;</span><span class="p">,</span>
+        <span class="n">test_code</span><span class="o">=</span><span class="s">&#39;print(factorial(5))&#39;</span><span class="p">,</span>
+        <span class="n">test_code_solution</span><span class="o">=</span><span class="s">&#39;120&#39;</span>
+    <span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div>
+<p>Set <code>dev</code> as the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5001
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Fire up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Create the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py recreate_db
+</code></pre></div>
+<p>Apply the seed:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py seed_db
+</code></pre></div>
+<h4 id="exercise-component">Exercise Component</h4>
+
+<p>Next, let&#39;s add a new Component to the React app. Within <em>flask-microservices-client</em>, add a new class-based component called <em>Exercises.jsx</em> to &quot;src/components&quot;:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">class</span> <span class="nx">Exercises</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="p">,</span> <span class="nx">world</span><span class="o">!&lt;</span><span class="err">/p&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">Exercises</span>
+</code></pre></div>
+<p>Update the main route in <em>src/App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Exercises</span> <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Add the import at the top:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">Exercises</span> <span class="nx">from</span> <span class="s1">&#39;./components/Exercises&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>You should see <code>Hello, world!</code> in your browser.</p>
+
+<p>Next, let&#39;s wire up an AJAX call to grab the exercises from the Flask eval service and render them in the component.</p>
+
+<p>Add a new method to the component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getExercises</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_EVAL_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">exercises</span><span class="err">`</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">exercises</span><span class="o">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">exercises</span> <span class="p">});</span> <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Import axios:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>And set the environment variable:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+</code></pre></div>
+<p>Add <code>exercises</code> to the state:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">exercises</span><span class="o">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Call <code>getExercises()</code> in the <code>componentDidMount</code> <a href="https://reactjs.org/docs/react-component.html#componentdidmount">Lifecycle</a> method:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">getExercises</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Finally, update the <code>render()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span>
+              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+              <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="p">)</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="ace-code-editor">Ace Code Editor</h4>
+
+<p><a href="https://ace.c9.io/">Ace</a> is an embeddable code editor, which we&#39;ll use to allow end users to submit their exercise solutions directly in the browser. We&#39;ll use a pre-configured Component for Ace called <a href="https://github.com/securingsincity/react-ace">React-Ace</a>.</p>
+
+<p>Install:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --svae react-ace@5.2.1
+</code></pre></div>
+<p>Add the imports:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">AceEditor</span> <span class="nx">from</span> <span class="s1">&#39;react-ace&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="s1">&#39;brace/mode/python&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="s1">&#39;brace/theme/solarized_dark&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Update the <code>render()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span>
+              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h4&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">AceEditor</span>
+                    <span class="nx">mode</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>
+                    <span class="nx">theme</span><span class="o">=</span><span class="s2">&quot;solarized_dark&quot;</span>
+                    <span class="nx">name</span><span class="o">=</span><span class="p">{(</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nx">toString</span><span class="p">()}</span>
+                    <span class="nx">onLoad</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">}</span>
+                    <span class="nx">fontSize</span><span class="o">=</span><span class="p">{</span><span class="mi">14</span><span class="p">}</span>
+                    <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;175px&#39;</span><span class="p">}</span>
+                    <span class="nx">showPrintMargin</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                    <span class="nx">showGutter</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                    <span class="nx">highlightActiveLine</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                    <span class="nx">defaultValue</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">}</span>
+                    <span class="nx">style</span><span class="o">=</span><span class="p">{{</span>
+                      <span class="nx">marginBottom</span><span class="o">:</span> <span class="s1">&#39;10px&#39;</span>
+                    <span class="p">}}</span>
+                  <span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+                <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="p">)</span>
+          <span class="p">})</span>
+        <span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Take note of how we created a new instance of the Ace Editor. Experiment with the available <a href="https://github.com/securingsincity/react-ace/blob/master/docs/Ace.md#available-props">props</a> if you&#39;d like. We also added a Bootstrap-styled button with <a href="https://react-bootstrap.github.io/components.html#buttons">React Bootstrap</a>. Make sure you add the import:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Button</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Jump back to the browser. You should see something similar to:</p>
+
+<div style="text-align:left;">
+  <img src="/assets/img/react-ace-code-editor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ace code editor">
+</div>
+
+<hr>
+
+<p>WIP</p>
 
 
           
@@ -841,6 +1197,17 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
 
     
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-100160465-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
 
 
   </body>

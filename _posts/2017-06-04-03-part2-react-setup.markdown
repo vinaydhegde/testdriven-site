@@ -303,7 +303,7 @@ Well, the `constructor()` fires *before* the component is mounted to the DOM. Wh
 
 #### Component Lifecycle Methods
 
-Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the [official documentation]((https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle)) to learn about each method and when each is called.
+Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the [official documentation](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle) to learn about each method and when each is called.
 
 The AJAX call [should happen in the `componentDidMount()` method](https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/):
 
