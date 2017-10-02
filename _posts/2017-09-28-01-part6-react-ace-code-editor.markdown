@@ -157,15 +157,11 @@ render() {
     <div>
       <h1>Exercises</h1>
       <hr/><br/>
-        {
-          this.state.exercises.map((exercise) => {
-            return (
-              <div key={exercise.id}>
-                <p>{exercise.exercise_body}</p>
-              </div>
-            )
-          })
-        }
+      {this.state.exercises.length &&
+        <div key={this.state.exercises[0].id}>
+          <p>{this.state.exercises[0].exercise_body}</p>
+        </div>
+      }
     </div>
   )
 }
@@ -198,31 +194,27 @@ render() {
     <div>
       <h1>Exercises</h1>
       <hr/><br/>
-        {
-          this.state.exercises.map((exercise) => {
-            return (
-              <div key={exercise.id}>
-                <h4>{exercise.exercise_body}</h4>
-                  <AceEditor
-                    mode="python"
-                    theme="solarized_dark"
-                    name={(exercise.id).toString()}
-                    onLoad={this.onLoad}
-                    fontSize={14}
-                    height={'175px'}
-                    showPrintMargin={true}
-                    showGutter={true}
-                    highlightActiveLine={true}
-                    defaultValue={'# Enter your code here.'}
-                    style={{
-                      marginBottom: '10px'
-                    }}
-                  />
-                <Button bsStyle="primary" bsSize="small">Run Code</Button>
-                <br/><br/>
-              </div>
-            )
-          })
+        {this.state.exercises.length &&
+          <div key={this.state.exercises[0].id}>
+            <h4>{this.state.exercises[0].exercise_body}</h4>
+              <AceEditor
+                mode="python"
+                theme="solarized_dark"
+                name={(this.state.exercises[0].id).toString()}
+                onLoad={this.onLoad}
+                fontSize={14}
+                height={'175px'}
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                value={'# Enter your code here.'}
+                style={{
+                  marginBottom: '10px'
+                }}
+              />
+            <Button bsStyle="primary" bsSize="small">Run Code</Button>
+            <br/><br/>
+          </div>
         }
     </div>
   )
@@ -242,6 +234,138 @@ Jump back to the browser. You should see something similar to:
   <img src="/assets/img/react-ace-code-editor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ace code editor">
 </div>
 
----
+#### Ensure Authenticated
 
-WIP
+Next, let's only display the button if a user is logged in:
+
+```javascript
+{this.props.isAuthenticated &&
+  <Button bsStyle="primary" bsSize="small">Run Code</Button>
+}
+```
+
+Pass the appropriate prop in by updating the route in *src/App.jsx*:
+
+```javascript
+<Route exact path='/' render={() => (
+  <Exercises
+    isAuthenticated={this.state.isAuthenticated}
+  />
+)} />
+```
+
+Let's also add a message for those not logged in. Update the `render()` method in *src/components/Exercises.jsx*
+
+{% raw %}
+```javascript
+render() {
+  return (
+    <div>
+      <h1>Exercises</h1>
+      <hr/><br/>
+        {!this.props.isAuthenticated &&
+          <div>
+            <div className="alert alert-warning">
+              <span
+                className="glyphicon glyphicon-exclamation-sign"
+                aria-hidden="true">
+              </span>
+              <span>&nbsp;Please log in to submit an exercise.</span>
+            </div>
+            <br/>
+          </div>
+        }
+        {this.state.exercises.length &&
+          <div key={this.state.exercises[0].id}>
+            <h4>{this.state.exercises[0].exercise_body}</h4>
+              <AceEditor
+                mode="python"
+                theme="solarized_dark"
+                name={(this.state.exercises[0].id).toString()}
+                onLoad={this.onLoad}
+                fontSize={14}
+                height={'175px'}
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                value={'# Enter your code here.'}
+                style={{
+                  marginBottom: '10px'
+                }}
+              />
+              {this.props.isAuthenticated &&
+                <Button bsStyle="primary" bsSize="small">Run Code</Button>
+              }
+            <br/><br/>
+          </div>
+        }
+    </div>
+  )
+}
+```
+{% endraw %}
+
+#### Event Handler
+
+Start by adding the `value` to the state:
+
+```javascript
+this.state = {
+  exercises: [],
+  aceEditorValue: '# Enter your code here.'
+}
+```
+
+Then, update the `value` property of the `AceEditor`:
+
+```javascript
+value={this.state.aceEditorValue}
+```
+
+Next, add an `onChange` prop to the `AceEditor` as well:
+
+```javascript
+onChange={this.onChange.bind(this)}
+```
+
+[onChange](https://github.com/securingsincity/react-ace/blob/master/docs/Ace.md), which is an event used to retrieve the current content of the editor, can be used to fire the following function to update the state:
+
+```javascript
+onChange(value) {
+  this.setState({ aceEditorValue: value });
+}
+```
+
+Finally, add an `onClick` handler to the button:
+
+```javascript
+{this.props.isAuthenticated &&
+  <Button
+    bsStyle="primary"
+    bsSize="small"
+    onClick={this.submitExercise.bind(this)}
+  >Run Code</Button>
+}
+```
+
+Add the `submitExercise` method to the component:
+
+```javascript
+submitExercise(event) {
+  event.preventDefault();
+  const data = {
+    id: this.state.exercises[0].id,
+    code: this.state.aceEditorValue
+  }
+  const url = `${process.env.REACT_APP_EVAL_SERVICE_URL}/tbd`
+  axios.post(url, data)
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+}
+```
+
+With that, we need to wire up the actual code evaluation service on the server-side...

@@ -113,7 +113,6 @@ Create a *Footer.css* file as well:
   bottom: 0;
   width: 100%;
   height: 50px;
-  background-color: #f5f5f5;
   line-height: 50px;
   margin-top: 50px;
 }

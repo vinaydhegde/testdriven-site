@@ -773,6 +773,18 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
+                href="/part-six-code-evaluation"
+              >Code Evaluation</a>
+            
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -890,15 +902,11 @@
     <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
       <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
       <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="p">{</span>
-          <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="p">(</span>
-              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-              <span class="o">&lt;</span><span class="err">/div&gt;</span>
-            <span class="p">)</span>
-          <span class="p">})</span>
-        <span class="p">}</span>
+      <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="p">}</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
 <span class="p">}</span>
@@ -921,31 +929,27 @@
     <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
       <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
       <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="p">{</span>
-          <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="p">(</span>
-              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h4&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">AceEditor</span>
-                    <span class="nx">mode</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>
-                    <span class="nx">theme</span><span class="o">=</span><span class="s2">&quot;solarized_dark&quot;</span>
-                    <span class="nx">name</span><span class="o">=</span><span class="p">{(</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nx">toString</span><span class="p">()}</span>
-                    <span class="nx">onLoad</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">}</span>
-                    <span class="nx">fontSize</span><span class="o">=</span><span class="p">{</span><span class="mi">14</span><span class="p">}</span>
-                    <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;175px&#39;</span><span class="p">}</span>
-                    <span class="nx">showPrintMargin</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
-                    <span class="nx">showGutter</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
-                    <span class="nx">highlightActiveLine</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
-                    <span class="nx">defaultValue</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">}</span>
-                    <span class="nx">style</span><span class="o">=</span><span class="p">{{</span>
-                      <span class="nx">marginBottom</span><span class="o">:</span> <span class="s1">&#39;10px&#39;</span>
-                    <span class="p">}}</span>
-                  <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
-                <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-              <span class="o">&lt;</span><span class="err">/div&gt;</span>
-            <span class="p">)</span>
-          <span class="p">})</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h4&gt;</span>
+              <span class="o">&lt;</span><span class="nx">AceEditor</span>
+                <span class="nx">mode</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>
+                <span class="nx">theme</span><span class="o">=</span><span class="s2">&quot;solarized_dark&quot;</span>
+                <span class="nx">name</span><span class="o">=</span><span class="p">{(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">).</span><span class="nx">toString</span><span class="p">()}</span>
+                <span class="nx">onLoad</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">}</span>
+                <span class="nx">fontSize</span><span class="o">=</span><span class="p">{</span><span class="mi">14</span><span class="p">}</span>
+                <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;175px&#39;</span><span class="p">}</span>
+                <span class="nx">showPrintMargin</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">showGutter</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">highlightActiveLine</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">}</span>
+                <span class="nx">style</span><span class="o">=</span><span class="p">{{</span>
+                  <span class="nx">marginBottom</span><span class="o">:</span> <span class="s1">&#39;10px&#39;</span>
+                <span class="p">}}</span>
+              <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
         <span class="p">}</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
@@ -960,9 +964,112 @@
   <img src="/assets/img/react-ace-code-editor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ace code editor">
 </div>
 
-<hr>
+<h4 id="ensure-authenticated">Ensure Authenticated</h4>
 
-<p>WIP</p>
+<p>Next, let&#39;s only display the button if a user is logged in:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Pass the appropriate prop in by updating the route in <em>src/App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Exercises</span>
+    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Let&#39;s also add a message for those not logged in. Update the <code>render()</code> method in <em>src/components/Exercises.jsx</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="p">{</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+          <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;alert alert-warning&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">span</span>
+                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;glyphicon glyphicon-exclamation-sign&quot;</span>
+                <span class="nx">aria</span><span class="o">-</span><span class="nx">hidden</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="err">/span&gt;</span>
+              <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;&amp;</span><span class="nx">nbsp</span><span class="p">;</span><span class="nx">Please</span> <span class="nx">log</span> <span class="k">in</span> <span class="nx">to</span> <span class="nx">submit</span> <span class="nx">an</span> <span class="nx">exercise</span><span class="p">.</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+            <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="p">}</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h4&gt;</span>
+              <span class="o">&lt;</span><span class="nx">AceEditor</span>
+                <span class="nx">mode</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>
+                <span class="nx">theme</span><span class="o">=</span><span class="s2">&quot;solarized_dark&quot;</span>
+                <span class="nx">name</span><span class="o">=</span><span class="p">{(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">).</span><span class="nx">toString</span><span class="p">()}</span>
+                <span class="nx">onLoad</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">}</span>
+                <span class="nx">fontSize</span><span class="o">=</span><span class="p">{</span><span class="mi">14</span><span class="p">}</span>
+                <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;175px&#39;</span><span class="p">}</span>
+                <span class="nx">showPrintMargin</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">showGutter</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">highlightActiveLine</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">}</span>
+                <span class="nx">style</span><span class="o">=</span><span class="p">{{</span>
+                  <span class="nx">marginBottom</span><span class="o">:</span> <span class="s1">&#39;10px&#39;</span>
+                <span class="p">}}</span>
+              <span class="o">/&gt;</span>
+              <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+                <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+              <span class="p">}</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="event-handler">Event Handler</h4>
+
+<p>Start by adding the <code>value</code> to the state:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">exercises</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">aceEditorValue</span><span class="o">:</span> <span class="s1">&#39;# Enter your code here.&#39;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then, update the <code>value</code> property of the <code>AceEditor</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span><span class="p">}</span>
+</code></pre></div>
+<p>Next, add an <code>onChange</code> prop to the <code>AceEditor</code> as well:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+</code></pre></div>
+<p><a href="https://github.com/securingsincity/react-ace/blob/master/docs/Ace.md">onChange</a>, which is an event used to retrieve the current content of the editor, can be used to fire the following function to update the state:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onChange</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">aceEditorValue</span><span class="o">:</span> <span class="nx">value</span> <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Finally, add an <code>onClick</code> handler to the button:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">Button</span>
+    <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span>
+    <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span>
+    <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">submitExercise</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+  <span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Add the <code>submitExercise</code> method to the component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span>
+    <span class="nx">code</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_EVAL_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">tbd</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>With that, we need to wire up the actual code evaluation service on the server-side...</p>
 
 
           
@@ -975,6 +1082,8 @@
             
               <a class="prev btn left-align" href="/part-six-react-refactor">&laquo; React Refactor</a>
             
+            
+              <a class="next btn right-align" href="/part-six-code-evaluation">Code Evaluation &raquo;</a>
             
           </div>
 
@@ -1090,15 +1199,11 @@
     <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
       <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
       <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="p">{</span>
-          <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="p">(</span>
-              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-              <span class="o">&lt;</span><span class="err">/div&gt;</span>
-            <span class="p">)</span>
-          <span class="p">})</span>
-        <span class="p">}</span>
+      <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="p">}</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
 <span class="p">}</span>
@@ -1121,31 +1226,27 @@
     <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
       <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
       <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="p">{</span>
-          <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="p">(</span>
-              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h4&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">AceEditor</span>
-                    <span class="nx">mode</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>
-                    <span class="nx">theme</span><span class="o">=</span><span class="s2">&quot;solarized_dark&quot;</span>
-                    <span class="nx">name</span><span class="o">=</span><span class="p">{(</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nx">toString</span><span class="p">()}</span>
-                    <span class="nx">onLoad</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">}</span>
-                    <span class="nx">fontSize</span><span class="o">=</span><span class="p">{</span><span class="mi">14</span><span class="p">}</span>
-                    <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;175px&#39;</span><span class="p">}</span>
-                    <span class="nx">showPrintMargin</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
-                    <span class="nx">showGutter</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
-                    <span class="nx">highlightActiveLine</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
-                    <span class="nx">defaultValue</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">}</span>
-                    <span class="nx">style</span><span class="o">=</span><span class="p">{{</span>
-                      <span class="nx">marginBottom</span><span class="o">:</span> <span class="s1">&#39;10px&#39;</span>
-                    <span class="p">}}</span>
-                  <span class="o">/&gt;</span>
-                <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
-                <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-              <span class="o">&lt;</span><span class="err">/div&gt;</span>
-            <span class="p">)</span>
-          <span class="p">})</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h4&gt;</span>
+              <span class="o">&lt;</span><span class="nx">AceEditor</span>
+                <span class="nx">mode</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>
+                <span class="nx">theme</span><span class="o">=</span><span class="s2">&quot;solarized_dark&quot;</span>
+                <span class="nx">name</span><span class="o">=</span><span class="p">{(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">).</span><span class="nx">toString</span><span class="p">()}</span>
+                <span class="nx">onLoad</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">}</span>
+                <span class="nx">fontSize</span><span class="o">=</span><span class="p">{</span><span class="mi">14</span><span class="p">}</span>
+                <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;175px&#39;</span><span class="p">}</span>
+                <span class="nx">showPrintMargin</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">showGutter</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">highlightActiveLine</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">}</span>
+                <span class="nx">style</span><span class="o">=</span><span class="p">{{</span>
+                  <span class="nx">marginBottom</span><span class="o">:</span> <span class="s1">&#39;10px&#39;</span>
+                <span class="p">}}</span>
+              <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
         <span class="p">}</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
@@ -1160,9 +1261,112 @@
   <img src="/assets/img/react-ace-code-editor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ace code editor">
 </div>
 
-<hr>
+<h4 id="ensure-authenticated">Ensure Authenticated</h4>
 
-<p>WIP</p>
+<p>Next, let&#39;s only display the button if a user is logged in:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Pass the appropriate prop in by updating the route in <em>src/App.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Exercises</span>
+    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Let&#39;s also add a message for those not logged in. Update the <code>render()</code> method in <em>src/components/Exercises.jsx</em></p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Exercises</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+        <span class="p">{</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+          <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;alert alert-warning&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">span</span>
+                <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;glyphicon glyphicon-exclamation-sign&quot;</span>
+                <span class="nx">aria</span><span class="o">-</span><span class="nx">hidden</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="err">/span&gt;</span>
+              <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;&amp;</span><span class="nx">nbsp</span><span class="p">;</span><span class="nx">Please</span> <span class="nx">log</span> <span class="k">in</span> <span class="nx">to</span> <span class="nx">submit</span> <span class="nx">an</span> <span class="nx">exercise</span><span class="p">.</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+            <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="p">}</span>
+        <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">exercise_body</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/h4&gt;</span>
+              <span class="o">&lt;</span><span class="nx">AceEditor</span>
+                <span class="nx">mode</span><span class="o">=</span><span class="s2">&quot;python&quot;</span>
+                <span class="nx">theme</span><span class="o">=</span><span class="s2">&quot;solarized_dark&quot;</span>
+                <span class="nx">name</span><span class="o">=</span><span class="p">{(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">).</span><span class="nx">toString</span><span class="p">()}</span>
+                <span class="nx">onLoad</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onLoad</span><span class="p">}</span>
+                <span class="nx">fontSize</span><span class="o">=</span><span class="p">{</span><span class="mi">14</span><span class="p">}</span>
+                <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;175px&#39;</span><span class="p">}</span>
+                <span class="nx">showPrintMargin</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">showGutter</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">highlightActiveLine</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
+                <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">}</span>
+                <span class="nx">style</span><span class="o">=</span><span class="p">{{</span>
+                  <span class="nx">marginBottom</span><span class="o">:</span> <span class="s1">&#39;10px&#39;</span>
+                <span class="p">}}</span>
+              <span class="o">/&gt;</span>
+              <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+                <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span> <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span><span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+              <span class="p">}</span>
+            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="err">/div&gt;</span>
+        <span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="event-handler">Event Handler</h4>
+
+<p>Start by adding the <code>value</code> to the state:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">exercises</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">aceEditorValue</span><span class="o">:</span> <span class="s1">&#39;# Enter your code here.&#39;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Then, update the <code>value</code> property of the <code>AceEditor</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span><span class="p">}</span>
+</code></pre></div>
+<p>Next, add an <code>onChange</code> prop to the <code>AceEditor</code> as well:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+</code></pre></div>
+<p><a href="https://github.com/securingsincity/react-ace/blob/master/docs/Ace.md">onChange</a>, which is an event used to retrieve the current content of the editor, can be used to fire the following function to update the state:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onChange</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">aceEditorValue</span><span class="o">:</span> <span class="nx">value</span> <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Finally, add an <code>onClick</code> handler to the button:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">Button</span>
+    <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span>
+    <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span>
+    <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">submitExercise</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+  <span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Add the <code>submitExercise</code> method to the component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span>
+    <span class="nx">code</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_EVAL_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">tbd</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>With that, we need to wire up the actual code evaluation service on the server-side...</p>
 
 
           
@@ -1175,6 +1379,8 @@
             
               <a class="prev btn left-align" href="/part-six-react-refactor">&laquo; React Refactor</a>
             
+            
+              <a class="next btn right-align" href="/part-six-code-evaluation">Code Evaluation &raquo;</a>
             
           </div>
 
