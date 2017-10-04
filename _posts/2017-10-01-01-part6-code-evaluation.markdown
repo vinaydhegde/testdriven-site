@@ -163,6 +163,16 @@ Then, set the environment variable:
 $ export REACT_APP_API_GATEWAY_URL=API_GATEWAY_URL
 ```
 
+Update the `environment` under the `web-service` in the *docker-compose.yml* file in *flask-microservices-main*:
+
+```yaml
+environment:
+  - NODE_ENV=development
+  - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+  - REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}
+  - REACT_APP_API_GATEWAY_URL=${REACT_APP_API_GATEWAY_URL}
+```
+
 To test, open the JavaScript console in your browser and enter the following code into the Ace code editor:
 
 ```python

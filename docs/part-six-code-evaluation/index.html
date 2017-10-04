@@ -951,6 +951,13 @@
 <p>Then, set the environment variable:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="kr">export</span> <span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="o">=</span><span class="nx">API_GATEWAY_URL</span>
 </code></pre></div>
+<p>Update the <code>environment</code> under the <code>web-service</code> in the <em>docker-compose.yml</em> file in <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_API_GATEWAY_URL=${REACT_APP_API_GATEWAY_URL}</span>
+</code></pre></div>
 <p>To test, open the JavaScript console in your browser and enter the following code into the Ace code editor:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">num1</span> <span class="o">+</span> <span class="n">num2</span>
@@ -1336,6 +1343,13 @@ should display user info if user is logged in
 </code></pre></div>
 <p>Then, set the environment variable:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="kr">export</span> <span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="o">=</span><span class="nx">API_GATEWAY_URL</span>
+</code></pre></div>
+<p>Update the <code>environment</code> under the <code>web-service</code> in the <em>docker-compose.yml</em> file in <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_API_GATEWAY_URL=${REACT_APP_API_GATEWAY_URL}</span>
 </code></pre></div>
 <p>To test, open the JavaScript console in your browser and enter the following code into the Ace code editor:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
