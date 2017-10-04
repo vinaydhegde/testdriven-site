@@ -16,6 +16,7 @@ Next, let's set up six new routes, following RESTful best practices:
 | /scores/user/:id     | GET    | Yes            | get single score by user id |
 | /scores              | POST   | Yes            | add a score                 |
 | /scores/:id          | PUT    | Yes            | update a score              |
+| /scores          | PATCH  | Yes            | upsert (update or add if the score does not exist)             |
 
 Process:
 
@@ -486,85 +487,84 @@ from project import db
 Test:
 
 ```python
+def test_update_score(self):
+    """Ensure an existing score can be updated in the database."""
+    score = add_score(998877, 65479, True)
+    with self.client:
+        response = self.client.put(
+            f'/scores/{score.id}',
+            data=json.dumps(dict(
+                exercise_id=65479,
+                correct=False
+            )),
+            content_type='application/json',
+            headers=dict(Authorization='Bearer test')
+        )
+        data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Score was updated!', data['message'])
+        self.assertIn('success', data['status'])
 
-    def test_update_score(self):
-        """Ensure an excisting score can be updated in the database."""
-        score = add_score(998877, 65479, True)
-        with self.client:
-            response = self.client.put(
-                f'/scores/{score.id}',
-                data=json.dumps(dict(
-                    exercise_id=65479,
-                    correct=False
-                )),
-                content_type='application/json',
-                headers=dict(Authorization='Bearer test')
-            )
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 200)
-            self.assertIn('Score was updated!', data['message'])
-            self.assertIn('success', data['status'])
+def test_update_score_invalid_json(self):
+    """Ensure error is thrown if the JSON object is empty."""
+    with self.client:
+        response = self.client.put(
+            '/scores/7',
+            data=json.dumps(dict()),
+            content_type='application/json',
+            headers=dict(Authorization='Bearer test')
+        )
+        data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Invalid payload.', data['message'])
+        self.assertIn('fail', data['status'])
 
-    def test_update_score_invalid_json(self):
-        """Ensure error is thrown if the JSON object is empty."""
-        with self.client:
-            response = self.client.put(
-                '/scores/7',
-                data=json.dumps(dict()),
-                content_type='application/json',
-                headers=dict(Authorization='Bearer test')
-            )
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 400)
-            self.assertIn('Invalid payload.', data['message'])
-            self.assertIn('fail', data['status'])
+def test_update_score_invalid_json_keys(self):
+    """Ensure error is thrown if the JSON object is invalid."""
+    with self.client:
+        response = self.client.put(
+            '/scores/7',
+            data=json.dumps(dict(correct=True)),
+            content_type='application/json',
+            headers=dict(Authorization='Bearer test')
+        )
+        data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Invalid payload.', data['message'])
+        self.assertIn('fail', data['status'])
 
-    def test_update_score_invalid_json_keys(self):
-        """Ensure error is thrown if the JSON object is invalid."""
-        with self.client:
-            response = self.client.put(
-                '/scores/7',
-                data=json.dumps(dict(correct=True)),
-                content_type='application/json',
-                headers=dict(Authorization='Bearer test')
-            )
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 400)
-            self.assertIn('Invalid payload.', data['message'])
-            self.assertIn('fail', data['status'])
-
-    def test_update_score_invalid_exercise_id(self):
-        """Ensure error is thrown if the exercise does not exist."""
-        add_score(998877, 65479, True)
-        with self.client:
-            response = self.client.put(
-                '/scores/9',
-                data=json.dumps(dict(
-                    exercise_id=65479,
-                    correct=True
-                )),
-                content_type='application/json',
-                headers=dict(Authorization='Bearer test')
-            )
-            data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 400)
-            self.assertIn('Sorry. That score does not exist.', data['message'])
-            self.assertIn('fail', data['status'])
-
-    def test_add_score_no_header(self):
-        """Ensure error is thrown if 'Authorization' header is empty."""
+def test_update_score_invalid_exercise_id(self):
+    """Ensure error is thrown if the exercise does not exist."""
+    add_score(998877, 65479, True)
+    with self.client:
         response = self.client.put(
             '/scores/9',
             data=json.dumps(dict(
-                exercise_id=86,
+                exercise_id=65479,
                 correct=True
             )),
-            content_type='application/json'
+            content_type='application/json',
+            headers=dict(Authorization='Bearer test')
         )
         data = json.loads(response.data.decode())
-        self.assertEqual(response.status_code, 403)
-        self.assertIn('Provide a valid auth token.', data['message'])
-        self.assertIn('error', data['status'])
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Sorry. That score does not exist.', data['message'])
+        self.assertIn('fail', data['status'])
+
+def test_update_score_no_header(self):
+    """Ensure error is thrown if 'Authorization' header is empty."""
+    response = self.client.put(
+        '/scores/9',
+        data=json.dumps(dict(
+            exercise_id=86,
+            correct=True
+        )),
+        content_type='application/json'
+    )
+    data = json.loads(response.data.decode())
+    self.assertEqual(response.status_code, 403)
+    self.assertIn('Provide a valid auth token.', data['message'])
+    self.assertIn('error', data['status'])
 ```
 
 Route:
@@ -612,6 +612,147 @@ def update_score(resp, score_id):
         return jsonify(response_object), 400
 ```
 
+#### PATCH
+
+Test:
+
+```python
+def test_upsert_score_update(self):
+    """Ensure an existing score can be updated in the database."""
+    score = add_score(998877, 65479, True)
+    with self.client:
+        response = self.client.patch(
+            f'/scores/{score.id}',
+            data=json.dumps(dict(
+                exercise_id=65479,
+                correct=False
+            )),
+            content_type='application/json',
+            headers=dict(Authorization='Bearer test')
+        )
+        data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Score was updated!', data['message'])
+        self.assertIn('success', data['status'])
+
+def test_upsert_score_insert(self):
+    """Ensure a new score can be added to the database."""
+    with self.client:
+        response = self.client.patch(
+            f'/scores',
+            data=json.dumps(dict(
+                exercise_id=65479,
+                correct=False
+            )),
+            content_type='application/json',
+            headers=dict(Authorization='Bearer test')
+        )
+
+        data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('New score was added!', data['message'])
+        self.assertIn('success', data['status'])
+
+def test_upsert_score_invalid_json(self):
+    """Ensure error is thrown if the JSON object is empty."""
+    with self.client:
+        response = self.client.patch(
+            '/scores/7',
+            data=json.dumps(dict()),
+            content_type='application/json',
+            headers=dict(Authorization='Bearer test')
+        )
+        data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Invalid payload.', data['message'])
+        self.assertIn('fail', data['status'])
+
+def test_upsert_score_invalid_json_keys(self):
+    """Ensure error is thrown if the JSON object is invalid."""
+    with self.client:
+        response = self.client.patch(
+            '/scores/7',
+            data=json.dumps(dict(correct=True)),
+            content_type='application/json',
+            headers=dict(Authorization='Bearer test')
+        )
+        data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Invalid payload.', data['message'])
+        self.assertIn('fail', data['status'])
+
+def test_upsert_score_no_header(self):
+    """Ensure error is thrown if 'Authorization' header is empty."""
+    response = self.client.patch(
+        '/scores/9',
+        data=json.dumps(dict(
+            exercise_id=86,
+            correct=True
+        )),
+        content_type='application/json'
+    )
+    data = json.loads(response.data.decode())
+    self.assertEqual(response.status_code, 403)
+    self.assertIn('Provide a valid auth token.', data['message'])
+    self.assertIn('error', data['status'])
+```
+
+Route:
+
+```python
+@scores_blueprint.route('/scores', methods=['PATCH'])
+@scores_blueprint.route('/scores/<score_id>', methods=['PATCH'])
+@authenticate
+def upsert_score(resp, score_id=None):
+    """Upsert score"""
+    auth_user_id = int(resp['data']['id'])
+    post_data = request.get_json()
+    if not post_data:
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid payload.'
+        }
+        return jsonify(response_object), 400
+    exercise_id = post_data.get('exercise_id')
+    correct = post_data.get('correct')
+    try:
+        filter_args = {
+            'exercise_id': int(exercise_id),
+            'user_id': int(resp['data']['id'])
+        }
+        if score_id:
+            filter_args['id'] = int(score_id)
+
+        score = Score.query.filter_by(**filter_args).first()
+        if score:
+            score.correct = correct
+            db.session.commit()
+            response_object = {
+                'status': 'success',
+                'message': 'Score was updated!'
+            }
+            return jsonify(response_object), 200
+        else:
+            db.session.add(Score(
+                user_id=auth_user_id,
+                exercise_id=exercise_id,
+                correct=correct))
+            db.session.commit()
+            response_object = {
+                'status': 'success',
+                'message': 'New score was added!'
+            }
+            return jsonify(response_object), 201
+    except (exc.IntegrityError, ValueError, TypeError) as e:
+        db.session().rollback()
+        response_object = {
+            'status': 'fail',
+            'message': 'Invalid payload.'
+        }
+        return jsonify(response_object), 400
+```
+
+
 #### Sanity Check
 
 Do the tests pass?
@@ -626,7 +767,7 @@ Have you looked at the test coverage?
 $ docker-compose run eval-service python manage.py cov
 ```
 
-It should be around 83%:
+It should be around 84%:
 
 ```sh
 Coverage Summary:
@@ -635,11 +776,11 @@ Name                           Stmts   Miss Branch BrPart  Cover
 project/__init__.py               19      8      0      0    58%
 project/api/eval.py                8      0      0      0   100%
 project/api/scores/models.py      16     11      0      0    31%
-project/api/scores/scores.py      87      1     16      1    98%
+project/api/scores/scores.py     111      1     20      1    98%
 project/api/utils.py              33     11      8      2    63%
 project/config.py                 19      0      0      0   100%
 ----------------------------------------------------------------
-TOTAL                            182     31     24      3    83%
+TOTAL                            196     31     28      3    84%
 ```
 
-Can you think of any additional tests that should be written? How about routes? What if you wanted to get all scores (and a single score) by exercise id? Write it on your own. Commit and push your code to GitHub once complete.
+Can you think of any additional tests that should be written? How about routes? What if you wanted to get all scores (and a single score) by exercise id? Write it on your own. Is the code DRY? No! DRY it out! Commit and push your code to GitHub once complete.

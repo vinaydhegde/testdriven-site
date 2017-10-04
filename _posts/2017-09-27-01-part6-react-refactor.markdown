@@ -10,6 +10,8 @@ In this lesson, we'll shift our attention to the client-side and update a number
 
 ---
 
+> Although we will be updating the end-to-end test suite in the next lesson, challenge yourself to update the test specs *before* changing the code as you go through this lesson.
+
 #### Navbar
 
 Within *flask-microservices-client*, add a new file called *NavBar.css* to "src/components":
@@ -561,7 +563,7 @@ Next, let's move the `UsersList` component to a new route. Within the `render()`
 Then, create a new route for the  `UsersList` component:
 
 ```javascript
-<Route exact path='/users' render={() => (
+<Route exact path='/all-users' render={() => (
   <UsersList
     users={this.state.users}
   />
@@ -571,7 +573,7 @@ Then, create a new route for the  `UsersList` component:
 Finally, add a new link just below the `/about` link in *src/components/NavBar.jsx*:
 
 ```javascript
-<LinkContainer to="/users">
+<LinkContainer to="/all-users">
   <NavItem>Users</NavItem>
 </LinkContainer>
 ```

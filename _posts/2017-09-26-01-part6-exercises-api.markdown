@@ -368,7 +368,7 @@ Did code coverage increase?
 $ docker-compose run eval-service python manage.py cov
 ```
 
-It went down about 2% on my end. Why?
+It went down about 1% on my end. Why?
 
 ```sh
 Coverage Summary:
@@ -379,11 +379,11 @@ project/api/eval.py                      8      0      0      0   100%
 project/api/exercises/exercises.py      35      2      6      1    93%
 project/api/exercises/models.py         14     10      0      0    29%
 project/api/scores/models.py            16     11      0      0    31%
-project/api/scores/scores.py            87      1     16      1    98%
+project/api/scores/scores.py           111      1     20      1    98%
 project/api/utils.py                    33     11      8      2    63%
 project/config.py                       19      0      0      0   100%
 ----------------------------------------------------------------------
-TOTAL                                  233     43     30      4    81%
+TOTAL                                  257     43     34      4    83%
 ```
 
 Write any additional routes and tests. Once done, commit and push your code to GitHub.

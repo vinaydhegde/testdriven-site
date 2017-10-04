@@ -767,6 +767,18 @@
             
               <a
                 class="collection-item"
+                href="/part-six-e2e-tests-refactor"
+              >End-to-End Tests Refactor</a>
+            
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
                 href="/part-six-react-ace-code-editor"
               >React Ace Code Editor</a>
             
@@ -785,6 +797,18 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
+                href="/part-six-ecs-deployment"
+              >ECS Deployment</a>
+            
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -796,7 +820,369 @@
 
           <h2>Code Evaluation</h2>
 
-          <p>Coming soon!</p>
+          <p>In this lesson, we&#39;ll set up a RESTful API with AWS Lambda and API Gateway to handle code evaluation...</p>
+
+<hr>
+
+<p>It&#39;s a good idea to move long-running processes (like code evaluation) outside of the direct HTTP request/response cycle to improve performance of the web app. This is typically handled by Redis or RabbitMQ along with Celery. We&#39;re going to take a different approach with AWS Lambda.</p>
+
+<p>With <a href="https://aws.amazon.com/lambda/">AWS Lambda</a>, we can run scripts without having to provision or manage servers in response to an HTTP POST request.</p>
+
+<blockquote>
+<p>For more on AWS Lambda review &quot;What is AWS Lambda?&quot; from <a href="https://realpython.com/blog/python/code-evaluation-with-aws-lambda-and-api-gateway/">Code Evaluation With AWS Lambda and API Gateway</a>.</p>
+</blockquote>
+
+<p>We&#39;ll start by simply setting up an HTTP endpoint with <a href="https://aws.amazon.com/api-gateway/">API Gateway</a>, which is used to trigger the Lambda function. Keep in mind that you would probably want to set up a message queuing service, like Redis or <a href="https://aws.amazon.com/sqs/">SQS</a>, as well. To quickly get up and running we&#39;ll skip the message queue... for now...</p>
+
+<h4 id="aws-lambda-and-api-gateway-setup">AWS Lambda and API Gateway Setup</h4>
+
+<p>Follow the &quot;Lambda Setup&quot; and &quot;API Gateway Setup&quot; sections of the <a href="https://realpython.com/blog/python/code-evaluation-with-aws-lambda-and-api-gateway/">Code Evaluation With AWS Lambda and API Gateway</a> blog post to quickly get up and running.</p>
+
+<p>You can store the <code>lambda_handler</code> function in <em>flask-microservices-eval/project/lambda/handler.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="c"># get code from payload</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s">&#39;answer&#39;</span><span class="p">]</span>
+    <span class="n">test_code</span> <span class="o">=</span> <span class="n">code</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">print(sum(1,1))&#39;</span>
+    <span class="c"># capture stdout</span>
+    <span class="nb">buffer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="nb">buffer</span>
+    <span class="c"># execute code</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">exec</span><span class="p">(</span><span class="n">test_code</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="c"># return stdout</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+    <span class="c"># check</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="nb">buffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+</code></pre></div>
+<p>With that, let&#39;s turn our attention to the client-side...</p>
+
+<h4 id="exercise-component">Exercise Component</h4>
+
+<p>Workflow:</p>
+
+<ol>
+<li>User submits solution</li>
+<li>AJAX request is sent to the API Gateway endpoint</li>
+<li>On submit, the <code>Run Code</code> button is disabled and the grading message appears (so the user knows something is happening in case the process takes more than a few milliseconds)</li>
+<li>Once the Lambda is complete and the response is received, the grading message disappears and either a correct or incorrect message is displayed</li>
+<li>Request is sent to the Flask eval service to update the scores</li>
+</ol>
+
+<p>Before we dive in, let&#39;s add a test!</p>
+
+<h5 id="test">Test</h5>
+
+<p>Set <code>dev</code> as the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5001
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Fire up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Create the databases:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
+</code></pre></div>
+<p>Apply the seeds:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py seed_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the full test suite to ensure all is well:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">sh test.sh
+</code></pre></div>
+<p>Then, within &quot;flask-microservices-main/e2e&quot;, create a new file called <em>exercises.test.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">randomstring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;randomstring&#39;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">password</span> <span class="o">=</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">TEST_URL</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TEST_URL</span><span class="p">;</span>
+
+
+<span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="err">`</span><span class="p">);</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">exercises</span> <span class="nx">correctly</span> <span class="k">if</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Exercises&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-warning&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Please log in to submit an exercise.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;button&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Run Code&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">submit</span> <span class="nx">an</span> <span class="nx">exercise</span> <span class="k">if</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Exercises&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-warning&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Please log in to submit an exercise.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;button&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Run Code&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;button&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Run Code&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;h4&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Incorrect!&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Review the code on your own, and then run the tests again to ensure <code>should allow a user to submit an exercise if logged in</code> fails.</p>
+
+<h5 id="ajax-request-to-api-gateway">AJAX request to API Gateway</h5>
+
+<p>Update the <code>url</code> variable in <code>submitExercise()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="p">}</span><span class="err">`</span>
+</code></pre></div>
+<p>Then, set the environment variable:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="kr">export</span> <span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="o">=</span><span class="nx">API_GATEWAY_URL</span>
+</code></pre></div>
+<p>To test, open the JavaScript console in your browser and enter the following code into the Ace code editor:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">+</span> <span class="n">num2</span>
+</code></pre></div>
+<p>The response object should have a key of <code>data</code> with a value of <code>true</code>.</p>
+
+<p>Update the code to:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num1</span>
+</code></pre></div>
+<p>Make sure the value of <code>data</code> is now <code>false</code>.</p>
+
+<h5 id="display-grading-message">Display grading message</h5>
+
+<p>Update the button and add the grading message within the <code>render()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Button</span>
+      <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span>
+      <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span>
+      <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">submitExercise</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+      <span class="nx">disabled</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">}</span>
+    <span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+  <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">&amp;&amp;</span>
+    <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span>
+      <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+      <span class="o">&lt;</span><span class="nx">Glyphicon</span> <span class="nx">glyph</span><span class="o">=</span><span class="s2">&quot;repeat&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;glyphicon-spin&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+      <span class="nx">Grading</span><span class="p">...</span>
+    <span class="o">&lt;</span><span class="err">/h4&gt;</span>
+  <span class="p">}</span>
+  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Update the state:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">exercises</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">aceEditorValue</span><span class="o">:</span> <span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">,</span>
+  <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>So, since <code>isDisabled</code> defaults to <code>false</code> the button will be clickable when the Component is first rendered. The grading message will also not be displayed.</p>
+
+<p>Make sure to update the import, to bring in the <a href="https://react-bootstrap.github.io/components.html#glyphicons">Glyphicon</a> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Button</span><span class="p">,</span> <span class="nx">Glyphicon</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Update the <code>submitExercise</code> function to change the state of <code>showGrading</code> and <code>isDisabled</code> to <code>false</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+    <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">});</span>
+  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">answer</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="p">}</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Test it out in the browser!</p>
+
+<h5 id="display-correct-or-incorrect-message">Display correct or incorrect message</h5>
+
+<p>Start by adding a few more keys to the state object:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">exercises</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">aceEditorValue</span><span class="o">:</span> <span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">,</span>
+  <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">showCorrect</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">showIncorrect</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The, update the <code>submitExercise</code> function to change the state of the appropriate key based on the value of <code>data</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">stateObject</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">showCorrect</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">showIncorrect</span><span class="o">:</span> <span class="kc">false</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">answer</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="p">}</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">isDisabled</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="nx">stateObject</span><span class="p">.</span><span class="nx">showCorrect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">};</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="nx">stateObject</span><span class="p">.</span><span class="nx">showIncorrect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">isDisabled</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Add a few more messages to the <code>render()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">showCorrect</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span>
+    <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+    <span class="o">&lt;</span><span class="nx">Glyphicon</span> <span class="nx">glyph</span><span class="o">=</span><span class="s2">&quot;ok&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;glyphicon-correct&quot;</span><span class="o">/&gt;</span>
+    <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+    <span class="nx">Correct</span><span class="o">!</span>
+  <span class="o">&lt;</span><span class="err">/h4&gt;</span>
+<span class="p">}</span>
+<span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">showIncorrect</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span>
+    <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+    <span class="o">&lt;</span><span class="nx">Glyphicon</span> <span class="nx">glyph</span><span class="o">=</span><span class="s2">&quot;remove&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;glyphicon-incorrect&quot;</span><span class="o">/&gt;</span>
+    <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+    <span class="nx">Incorrect</span><span class="o">!</span>
+  <span class="o">&lt;</span><span class="err">/h4&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Test it out again!</p>
+
+<h5 id="ajax-request-to-flask-eval-service">AJAX request to Flask eval service</h5>
+
+<p>Add a new method to the <code>Exercises</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">updateScore</span><span class="p">(</span><span class="nx">correct</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_EVAL_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">scores</span><span class="err">`</span><span class="p">,</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;patch&#39;</span><span class="p">,</span>
+    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">exercise_id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span>
+      <span class="nx">correct</span><span class="o">:</span> <span class="nx">correct</span>
+    <span class="p">},</span>
+    <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+      <span class="nx">Authorization</span><span class="o">:</span> <span class="err">`</span><span class="nx">Bearer</span> <span class="nx">$</span><span class="p">{</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">authToken</span><span class="p">}</span><span class="err">`</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+  <span class="k">return</span> <span class="nx">axios</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This will return a promise object, which we can resolve in the <code>submitExercise</code> method:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">stateObject</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">showCorrect</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">showIncorrect</span><span class="o">:</span> <span class="kc">false</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">answer</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="p">}</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">isDisabled</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="nx">stateObject</span><span class="p">.</span><span class="nx">showCorrect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">};</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="nx">stateObject</span><span class="p">.</span><span class="nx">showIncorrect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">updateScore</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">isDisabled</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Test it out again!</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ testcafe chrome e2e
+
+Running tests in:
+- Chrome 61.0.3163 / Mac OS X 10.12.0
+
+/all-users
+should display the page correctly if a user is not logged in
+
+/
+should display the exercises correctly if a user is not logged in
+should allow a user to submit an exercise if logged in
+
+/login
+should display the sign in form
+should validate the password field
+should allow a user to sign in
+should throw an error if the credentials are incorrect
+
+/register
+should display flash messages correctly
+
+/register
+should display the registration form
+should allow a user to register
+should throw an error if the username is taken
+should throw an error if the email is taken
+
+/status
+should display the page if user is not logged in
+should display user info if user is logged in
+
+
+14 passed (1m 05s)
+</code></pre></div>
+<h4 id="what-39-s-next">What&#39;s Next?</h4>
+
+<ol>
+<li><strong>More tests</strong>: Increase the overall test coverage of each service.</li>
+<li><strong>Test the Lambda function</strong>: Try testing with <a href="https://github.com/awslabs/serverless-application-model">AWS Serverless Application Model</a> (AWS SAM)</li>
+<li><strong>Message queue</strong>: Add a simple message queue - like <a href="http://python-rq.org/">Redis Queue</a> or <a href="https://www.rabbitmq.com/">RabbitMQ</a></li>
+<li><strong>Swagger</strong>: The API documentation is way out of date. Update it!</li>
+<li><strong>Exercise component state</strong>: What happens if a user submits an exercise and then closes the browser before it&#39;s complete? Also, how would you indicate to the end user that they have already submitted an exercise?</li>
+<li><strong>DRY out the code</strong>: There&#39;s plenty of places in the code base that could be refactored. Did you notice that we could clean up the exercise status message (grading, incorrect, correct) logic by organizing it into a single method? Try this on your own.</li>
+<li><strong>Summary table</strong>: How about adding a summary table for individual user scores? Maybe individual users could just view their own scores while an admin can view all user scores.</li>
+</ol>
+
+<p>Spend some time refactoring and dealing with tech debt on your own.</p>
 
 
           
@@ -809,6 +1195,8 @@
             
               <a class="prev btn left-align" href="/part-six-react-ace-code-editor">&laquo; React Ace Code Editor</a>
             
+            
+              <a class="next btn right-align" href="/part-six-ecs-deployment">ECS Deployment &raquo;</a>
             
           </div>
 
@@ -818,7 +1206,369 @@
 
           <h2>Code Evaluation</h2>
 
-          <p>Coming soon!</p>
+          <p>In this lesson, we&#39;ll set up a RESTful API with AWS Lambda and API Gateway to handle code evaluation...</p>
+
+<hr>
+
+<p>It&#39;s a good idea to move long-running processes (like code evaluation) outside of the direct HTTP request/response cycle to improve performance of the web app. This is typically handled by Redis or RabbitMQ along with Celery. We&#39;re going to take a different approach with AWS Lambda.</p>
+
+<p>With <a href="https://aws.amazon.com/lambda/">AWS Lambda</a>, we can run scripts without having to provision or manage servers in response to an HTTP POST request.</p>
+
+<blockquote>
+<p>For more on AWS Lambda review &quot;What is AWS Lambda?&quot; from <a href="https://realpython.com/blog/python/code-evaluation-with-aws-lambda-and-api-gateway/">Code Evaluation With AWS Lambda and API Gateway</a>.</p>
+</blockquote>
+
+<p>We&#39;ll start by simply setting up an HTTP endpoint with <a href="https://aws.amazon.com/api-gateway/">API Gateway</a>, which is used to trigger the Lambda function. Keep in mind that you would probably want to set up a message queuing service, like Redis or <a href="https://aws.amazon.com/sqs/">SQS</a>, as well. To quickly get up and running we&#39;ll skip the message queue... for now...</p>
+
+<h4 id="aws-lambda-and-api-gateway-setup">AWS Lambda and API Gateway Setup</h4>
+
+<p>Follow the &quot;Lambda Setup&quot; and &quot;API Gateway Setup&quot; sections of the <a href="https://realpython.com/blog/python/code-evaluation-with-aws-lambda-and-api-gateway/">Code Evaluation With AWS Lambda and API Gateway</a> blog post to quickly get up and running.</p>
+
+<p>You can store the <code>lambda_handler</code> function in <em>flask-microservices-eval/project/lambda/handler.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+
+
+<span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="c"># get code from payload</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s">&#39;answer&#39;</span><span class="p">]</span>
+    <span class="n">test_code</span> <span class="o">=</span> <span class="n">code</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">print(sum(1,1))&#39;</span>
+    <span class="c"># capture stdout</span>
+    <span class="nb">buffer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="nb">buffer</span>
+    <span class="c"># execute code</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">exec</span><span class="p">(</span><span class="n">test_code</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="c"># return stdout</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+    <span class="c"># check</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="nb">buffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+</code></pre></div>
+<p>With that, let&#39;s turn our attention to the client-side...</p>
+
+<h4 id="exercise-component">Exercise Component</h4>
+
+<p>Workflow:</p>
+
+<ol>
+<li>User submits solution</li>
+<li>AJAX request is sent to the API Gateway endpoint</li>
+<li>On submit, the <code>Run Code</code> button is disabled and the grading message appears (so the user knows something is happening in case the process takes more than a few milliseconds)</li>
+<li>Once the Lambda is complete and the response is received, the grading message disappears and either a correct or incorrect message is displayed</li>
+<li>Request is sent to the Flask eval service to update the scores</li>
+</ol>
+
+<p>Before we dive in, let&#39;s add a test!</p>
+
+<h5 id="test">Test</h5>
+
+<p>Set <code>dev</code> as the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5001
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Fire up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
+</code></pre></div>
+<p>Create the databases:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py recreate_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
+</code></pre></div>
+<p>Apply the seeds:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py seed_db
+<span class="nv">$ </span>docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the full test suite to ensure all is well:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">sh test.sh
+</code></pre></div>
+<p>Then, within &quot;flask-microservices-main/e2e&quot;, create a new file called <em>exercises.test.js</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">randomstring</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;randomstring&#39;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">randomstring</span><span class="p">.</span><span class="nx">generate</span><span class="p">();</span>
+<span class="kr">const</span> <span class="nx">email</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span><span class="err">@</span><span class="nx">test</span><span class="p">.</span><span class="nx">com</span><span class="err">`</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">password</span> <span class="o">=</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">TEST_URL</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TEST_URL</span><span class="p">;</span>
+
+
+<span class="nx">fixture</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">page</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="err">`</span><span class="p">);</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">exercises</span> <span class="nx">correctly</span> <span class="k">if</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Exercises&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-warning&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Please log in to submit an exercise.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;button&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Run Code&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">submit</span> <span class="nx">an</span> <span class="nx">exercise</span> <span class="k">if</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">register</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;username&quot;]&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;email&quot;]&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">typeText</span><span class="p">(</span><span class="s1">&#39;input[name=&quot;password&quot;]&#39;</span><span class="p">,</span> <span class="nx">password</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;input[type=&quot;submit&quot;]&#39;</span><span class="p">))</span>
+  <span class="nx">await</span> <span class="nx">t</span>
+    <span class="p">.</span><span class="nx">navigateTo</span><span class="p">(</span><span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">TEST_URL</span><span class="p">}</span><span class="o">/</span><span class="err">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;H1&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Exercises&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;.alert-warning&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Please log in to submit an exercise.&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">notOk</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;button&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Run Code&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;button&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Run Code&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;h4&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Incorrect!&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Review the code on your own, and then run the tests again to ensure <code>should allow a user to submit an exercise if logged in</code> fails.</p>
+
+<h5 id="ajax-request-to-api-gateway">AJAX request to API Gateway</h5>
+
+<p>Update the <code>url</code> variable in <code>submitExercise()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="p">}</span><span class="err">`</span>
+</code></pre></div>
+<p>Then, set the environment variable:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span> <span class="kr">export</span> <span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="o">=</span><span class="nx">API_GATEWAY_URL</span>
+</code></pre></div>
+<p>To test, open the JavaScript console in your browser and enter the following code into the Ace code editor:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">+</span> <span class="n">num2</span>
+</code></pre></div>
+<p>The response object should have a key of <code>data</code> with a value of <code>true</code>.</p>
+
+<p>Update the code to:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">num1</span>
+</code></pre></div>
+<p>Make sure the value of <code>data</code> is now <code>false</code>.</p>
+
+<h5 id="display-grading-message">Display grading message</h5>
+
+<p>Update the button and add the grading message within the <code>render()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Button</span>
+      <span class="nx">bsStyle</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span>
+      <span class="nx">bsSize</span><span class="o">=</span><span class="s2">&quot;small&quot;</span>
+      <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">submitExercise</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span>
+      <span class="nx">disabled</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isDisabled</span><span class="p">}</span>
+    <span class="o">&gt;</span><span class="nx">Run</span> <span class="nx">Code</span><span class="o">&lt;</span><span class="err">/Button&gt;</span>
+  <span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">&amp;&amp;</span>
+    <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span>
+      <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+      <span class="o">&lt;</span><span class="nx">Glyphicon</span> <span class="nx">glyph</span><span class="o">=</span><span class="s2">&quot;repeat&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;glyphicon-spin&quot;</span><span class="o">/&gt;</span>
+      <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+      <span class="nx">Grading</span><span class="p">...</span>
+    <span class="o">&lt;</span><span class="err">/h4&gt;</span>
+  <span class="p">}</span>
+  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Update the state:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">exercises</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">aceEditorValue</span><span class="o">:</span> <span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">,</span>
+  <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>So, since <code>isDisabled</code> defaults to <code>false</code> the button will be clickable when the Component is first rendered. The grading message will also not be displayed.</p>
+
+<p>Make sure to update the import, to bring in the <a href="https://react-bootstrap.github.io/components.html#glyphicons">Glyphicon</a> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Button</span><span class="p">,</span> <span class="nx">Glyphicon</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Update the <code>submitExercise</code> function to change the state of <code>showGrading</code> and <code>isDisabled</code> to <code>false</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+    <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">true</span>
+  <span class="p">});</span>
+  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">answer</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="p">}</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Test it out in the browser!</p>
+
+<h5 id="display-correct-or-incorrect-message">Display correct or incorrect message</h5>
+
+<p>Start by adding a few more keys to the state object:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">exercises</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">aceEditorValue</span><span class="o">:</span> <span class="s1">&#39;# Enter your code here.&#39;</span><span class="p">,</span>
+  <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">showCorrect</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">showIncorrect</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The, update the <code>submitExercise</code> function to change the state of the appropriate key based on the value of <code>data</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">stateObject</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">showCorrect</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">showIncorrect</span><span class="o">:</span> <span class="kc">false</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">answer</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="p">}</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">isDisabled</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="nx">stateObject</span><span class="p">.</span><span class="nx">showCorrect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">};</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="nx">stateObject</span><span class="p">.</span><span class="nx">showIncorrect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">isDisabled</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Add a few more messages to the <code>render()</code>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">showCorrect</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span>
+    <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+    <span class="o">&lt;</span><span class="nx">Glyphicon</span> <span class="nx">glyph</span><span class="o">=</span><span class="s2">&quot;ok&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;glyphicon-correct&quot;</span><span class="o">/&gt;</span>
+    <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+    <span class="nx">Correct</span><span class="o">!</span>
+  <span class="o">&lt;</span><span class="err">/h4&gt;</span>
+<span class="p">}</span>
+<span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">showIncorrect</span> <span class="o">&amp;&amp;</span>
+  <span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span>
+    <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+    <span class="o">&lt;</span><span class="nx">Glyphicon</span> <span class="nx">glyph</span><span class="o">=</span><span class="s2">&quot;remove&quot;</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;glyphicon-incorrect&quot;</span><span class="o">/&gt;</span>
+    <span class="o">&amp;</span><span class="nx">nbsp</span><span class="p">;</span>
+    <span class="nx">Incorrect</span><span class="o">!</span>
+  <span class="o">&lt;</span><span class="err">/h4&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Test it out again!</p>
+
+<h5 id="ajax-request-to-flask-eval-service">AJAX request to Flask eval service</h5>
+
+<p>Add a new method to the <code>Exercises</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">updateScore</span><span class="p">(</span><span class="nx">correct</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_EVAL_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">scores</span><span class="err">`</span><span class="p">,</span>
+    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;patch&#39;</span><span class="p">,</span>
+    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">exercise_id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span>
+      <span class="nx">correct</span><span class="o">:</span> <span class="nx">correct</span>
+    <span class="p">},</span>
+    <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+      <span class="nx">Authorization</span><span class="o">:</span> <span class="err">`</span><span class="nx">Bearer</span> <span class="nx">$</span><span class="p">{</span><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">authToken</span><span class="p">}</span><span class="err">`</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+  <span class="k">return</span> <span class="nx">axios</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This will return a promise object, which we can resolve in the <code>submitExercise</code> method:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">stateObject</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">showGrading</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">isDisabled</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">showCorrect</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">showIncorrect</span><span class="o">:</span> <span class="kc">false</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">answer</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+  <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_API_GATEWAY_URL</span><span class="p">}</span><span class="err">`</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">isDisabled</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="nx">stateObject</span><span class="p">.</span><span class="nx">showCorrect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">};</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span><span class="nx">stateObject</span><span class="p">.</span><span class="nx">showIncorrect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">};</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">updateScore</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+  <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">showGrading</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="nx">stateObject</span><span class="p">.</span><span class="nx">isDisabled</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">stateObject</span><span class="p">);</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Test it out again!</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ testcafe chrome e2e
+
+Running tests in:
+- Chrome 61.0.3163 / Mac OS X 10.12.0
+
+/all-users
+should display the page correctly if a user is not logged in
+
+/
+should display the exercises correctly if a user is not logged in
+should allow a user to submit an exercise if logged in
+
+/login
+should display the sign in form
+should validate the password field
+should allow a user to sign in
+should throw an error if the credentials are incorrect
+
+/register
+should display flash messages correctly
+
+/register
+should display the registration form
+should allow a user to register
+should throw an error if the username is taken
+should throw an error if the email is taken
+
+/status
+should display the page if user is not logged in
+should display user info if user is logged in
+
+
+14 passed (1m 05s)
+</code></pre></div>
+<h4 id="what-39-s-next">What&#39;s Next?</h4>
+
+<ol>
+<li><strong>More tests</strong>: Increase the overall test coverage of each service.</li>
+<li><strong>Test the Lambda function</strong>: Try testing with <a href="https://github.com/awslabs/serverless-application-model">AWS Serverless Application Model</a> (AWS SAM)</li>
+<li><strong>Message queue</strong>: Add a simple message queue - like <a href="http://python-rq.org/">Redis Queue</a> or <a href="https://www.rabbitmq.com/">RabbitMQ</a></li>
+<li><strong>Swagger</strong>: The API documentation is way out of date. Update it!</li>
+<li><strong>Exercise component state</strong>: What happens if a user submits an exercise and then closes the browser before it&#39;s complete? Also, how would you indicate to the end user that they have already submitted an exercise?</li>
+<li><strong>DRY out the code</strong>: There&#39;s plenty of places in the code base that could be refactored. Did you notice that we could clean up the exercise status message (grading, incorrect, correct) logic by organizing it into a single method? Try this on your own.</li>
+<li><strong>Summary table</strong>: How about adding a summary table for individual user scores? Maybe individual users could just view their own scores while an admin can view all user scores.</li>
+</ol>
+
+<p>Spend some time refactoring and dealing with tech debt on your own.</p>
 
 
           
@@ -831,6 +1581,8 @@
             
               <a class="prev btn left-align" href="/part-six-react-ace-code-editor">&laquo; React Ace Code Editor</a>
             
+            
+              <a class="next btn right-align" href="/part-six-ecs-deployment">ECS Deployment &raquo;</a>
             
           </div>
 

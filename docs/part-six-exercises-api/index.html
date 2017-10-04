@@ -767,6 +767,18 @@
             
               <a
                 class="collection-item"
+                href="/part-six-e2e-tests-refactor"
+              >End-to-End Tests Refactor</a>
+            
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
                 href="/part-six-react-ace-code-editor"
               >React Ace Code Editor</a>
             
@@ -781,6 +793,18 @@
                 class="collection-item"
                 href="/part-six-code-evaluation"
               >Code Evaluation</a>
+            
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
+                href="/part-six-ecs-deployment"
+              >ECS Deployment</a>
             
           </li>
         </ul>
@@ -1185,7 +1209,7 @@ You are now connected to database <span class="s2">&quot;eval_dev&quot;</span> a
 <p>Did code coverage increase?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py cov
 </code></pre></div>
-<p>It went down about 2% on my end. Why?</p>
+<p>It went down about 1% on my end. Why?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">Coverage Summary:
 Name                                 Stmts   Miss Branch BrPart  Cover
 ----------------------------------------------------------------------
@@ -1194,11 +1218,11 @@ project/api/eval.py                      <span class="m">8</span>      <span cla
 project/api/exercises/exercises.py      <span class="m">35</span>      <span class="m">2</span>      <span class="m">6</span>      <span class="m">1</span>    93%
 project/api/exercises/models.py         <span class="m">14</span>     <span class="m">10</span>      <span class="m">0</span>      <span class="m">0</span>    29%
 project/api/scores/models.py            <span class="m">16</span>     <span class="m">11</span>      <span class="m">0</span>      <span class="m">0</span>    31%
-project/api/scores/scores.py            <span class="m">87</span>      <span class="m">1</span>     <span class="m">16</span>      <span class="m">1</span>    98%
+project/api/scores/scores.py           <span class="m">111</span>      <span class="m">1</span>     <span class="m">20</span>      <span class="m">1</span>    98%
 project/api/utils.py                    <span class="m">33</span>     <span class="m">11</span>      <span class="m">8</span>      <span class="m">2</span>    63%
 project/config.py                       <span class="m">19</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
 ----------------------------------------------------------------------
-TOTAL                                  <span class="m">233</span>     <span class="m">43</span>     <span class="m">30</span>      <span class="m">4</span>    81%
+TOTAL                                  <span class="m">257</span>     <span class="m">43</span>     <span class="m">34</span>      <span class="m">4</span>    83%
 </code></pre></div>
 <p>Write any additional routes and tests. Once done, commit and push your code to GitHub.</p>
 
@@ -1613,7 +1637,7 @@ You are now connected to database <span class="s2">&quot;eval_dev&quot;</span> a
 <p>Did code coverage increase?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py cov
 </code></pre></div>
-<p>It went down about 2% on my end. Why?</p>
+<p>It went down about 1% on my end. Why?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">Coverage Summary:
 Name                                 Stmts   Miss Branch BrPart  Cover
 ----------------------------------------------------------------------
@@ -1622,11 +1646,11 @@ project/api/eval.py                      <span class="m">8</span>      <span cla
 project/api/exercises/exercises.py      <span class="m">35</span>      <span class="m">2</span>      <span class="m">6</span>      <span class="m">1</span>    93%
 project/api/exercises/models.py         <span class="m">14</span>     <span class="m">10</span>      <span class="m">0</span>      <span class="m">0</span>    29%
 project/api/scores/models.py            <span class="m">16</span>     <span class="m">11</span>      <span class="m">0</span>      <span class="m">0</span>    31%
-project/api/scores/scores.py            <span class="m">87</span>      <span class="m">1</span>     <span class="m">16</span>      <span class="m">1</span>    98%
+project/api/scores/scores.py           <span class="m">111</span>      <span class="m">1</span>     <span class="m">20</span>      <span class="m">1</span>    98%
 project/api/utils.py                    <span class="m">33</span>     <span class="m">11</span>      <span class="m">8</span>      <span class="m">2</span>    63%
 project/config.py                       <span class="m">19</span>      <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span>   100%
 ----------------------------------------------------------------------
-TOTAL                                  <span class="m">233</span>     <span class="m">43</span>     <span class="m">30</span>      <span class="m">4</span>    81%
+TOTAL                                  <span class="m">257</span>     <span class="m">43</span>     <span class="m">34</span>      <span class="m">4</span>    83%
 </code></pre></div>
 <p>Write any additional routes and tests. Once done, commit and push your code to GitHub.</p>
 

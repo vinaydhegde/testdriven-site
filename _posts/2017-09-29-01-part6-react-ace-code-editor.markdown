@@ -1,7 +1,7 @@
 ---
 title: React Ace Code Editor
 layout: post
-date: 2017-09-28 23:59:59
+date: 2017-09-29 23:59:59
 permalink: part-six-react-ace-code-editor
 share: true
 ---
@@ -130,7 +130,16 @@ import axios from 'axios';
 And set the environment variable:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_DEV_IP:5002
+$ export REACT_APP_EVAL_SERVICE_URL=DOCKER_MACHINE_DEV_IP:5002
+```
+
+Update the `environment` under the `web-service` in the *docker-compose.yml* file in *flask-microservices-main*:
+
+```yaml
+environment:
+  - NODE_ENV=development
+  - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
+  - REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}
 ```
 
 Add `exercises` to the state:
@@ -174,7 +183,7 @@ render() {
 Install:
 
 ```sh
-$ npm install --svae react-ace@5.2.1
+$ npm install --save react-ace@5.2.1
 ```
 
 Add the imports:
@@ -354,10 +363,9 @@ Add the `submitExercise` method to the component:
 submitExercise(event) {
   event.preventDefault();
   const data = {
-    id: this.state.exercises[0].id,
-    code: this.state.aceEditorValue
+    answer: this.state.aceEditorValue
   }
-  const url = `${process.env.REACT_APP_EVAL_SERVICE_URL}/tbd`
+  const url = 'tbd'
   axios.post(url, data)
   .then((res) => {
     console.log(res);
@@ -368,4 +376,8 @@ submitExercise(event) {
 }
 ```
 
-With that, we need to wire up the actual code evaluation service on the server-side...
+Re-build the containers to manually test. Commit and push your code to GitHub once done.
+
+---
+
+With that, we need to wire up the actual code evaluation process...

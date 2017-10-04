@@ -767,6 +767,18 @@
             
               <a
                 class="collection-item"
+                href="/part-six-e2e-tests-refactor"
+              >End-to-End Tests Refactor</a>
+            
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
                 href="/part-six-react-ace-code-editor"
               >React Ace Code Editor</a>
             
@@ -781,6 +793,18 @@
                 class="collection-item"
                 href="/part-six-code-evaluation"
               >Code Evaluation</a>
+            
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
+                href="/part-six-ecs-deployment"
+              >ECS Deployment</a>
             
           </li>
         </ul>
@@ -884,7 +908,13 @@
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
 </code></pre></div>
 <p>And set the environment variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+</code></pre></div>
+<p>Update the <code>environment</code> under the <code>web-service</code> in the <em>docker-compose.yml</em> file in <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}</span>
 </code></pre></div>
 <p>Add <code>exercises</code> to the state:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
@@ -916,7 +946,7 @@
 <p><a href="https://ace.c9.io/">Ace</a> is an embeddable code editor, which we&#39;ll use to allow end users to submit their exercise solutions directly in the browser. We&#39;ll use a pre-configured Component for Ace called <a href="https://github.com/securingsincity/react-ace">React-Ace</a>.</p>
 
 <p>Install:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --svae react-ace@5.2.1
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --save react-ace@5.2.1
 </code></pre></div>
 <p>Add the imports:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">AceEditor</span> <span class="nx">from</span> <span class="s1">&#39;react-ace&#39;</span><span class="p">;</span>
@@ -1056,10 +1086,9 @@
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
   <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span>
-    <span class="nx">code</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+    <span class="nx">answer</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
   <span class="p">}</span>
-  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_EVAL_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">tbd</span><span class="err">`</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;tbd&#39;</span>
   <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
@@ -1069,7 +1098,11 @@
   <span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>With that, we need to wire up the actual code evaluation service on the server-side...</p>
+<p>Re-build the containers to manually test. Commit and push your code to GitHub once done.</p>
+
+<hr>
+
+<p>With that, we need to wire up the actual code evaluation process...</p>
 
 
           
@@ -1080,7 +1113,7 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-six-react-refactor">&laquo; React Refactor</a>
+              <a class="prev btn left-align" href="/part-six-e2e-tests-refactor">&laquo; End-to-End Tests Refactor</a>
             
             
               <a class="next btn right-align" href="/part-six-code-evaluation">Code Evaluation &raquo;</a>
@@ -1181,7 +1214,13 @@
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">&#39;axios&#39;</span><span class="p">;</span>
 </code></pre></div>
 <p>And set the environment variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+</code></pre></div>
+<p>Update the <code>environment</code> under the <code>web-service</code> in the <em>docker-compose.yml</em> file in <em>flask-microservices-main</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NODE_ENV=development</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}</span>
 </code></pre></div>
 <p>Add <code>exercises</code> to the state:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
@@ -1213,7 +1252,7 @@
 <p><a href="https://ace.c9.io/">Ace</a> is an embeddable code editor, which we&#39;ll use to allow end users to submit their exercise solutions directly in the browser. We&#39;ll use a pre-configured Component for Ace called <a href="https://github.com/securingsincity/react-ace">React-Ace</a>.</p>
 
 <p>Install:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --svae react-ace@5.2.1
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>npm install --save react-ace@5.2.1
 </code></pre></div>
 <p>Add the imports:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">AceEditor</span> <span class="nx">from</span> <span class="s1">&#39;react-ace&#39;</span><span class="p">;</span>
@@ -1353,10 +1392,9 @@
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">submitExercise</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
   <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">exercises</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span><span class="p">,</span>
-    <span class="nx">code</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
+    <span class="nx">answer</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">aceEditorValue</span>
   <span class="p">}</span>
-  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_EVAL_SERVICE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">tbd</span><span class="err">`</span>
+  <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;tbd&#39;</span>
   <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
@@ -1366,7 +1404,11 @@
   <span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>With that, we need to wire up the actual code evaluation service on the server-side...</p>
+<p>Re-build the containers to manually test. Commit and push your code to GitHub once done.</p>
+
+<hr>
+
+<p>With that, we need to wire up the actual code evaluation process...</p>
 
 
           
@@ -1377,7 +1419,7 @@
 
           <div class="page-nav">
             
-              <a class="prev btn left-align" href="/part-six-react-refactor">&laquo; React Refactor</a>
+              <a class="prev btn left-align" href="/part-six-e2e-tests-refactor">&laquo; End-to-End Tests Refactor</a>
             
             
               <a class="next btn right-align" href="/part-six-code-evaluation">Code Evaluation &raquo;</a>

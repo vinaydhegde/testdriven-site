@@ -767,6 +767,18 @@
             
               <a
                 class="collection-item"
+                href="/part-six-e2e-tests-refactor"
+              >End-to-End Tests Refactor</a>
+            
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
                 href="/part-six-react-ace-code-editor"
               >React Ace Code Editor</a>
             
@@ -781,6 +793,18 @@
                 class="collection-item"
                 href="/part-six-code-evaluation"
               >Code Evaluation</a>
+            
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
+                href="/part-six-ecs-deployment"
+              >ECS Deployment</a>
             
           </li>
         </ul>
@@ -800,6 +824,10 @@
 
 <hr>
 
+<blockquote>
+<p>Although we will be updating the end-to-end test suite in the next lesson, challenge yourself to update the test specs <em>before</em> changing the code as you go through this lesson.</p>
+</blockquote>
+
 <h4 id="navbar">Navbar</h4>
 
 <p>Within <em>flask-microservices-client</em>, add a new file called <em>NavBar.css</em> to &quot;src/components&quot;:</p>
@@ -1303,14 +1331,14 @@
 <span class="p">)}</span> <span class="o">/&gt;</span>
 </code></pre></div>
 <p>Then, create a new route for the  <code>UsersList</code> component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/users&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/all-users&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
   <span class="o">&lt;</span><span class="nx">UsersList</span>
     <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
   <span class="o">/&gt;</span>
 <span class="p">)}</span> <span class="o">/&gt;</span>
 </code></pre></div>
 <p>Finally, add a new link just below the <code>/about</code> link in <em>src/components/NavBar.jsx</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="o">&gt;</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">&quot;/all-users&quot;</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="nx">NavItem</span><span class="o">&gt;</span><span class="nx">Users</span><span class="o">&lt;</span><span class="err">/NavItem&gt;</span>
 <span class="o">&lt;</span><span class="err">/LinkContainer&gt;</span>
 </code></pre></div>
@@ -1330,7 +1358,7 @@
               <a class="prev btn left-align" href="/part-six-exercises-api">&laquo; Exercises API</a>
             
             
-              <a class="next btn right-align" href="/part-six-react-ace-code-editor">React Ace Code Editor &raquo;</a>
+              <a class="next btn right-align" href="/part-six-e2e-tests-refactor">End-to-End Tests Refactor &raquo;</a>
             
           </div>
 
@@ -1344,6 +1372,10 @@
 
 <hr>
 
+<blockquote>
+<p>Although we will be updating the end-to-end test suite in the next lesson, challenge yourself to update the test specs <em>before</em> changing the code as you go through this lesson.</p>
+</blockquote>
+
 <h4 id="navbar">Navbar</h4>
 
 <p>Within <em>flask-microservices-client</em>, add a new file called <em>NavBar.css</em> to &quot;src/components&quot;:</p>
@@ -1847,14 +1879,14 @@
 <span class="p">)}</span> <span class="o">/&gt;</span>
 </code></pre></div>
 <p>Then, create a new route for the  <code>UsersList</code> component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/users&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/all-users&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
   <span class="o">&lt;</span><span class="nx">UsersList</span>
     <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
   <span class="o">/&gt;</span>
 <span class="p">)}</span> <span class="o">/&gt;</span>
 </code></pre></div>
 <p>Finally, add a new link just below the <code>/about</code> link in <em>src/components/NavBar.jsx</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">&quot;/users&quot;</span><span class="o">&gt;</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">&quot;/all-users&quot;</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="nx">NavItem</span><span class="o">&gt;</span><span class="nx">Users</span><span class="o">&lt;</span><span class="err">/NavItem&gt;</span>
 <span class="o">&lt;</span><span class="err">/LinkContainer&gt;</span>
 </code></pre></div>
@@ -1874,7 +1906,7 @@
               <a class="prev btn left-align" href="/part-six-exercises-api">&laquo; Exercises API</a>
             
             
-              <a class="next btn right-align" href="/part-six-react-ace-code-editor">React Ace Code Editor &raquo;</a>
+              <a class="next btn right-align" href="/part-six-e2e-tests-refactor">End-to-End Tests Refactor &raquo;</a>
             
           </div>
 
