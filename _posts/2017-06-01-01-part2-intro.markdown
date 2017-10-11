@@ -21,7 +21,7 @@ By the end of this part, you should be able to...
 
 1. Manage services housed in multiple git repos from a single Docker Compose file
 1. Utilize a git repo as the "build context" for Docker Compose
-1. Run the unit and integration tests with code coverage
+1. Run unit and integration tests with code coverage inside a Docker Container
 1. Work with each service independently without Docker
 1. Configure Travis CI for continuous integration testing
 1. Explain what React is

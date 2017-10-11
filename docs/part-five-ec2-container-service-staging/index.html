@@ -809,6 +809,18 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
+                href="/part-six-next-steps"
+              >Next Steps</a>
+            
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -879,7 +891,7 @@
 <p>Then, under &quot;Health check settings&quot;:</p>
 
 <ol>
-<li>&quot;Port&quot;: <code>/ping</code></li>
+<li>&quot;Path&quot;: <code>/ping</code></li>
 </ol>
 
 <h5 id="target-group-2-flask-microservices-swagger">Target Group 2: <em>flask-microservices-swagger</em></h5>
@@ -892,7 +904,7 @@
 <p>Then, under &quot;Health check settings&quot;:</p>
 
 <ol>
-<li>&quot;Port&quot;: <code>/</code></li>
+<li>&quot;Path&quot;: <code>/</code></li>
 </ol>
 
 <h4 id="update-alb">Update ALB</h4>
@@ -922,7 +934,7 @@
 
 <ol>
 <li>&quot;Cluster name&quot;: <code>flask-microservices-staging-cluster</code></li>
-<li>&quot;EC2 instance type&quot;: <code>t2.medium</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.micro</code></li>
 <li>&quot;Number of instances&quot;: <code>6</code></li>
 <li>&quot;Key pair&quot;: <code>ecs</code></li>
 </ol>
@@ -1285,7 +1297,7 @@
 
       <span class="c"># users</span>
       <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-users-td&quot;</span>
-        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-users&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging-users&quot;</span>
       <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_users_taskdefinition.json&quot;</span>
       <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
       <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
@@ -1295,7 +1307,7 @@
 
       <span class="c"># client</span>
       <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-client-td&quot;</span>
-        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-client&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging-client&quot;</span>
       <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_client_taskdefinition.json&quot;</span>
       <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
       <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
@@ -1305,7 +1317,7 @@
 
       <span class="c"># swagger</span>
       <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-swagger-td&quot;</span>
-        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-swagger&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging-swagger&quot;</span>
       <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_swagger_taskdefinition.json&quot;</span>
       <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
       <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
@@ -1409,7 +1421,7 @@
 <p>Then, under &quot;Health check settings&quot;:</p>
 
 <ol>
-<li>&quot;Port&quot;: <code>/ping</code></li>
+<li>&quot;Path&quot;: <code>/ping</code></li>
 </ol>
 
 <h5 id="target-group-2-flask-microservices-swagger">Target Group 2: <em>flask-microservices-swagger</em></h5>
@@ -1422,7 +1434,7 @@
 <p>Then, under &quot;Health check settings&quot;:</p>
 
 <ol>
-<li>&quot;Port&quot;: <code>/</code></li>
+<li>&quot;Path&quot;: <code>/</code></li>
 </ol>
 
 <h4 id="update-alb">Update ALB</h4>
@@ -1452,7 +1464,7 @@
 
 <ol>
 <li>&quot;Cluster name&quot;: <code>flask-microservices-staging-cluster</code></li>
-<li>&quot;EC2 instance type&quot;: <code>t2.medium</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.micro</code></li>
 <li>&quot;Number of instances&quot;: <code>6</code></li>
 <li>&quot;Key pair&quot;: <code>ecs</code></li>
 </ol>
@@ -1815,7 +1827,7 @@
 
       <span class="c"># users</span>
       <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-users-td&quot;</span>
-        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-users&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging-users&quot;</span>
       <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_users_taskdefinition.json&quot;</span>
       <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
       <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
@@ -1825,7 +1837,7 @@
 
       <span class="c"># client</span>
       <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-client-td&quot;</span>
-        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-client&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging-client&quot;</span>
       <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_client_taskdefinition.json&quot;</span>
       <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
       <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
@@ -1835,7 +1847,7 @@
 
       <span class="c"># swagger</span>
       <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-swagger-td&quot;</span>
-        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-swagger&quot;</span>
+        <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging-swagger&quot;</span>
       <span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_swagger_taskdefinition.json&quot;</span>
       <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/$template&quot;</span><span class="k">)</span>
       <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;$task_template&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>

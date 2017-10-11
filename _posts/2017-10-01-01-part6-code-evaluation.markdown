@@ -154,23 +154,7 @@ Review the code on your own, and then run the tests again to ensure `should allo
 Update the `url` variable in `submitExercise()`:
 
 ```javascript
-const url = `${process.env.REACT_APP_API_GATEWAY_URL}`
-```
-
-Then, set the environment variable:
-
-```javascript
-$ export REACT_APP_API_GATEWAY_URL=API_GATEWAY_URL
-```
-
-Update the `environment` under the `web-service` in the *docker-compose.yml* file in *flask-microservices-main*:
-
-```yaml
-environment:
-  - NODE_ENV=development
-  - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
-  - REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}
-  - REACT_APP_API_GATEWAY_URL=${REACT_APP_API_GATEWAY_URL}
+const url = 'API_GATEWAY_URL'
 ```
 
 To test, open the JavaScript console in your browser and enter the following code into the Ace code editor:
@@ -247,7 +231,7 @@ submitExercise(event) {
   const data = {
     answer: this.state.aceEditorValue
   }
-  const url = `${process.env.REACT_APP_API_GATEWAY_URL}`
+  const url = 'API_GATEWAY_URL'
   axios.post(url, data)
   .then((res) => {
     console.log(res);
@@ -290,7 +274,7 @@ submitExercise(event) {
   const data = {
     answer: this.state.aceEditorValue
   }
-  const url = `${process.env.REACT_APP_API_GATEWAY_URL}`
+  const url = 'API_GATEWAY_URL'
   axios.post(url, data)
   .then((res) => {
     stateObject.showGrading = false
@@ -368,7 +352,7 @@ submitExercise(event) {
   const data = {
     answer: this.state.aceEditorValue
   }
-  const url = `${process.env.REACT_APP_API_GATEWAY_URL}`
+  const url = 'API_GATEWAY_URL'
   axios.post(url, data)
   .then((res) => {
     stateObject.showGrading = false

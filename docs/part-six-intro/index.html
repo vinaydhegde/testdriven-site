@@ -809,6 +809,18 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
+                href="/part-six-next-steps"
+              >Next Steps</a>
+            
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -820,11 +832,164 @@
 
           <h2>Part 6 Introduction</h2>
 
-          <p>In the final part, we&#39;ll focus our attention on adding a new service to evaluate user-submitted code.</p>
-
-<hr>
+          <p>In the final part, we&#39;ll focus our attention on adding a new <em>Flask</em> service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we&#39;ll tie in <em>AWS Lambda</em> and <em>API Gateway</em> and spend a bit of time refactoring <em>React</em> and the <em>end-to-end</em> test suite. Finally, we&#39;ll update the staging and production environments on ECS.</p>
 
 <p>In progress...</p>
+
+<h4 id="objectives">Objectives</h4>
+
+<p>By the end of part 6, you should be able to...</p>
+
+<ol>
+<li>Practice test driven development while refactoring code</li>
+<li>Integrate a new microservice in the existing set of services</li>
+<li>Explain what AWS Lambda and API Gateway are and why would would want to use them</li>
+<li>Develop a RESTful API endpoint with API Gateway that triggers an AWS Lambda function</li>
+<li>Update the staging and production environments on Amazon ECS</li>
+</ol>
+
+<h4 id="app">App</h4>
+
+<div style="text-align:left;">
+  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
+</div>
+
+<p>Check out the live app, running on EC2 -</p>
+
+<ol>
+<li><a href="http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com">Production</a></li>
+<li><a href="http://flask-microservices-staging-alb-1366920567.us-east-1.elb.amazonaws.com">Staging</a></li>
+</ol>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/health</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>GET</td>
+<td>No</td>
+<td>get all scores</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single score</td>
+</tr>
+<tr>
+<td>/scores/user</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get all scores by user id</td>
+</tr>
+<tr>
+<td>/scores/user/:id</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get single score by user id</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>POST</td>
+<td>Yes</td>
+<td>add a score</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>PUT</td>
+<td>Yes</td>
+<td>update a score</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>PATCH</td>
+<td>Yes</td>
+<td>upsert (update or add if the score does not exist)</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
+
+<p>Grab the code:</p>
+
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-swagger">flask-microservices-swagger</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-eval">flask-microservices-eval</a></li>
+</ol>
 
 
           
@@ -848,11 +1013,164 @@
 
           <h2>Part 6 Introduction</h2>
 
-          <p>In the final part, we&#39;ll focus our attention on adding a new service to evaluate user-submitted code.</p>
-
-<hr>
+          <p>In the final part, we&#39;ll focus our attention on adding a new <em>Flask</em> service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we&#39;ll tie in <em>AWS Lambda</em> and <em>API Gateway</em> and spend a bit of time refactoring <em>React</em> and the <em>end-to-end</em> test suite. Finally, we&#39;ll update the staging and production environments on ECS.</p>
 
 <p>In progress...</p>
+
+<h4 id="objectives">Objectives</h4>
+
+<p>By the end of part 6, you should be able to...</p>
+
+<ol>
+<li>Practice test driven development while refactoring code</li>
+<li>Integrate a new microservice in the existing set of services</li>
+<li>Explain what AWS Lambda and API Gateway are and why would would want to use them</li>
+<li>Develop a RESTful API endpoint with API Gateway that triggers an AWS Lambda function</li>
+<li>Update the staging and production environments on Amazon ECS</li>
+</ol>
+
+<h4 id="app">App</h4>
+
+<div style="text-align:left;">
+  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
+</div>
+
+<p>Check out the live app, running on EC2 -</p>
+
+<ol>
+<li><a href="http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com">Production</a></li>
+<li><a href="http://flask-microservices-staging-alb-1366920567.us-east-1.elb.amazonaws.com">Staging</a></li>
+</ol>
+
+<p>You can also test out the following endpoints...</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/health</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>GET</td>
+<td>No</td>
+<td>get all scores</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single score</td>
+</tr>
+<tr>
+<td>/scores/user</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get all scores by user id</td>
+</tr>
+<tr>
+<td>/scores/user/:id</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get single score by user id</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>POST</td>
+<td>Yes</td>
+<td>add a score</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>PUT</td>
+<td>Yes</td>
+<td>update a score</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>PATCH</td>
+<td>Yes</td>
+<td>upsert (update or add if the score does not exist)</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
+
+<p>Grab the code:</p>
+
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-swagger">flask-microservices-swagger</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-eval">flask-microservices-eval</a></li>
+</ol>
 
 
           

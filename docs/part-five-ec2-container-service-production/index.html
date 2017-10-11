@@ -809,6 +809,18 @@
           </li>
         </ul>
       
+        
+        <ul>
+          <li>
+            
+              <a
+                class="collection-item"
+                href="/part-six-next-steps"
+              >Next Steps</a>
+            
+          </li>
+        </ul>
+      
     </div>
   </li>
     </ul>
@@ -895,7 +907,7 @@
 <p>Then, under &quot;Health check settings&quot;:</p>
 
 <ol>
-<li>&quot;Port&quot;: <code>/ping</code></li>
+<li>&quot;Path&quot;: <code>/ping</code></li>
 </ol>
 
 <h5 id="target-group-2-flask-microservices-swagger">Target Group 2: <em>flask-microservices-swagger</em></h5>
@@ -908,7 +920,7 @@
 <p>Then, under &quot;Health check settings&quot;:</p>
 
 <ol>
-<li>&quot;Port&quot;: <code>/</code></li>
+<li>&quot;Path&quot;: <code>/</code></li>
 </ol>
 
 <h4 id="add-listeners-to-the-alb">Add Listeners to the ALB</h4>
@@ -938,7 +950,7 @@
 
 <ol>
 <li>&quot;Cluster name&quot;: <code>flask-microservices-prod-cluster</code></li>
-<li>&quot;EC2 instance type&quot;: <code>t2.medium</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.micro</code></li>
 <li>&quot;Number of instances&quot;: <code>6</code></li>
 <li>&quot;Key pair&quot;: <code>ecs</code></li>
 </ol>
@@ -1323,7 +1335,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <span class="c"># python manage.py recreate_db</span>
 <span class="c"># python manage.py seed_db</span>
 </code></pre></div>
-<p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
+<p>Navigate to <a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a> again and you should see the users.</p>
 
 <p>Now for the real sanity check - run the e2e tests!</p>
 
@@ -1583,7 +1595,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <p>Then, under &quot;Health check settings&quot;:</p>
 
 <ol>
-<li>&quot;Port&quot;: <code>/ping</code></li>
+<li>&quot;Path&quot;: <code>/ping</code></li>
 </ol>
 
 <h5 id="target-group-2-flask-microservices-swagger">Target Group 2: <em>flask-microservices-swagger</em></h5>
@@ -1596,7 +1608,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <p>Then, under &quot;Health check settings&quot;:</p>
 
 <ol>
-<li>&quot;Port&quot;: <code>/</code></li>
+<li>&quot;Path&quot;: <code>/</code></li>
 </ol>
 
 <h4 id="add-listeners-to-the-alb">Add Listeners to the ALB</h4>
@@ -1626,7 +1638,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 
 <ol>
 <li>&quot;Cluster name&quot;: <code>flask-microservices-prod-cluster</code></li>
-<li>&quot;EC2 instance type&quot;: <code>t2.medium</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.micro</code></li>
 <li>&quot;Number of instances&quot;: <code>6</code></li>
 <li>&quot;Key pair&quot;: <code>ecs</code></li>
 </ol>
@@ -2011,7 +2023,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <span class="c"># python manage.py recreate_db</span>
 <span class="c"># python manage.py seed_db</span>
 </code></pre></div>
-<p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
+<p>Navigate to <a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a> again and you should see the users.</p>
 
 <p>Now for the real sanity check - run the e2e tests!</p>
 

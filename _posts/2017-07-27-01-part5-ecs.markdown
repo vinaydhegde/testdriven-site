@@ -56,7 +56,7 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Task Defini
 Add:
 
 1. "Cluster name": `flask-microservices-staging`
-1. "EC2 instance type": `t2.medium`
+1. "EC2 instance type": `t2.micro`
 1. "Number of instances": `2`
 1. "Key pair": `ecs`
 

@@ -66,7 +66,7 @@ Next, set up new Target Groups for `swagger` and `users-service`. Within [Amazon
 
 Then, under "Health check settings":
 
-1. "Port": `/ping`
+1. "Path": `/ping`
 
 ##### Target Group 2: *flask-microservices-swagger*
 
@@ -75,7 +75,7 @@ Then, under "Health check settings":
 
 Then, under "Health check settings":
 
-1. "Port": `/`
+1. "Path": `/`
 
 #### Add Listeners to the ALB
 
@@ -99,7 +99,7 @@ Add a new listener:
 Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), and create a new Cluster:
 
 1. "Cluster name": `flask-microservices-prod-cluster`
-1. "EC2 instance type": `t2.medium`
+1. "EC2 instance type": `t2.micro`
 1. "Number of instances": `6`
 1. "Key pair": `ecs`
 
@@ -462,7 +462,7 @@ $ docker exec -it Container_ID bash
 # python manage.py seed_db
 ```
 
-Navigate to [http://EC2_PUBLIC_IP/users](http://EC2_PUBLIC_IP/users) again and you should see the users.
+Navigate to [http://LOAD_BALANCER_DNS_NAME/users](http://LOAD_BALANCER_DNS_NAME/users) again and you should see the users.
 
 Now for the real sanity check - run the e2e tests!
 

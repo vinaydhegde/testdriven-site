@@ -332,7 +332,7 @@ before_script:
   - bash ./docker_build.sh
 ```
 
-To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the if block with *docker_push.sh*. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.
+To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the `if` block within *docker_push.sh*. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.
 
 #### Architecture
 

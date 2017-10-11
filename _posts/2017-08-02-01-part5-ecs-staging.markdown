@@ -52,7 +52,7 @@ Next, we need to set up new Target Groups for `swagger` and `users-service`. Wit
 
 Then, under "Health check settings":
 
-1. "Port": `/ping`
+1. "Path": `/ping`
 
 ##### Target Group 2: *flask-microservices-swagger*
 
@@ -61,7 +61,7 @@ Then, under "Health check settings":
 
 Then, under "Health check settings":
 
-1. "Port": `/`
+1. "Path": `/`
 
 #### Update ALB
 
@@ -85,7 +85,7 @@ Add a new listener:
 Navigate back to ECS, and create a new Cluster:
 
 1. "Cluster name": `flask-microservices-staging-cluster`
-1. "EC2 instance type": `t2.medium`
+1. "EC2 instance type": `t2.micro`
 1. "Number of instances": `6`
 1. "Key pair": `ecs`
 
@@ -428,7 +428,7 @@ then
 
       # users
       family="flask-microservices-users-td"
-    	service="flask-microservices-users"
+    	service="flask-microservices-staging-users"
       template="ecs_users_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID)
@@ -438,7 +438,7 @@ then
 
       # client
       family="flask-microservices-client-td"
-    	service="flask-microservices-client"
+    	service="flask-microservices-staging-client"
       template="ecs_client_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
@@ -448,7 +448,7 @@ then
 
       # swagger
       family="flask-microservices-swagger-td"
-    	service="flask-microservices-swagger"
+    	service="flask-microservices-staging-swagger"
       template="ecs_swagger_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)

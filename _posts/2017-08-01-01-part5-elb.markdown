@@ -53,7 +53,7 @@ So, a new [VPC](https://aws.amazon.com/vpc/) and [Security Group](http://docs.aw
 Navigate back to ECS and delete the `flask-microservices-staging` cluster, and then create a new one:
 
 1. "Cluster name": `flask-microservices-staging`
-1. "EC2 instance type": `t2.medium`
+1. "EC2 instance type": `t2.micro`
 1. "Number of instances": `2`
 1. "Key pair": `ecs`
 
