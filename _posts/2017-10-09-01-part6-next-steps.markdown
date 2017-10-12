@@ -6,4 +6,12 @@ permalink: part-six-next-steps
 share: true
 ---
 
-Coming Soon!
+Well, that's it. It's your turn! Spend some time refactoring and dealing with tech debt on your own....
+
+1. **More tests**: Increase the overall test coverage of each service.
+1. **Test the Lambda function**: Try testing with [AWS Serverless Application Model](https://github.com/awslabs/serverless-application-model) (AWS SAM)
+1. **Message queue**: Add a simple message queue - like [Redis Queue](http://python-rq.org/) or [RabbitMQ](https://www.rabbitmq.com/)
+1. **Swagger**: The API documentation is way out of date. Update it!
+1. **Exercise component state**: What happens if a user submits an exercise and then closes the browser before it's complete? Also, how would you indicate to the end user that they have already submitted an exercise?
+1. **DRY out the code**: There's plenty of places in the code base that could be refactored. Did you notice that we could clean up the exercise status message (grading, incorrect, correct) logic by organizing it into a single method? Try this on your own.
+1. **Summary table**: How about adding a summary table for individual user scores? Maybe individual users could just view their own scores while an admin can view all user scores.

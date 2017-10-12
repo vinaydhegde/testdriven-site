@@ -9,8 +9,6 @@ share: true
 
 In the final part, we'll focus our attention on adding a new *Flask* service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we'll tie in *AWS Lambda* and *API Gateway* and spend a bit of time refactoring *React* and the *end-to-end* test suite. Finally, we'll update the staging and production environments on ECS.
 
-In progress...
-
 #### Objectives
 
 By the end of part 6, you should be able to...

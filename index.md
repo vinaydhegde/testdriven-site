@@ -5,17 +5,26 @@ title: Microservices with Docker, Flask, and React
 
 <hr><br>
 
-In this course, you will learn how to quickly spin up a reproducible development environment with *Docker* to manage a number of *microservices*. Once the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance. Finally, we'll look at scaling the services on *Amazon EC2 Container Service (ECS)*. 
+In this course, you will learn how to quickly spin up a reproducible development environment with *Docker* to manage a number of *microservices*. Once the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance. Finally, we'll look at scaling the services on *Amazon EC2 Container Service (ECS)*.
+
+Preview the live app, running on multiple EC2 instances at [http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com/](http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com/)
+
+<div style="text-align:left;">
+  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+</div>
 
 #### Structure
 
 1. *flask-microservices-main* - Docker Compose files, Nginx, admin scripts
-1. *flask-microservices-users* - Flask app
+1. *flask-microservices-users* - Flask app for managing users and auth
 1. *flask-microservices-client* - client-side, React app
 1. *flask-microservices-swagger* - Swagger API docs
+1. *flask-microservices-eval* - Flask app for managing user scores and exercises
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+<br>
+
+<div class="center-align">
+  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
 </div>
 
 <br><hr><br>
