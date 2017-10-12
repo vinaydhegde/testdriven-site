@@ -18,7 +18,9 @@
 
           <h2>{{ page.title }}</h2>
 
-          <h3>Part {{ page.part }}, Lesson {{ page.lesson }}</h3>
+          {% if page.part %}
+            <h3>Part {{ page.part }}, Lesson {{ page.lesson }}</h3>
+          {% endif %}
 
 
           {{ content }}
