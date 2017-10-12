@@ -3,6 +3,9 @@ title: Flask Bcrypt
 layout: post
 date: 2017-06-12 23:59:58
 permalink: part-three-flask-bcrypt
+intro: false
+part: 3
+lesson: 3
 share: true
 ---
 

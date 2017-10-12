@@ -3,6 +3,9 @@ title: Swagger Setup
 layout: post
 date: 2017-06-28 23:59:59
 permalink: part-four-swagger-setup
+intro: false
+part: 4
+lesson: 7
 share: true
 ---
 

@@ -3,6 +3,9 @@ title: Eval Service Setup
 layout: post
 date: 2017-09-18 23:59:59
 permalink: part-six-eval-service-setup
+intro: false
+part: 6
+lesson: 2
 share: true
 ---
 

@@ -3,6 +3,9 @@ title: Flask Refactor
 layout: post
 date: 2017-06-07 23:59:59
 permalink: part-two-flask-refactor
+intro: false
+part: 2
+lesson: 9
 share: true
 ---
 

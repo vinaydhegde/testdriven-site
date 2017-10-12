@@ -3,6 +3,9 @@ title: RESTful Routes
 layout: post
 date: 2017-05-13 23:59:57
 permalink: part-one-restful-routes
+intro: false
+part: 1
+lesson: 7
 share: true
 ---
 

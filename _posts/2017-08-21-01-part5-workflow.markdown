@@ -3,6 +3,9 @@ title: Workflow
 layout: post
 date: 2017-08-21 23:59:59
 permalink: part-five-workflow
+intro: false
+part: 5
+lesson: 9
 share: true
 ---
 

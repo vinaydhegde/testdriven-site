@@ -3,6 +3,9 @@ title: Auth Routes
 layout: post
 date: 2017-06-15 23:59:59
 permalink: part-three-auth-routes
+intro: false
+part: 3
+lesson: 5
 share: true
 ---
 

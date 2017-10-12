@@ -1,9 +1,11 @@
 ---
-title: Part 4 Introduction
+title: Introduction
 layout: post
 date: 2017-06-21 23:59:59
 permalink: part-four-intro
+intro: true
 part: 4
+lesson: 1
 share: true
 ---
 

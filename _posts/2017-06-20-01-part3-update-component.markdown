@@ -3,6 +3,9 @@ title: Update Component
 layout: post
 date: 2017-06-20 23:59:58
 permalink: part-three-update-component
+intro: false
+part: 3
+lesson: 10
 share: true
 ---
 

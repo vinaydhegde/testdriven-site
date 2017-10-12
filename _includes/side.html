@@ -3,7 +3,7 @@
   <div id="toc-block" class="collection hide-on-small-and-down">
     <ul class="collapsible collapsible-accordion">
       {% for post in site.posts reversed %}
-        {% if post.part %}
+        {% if post.intro %}
           <li>
             <h5 data-part="{{post.part}}" class="collapsible-header  waves-effect waves-teal">
               Part {{post.part}}
@@ -12,7 +12,8 @@
         {% endif %}
         <ul>
           <li>
-            {% if post.part %}
+            ({{ post.part }}.{{ post.lesson }})
+            {% if post.intro %}
               <a
                 class="collection-item"
                 href="{{ site.baseurl }}{{ post.url }}"

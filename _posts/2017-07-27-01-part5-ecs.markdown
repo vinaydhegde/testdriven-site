@@ -3,6 +3,9 @@ title: EC2 Container Service
 layout: post
 date: 2017-07-27 23:59:59
 permalink: part-five-ec2-container-service
+intro: false
+part: 5
+lesson: 4
 share: true
 ---
 

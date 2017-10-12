@@ -3,6 +3,9 @@ title: React and Docker
 layout: post
 date: 2017-06-06 23:59:58
 permalink: part-two-react-docker
+intro: false
+part: 2
+lesson: 8
 share: true
 ---
 

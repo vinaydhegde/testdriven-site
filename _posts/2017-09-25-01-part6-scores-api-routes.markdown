@@ -3,6 +3,9 @@ title: Scores API Routes
 layout: post
 date: 2017-09-25 23:59:59
 permalink: part-six-scores-api-routes
+intro: false
+part: 6
+lesson: 4
 share: true
 ---
 

@@ -3,6 +3,9 @@ title: JWT Setup
 layout: post
 date: 2017-06-12 23:59:59
 permalink: part-three-jwt-setup
+intro: false
+part: 3
+lesson: 4
 share: true
 ---
 

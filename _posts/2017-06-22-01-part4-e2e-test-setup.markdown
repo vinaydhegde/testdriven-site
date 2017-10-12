@@ -3,6 +3,9 @@ title: End-to-End Test Setup
 layout: post
 date: 2017-06-22 23:59:59
 permalink: part-four-e2e-test-setup
+intro: false
+part: 4
+lesson: 2
 share: true
 ---
 

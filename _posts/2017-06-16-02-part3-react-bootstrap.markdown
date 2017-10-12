@@ -3,6 +3,9 @@ title: React Bootstrap
 layout: post
 date: 2017-06-16 23:59:59
 permalink: part-three-react-bootstrap
+intro: false
+part: 3
+lesson: 7
 share: true
 ---
 

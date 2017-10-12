@@ -3,6 +3,9 @@ title: React Router
 layout: post
 date: 2017-06-16 23:59:59
 permalink: part-three-react-router
+intro: false
+part: 3
+lesson: 6
 share: true
 ---
 

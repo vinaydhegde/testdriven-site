@@ -3,6 +3,9 @@ title: React Form Validation
 layout: post
 date: 2017-06-26 23:59:59
 permalink: part-four-react-form-validation
+intro: false
+part: 4
+lesson: 5
 share: true
 ---
 

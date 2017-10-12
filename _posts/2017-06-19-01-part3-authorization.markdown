@@ -3,6 +3,9 @@ title: Authorization
 layout: post
 date: 2017-06-19 23:59:59
 permalink: part-three-authorization
+intro: false
+part: 3
+lesson: 9
 share: true
 ---
 

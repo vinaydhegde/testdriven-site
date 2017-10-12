@@ -3,6 +3,9 @@ title: React Refactor
 layout: post
 date: 2017-09-27 23:59:59
 permalink: part-six-react-refactor
+intro: false
+part: 6
+lesson: 6
 share: true
 ---
 

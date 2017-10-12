@@ -3,6 +3,9 @@ title: React Authentication
 layout: post
 date: 2017-06-17 23:59:59
 permalink: part-three-react-authentication
+intro: false
+part: 3
+lesson: 8
 share: true
 ---
 

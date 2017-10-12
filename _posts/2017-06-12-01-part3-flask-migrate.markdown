@@ -3,6 +3,9 @@ title: Flask Migrate
 layout: post
 date: 2017-06-12 23:59:57
 permalink: part-three-flask-migrate
+intro: false
+part: 3
+lesson: 2
 share: true
 ---
 

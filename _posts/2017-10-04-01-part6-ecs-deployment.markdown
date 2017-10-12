@@ -3,6 +3,9 @@ title: ECS Deployment
 layout: post
 date: 2017-10-04 23:59:59
 permalink: part-six-ecs-deployment
+intro: false
+part: 6
+lesson: 10
 share: true
 ---
 

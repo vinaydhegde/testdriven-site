@@ -3,6 +3,9 @@ title: Project Refactor
 layout: post
 date: 2017-06-02 23:59:58
 permalink: part-two-project-refactor
+intro: false
+part: 2
+lesson: 2
 share: true
 ---
 

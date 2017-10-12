@@ -3,6 +3,9 @@ title: ECS Production
 layout: post
 date: 2017-08-14 23:59:59
 permalink: part-five-ec2-container-service-production
+intro: false
+part: 5
+lesson: 8
 share: true
 ---
 

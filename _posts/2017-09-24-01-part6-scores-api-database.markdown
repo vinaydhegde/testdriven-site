@@ -3,6 +3,9 @@ title: Scores API Database
 layout: post
 date: 2017-09-24 23:59:59
 permalink: part-six-scores-api-database
+intro: false
+part: 6
+lesson: 3
 share: true
 ---
 

@@ -3,6 +3,9 @@ title: Update Docker
 layout: post
 date: 2017-06-20 23:59:59
 permalink: part-three-update-docker
+intro: false
+part: 3
+lesson: 11
 share: true
 ---
 

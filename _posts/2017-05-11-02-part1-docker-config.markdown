@@ -3,6 +3,9 @@ title: Docker Config
 layout: post
 date: 2017-05-11 23:59:59
 permalink: part-one-docker-config
+intro: false
+part: 1
+lesson: 3
 share: true
 ---
 

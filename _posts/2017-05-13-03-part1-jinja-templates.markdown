@@ -3,6 +3,9 @@ title: Jinja Templates
 layout: post
 date: 2017-05-13 23:59:58
 permalink: part-one-jinja-templates
+intro: false
+part: 1
+lesson: 9
 share: true
 ---
 

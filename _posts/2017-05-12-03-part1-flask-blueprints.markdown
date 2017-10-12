@@ -3,6 +3,9 @@ title: Flask Blueprints
 layout: post
 date: 2017-05-12 23:59:59
 permalink: part-one-flask-blueprints
+intro: false
+part: 1
+lesson: 6
 share: true
 ---
 

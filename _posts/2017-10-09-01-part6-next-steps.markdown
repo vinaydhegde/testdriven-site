@@ -3,6 +3,9 @@ title: Next Steps
 layout: post
 date: 2017-10-09 23:59:59
 permalink: part-six-next-steps
+intro: false
+part: 6
+lesson: 11
 share: true
 ---
 

@@ -3,6 +3,9 @@ title: React Ace Code Editor
 layout: post
 date: 2017-09-29 23:59:59
 permalink: part-six-react-ace-code-editor
+intro: false
+part: 6
+lesson: 8
 share: true
 ---
 

@@ -3,6 +3,9 @@ title: End-to-End Tests Refactor
 layout: post
 date: 2017-09-28 23:59:59
 permalink: part-six-e2e-tests-refactor
+intro: false
+part: 6
+lesson: 7
 share: true
 ---
 

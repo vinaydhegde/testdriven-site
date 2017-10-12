@@ -3,6 +3,9 @@ title: Getting Started
 layout: post
 date: 2017-05-11 23:59:58
 permalink: part-one-getting-started
+intro: false
+part: 1
+lesson: 2
 share: true
 ---
 

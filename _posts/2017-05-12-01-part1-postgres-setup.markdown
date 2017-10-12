@@ -3,6 +3,9 @@ title: Postgres Setup
 layout: post
 date: 2017-05-12 23:59:57
 permalink: part-one-postgres-setup
+intro: false
+part: 1
+lesson: 4
 share: true
 ---
 

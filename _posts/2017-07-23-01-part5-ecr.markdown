@@ -3,6 +3,9 @@ title: EC2 Container Registry
 layout: post
 date: 2017-07-23 23:59:59
 permalink: part-five-ec2-container-registry
+intro: false
+part: 5
+lesson: 3
 share: true
 ---
 

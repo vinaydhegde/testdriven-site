@@ -3,6 +3,9 @@ title: Docker Hub
 layout: post
 date: 2017-07-17 23:59:59
 permalink: part-five-docker-hub
+intro: false
+part: 5
+lesson: 2
 share: true
 ---
 

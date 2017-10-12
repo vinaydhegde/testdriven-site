@@ -3,6 +3,9 @@ title: Test Setup
 layout: post
 date: 2017-05-12 23:59:58
 permalink: part-one-test-setup
+intro: false
+part: 1
+lesson: 5
 share: true
 ---
 
