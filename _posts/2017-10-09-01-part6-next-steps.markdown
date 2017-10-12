@@ -6,7 +6,7 @@ permalink: part-six-next-steps
 share: true
 ---
 
-Well, that's it. It's your turn! Spend some time refactoring and dealing with tech debt on your own....
+Well, that's it. It's your turn! Spend some time refactoring and dealing with tech debt on your own...
 
 1. **More tests**: Increase the overall test coverage of each service.
 1. **Test the Lambda function**: Try testing with [AWS Serverless Application Model](https://github.com/awslabs/serverless-application-model) (AWS SAM)
