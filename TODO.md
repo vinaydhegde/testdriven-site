@@ -1,6 +1,5 @@
 # Todo
 
-1. Add HTTPS via cloudflare
 1. Update service placement strategy - http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html
 1. Add full-text search
 1. In ECS Staging, prefix the Target Groups and Task Definitions and local task definition JSON files with `staging`
