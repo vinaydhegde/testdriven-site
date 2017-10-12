@@ -25,7 +25,7 @@ In this course, you will learn how to quickly spin up a reproducible development
   <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
 
-Check out the live app, running on muliple EC2 instances -
+Check out the live app, running on multiple EC2 instances -
 
 1. [Production](http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com)
 1. [Staging](http://flask-microservices-staging-alb-1366920567.us-east-1.elb.amazonaws.com)
