@@ -9,7 +9,7 @@ lesson: 5
 share: true
 ---
 
-In the lesson, we'll add load balancing to ECS via Elastic Load Balancing...
+In the lesson, we'll add load balancing to ECS via Elastic Load Balancing to create a more reliable app with automatic scaling and failover...
 
 ---
 
@@ -32,6 +32,10 @@ Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balan
 
 1. "Name": `flask-microservices-staging`
 1. "Availability Zones": `us-east-1a`, `us-east-1b`
+
+"Step 2: Configure Security Settings":
+
+1. Skip this step for now
 
 "Step 3: Configure Security Groups":
 
@@ -84,7 +88,7 @@ Click "Add to ELB".
 1. "Listener port": `80:HTTP`
 1. "Target group name": `sample`
 
-Click "Configure Service Auto scaling", and then select "Configure Service Auto Scaling to adjust your service’s desired count".
+Click "Configure Service Auto scaling", and then select "Configure Service Auto Scaling to adjust your service's desired count".
 
 1. "Minimum number of tasks": `1`
 1. "Desired number of tasks": `1`

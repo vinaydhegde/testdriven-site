@@ -868,6 +868,10 @@
 
 <p><a href="https://docs.docker.com/docker-hub/">Docker Hub</a> is an image registry, which is simply a service that stores Docker images - basically GitHub for Docker images.</p>
 
+<blockquote>
+<p>Review the following Stack Overflow <a href="https://stackoverflow.com/a/34004418/1799408">article</a> for more info on Docker Hub and image registries in general.</p>
+</blockquote>
+
 <p>Sign up for <a href="https://hub.docker.com/">Docker Hub</a> (if necessary), and then define the following environment variables within the <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings">Repository Settings</a> for <em>flask-microservices-main</em>:</p>
 
 <ol>
@@ -876,7 +880,7 @@
 <li>DOCKER_PASSWORD - YOUR_PASSWORD</li>
 </ol>
 
-<p>Next, create four new <a href="https://stackoverflow.com/a/34004418/1799408">repositories</a> on Docker Hub:</p>
+<p>Next, create four new repositories on Docker Hub:</p>
 
 <ol>
 <li><em>flask-microservices-users</em></li>
@@ -885,6 +889,10 @@
 <li><em>flask-microservices-swagger</em></li>
 <li><em>flask-microservices-nginx</em></li>
 </ol>
+
+<blockquote>
+<p>Keep in mind that we will be storing these repositories publicly so do not add any sensitive info to the images on the build.</p>
+</blockquote>
 
 <h4 id="users">Users</h4>
 
@@ -1246,6 +1254,10 @@ docker-compose -f docker-compose-ci.yml up -d --build
 
 <p><a href="https://docs.docker.com/docker-hub/">Docker Hub</a> is an image registry, which is simply a service that stores Docker images - basically GitHub for Docker images.</p>
 
+<blockquote>
+<p>Review the following Stack Overflow <a href="https://stackoverflow.com/a/34004418/1799408">article</a> for more info on Docker Hub and image registries in general.</p>
+</blockquote>
+
 <p>Sign up for <a href="https://hub.docker.com/">Docker Hub</a> (if necessary), and then define the following environment variables within the <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings">Repository Settings</a> for <em>flask-microservices-main</em>:</p>
 
 <ol>
@@ -1254,7 +1266,7 @@ docker-compose -f docker-compose-ci.yml up -d --build
 <li>DOCKER_PASSWORD - YOUR_PASSWORD</li>
 </ol>
 
-<p>Next, create four new <a href="https://stackoverflow.com/a/34004418/1799408">repositories</a> on Docker Hub:</p>
+<p>Next, create four new repositories on Docker Hub:</p>
 
 <ol>
 <li><em>flask-microservices-users</em></li>
@@ -1263,6 +1275,10 @@ docker-compose -f docker-compose-ci.yml up -d --build
 <li><em>flask-microservices-swagger</em></li>
 <li><em>flask-microservices-nginx</em></li>
 </ol>
+
+<blockquote>
+<p>Keep in mind that we will be storing these repositories publicly so do not add any sensitive info to the images on the build.</p>
+</blockquote>
 
 <h4 id="users">Users</h4>
 

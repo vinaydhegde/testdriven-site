@@ -30,6 +30,10 @@ Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balan
 1. "Name": `flask-microservices-staging-alb`
 1. "Availability Zones": `us-east-1a`, `us-east-1b`
 
+"Step 2: Configure Security Settings":
+
+1. Skip this step for now
+
 "Step 3: Configure Security Groups":
 
 1. Select an existing security group or create a new security group, making sure at least HTTP 80 and SSH 22 are open.
@@ -70,7 +74,7 @@ Then, under "Health check settings":
 
 Back on the "Load Balancers" page, click the `flask-microservices-staging-alb` Load Balancer, and then select the "Listeners" tab. Here, we can add [Listeners](http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) to the ALB, which are then forwarded to a specific Target Group.
 
-There should already be a listener for "HTTP : 80". Click the "View/edit rules >" link, and then insert three new rules:
+There should already be a listener for "HTTP : 80". Click the "View/edit rules >" link, and then insert four new rules:
 
 1. If `/auth/*`, Then `users-tg`
 1. If `/users`, Then `users-tg`
@@ -123,7 +127,7 @@ Create the following Task Definitions...
 
 ##### *flask-microservices-users*
 
-Since the containers are already set up for this under the `testdriven-staging` Task Definion, we can just rename it. Create a new revision of `testdriven-staging` Task Definition, changing the name to `flask-microservices-users-td`. This will actually create a new Task Definition.
+Since the containers are already set up for this under the `testdriven-staging` Task Definition, we can just rename it. Create a new revision of `testdriven-staging` Task Definition, changing the name to `flask-microservices-users-td`. This will actually create a new Task Definition.
 
 #### Services
 

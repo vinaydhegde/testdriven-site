@@ -20,7 +20,9 @@ Why [EC2 Container Registry](https://aws.amazon.com/ecr/)?
 1. We do not want to add any sensitive info to the images on Docker Hub since they are publicly available
 1. ECR plays nice with the [EC2 Container Service](https://aws.amazon.com/ecs/) (which we'll be setting up shortly)
 
-Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Repositories", and then add four new repositories:
+> Why Docker Hub *and* ECR? We'll continue to utilize Docker Hub for the development image repos to save a bit of money.
+
+Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Repositories", and then add five new repositories:
 
 1. *flask-microservices-users*
 1. *flask-microservices-users_db*

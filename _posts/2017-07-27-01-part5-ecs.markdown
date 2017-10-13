@@ -15,6 +15,10 @@ With ECR setup, we now need to create a task definition along with a cluster and
 
 [ECS](https://aws.amazon.com/ecs/) is a container orchestration system used for managing and deploying Docker-based containers.
 
+<div style="text-align:left;">
+  <img src="/assets/img/ecs.png" style="max-width: 100%; border:0; box-shadow: none;" alt="ecs">
+</div>
+
 #### Key Pair
 
 To start, let's create a new [EC2 Key Pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) so we can SSH into the EC2 instances managed by ECS.

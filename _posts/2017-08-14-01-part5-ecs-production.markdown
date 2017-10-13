@@ -44,6 +44,10 @@ Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balan
 1. "Name": `flask-microservices-prod-alb`
 1. "Availability Zones": `us-east-1a`, `us-east-1b`
 
+"Step 2: Configure Security Settings":
+
+1. Skip this step for now
+
 "Step 3: Configure Security Groups":
 
 1. Select an existing security group or create a new security group, making sure at least HTTP 80 and SSH 22 are open.
@@ -84,7 +88,7 @@ Then, under "Health check settings":
 
 Back on the "Load Balancers" page, click the `flask-microservices-prod-alb` Load Balancer, and then select the "Listeners" tab. Here, we can add [Listeners](http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) to the ALB, which are then forwarded to a specific Target Group.
 
-There should already be a listener for "HTTP : 80". Click the "View/edit rules >" link, and then insert three new rules:
+There should already be a listener for "HTTP : 80". Click the "View/edit rules >" link, and then insert four new rules:
 
 1. If `/auth/*`, Then `users-tg`
 1. If `/users`, Then `users-tg`
@@ -105,6 +109,8 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), and create a new C
 1. "EC2 instance type": `t2.micro`
 1. "Number of instances": `6`
 1. "Key pair": `ecs`
+
+> Although it doesn't matter so much for this course, it is best practice to use a different key pair for production, especially for large development teams. 
 
 Make sure to pick the "VPC" and "Security group" associated with ALB. Select one of the available "Subnets" as well - either `us-east-1a` or `us-east-1b`.
 

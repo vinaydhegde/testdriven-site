@@ -896,6 +896,12 @@
 <li>&quot;Availability Zones&quot;: <code>us-east-1a</code>, <code>us-east-1b</code></li>
 </ol>
 
+<p>&quot;Step 2: Configure Security Settings&quot;:</p>
+
+<ol>
+<li>Skip this step for now</li>
+</ol>
+
 <p>&quot;Step 3: Configure Security Groups&quot;:</p>
 
 <ol>
@@ -950,7 +956,7 @@
 
 <p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-prod-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
 
-<p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules &gt;&quot; link, and then insert three new rules:</p>
+<p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules &gt;&quot; link, and then insert four new rules:</p>
 
 <ol>
 <li>If <code>/auth/*</code>, Then <code>users-tg</code></li>
@@ -977,6 +983,10 @@
 <li>&quot;Number of instances&quot;: <code>6</code></li>
 <li>&quot;Key pair&quot;: <code>ecs</code></li>
 </ol>
+
+<blockquote>
+<p>Although it doesn&#39;t matter so much for this course, it is best practice to use a different key pair for production, especially for large development teams. </p>
+</blockquote>
 
 <p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
 
@@ -1584,6 +1594,12 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <li>&quot;Availability Zones&quot;: <code>us-east-1a</code>, <code>us-east-1b</code></li>
 </ol>
 
+<p>&quot;Step 2: Configure Security Settings&quot;:</p>
+
+<ol>
+<li>Skip this step for now</li>
+</ol>
+
 <p>&quot;Step 3: Configure Security Groups&quot;:</p>
 
 <ol>
@@ -1638,7 +1654,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-prod-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
 
-<p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules &gt;&quot; link, and then insert three new rules:</p>
+<p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules &gt;&quot; link, and then insert four new rules:</p>
 
 <ol>
 <li>If <code>/auth/*</code>, Then <code>users-tg</code></li>
@@ -1665,6 +1681,10 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <li>&quot;Number of instances&quot;: <code>6</code></li>
 <li>&quot;Key pair&quot;: <code>ecs</code></li>
 </ol>
+
+<blockquote>
+<p>Although it doesn&#39;t matter so much for this course, it is best practice to use a different key pair for production, especially for large development teams. </p>
+</blockquote>
 
 <p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
 

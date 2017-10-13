@@ -20,19 +20,23 @@ Let's update the CI process to include [Docker Hub](https://docs.docker.com/dock
 
 [Docker Hub](https://docs.docker.com/docker-hub/) is an image registry, which is simply a service that stores Docker images - basically GitHub for Docker images.
 
+> Review the following Stack Overflow [article](https://stackoverflow.com/a/34004418/1799408) for more info on Docker Hub and image registries in general.
+
 Sign up for [Docker Hub](https://hub.docker.com/) (if necessary), and then define the following environment variables within the [Repository Settings](https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings) for *flask-microservices-main*:
 
 1. DOCKER_EMAIL - YOUREMAILATSOMETHING.COM
 1. DOCKER_ID - YOUR_ID/USERNAME
 1. DOCKER_PASSWORD - YOUR_PASSWORD
 
-Next, create four new [repositories](https://stackoverflow.com/a/34004418/1799408) on Docker Hub:
+Next, create four new repositories on Docker Hub:
 
 1. *flask-microservices-users*
 1. *flask-microservices-users_db*
 1. *flask-microservices-client*
 1. *flask-microservices-swagger*
 1. *flask-microservices-nginx*
+
+> Keep in mind that we will be storing these repositories publicly so do not add any sensitive info to the images on the build.
 
 #### Users
 

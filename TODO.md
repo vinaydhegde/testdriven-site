@@ -18,6 +18,7 @@ One thing that I did not see was information about the required IAM setup. It mi
   - "It seems like some of these tests could also be trimmed down with some shared setup code, although it could also make them more difficult to read individually - maybe for a future refactoring"
 1. Add testimonials/reviews
 1. Refactor side and content to single `<ul></ul>`
+1. Update load balancer rules - `/users` and `/users/*` - are both necessary?
 
 ## Completed
 

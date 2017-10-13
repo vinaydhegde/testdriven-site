@@ -864,6 +864,7 @@
 <ol>
 <li>Since the recommended means of <a href="https://en.wikipedia.org/wiki/Service_discovery">service discovery</a> in ECS is load balancing, we&#39;ll have to register the Postgres instance with the ALB. There&#39;s additional costs and overhead associated with this. We&#39;ll also have to assign a public IP to it and expose it to the internet. It&#39;s best to keep it private.</li>
 <li>Data integrity is an issue as well. What happens if the container crashes?</li>
+<li>In the end, you will save time and money using RDS rather than managing your own Postgres instance on a server somewhere</li>
 </ol>
 
 <blockquote>
@@ -909,7 +910,7 @@
 <div class="highlight"><pre><code class="language-text" data-lang="text">postgres://webapp:YOUR_PASSWORD@YOUR_ADDRESS:5432/users_prod
 </code></pre></div>
 <blockquote>
-<p>Keep in mind that you cannot access the DB outside the VPC. So, if you want to connect to the instance, you will need to use <a href="https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling">SSH tunneling</a> via SSHing into an EC2 instance on the same VPC and, from there, connecting to the database.  </p>
+<p>Keep in mind that you cannot access the DB outside the VPC. So, if you want to connect to the instance, you will need to use <a href="https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling">SSH tunneling</a> via SSHing into an EC2 instance on the same VPC and, from there, connecting to the database.  We&#39;ll go through this process in a future lesson.</p>
 </blockquote>
 
 
@@ -943,6 +944,7 @@
 <ol>
 <li>Since the recommended means of <a href="https://en.wikipedia.org/wiki/Service_discovery">service discovery</a> in ECS is load balancing, we&#39;ll have to register the Postgres instance with the ALB. There&#39;s additional costs and overhead associated with this. We&#39;ll also have to assign a public IP to it and expose it to the internet. It&#39;s best to keep it private.</li>
 <li>Data integrity is an issue as well. What happens if the container crashes?</li>
+<li>In the end, you will save time and money using RDS rather than managing your own Postgres instance on a server somewhere</li>
 </ol>
 
 <blockquote>
@@ -988,7 +990,7 @@
 <div class="highlight"><pre><code class="language-text" data-lang="text">postgres://webapp:YOUR_PASSWORD@YOUR_ADDRESS:5432/users_prod
 </code></pre></div>
 <blockquote>
-<p>Keep in mind that you cannot access the DB outside the VPC. So, if you want to connect to the instance, you will need to use <a href="https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling">SSH tunneling</a> via SSHing into an EC2 instance on the same VPC and, from there, connecting to the database.  </p>
+<p>Keep in mind that you cannot access the DB outside the VPC. So, if you want to connect to the instance, you will need to use <a href="https://en.wikipedia.org/wiki/Tunneling_protocol#Secure_Shell_tunneling">SSH tunneling</a> via SSHing into an EC2 instance on the same VPC and, from there, connecting to the database.  We&#39;ll go through this process in a future lesson.</p>
 </blockquote>
 
 
