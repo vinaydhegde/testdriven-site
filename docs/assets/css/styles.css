@@ -71,6 +71,10 @@ td, th {
   padding-top: 20px;
 }
 
+.main-brand-logo {
+  font-size: 1.6rem !important;
+}
+
 /*
 side bar
  */
