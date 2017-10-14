@@ -11,18 +11,14 @@
             <div class="collapsible-body">
         {% endif %}
         <ul>
-          <li>
-            {% if post.intro %}
-              <a
-                class="collection-item"
-                href="{{ site.baseurl }}{{ post.url }}"
-              >Introduction</a>
-            {% else %}
+          <li class="collection-li">
+            <span>{{ post.lesson }}.&nbsp;</span>
+            <span>
               <a
                 class="collection-item"
                 href="{{ site.baseurl }}{{ post.url }}"
               >{{ post.title }}</a>
-            {% endif %}
+            </span>
           </li>
         </ul>
       {% endfor %}

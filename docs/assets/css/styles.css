@@ -88,6 +88,11 @@ side bar
   max-width: 250px;
 }
 
+.collection .collection-item {
+  padding: 0 !important;
+  display: inline !important;
+}
+
 .collapsible {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -98,6 +103,16 @@ side bar
 
 .collapsible-body {
   padding: 0;
+}
+
+.collection-li {
+  padding: 10px 20px;
+  margin: 0;
+}
+
+.collection-li-contents {
+  padding-left: 15px;
+  margin: 0;
 }
 
 /*

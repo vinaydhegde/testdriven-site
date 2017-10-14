@@ -14,7 +14,15 @@ permalink: course-contents/
     <p>{{ post.content | strip_html | truncatewords:30}}</p>
   {% endif %}
     <ul class="lessons-list">
-      <li><a href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a></li>
+      <li class="collection-li-contents">
+        <span>{{ post.lesson }}.&nbsp;</span>
+        <span>
+          <a
+            class="collection-item"
+            href="{{ site.baseurl }}{{ post.url }}"
+          >{{ post.title }}</a>
+        </span>
+      </li>
     </ul>
 {% endfor %}
 
