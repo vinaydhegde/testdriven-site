@@ -43,7 +43,7 @@ This tutorial is powered by *[Real Python](https://realpython.com)*. Please supp
 
 <a href="https://realpython.com"><img src="//raw.githubusercontent.com/realpython/about/master/rp_small.png" alt="real python logo"></a>
 
-*Join our mailing list to be notified when a new part is released.*
+*Join our mailing list to be notified when version 2 is released.*
 
 <form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 <div class="row">

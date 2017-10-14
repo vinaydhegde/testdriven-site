@@ -26,6 +26,10 @@ main {
   border-top: 2px solid black;
 }
 
+.page-footer {
+  color: #424242;
+}
+
 .nav-wrapper {
  padding-left: 20px;
 }
@@ -90,6 +94,10 @@ side bar
   box-shadow: none;
   border: 0;
   margin: 0;
+}
+
+.collapsible-body {
+  padding: 0;
 }
 
 /*
