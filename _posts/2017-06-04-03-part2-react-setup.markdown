@@ -151,7 +151,7 @@ getUsers() {
 We'll use [Axios](https://github.com/mzabriskie/axios) to manage the AJAX call:
 
 ```sh
-npm install axios@0.16.2 --save
+$ npm install axios@0.16.2 --save
 ```
 
 Add the import:

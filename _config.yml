@@ -1,6 +1,7 @@
 # Site settings
 title: Test Driven Development Courses
 mobile-title: TDD Courses
+short-title: TestDriven.io
 email: michael@mherman.org
 markdown: redcarpet
 highlighter: pygments

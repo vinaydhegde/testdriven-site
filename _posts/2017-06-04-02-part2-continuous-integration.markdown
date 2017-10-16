@@ -13,9 +13,9 @@ In this lesson, we'll add continuous integration (CI), via [Travis CI](travis-ci
 
 ---
 
-Follow the [Getting Started guide](https://docs.travis-ci.com/user/getting-started/) (steps 1 and 2) to enable Travis on the *flask-microservices-users* project. To trigger a build, add a *.travis.yml* to the project root:
+Follow the [Getting Started guide](https://docs.travis-ci.com/user/getting-started/) (steps 1 and 2) to enable Travis in the *flask-microservices-users* project. To trigger a build, add a *.travis.yml* to the project root:
 
-```
+```yaml
 language: python
 
 python:
@@ -43,11 +43,11 @@ Commit your changes, and then push to GitHub. This should trigger a new build, w
 1. Commit and push code
 1. Ensure tests pass on Travis
 
-With that, let's turn to *flask-microservices-main*. We need to get CI configured on this project as well. Here, we'll test out all services with Docker.
+With that, let's turn to *flask-microservices-main*. We need to get CI configured in this project as well. Here, we'll test out all services with Docker.
 
 Enable Travis, and add a a *.travis.yml* file:
 
-```
+```yaml
 sudo: required
 
 services:

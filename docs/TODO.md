@@ -1,12 +1,25 @@
 # Todo
 
+1. Version 2:
+  - Simplify the overall project structure, which will also simply the CI process
+  - Refactor portions of the Flask APIs, adding a `serialize` method to the models
+  - Update ECS Service [Task Placement Strategy](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html)
+  - Manage Secret keys in S3
+  - Add Docker cache to Travis CI build
+  - Upgrade to [React v16](https://reactjs.org/blog/2017/09/26/react-v16.0.html)
+  - Add full-text search to the site
+  - Add basic IAM setup info
+  - Upgrade to latest versions of Docker and Docker Compose file version
+  - Add lots and lots of screenshots
+  - Refactor Flask error handlers to clean up the views
+  - Update Bootstrap 3 to 4
+  - Upgrade to the latest versions of Python and Node
+  - Reject the Travis build if the code coverage percentage decreases from the previous build
+  - Add client-side React tests
 1. Add course page
-1. Update service placement strategy - http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html
-1. Add keys to s3
-1. Add full-text search
 1. In ECS Staging, prefix the Target Groups and Task Definitions and local task definition JSON files with `staging`
 1. Environment variables - do they go in the image or in the Task Definitions?
-1. Update docker cache from tavis - `--cache-from image:latest`
+1. Update docker cache from travis - `--cache-from image:latest`
 1. Good comprehensive description of steps involved in deploying to ECS.
 One thing that I did not see was information about the required IAM setup. It might be helpful to identify specific AWS IAM policies that need to be granted to the AWS user for working with ECS.
 1. Paywall

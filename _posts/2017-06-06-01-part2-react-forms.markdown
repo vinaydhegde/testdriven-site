@@ -116,7 +116,7 @@ Since `AddUser` is a functional component, we need to pass this method down to i
 
 Here, we bound the context of `this` manually via `bind()`. Without it, the context of `this` inside the method will not have the correct context. Want to test this out? Simply add `console.log(this)` to the `addUser()` and then submit the form. What's the context? Remove the `bind` and test it again. What's the context now?
 
-> For more on this, review [Handling Events](https://facebook.github.io/react/docs/handling-events.html) from the offical React docs.
+> For more on this, review [Handling Events](https://facebook.github.io/react/docs/handling-events.html) from the official React docs.
 
 Update the `form` element again:
 

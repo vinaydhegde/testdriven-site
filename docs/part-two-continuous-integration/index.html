@@ -918,26 +918,26 @@
 
 <hr>
 
-<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a> (steps 1 and 2) to enable Travis on the <em>flask-microservices-users</em> project. To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">language: python
+<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a> (steps 1 and 2) to enable Travis in the <em>flask-microservices-users</em> project. To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">python</span>
 
-python:
-  - &quot;3.6&quot;
+<span class="l-Scalar-Plain">python</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;3.6&quot;</span>
 
-service:
-  - postgresql
+<span class="l-Scalar-Plain">service</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">postgresql</span>
 
-install:
-  - pip install -r requirements.txt
+<span class="l-Scalar-Plain">install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -r requirements.txt</span>
 
-before_script:
-  - export APP_SETTINGS=&quot;project.config.TestingConfig&quot;
-  - export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test
-  - psql -c &#39;create database users_test;&#39; -U postgres
-  - python manage.py recreate_db
+<span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export APP_SETTINGS=&quot;project.config.TestingConfig&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">psql -c &#39;create database users_test;&#39; -U postgres</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">python manage.py recreate_db</span>
 
-script:
-  - python manage.py test
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">python manage.py test</span>
 </code></pre></div>
 <p>Commit your changes, and then push to GitHub. This should trigger a new build, which should pass. For now, while the project structure is still somewhat simple, we&#39;ll use the following workflow:</p>
 
@@ -947,32 +947,32 @@ script:
 <li>Ensure tests pass on Travis</li>
 </ol>
 
-<p>With that, let&#39;s turn to <em>flask-microservices-main</em>. We need to get CI configured on this project as well. Here, we&#39;ll test out all services with Docker.</p>
+<p>With that, let&#39;s turn to <em>flask-microservices-main</em>. We need to get CI configured in this project as well. Here, we&#39;ll test out all services with Docker.</p>
 
 <p>Enable Travis, and add a a <em>.travis.yml</em> file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo: required
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">sudo</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">required</span>
 
-services:
-  - docker
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker</span>
 
-env:
-  global:
-    - DOCKER_COMPOSE_VERSION=1.11.2
+<span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DOCKER_COMPOSE_VERSION=1.11.2</span>
 
-before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+<span class="l-Scalar-Plain">before_install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo rm /usr/local/bin/docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod +x docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo mv docker-compose /usr/local/bin</span>
 
-before_script:
-  - docker-compose up --build -d
+<span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose up --build -d</span>
 
-script:
-  - docker-compose run users-service python manage.py test
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose run users-service python manage.py test</span>
 
-after_script:
-  - docker-compose down
+<span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose down</span>
 </code></pre></div>
 <p>Commit. Push to GitHub. Make sure the build passes before moving on.</p>
 
@@ -1002,26 +1002,26 @@ after_script:
 
 <hr>
 
-<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a> (steps 1 and 2) to enable Travis on the <em>flask-microservices-users</em> project. To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">language: python
+<p>Follow the <a href="https://docs.travis-ci.com/user/getting-started/">Getting Started guide</a> (steps 1 and 2) to enable Travis in the <em>flask-microservices-users</em> project. To trigger a build, add a <em>.travis.yml</em> to the project root:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">python</span>
 
-python:
-  - &quot;3.6&quot;
+<span class="l-Scalar-Plain">python</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;3.6&quot;</span>
 
-service:
-  - postgresql
+<span class="l-Scalar-Plain">service</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">postgresql</span>
 
-install:
-  - pip install -r requirements.txt
+<span class="l-Scalar-Plain">install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -r requirements.txt</span>
 
-before_script:
-  - export APP_SETTINGS=&quot;project.config.TestingConfig&quot;
-  - export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test
-  - psql -c &#39;create database users_test;&#39; -U postgres
-  - python manage.py recreate_db
+<span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export APP_SETTINGS=&quot;project.config.TestingConfig&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">export DATABASE_TEST_URL=postgresql://postgres:@localhost/users_test</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">psql -c &#39;create database users_test;&#39; -U postgres</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">python manage.py recreate_db</span>
 
-script:
-  - python manage.py test
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">python manage.py test</span>
 </code></pre></div>
 <p>Commit your changes, and then push to GitHub. This should trigger a new build, which should pass. For now, while the project structure is still somewhat simple, we&#39;ll use the following workflow:</p>
 
@@ -1031,32 +1031,32 @@ script:
 <li>Ensure tests pass on Travis</li>
 </ol>
 
-<p>With that, let&#39;s turn to <em>flask-microservices-main</em>. We need to get CI configured on this project as well. Here, we&#39;ll test out all services with Docker.</p>
+<p>With that, let&#39;s turn to <em>flask-microservices-main</em>. We need to get CI configured in this project as well. Here, we&#39;ll test out all services with Docker.</p>
 
 <p>Enable Travis, and add a a <em>.travis.yml</em> file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo: required
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">sudo</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">required</span>
 
-services:
-  - docker
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker</span>
 
-env:
-  global:
-    - DOCKER_COMPOSE_VERSION=1.11.2
+<span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">DOCKER_COMPOSE_VERSION=1.11.2</span>
 
-before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+<span class="l-Scalar-Plain">before_install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo rm /usr/local/bin/docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">chmod +x docker-compose</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sudo mv docker-compose /usr/local/bin</span>
 
-before_script:
-  - docker-compose up --build -d
+<span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose up --build -d</span>
 
-script:
-  - docker-compose run users-service python manage.py test
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose run users-service python manage.py test</span>
 
-after_script:
-  - docker-compose down
+<span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">docker-compose down</span>
 </code></pre></div>
 <p>Commit. Push to GitHub. Make sure the build passes before moving on.</p>
 

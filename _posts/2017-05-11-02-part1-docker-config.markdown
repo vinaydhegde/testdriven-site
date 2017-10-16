@@ -77,7 +77,7 @@ This config will create a container called `users-service`, from the Dockerfile.
 
 The `volume` is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image after each code change.
 
-Take note of the [Docker compose file version](https://docs.docker.com/compose/compose-file/) used - `2.1`. Keep in mind that this does *not* relate directly to the version of Docker Compose installed  - it simply specifies the file format that you want to use.
+Take note of the [Docker compose file version](https://docs.docker.com/compose/compose-file/) used - `2.1`. Keep in mind that this does *not* relate directly to the version of Docker Compose installed - it simply specifies the file format that you want to use.
 
 Build the image:
 
