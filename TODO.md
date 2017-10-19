@@ -14,7 +14,6 @@
     - Refactor Flask error handlers to clean up the views
     - Update Bootstrap 3 to 4
     - Upgrade to the latest versions of Python and Node
-    - Reject the Travis build if the code coverage percentage decreases from the previous build
     - Add client-side React tests
     - Cache with Flask-Cache
     - AWS Billing Alarm

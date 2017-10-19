@@ -54,7 +54,7 @@ Now we're ready build our first component!
 
 #### First Component
 
-First, to simplify the structure, remove the *App.css*, *App.js*, *App.test.js*, and *index.css* from the "src" folder, and then update index.js:
+First, to simplify the structure, remove the *App.css*, *App.js*, *App.test.js*, and *index.css* from the "src" folder, and then update *index.js*:
 
 ```javascript
 import React from 'react';
@@ -241,7 +241,7 @@ Run the server - via `npm start` - and then within [Chrome DevTools](https://dev
 XMLHttpRequest cannot load http://localhost:5555/users. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:3000' is therefore not allowed access.
 ```
 
-In short, we're making [cross-origin](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) AJAX request (from `http://localhost:3000` to `http://localhost:5555`), which is a violation of the browsers "same origin policy". Let's use the [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/) extension to handle this.
+In short, we're making a  [cross-origin](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) AJAX request (from `http://localhost:3000` to `http://localhost:5555`), which is a violation of the browsers "same origin policy". Let's use the [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/) extension to handle this.
 
 Within the *flask-microservices-users* project directory, kill the server and then install Flask-CORS:
 
@@ -250,7 +250,7 @@ Within the *flask-microservices-users* project directory, kill the server and th
 (env)$ pip freeze > requirements.txt
 ```
 
-To keep things simple, let's allow cross origin requests on all routes. Simply update `create_app()` in *flask-microservices-users/project/__init__.py* like so:
+To keep things simple, let's allow cross origin requests on all routes. Simply update `create_app()` in *flask-microservices-users/project/\_\_init\_\_.py* like so:
 
 ```python
 def create_app():
@@ -418,26 +418,32 @@ const UsersList = (props) => {
     <div>
       {
         props.users.map((user) => {
-          return <h4 key={user.id} className="well"><strong>{user.username }</strong> - <em>{user.created_at}</em></h4>
+          return (
+            <h4
+              key={user.id}
+              className="well"
+            >{user.username}
+            </h4>
+          )
         })
       }
     </div>
   )
-}
+};
 
 export default UsersList;
 ```
 
-> Again, why did we use a functional component rather than a class-based component?
+Why did we use a functional component here rather than a class-based component?
 
 Notice how we used `props` instead of `state` in this component. Essentially, you can pass state to a component with either `props` or `state`:
 
 1. Props - data flows down via `props` (from `state` to `props`), read only
 1. State - data is tied to a component, read and write
 
-    > For more, check out [ReactJS: Props vs. State](http://lucybain.com/blog/2016/react-state-vs-pros/)
+> For more, check out [ReactJS: Props vs. State](http://lucybain.com/blog/2016/react-state-vs-pros/).
 
-It's a good practice to limit the number of class-based (stateful) components since they can manipulate state, since they are less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.
+It's a good practice to limit the number of class-based (stateful) components since they can manipulate state and are, thus, less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.
 
 Now we need to pass state from the parent to the child component via `props`. First, add the import to *index.js*:
 

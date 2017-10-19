@@ -949,7 +949,7 @@ v7.10.0
 
 <h4 id="first-component">First Component</h4>
 
-<p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the &quot;src&quot; folder, and then update index.js:</p>
+<p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the &quot;src&quot; folder, and then update <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
 <span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom&#39;</span><span class="p">;</span>
 
@@ -1110,13 +1110,13 @@ v7.10.0
 <p>Run the server - via <code>npm start</code> - and then within <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>, open the JavaScript Console. You should see the following error:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">XMLHttpRequest cannot load http://localhost:5555/users. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:3000&#39; is therefore not allowed access.
 </code></pre></div>
-<p>In short, we&#39;re making <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-origin</a> AJAX request (from <code>http://localhost:3000</code> to <code>http://localhost:5555</code>), which is a violation of the browsers &quot;same origin policy&quot;. Let&#39;s use the <a href="https://flask-cors.readthedocs.io/en/latest/">Flask-CORS</a> extension to handle this.</p>
+<p>In short, we&#39;re making a  <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-origin</a> AJAX request (from <code>http://localhost:3000</code> to <code>http://localhost:5555</code>), which is a violation of the browsers &quot;same origin policy&quot;. Let&#39;s use the <a href="https://flask-cors.readthedocs.io/en/latest/">Flask-CORS</a> extension to handle this.</p>
 
 <p>Within the <em>flask-microservices-users</em> project directory, kill the server and then install Flask-CORS:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip install flask-cors<span class="o">==</span>3.0.2
 <span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip freeze &gt; requirements.txt
 </code></pre></div>
-<p>To keep things simple, let&#39;s allow cross origin requests on all routes. Simply update <code>create_app()</code> in <em>flask-microservices-users/project/<strong>init</strong>.py</em> like so:</p>
+<p>To keep things simple, let&#39;s allow cross origin requests on all routes. Simply update <code>create_app()</code> in <em>flask-microservices-users/project/__init__.py</em> like so:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">create_app</span><span class="p">():</span>
 
     <span class="c"># instantiate the app</span>
@@ -1259,31 +1259,35 @@ v7.10.0
     <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
       <span class="p">{</span>
         <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h4</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/strong&gt; - &lt;em&gt;{user.created_at}&lt;/em&gt;&lt;/h4&gt;</span>
+          <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">h4</span>
+              <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span>
+            <span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+            <span class="o">&lt;</span><span class="err">/h4&gt;</span>
+          <span class="p">)</span>
         <span class="p">})</span>
       <span class="p">}</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
-<span class="p">}</span>
+<span class="p">};</span>
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
 </code></pre></div>
-<blockquote>
-<p>Again, why did we use a functional component rather than a class-based component?</p>
-</blockquote>
+<p>Why did we use a functional component here rather than a class-based component?</p>
 
 <p>Notice how we used <code>props</code> instead of <code>state</code> in this component. Essentially, you can pass state to a component with either <code>props</code> or <code>state</code>:</p>
 
 <ol>
 <li>Props - data flows down via <code>props</code> (from <code>state</code> to <code>props</code>), read only</li>
-<li><p>State - data is tied to a component, read and write</p>
-
-<blockquote>
-<p>For more, check out <a href="http://lucybain.com/blog/2016/react-state-vs-pros/">ReactJS: Props vs. State</a></p>
-</blockquote></li>
+<li>State - data is tied to a component, read and write</li>
 </ol>
 
-<p>It&#39;s a good practice to limit the number of class-based (stateful) components since they can manipulate state, since they are less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.</p>
+<blockquote>
+<p>For more, check out <a href="http://lucybain.com/blog/2016/react-state-vs-pros/">ReactJS: Props vs. State</a>.</p>
+</blockquote>
+
+<p>It&#39;s a good practice to limit the number of class-based (stateful) components since they can manipulate state and are, thus, less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.</p>
 
 <p>Now we need to pass state from the parent to the child component via <code>props</code>. First, add the import to <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
@@ -1363,7 +1367,7 @@ v7.10.0
 
 <h4 id="first-component">First Component</h4>
 
-<p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the &quot;src&quot; folder, and then update index.js:</p>
+<p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the &quot;src&quot; folder, and then update <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
 <span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">&#39;react-dom&#39;</span><span class="p">;</span>
 
@@ -1524,13 +1528,13 @@ v7.10.0
 <p>Run the server - via <code>npm start</code> - and then within <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>, open the JavaScript Console. You should see the following error:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">XMLHttpRequest cannot load http://localhost:5555/users. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:3000&#39; is therefore not allowed access.
 </code></pre></div>
-<p>In short, we&#39;re making <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-origin</a> AJAX request (from <code>http://localhost:3000</code> to <code>http://localhost:5555</code>), which is a violation of the browsers &quot;same origin policy&quot;. Let&#39;s use the <a href="https://flask-cors.readthedocs.io/en/latest/">Flask-CORS</a> extension to handle this.</p>
+<p>In short, we&#39;re making a  <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-origin</a> AJAX request (from <code>http://localhost:3000</code> to <code>http://localhost:5555</code>), which is a violation of the browsers &quot;same origin policy&quot;. Let&#39;s use the <a href="https://flask-cors.readthedocs.io/en/latest/">Flask-CORS</a> extension to handle this.</p>
 
 <p>Within the <em>flask-microservices-users</em> project directory, kill the server and then install Flask-CORS:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip install flask-cors<span class="o">==</span>3.0.2
 <span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>pip freeze &gt; requirements.txt
 </code></pre></div>
-<p>To keep things simple, let&#39;s allow cross origin requests on all routes. Simply update <code>create_app()</code> in <em>flask-microservices-users/project/<strong>init</strong>.py</em> like so:</p>
+<p>To keep things simple, let&#39;s allow cross origin requests on all routes. Simply update <code>create_app()</code> in <em>flask-microservices-users/project/__init__.py</em> like so:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">create_app</span><span class="p">():</span>
 
     <span class="c"># instantiate the app</span>
@@ -1673,31 +1677,35 @@ v7.10.0
     <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
       <span class="p">{</span>
         <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h4</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/strong&gt; - &lt;em&gt;{user.created_at}&lt;/em&gt;&lt;/h4&gt;</span>
+          <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">h4</span>
+              <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
+              <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span>
+            <span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
+            <span class="o">&lt;</span><span class="err">/h4&gt;</span>
+          <span class="p">)</span>
         <span class="p">})</span>
       <span class="p">}</span>
     <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="p">)</span>
-<span class="p">}</span>
+<span class="p">};</span>
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
 </code></pre></div>
-<blockquote>
-<p>Again, why did we use a functional component rather than a class-based component?</p>
-</blockquote>
+<p>Why did we use a functional component here rather than a class-based component?</p>
 
 <p>Notice how we used <code>props</code> instead of <code>state</code> in this component. Essentially, you can pass state to a component with either <code>props</code> or <code>state</code>:</p>
 
 <ol>
 <li>Props - data flows down via <code>props</code> (from <code>state</code> to <code>props</code>), read only</li>
-<li><p>State - data is tied to a component, read and write</p>
-
-<blockquote>
-<p>For more, check out <a href="http://lucybain.com/blog/2016/react-state-vs-pros/">ReactJS: Props vs. State</a></p>
-</blockquote></li>
+<li>State - data is tied to a component, read and write</li>
 </ol>
 
-<p>It&#39;s a good practice to limit the number of class-based (stateful) components since they can manipulate state, since they are less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.</p>
+<blockquote>
+<p>For more, check out <a href="http://lucybain.com/blog/2016/react-state-vs-pros/">ReactJS: Props vs. State</a>.</p>
+</blockquote>
+
+<p>It&#39;s a good practice to limit the number of class-based (stateful) components since they can manipulate state and are, thus, less predictable. If you just need to render data (like in the above case), then use a functional (state-less) component.</p>
 
 <p>Now we need to pass state from the parent to the child component via <code>props</code>. First, add the import to <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">UsersList</span> <span class="nx">from</span> <span class="s1">&#39;./components/UsersList&#39;</span><span class="p">;</span>
