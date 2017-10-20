@@ -167,7 +167,7 @@ ReactDOM.render((
 ), document.getElementById('root'))
 ```
 
-Let's add a new component to use for the route. Add a new file called *About.jsx* to "src":
+Let's add a new component to use for the route. Add a new file called *About.jsx* to "components":
 
 ```javascript
 import React from 'react';
