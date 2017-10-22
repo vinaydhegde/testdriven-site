@@ -58,10 +58,12 @@
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
+      <li><a href="/version-two">Version 2</a></li>
     </ul>
     <ul class="side-nav" id="mobile-demo">
       <li><a href="/">Home</a></li>
       <li><a href="/course-contents">Contents</a></li>
+      <li><a href="/version-two">Version 2</a></li>
     </ul>
   </div>
 </nav>
@@ -1003,15 +1005,15 @@
 <p>Since <code>AddUser</code> is a functional component, we need to pass this method down to it via props. Update the <code>AddUser</code> element like so:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">AddUser</span> <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span><span class="o">/&gt;</span>
 </code></pre></div>
-<p>Here, we bound the context of <code>this</code> manually via <code>bind()</code>. Without it, the context of <code>this</code> inside the method will not have the correct context. Want to test this out? Simply add <code>console.log(this)</code> to the <code>addUser()</code> and then submit the form. What&#39;s the context? Remove the <code>bind</code> and test it again. What&#39;s the context now?</p>
+<p>Update the <code>form</code> element again:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Here, we bound the context of <code>this</code> manually via <code>bind()</code>. Without it, the context of <code>this</code> inside the method will not have the correct context. Want to test this out? Simply add <code>console.log(this)</code> to <code>addUser()</code> and then submit the form. What&#39;s the context? Remove the <code>bind</code> and test it again. What&#39;s the context now?</p>
 
 <blockquote>
 <p>For more on this, review <a href="https://facebook.github.io/react/docs/handling-events.html">Handling Events</a> from the official React docs.</p>
 </blockquote>
 
-<p>Update the <code>form</code> element again:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
-</code></pre></div>
 <p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit.</p>
 
 <h4 id="obtain-user-input">Obtain user input</h4>
@@ -1259,15 +1261,15 @@
 <p>Since <code>AddUser</code> is a functional component, we need to pass this method down to it via props. Update the <code>AddUser</code> element like so:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">AddUser</span> <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span><span class="o">/&gt;</span>
 </code></pre></div>
-<p>Here, we bound the context of <code>this</code> manually via <code>bind()</code>. Without it, the context of <code>this</code> inside the method will not have the correct context. Want to test this out? Simply add <code>console.log(this)</code> to the <code>addUser()</code> and then submit the form. What&#39;s the context? Remove the <code>bind</code> and test it again. What&#39;s the context now?</p>
+<p>Update the <code>form</code> element again:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Here, we bound the context of <code>this</code> manually via <code>bind()</code>. Without it, the context of <code>this</code> inside the method will not have the correct context. Want to test this out? Simply add <code>console.log(this)</code> to <code>addUser()</code> and then submit the form. What&#39;s the context? Remove the <code>bind</code> and test it again. What&#39;s the context now?</p>
 
 <blockquote>
 <p>For more on this, review <a href="https://facebook.github.io/react/docs/handling-events.html">Handling Events</a> from the official React docs.</p>
 </blockquote>
 
-<p>Update the <code>form</code> element again:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
-</code></pre></div>
 <p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit.</p>
 
 <h4 id="obtain-user-input">Obtain user input</h4>
@@ -1439,17 +1441,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 
     
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-100160465-1', 'auto');
-    ga('send', 'pageview');
-
-  </script>
-
 
 
   </body>
