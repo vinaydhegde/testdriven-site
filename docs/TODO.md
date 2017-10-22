@@ -14,7 +14,7 @@
     - Refactor Flask error handlers to clean up the views
     - Update Bootstrap 3 to 4
     - Upgrade to the latest versions of Python and Node
-    - Add client-side React tests
+    - Add client-side React tests with Jest and Enzyme
     - Cache with Flask-Cache
     - AWS Billing Alarm
     - Route 53

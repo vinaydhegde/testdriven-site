@@ -99,7 +99,7 @@ handleUserFormSubmit(event) {
   }
   if (formType === 'register') {
     data = {
-      username: this.state.formData.email,
+      username: this.state.formData.username,
       email: this.state.formData.email,
       password: this.state.formData.password
     }

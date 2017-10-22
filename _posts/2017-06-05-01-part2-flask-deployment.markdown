@@ -9,7 +9,7 @@ lesson: 6
 share: true
 ---
 
-Let's update the `users-service` container, locally and in production, and then test it with the local version of the React app running outside the container....
+Let's update the `users-service` container, locally and in production, and then test it with the local version of the React app running outside the container...
 
 ---
 
