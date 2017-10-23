@@ -131,7 +131,7 @@ RUN npm run build
 CMD ["pushstate-server", "build"]
 ```
 
-When the image is built, we can pass arguments to the *Dockerfile*, via the [ARG](https://docs.docker.com/engine/reference/builder/#arg) instruction, which can then be used as environment variables. `npm run build` will generate static files that are served up on port 9000 via the  [pushstate-server](https://www.npmjs.com/package/pushstate-server).
+When the image is built, we can pass arguments to the *Dockerfile*, via the [ARG](https://docs.docker.com/engine/reference/builder/#arg) instruction, which can then be used as environment variables. `npm run build` will generate static files that are served up on port 9000 via the [pushstate-server](https://www.npmjs.com/package/pushstate-server).
 
 Let's test it without Docker Compose.
 
