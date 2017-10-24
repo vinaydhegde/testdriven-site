@@ -2,6 +2,7 @@
 layout: post
 title: Version 2
 permalink: version-two/
+share: true
 ---
 
 <h3></h3>
