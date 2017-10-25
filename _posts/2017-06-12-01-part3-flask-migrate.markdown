@@ -215,7 +215,7 @@ First, in *flask-microservices-users/project/tests/test_users.py*, rename `test_
 
 Also, did you notice that we added a new user a number of times in the *test_user_model.py* tests? Let's abstract out the `add_user` helper function from *test_users.py* to a utility file so we can use it in both test files.
 
-Add a new file called "utils.py" to "tests":
+Add a new file called *utils.py* to "tests":
 
 ```python
 # project/tests/utils.py

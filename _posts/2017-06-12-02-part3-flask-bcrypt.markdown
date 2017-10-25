@@ -88,36 +88,56 @@ def add_user(username, email, password, created_at=datetime.datetime.utcnow()):
     return user
 ```
 
-Make sure to pass in an argument for the password to all tests that use the helper, anytime a new `User()` instance is created, and in the payload for the POST request to `/users`.
+Make sure to pass in an argument for all instances of `add_user()` and `User()` as well as in the payload for POST requests to `/users` and `/` in both *test_user_model.py* and *test_users.py*. Do this now.
 
-Finally, update `test_add_user()` from *test_user_model.py*:
+Run the tests. You should see a number of failures:
 
-```python
-def test_add_user(self):
-    user = add_user('justatest', 'test@test.com', 'test')
-    self.assertTrue(user.id)
-    self.assertEqual(user.username, 'test@test.com')
-    self.assertEqual(user.email, 'test@test.com')
-    self.assertTrue(user.password)
-    self.assertTrue(user.active)
-    self.assertTrue(user.created_at)
+```sh
+TypeError: __init__() got an unexpected keyword argument 'password'
 ```
 
-Run the migrations:
+To get them green, first add the password field to the model in *flask-microservices-users/project/api/models.py*:
+
+```python
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(128), unique=True, nullable=False)
+    email = db.Column(db.String(128), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    active = db.Column(db.Boolean, default=True, nullable=False)
+    admin = db.Column(db.Boolean, default=False, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(
+            self, username, email, password,
+            created_at=datetime.datetime.utcnow()):
+        self.username = username
+        self.email = email
+        self.password = bcrypt.generate_password_hash(password).decode()
+        self.created_at = created_at
+```
+
+Add the `bcrypt` import:
+
+```python
+from project import db, bcrypt
+```
+
+Run the tests again. More failures, right?
+
+```sh
+TypeError: __init__() missing 1 required positional argument: 'password'
+```
+
+Apply the migrations:
 
 ```sh
 (env)$ python manage.py db migrate
 (env)$ python manage.py db upgrade
 ```
 
-You should see a number of failures when you run the tests:
-
-```sh
-db.session.add(User(username=username, email=email))
-TypeError: __init__() missing 1 required positional argument: 'password'
-```
-
-To get the tests green, update `add_user()` in *flask-microservices-users/project/api/views.py*:
+Update `add_user()` in *flask-microservices-users/project/api/views.py*:
 
 ```python
 @users_blueprint.route('/users', methods=['POST'])
@@ -160,37 +180,7 @@ def add_user():
         return jsonify(response_object), 400
 ```
 
-Then update the model in *flask-microservices-users/project/api/models.py*:
-
-```python
-class User(db.Model):
-    __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(128), unique=True, nullable=False)
-    email = db.Column(db.String(128), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
-    active = db.Column(db.Boolean, default=True, nullable=False)
-    admin = db.Column(db.Boolean, default=False, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
-
-    def __init__(
-            self, username, email, password,
-            created_at=datetime.datetime.utcnow()):
-        self.username = username
-        self.email = email
-        self.password = bcrypt.generate_password_hash(
-            password, current_app.config.get('BCRYPT_LOG_ROUNDS')
-        ).decode()
-        self.created_at = created_at
-```
-
-Add the `bcrypt` import:
-
-```python
-from project import db, bcrypt
-```
-
-The tests should pass. Turning to the API, what if we don't pass a password in the payload? Write a test!
+The tests should pass. Turning to the API, what if we don't pass a password into the payload? Write a test!
 
 *test_users.py*:
 
@@ -230,9 +220,20 @@ except (exc.IntegrityError, ValueError) as e:
     return jsonify(response_object), 400
 ```
 
-Test again.
+Test again. Finally, update `test_add_user()` from *test_user_model.py*, asserting the user object has a password field:
 
-Finally, did you notice that the tests are running *much* slower? This is due to the `BCRYPT_LOG_ROUNDS` setting for Flask Bcrypt. Since we have not defined a value yet in the app config, Flask Bcrypt uses the [default value of 12](https://github.com/maxcountryman/flask-bcrypt/blob/master/flask_bcrypt.py#L153).
+```python
+def test_add_user(self):
+    user = add_user('justatest', 'test@test.com', 'test')
+    self.assertTrue(user.id)
+    self.assertEqual(user.username, 'test@test.com')
+    self.assertEqual(user.email, 'test@test.com')
+    self.assertTrue(user.password)
+    self.assertTrue(user.active)
+    self.assertTrue(user.created_at)
+```
+
+Finally, did you notice that the tests are running *much* slower than before? This is due to the `BCRYPT_LOG_ROUNDS` setting for Flask Bcrypt. Since we have not defined a value yet in the app config, Flask Bcrypt uses the [default value of 12](https://github.com/maxcountryman/flask-bcrypt/blob/master/flask_bcrypt.py#L153), which is unnecessarily high for a test environment.
 
 Update the test specs in *flask-microservices-users/project/tests/test_config.py*:
 
@@ -319,6 +320,36 @@ class ProductionConfig(BaseConfig):
     """Production configuration"""
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+```
+
+Then, update `__init__` from the `User` model:
+
+```python
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(128), unique=True, nullable=False)
+    email = db.Column(db.String(128), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    active = db.Column(db.Boolean, default=True, nullable=False)
+    admin = db.Column(db.Boolean, default=False, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False)
+
+    def __init__(
+            self, username, email, password,
+            created_at=datetime.datetime.utcnow()):
+        self.username = username
+        self.email = email
+        self.password = bcrypt.generate_password_hash(
+            password, current_app.config.get('BCRYPT_LOG_ROUNDS')
+        ).decode()
+        self.created_at = created_at
+```
+
+Don't forget the import:
+
+```python
+from flask import current_app
 ```
 
 Run the tests again!
