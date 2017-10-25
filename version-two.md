@@ -35,6 +35,7 @@ share: true
 1. Upgraded to latest versions of Docker and Docker Compose file version
 1. Added lots and lots of screenshots
 1. Upgraded to the latest versions of Python and Node
+1. Updated the development workflow so that all development work is done within the Docker containers
 
 *Client:*
 
