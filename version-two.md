@@ -49,6 +49,7 @@ share: true
 1. Refactored portions of the Flask APIs, adding a `serialize` method to the models
 1. Refactored Flask error handlers to clean up the views
 1. Added caching with Flask-Cache
+1. Mocked `time.sleep` in the test suite
 
 *Deployment:*
 
