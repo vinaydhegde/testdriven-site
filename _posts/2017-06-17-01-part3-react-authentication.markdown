@@ -20,7 +20,7 @@ With the `Form` component set up, we can now configure the methods to:
 1. Send AJAX request
 1. Update the page
 
-> These steps should look familiar since we already went through this process in the [React Forms](/part-two-react-forms/) lesson. Put yourself to test and implement the code yourself before going through this lesson.
+> These steps should look familiar since we already went through this process in the [React Forms](/part-two-react-forms/) lesson. Put your skills to the test and implement the code on your own before going through this lesson.
 
 #### Handle form submit event
 
@@ -58,7 +58,9 @@ And then pass it down via the `props`:
 )} />
 ```
 
-Test it out in the browser. You should see `sanity check!` in the JavaScript console on form submit for both forms. Remove the `console.log('sanity check!')` when done.
+To test, remove the `required` attribute on each of the form `input`s in *src/components/Form.jsx*. Then, you should see `sanity check!` in the JavaScript console on form submit for both forms in the browser.
+
+Remove `console.log('sanity check!')` and add the `required` attributes back when done.
 
 #### Obtain user input
 
@@ -343,7 +345,7 @@ class UserStatus extends Component {
 export default UserStatus
 ```
 
-Here, we used a stateful, class-based component since the component has its own internal state. Notice how we also included a header with the AJAX request.
+Here, we used a stateful, class-based component to give the component its own internal state. Notice how we also included the header with the AJAX request.
 
 Import the component into *App.jsx*, and then add a new route:
 
@@ -351,7 +353,7 @@ Import the component into *App.jsx*, and then add a new route:
 <Route exact path='/status' component={UserStatus}/>
 ```
 
-Test this out first when you're not logged in. You should see a 401 error. Try again when you are logged in. You should see an object with the keys `active`, `created_at`, `email`, `id`, and `username`.
+Test this out first when you're not logged in. You should see a 401 error in the JavaScript console. Try again when you are logged in. You should see an object with the keys `active`, `created_at`, `email`, `id`, and `username`.
 
 To add the values to the component, update the `.then`:
 

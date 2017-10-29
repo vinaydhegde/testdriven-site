@@ -930,7 +930,7 @@
 </ol>
 
 <blockquote>
-<p>These steps should look familiar since we already went through this process in the <a href="/part-two-react-forms/">React Forms</a> lesson. Put yourself to test and implement the code yourself before going through this lesson.</p>
+<p>These steps should look familiar since we already went through this process in the <a href="/part-two-react-forms/">React Forms</a> lesson. Put your skills to the test and implement the code on your own before going through this lesson.</p>
 </blockquote>
 
 <h4 id="handle-form-submit-event">Handle form submit event</h4>
@@ -960,7 +960,9 @@
   <span class="o">/&gt;</span>
 <span class="p">)}</span> <span class="o">/&gt;</span>
 </code></pre></div>
-<p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit for both forms. Remove the <code>console.log(&#39;sanity check!&#39;)</code> when done.</p>
+<p>To test, remove the <code>required</code> attribute on each of the form <code>input</code>s in <em>src/components/Form.jsx</em>. Then, you should see <code>sanity check!</code> in the JavaScript console on form submit for both forms in the browser.</p>
+
+<p>Remove <code>console.log(&#39;sanity check!&#39;)</code> and add the <code>required</code> attributes back when done.</p>
 
 <h4 id="obtain-user-input">Obtain user input</h4>
 
@@ -1203,12 +1205,12 @@
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">UserStatus</span>
 </code></pre></div>
-<p>Here, we used a stateful, class-based component since the component has its own internal state. Notice how we also included a header with the AJAX request.</p>
+<p>Here, we used a stateful, class-based component to give the component its own internal state. Notice how we also included the header with the AJAX request.</p>
 
 <p>Import the component into <em>App.jsx</em>, and then add a new route:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/status&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">UserStatus</span><span class="p">}</span><span class="o">/&gt;</span>
 </code></pre></div>
-<p>Test this out first when you&#39;re not logged in. You should see a 401 error. Try again when you are logged in. You should see an object with the keys <code>active</code>, <code>created_at</code>, <code>email</code>, <code>id</code>, and <code>username</code>.</p>
+<p>Test this out first when you&#39;re not logged in. You should see a 401 error in the JavaScript console. Try again when you are logged in. You should see an object with the keys <code>active</code>, <code>created_at</code>, <code>email</code>, <code>id</code>, and <code>username</code>.</p>
 
 <p>To add the values to the component, update the <code>.then</code>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -1365,7 +1367,7 @@
 </ol>
 
 <blockquote>
-<p>These steps should look familiar since we already went through this process in the <a href="/part-two-react-forms/">React Forms</a> lesson. Put yourself to test and implement the code yourself before going through this lesson.</p>
+<p>These steps should look familiar since we already went through this process in the <a href="/part-two-react-forms/">React Forms</a> lesson. Put your skills to the test and implement the code on your own before going through this lesson.</p>
 </blockquote>
 
 <h4 id="handle-form-submit-event">Handle form submit event</h4>
@@ -1395,7 +1397,9 @@
   <span class="o">/&gt;</span>
 <span class="p">)}</span> <span class="o">/&gt;</span>
 </code></pre></div>
-<p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit for both forms. Remove the <code>console.log(&#39;sanity check!&#39;)</code> when done.</p>
+<p>To test, remove the <code>required</code> attribute on each of the form <code>input</code>s in <em>src/components/Form.jsx</em>. Then, you should see <code>sanity check!</code> in the JavaScript console on form submit for both forms in the browser.</p>
+
+<p>Remove <code>console.log(&#39;sanity check!&#39;)</code> and add the <code>required</code> attributes back when done.</p>
 
 <h4 id="obtain-user-input">Obtain user input</h4>
 
@@ -1638,12 +1642,12 @@
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">UserStatus</span>
 </code></pre></div>
-<p>Here, we used a stateful, class-based component since the component has its own internal state. Notice how we also included a header with the AJAX request.</p>
+<p>Here, we used a stateful, class-based component to give the component its own internal state. Notice how we also included the header with the AJAX request.</p>
 
 <p>Import the component into <em>App.jsx</em>, and then add a new route:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/status&#39;</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">UserStatus</span><span class="p">}</span><span class="o">/&gt;</span>
 </code></pre></div>
-<p>Test this out first when you&#39;re not logged in. You should see a 401 error. Try again when you are logged in. You should see an object with the keys <code>active</code>, <code>created_at</code>, <code>email</code>, <code>id</code>, and <code>username</code>.</p>
+<p>Test this out first when you&#39;re not logged in. You should see a 401 error in the JavaScript console. Try again when you are logged in. You should see an object with the keys <code>active</code>, <code>created_at</code>, <code>email</code>, <code>id</code>, and <code>username</code>.</p>
 
 <p>To add the values to the component, update the <code>.then</code>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
