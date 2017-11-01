@@ -15,7 +15,7 @@ In Part 3, we'll add *database migrations* along with *password hashing* in orde
 
 By the end of part 3, you should be able to...
 
-1. Use Flask Migration to handle database migrations
+1. Use Flask Migrate to handle database migrations
 1. Configure Flask Bcrypt for password hashing
 1. Implement user authentication with JWTs
 1. Write tests to create and verify JWTs and user authentication
