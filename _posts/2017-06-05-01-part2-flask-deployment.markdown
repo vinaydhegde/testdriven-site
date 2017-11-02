@@ -35,7 +35,7 @@ Now we can test the React app against the Flask app running in the Docker Contai
 
 1. Grab the IP of the `dev` machine - `docker-machine ip dev`
 1. Navigate to *flask-microservices-main* and update the environment variable with the IP - `export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP`
-1. Back in **flask-microservices-client*, fire up the app - `npm start` - and make sure it still works
+1. Back in *flask-microservices-client*, fire up the app - `npm start` - and make sure it still works
 
 #### Production
 
@@ -53,4 +53,4 @@ Just like before, test the React app against the Flask app:
 
 1. Grab the IP of the `aws` machine - `docker-machine ip aws`
 1. Navigate to *flask-microservices-main* and update the environment variable with the IP - `export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP`
-1. Back in **flask-microservices-client*, fire up the app - `npm start` - and make sure it still works
+1. Back in *flask-microservices-client*, fire up the app - `npm start` - and make sure it still works
