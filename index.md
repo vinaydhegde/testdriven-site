@@ -7,6 +7,8 @@ title: Microservices with Docker, Flask, and React
 
 In this course, you will learn how to quickly spin up a reproducible development environment with *Docker* to manage a number of *microservices*. Once the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance. Finally, we'll look at scaling the services on *Amazon EC2 Container Service (ECS)*.
 
+We'll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.
+
 <div style="text-align:left;">
   <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
