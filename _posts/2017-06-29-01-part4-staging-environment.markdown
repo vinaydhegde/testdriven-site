@@ -146,7 +146,7 @@ $ export SECRET_KEY=b476f58095eae2db74ce721a48c88ab2385e942688f7ddab
 Grab the IP for the `staging` machine and use it for the `REACT_APP_USERS_SERVICE_URL` environment variable:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_STAGING_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_STAGING_IP
 ```
 
 Spin up the containers, create and seed the database, and run the tests:
@@ -232,7 +232,7 @@ $ eval $(docker-machine env aws)
 Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_AWS_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_AWS_IP
 ```
 
 Update:
@@ -394,7 +394,7 @@ $ eval $(docker-machine env dev)
 Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_DEV_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP
 ```
 
 Update:

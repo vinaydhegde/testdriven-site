@@ -9,7 +9,7 @@ lesson: 11
 share: true
 ---
 
-In this lesson, we'll update Docker locally and on AWS, since we've been working outside of Docker this entire part thus far...
+In this last lesson, we'll update Docker locally and on AWS, since we've been working outside of Docker this entire part thus far...
 
 ---
 
@@ -97,7 +97,7 @@ $ eval $(docker-machine env dev)
 Set the environment variable:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_DEV_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP
 ```
 
 Then re-build the images and fire up the containers:
@@ -169,7 +169,7 @@ $ export SECRET_KEY=0ccd512f8c3493797a23557c32db38e7d51ed74f14fa7580
 Grab the IP for the `aws` machine and use it for the `REACT_APP_USERS_SERVICE_URL` environment variable:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_AWS_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_AWS_IP
 ```
 
 Update the containers, re-create and seed the database, and run the tests:

@@ -957,7 +957,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
     - users-service
 </code></pre></div>
 <p>In the terminal, make sure <code>dev</code> is the active machine and then add the valid IP to <em>flask-microservices-main</em>:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_IP
 </code></pre></div>
 <p>Build the image and fire up the new container:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up --build -d web-service
@@ -969,7 +969,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
 <h4 id="create-react-app-build">Create React App Build</h4>
 
 <p>Make sure the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable is set:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_IP
 </code></pre></div>
 <blockquote>
 <p>All environment variables are <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">embedded</a> into the app at build time. Keep this in mind.</p>
@@ -1255,7 +1255,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
     - users-service
 </code></pre></div>
 <p>In the terminal, make sure <code>dev</code> is the active machine and then add the valid IP to <em>flask-microservices-main</em>:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_IP
 </code></pre></div>
 <p>Build the image and fire up the new container:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up --build -d web-service
@@ -1267,7 +1267,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
 <h4 id="create-react-app-build">Create React App Build</h4>
 
 <p>Make sure the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable is set:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_IP
 </code></pre></div>
 <blockquote>
 <p>All environment variables are <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">embedded</a> into the app at build time. Keep this in mind.</p>

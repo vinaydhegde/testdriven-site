@@ -25,7 +25,7 @@ $ eval $(docker-machine env dev)
 Set the environment variable:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_DEV_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP
 ```
 
 Update the containers:

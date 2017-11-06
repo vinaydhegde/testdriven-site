@@ -58,7 +58,7 @@ web-service:
 In the terminal, make sure `dev` is the active machine and then add the valid IP to *flask-microservices-main*:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_IP
 ```
 
 Build the image and fire up the new container:
@@ -76,7 +76,7 @@ What happens if you navigate to the main route? Since we're still routing traffi
 Make sure the `REACT_APP_USERS_SERVICE_URL` environment variable is set:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_IP
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_IP
 ```
 
 > All environment variables are [embedded](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables

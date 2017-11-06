@@ -83,7 +83,7 @@ $ eval $(docker-machine env dev)
 Set the environment variables:
 
 ```sh
-$ export REACT_APP_USERS_SERVICE_URL=DOCKER_MACHINE_DEV_IP:5001
+$ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP:5001
 $ export TEST_URL=DOCKER_MACHINE_DEV_IP
 ```
 

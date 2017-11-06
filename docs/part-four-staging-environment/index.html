@@ -1030,7 +1030,7 @@
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span>b476f58095eae2db74ce721a48c88ab2385e942688f7ddab
 </code></pre></div>
 <p>Grab the IP for the <code>staging</code> machine and use it for the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_STAGING_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_STAGING_IP
 </code></pre></div>
 <p>Spin up the containers, create and seed the database, and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-staging.yml <span class="se">\</span>
@@ -1092,7 +1092,7 @@
 <span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
 </code></pre></div>
 <p>Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_AWS_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_AWS_IP
 </code></pre></div>
 <p>Update:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
@@ -1233,7 +1233,7 @@ CMD python manage.py runserver -h 0.0.0.0
 <span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
 </code></pre></div>
 <p>Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div>
 <p>Update:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
@@ -1376,7 +1376,7 @@ CMD python manage.py runserver -h 0.0.0.0
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">SECRET_KEY</span><span class="o">=</span>b476f58095eae2db74ce721a48c88ab2385e942688f7ddab
 </code></pre></div>
 <p>Grab the IP for the <code>staging</code> machine and use it for the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_STAGING_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_STAGING_IP
 </code></pre></div>
 <p>Spin up the containers, create and seed the database, and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-staging.yml <span class="se">\</span>
@@ -1438,7 +1438,7 @@ CMD python manage.py runserver -h 0.0.0.0
 <span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
 </code></pre></div>
 <p>Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_AWS_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_AWS_IP
 </code></pre></div>
 <p>Update:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml up -d --build
@@ -1579,7 +1579,7 @@ CMD python manage.py runserver -h 0.0.0.0
 <span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
 </code></pre></div>
 <p>Grab the IP for the machine and use it for the REACT_APP_USERS_SERVICE_URL environment variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div>
 <p>Update:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build

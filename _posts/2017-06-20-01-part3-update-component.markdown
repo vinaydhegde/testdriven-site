@@ -9,7 +9,7 @@ lesson: 10
 share: true
 ---
 
-In this last lesson, we'll refactor the `UsersList` component remove the add user form and display a Bootstrap-styled table of users....
+In this lesson, we'll refactor the `UsersList` component to remove the add user form and display a Bootstrap-styled table of users...
 
 ---
 
@@ -62,7 +62,7 @@ Update the route in the `App` component:
 )} />
 ```
 
-Make sure to remove the `AddUser` import at the top of the file, and the test it out.
+Make sure to remove the `AddUser` import at the top of the file, and then test it out.
 
 #### Table
 
@@ -83,6 +83,7 @@ const UsersList = (props) => {
             <th>User ID</th>
             <th>Email</th>
             <th>Username</th>
+            <th>Created Date</th>
           </tr>
         </thead>
         <tbody>
@@ -109,4 +110,4 @@ export default UsersList;
 
 That's it. Short lesson. Commit you code.
 
-> You may have noticed that we are not handling errors on the client. We'll tackle that in the next part 4!
+> You may have noticed that we are not handling errors on the client. We'll tackle that in the part 4!
