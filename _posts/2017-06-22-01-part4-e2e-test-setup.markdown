@@ -139,7 +139,7 @@ test(`users should be able to view the '/' page`, async (t) => {
 });
 ```
 
-This test simply navigates to the main URL, `/`, and then assers that an `H1` element exists with the text `All Users`.
+This test simply navigates to the main URL, `/`, and then asserts that an `H1` element exists with the text `All Users`.
 
 Set the environment variable:
 
