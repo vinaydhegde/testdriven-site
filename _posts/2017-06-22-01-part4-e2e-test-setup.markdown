@@ -100,7 +100,7 @@ To install, first add a *[package.json](https://docs.npmjs.com/files/package.jso
 Then install the dependency:
 
 ```sh
-$ npm install testcafe --save
+$ npm install testcafe@0.16.1 --save
 ```
 
 The `--save` flag adds the dependency info to the *package.json*:
