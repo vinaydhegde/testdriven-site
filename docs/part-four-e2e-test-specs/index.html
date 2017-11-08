@@ -1292,7 +1292,7 @@
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
 </code></pre></div>
 <p>Set the <code>TEST_URL</code> variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div>
 <p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is reset to its initial value of false.</p>
 
@@ -1738,7 +1738,7 @@ should display user info if user is logged in
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
 </code></pre></div>
 <p>Set the <code>TEST_URL</code> variable:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div>
 <p>Run the tests. You should see <em>should display user info if user is logged in</em> fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the <code>/status</code> link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, <code>isAuthenticated</code> is reset to its initial value of false.</p>
 

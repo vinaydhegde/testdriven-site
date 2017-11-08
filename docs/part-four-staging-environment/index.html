@@ -1046,7 +1046,7 @@
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-staging.yml run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Set the <code>TEST_URL</code> variable for the end-to-end tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_STAGING_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_STAGING_IP
 </code></pre></div>
 <p>Run the end-to-end tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>testcafe chrome e2e
@@ -1392,7 +1392,7 @@ CMD python manage.py runserver -h 0.0.0.0
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-staging.yml run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>Set the <code>TEST_URL</code> variable for the end-to-end tests:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_STAGING_IP
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_STAGING_IP
 </code></pre></div>
 <p>Run the end-to-end tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>testcafe chrome e2e

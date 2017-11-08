@@ -144,7 +144,7 @@ This test simply navigates to the main URL, `/`, and then asserts that an `H1` e
 Set the environment variable:
 
 ```sh
-$ export TEST_URL=DOCKER_MACHINE_DEV_IP
+$ export TEST_URL=http://DOCKER_MACHINE_DEV_IP
 ```
 
 Run the tests:

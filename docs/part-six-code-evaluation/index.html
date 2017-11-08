@@ -983,7 +983,7 @@
 <p>Set the environment variables:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP:5001
 <span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
-<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div>
 <p>Fire up the containers:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build
@@ -1352,7 +1352,7 @@ should display user info if user is logged in
 <p>Set the environment variables:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP:5001
 <span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
-<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div>
 <p>Fire up the containers:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d --build

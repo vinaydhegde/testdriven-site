@@ -171,7 +171,7 @@ $ docker-compose -f docker-compose-staging.yml run users-service python manage.p
 Set the `TEST_URL` variable for the end-to-end tests:
 
 ```sh
-$ export TEST_URL=DOCKER_MACHINE_STAGING_IP
+$ export TEST_URL=http://DOCKER_MACHINE_STAGING_IP
 ```
 
 Run the end-to-end tests:

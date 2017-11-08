@@ -412,7 +412,7 @@ $ docker-compose up -d
 Set the `TEST_URL` variable:
 
 ```sh
-$ export TEST_URL=DOCKER_MACHINE_DEV_IP
+$ export TEST_URL=http://DOCKER_MACHINE_DEV_IP
 ```
 
 Run the tests. You should see *should display user info if user is logged in* fail. Why? Well, in that test we logged a user in and then instead of clicking the link for user status, we navigated to it in the browser. Try manually testing both scenarios - clicking the `/status` link and navigating to the route in the browser. Essentially, when we navigate to the route in the browser, `isAuthenticated` is reset to its initial value of false.
