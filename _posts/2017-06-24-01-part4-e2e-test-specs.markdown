@@ -427,7 +427,7 @@ componentWillMount() {
 }
 ```
 
-> What would happen at this point if an unauthorized user simply added an object to LocalStorage with a key of `authToken` and a dummy value? What would be displayed? Would they have access to any sensitive data for the server-side? Why or why not?
+> What would happen at this point if an unauthorized user simply added an object to LocalStorage with a key of `authToken` and a dummy value? What would be displayed? Would they have access to any sensitive data from the server-side? Why or why not?
 
 Update the containers, and then run the tests again to ensure they pass:
 
