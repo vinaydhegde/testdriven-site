@@ -24,6 +24,8 @@ share: true
   <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
 
+{% include share.html %}
+
 <br>
 
 #### What's new in version 2?
@@ -85,3 +87,47 @@ Or: Join our mailing list to be notified when version 2 is released.
 </div>
 </div>
 </form>
+
+#### What will you learn?
+
+##### Part 1
+
+In this first part, you'll learn how to quickly spin up a reproducible development environment with Docker to create a RESTful API powered by Python, Postgres, and the Flask web framework. After the app is up and running locally, you'll learn how to deploy it to an Amazon EC2 instance.
+
+**Tools and Technologies**: Python, Flask, Flask-Script, Flask-SQLAlchemy, Flask-Testing, Gunicorn, Nginx, Docker, Docker Compose, Docker Machine, Postgres, Flask Blueprints, Jinja Templates
+
+##### Part 2
+
+In Part 2, we'll split the project into three distinct projects. We'll also add code coverage and continuous integration testing to ensure that each service can be run and tested independently from the whole. Finally, we'll add ReactJS to the client-side.
+
+**Tools and Technologies**: Code Coverage with Coverage.py, Node, NPM, Create React App, Axios, Flask-CORS, React forms
+
+##### Part 3
+
+In Part 3, we'll add database migrations along with password hashing in order to implement token-based authentication to the users service with JSON Web Tokens (JWTs). We'll then turn our attention to the client and add React Router to the React app to enable client-side routing along with client-side authentication.
+
+**Tools and Technologies**: Flask-Migrate, Flask-Bcrypt, PyJWT, react-router-dom, React Bootstrap, React Router Bootstrap, React Authentication and Authorization
+
+##### Part 4
+
+In Part 4, we'll add an end-to-end (e2e) testing solution, form validation to the React app, a Swagger service to document the API, and deal with some tech debt. We'll also set up a staging environment to test on before the app goes into production.
+
+**Tools and Technologies**: TestCafe, Swagger UI
+
+##### Part 5
+
+In Part 5, we'll dive into container orchestration with Amazon ECS as we move our staging and production environments to a more scaleable infrastructure. We'll also add the Docker Hub image registry and Amazon EC2 Container Registry. Finally, we'll utilize Amazon's Elastic Load Balancing for load balancing and Amazon's Relational Database Service for data persistence.
+
+**Tools and Technologies**: Docker Hub, AWS, EC2, EC2 Container Registry (ECR), EC2 Container Service (ECS), Elastic Load Balancing (ELB), Application Load Balancer (ALB), Relational Database Service (RDS)
+
+##### Part 6
+
+In the final part, we'll focus our attention on adding a new Flask service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we'll tie in AWS Lambda and API Gateway and spend a bit of time refactoring React and the end-to-end test suite. Finally, we'll update the staging and production environments on ECS.
+
+**Tools and Technologies**: AWS Lambda and API Gateway
+
+<br>
+
+<div>
+  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Pre-Order Now!</a>
+</div>
