@@ -84,6 +84,12 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
 ```
 {% endraw %}
 
+Be sure to update the imports:
+
+```python
+from flask import Blueprint, jsonify, request, render_template
+```
+
 Ready to test? Simply open your browser and navigate to the IP associated with the `dev` machine.
 
 How about a test?
