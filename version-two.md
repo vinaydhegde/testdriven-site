@@ -40,6 +40,7 @@ share: true
 1. Updated the development workflow so that all development work is done within the Docker containers
 1. Updated the test script
 1. Upgraded to TestCafe v0.18.2 for the e2e tests
+1. Upgrade to OpenAPI 3.0 (based on the original Swagger 2.0 specification)
 
 *Client:*
 
