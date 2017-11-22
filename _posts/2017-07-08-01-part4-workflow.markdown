@@ -146,7 +146,7 @@ Build and run:
 $ docker-compose up -d --build web-service
 ```
 
-To test, navigate to [http://DOCKER_MACHINE_DEV_IP:9000](http://DOCKER_MACHINE_DEV_IP:900) in your browser.
+To test, navigate to [http://DOCKER_MACHINE_DEV_IP:9000](http://DOCKER_MACHINE_DEV_IP:9000) in your browser.
 
 > Keep in mind that you won't be able to register or log in until Nginx is set up
 
