@@ -16,8 +16,8 @@ In Part 5, we'll dive into *container orchestration* with [Amazon ECS](https://a
 By the end of part 5, you should be able to...
 
 1. Integrate [Docker Hub](https://docs.docker.com/docker-hub/), an image registry, into the continuous integration process
-1. Configure [Amazon ECS](https://aws.amazon.com/ecs/) and [Amazon EC2 Container Registry](https://aws.amazon.com/ecr/) to manage container orchestration for our staging and development environments
-1. Set up [Elastic Load Balancing](https://aws.amazon.com/elasticloadbalancing/) to manage service discovery, run status health checks again each service, enable zero-downtime deployment
+1. Configure [Amazon ECS](https://aws.amazon.com/ecs/) and [Amazon EC2 Container Registry](https://aws.amazon.com/ecr/) to manage container orchestration for our staging and production environments
+1. Set up [Elastic Load Balancing](https://aws.amazon.com/elasticloadbalancing/) to manage service discovery, run status health checks against each service, enable zero-downtime deployment
 1. Add [Relational Database Service](https://aws.amazon.com/rds/), for *data persistence*, to our production stack
 
 ---
