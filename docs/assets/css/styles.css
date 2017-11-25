@@ -31,7 +31,21 @@ main {
 }
 
 .nav-wrapper {
- padding-left: 20px;
+  padding-left: 20px;
+}
+
+.nav-logo-container {
+  align-items: center;
+  height: 100%;
+  display: flex;
+}
+
+.nav-logo {
+  height: 1.8rem;
+}
+
+.nav-button-container {
+  margin-left: auto;
 }
 
 table {
@@ -76,7 +90,12 @@ td, th {
 }
 
 .main-brand-logo {
+  font-family: "Montserrat",sans-serif;
   font-size: 1.6rem !important;
+}
+
+li {
+  font-family: "Montserrat",sans-serif;
 }
 
 /*
