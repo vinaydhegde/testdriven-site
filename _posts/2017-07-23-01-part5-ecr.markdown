@@ -231,7 +231,7 @@ With that, test out the following workflow:
 
 **Production**:
 
-1. Open PR from the `development` branch against the `staging` branch
+1. Open PR from the `staging` branch against the `production` branch
 1. New build is triggered on Travis
 1. If the tests pass, merge the PR
 1. New build is triggered on Travis
