@@ -11,7 +11,7 @@ share: true
 
 In Part 5, we'll dive into *container orchestration* with [Amazon ECS](https://aws.amazon.com/ecs/) as we move our staging and production environments to a more scaleable infrastructure. We'll also add the [Docker Hub](https://docs.docker.com/docker-hub/) *image registry* and [Amazon EC2 Container Registry](https://aws.amazon.com/ecr/). Finally, we'll utilize Amazon's [Elastic Load Balancing](https://aws.amazon.com/elasticloadbalancing/) for *load balancing* and Amazon's [Relational Database Service](https://aws.amazon.com/rds/) for *data persistence*.
 
-#### Objectives
+#### <span style="font-family:'Montserrat', 'sans-serif';">Objectives</span>
 
 By the end of part 5, you should be able to...
 
@@ -22,7 +22,7 @@ By the end of part 5, you should be able to...
 
 ---
 
-#### App
+#### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
 
 <div style="text-align:left;">
   <img src="/assets/img/testdriven-architecture-part4.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">

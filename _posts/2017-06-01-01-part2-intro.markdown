@@ -17,7 +17,7 @@ In Part 2, we'll split the project into three distinct projects. We'll also add 
 1. *flask-microservices-users* - Flask app
 1. *flask-microservices-client* - client-side
 
-#### Objectives
+#### <span style="font-family:'Montserrat', 'sans-serif';">Objectives</span>
 
 By the end of this part, you should be able to...
 
@@ -34,7 +34,7 @@ By the end of this part, you should be able to...
 1. Pass environment variables to a Docker image at build time
 1. Use React controlled components to handle form submissions
 
-#### App
+#### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
 
 <div style="text-align:left;">
   <img src="/assets/img/testdriven-architecture.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">

@@ -11,7 +11,7 @@ share: true
 
 In the final part, we'll focus our attention on adding a new *Flask* service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we'll tie in *AWS Lambda* and *API Gateway* and spend a bit of time refactoring *React* and the *end-to-end* test suite. Finally, we'll update the staging and production environments on ECS.
 
-#### Objectives
+#### <span style="font-family:'Montserrat', 'sans-serif';">Objectives</span>
 
 By the end of part 6, you should be able to...
 
@@ -22,7 +22,7 @@ By the end of part 6, you should be able to...
 1. Update the staging and production environments on Amazon ECS
 
 
-#### App
+#### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
 
 <div style="text-align:left;">
   <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">

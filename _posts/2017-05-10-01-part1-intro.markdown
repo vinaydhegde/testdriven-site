@@ -80,7 +80,7 @@ Before beginning, you should have some familiarity with the following topics. Re
 | Docker Machine | [Docker Machine Overview](https://docs.docker.com/machine/overview/) |
 | Flask | [Real Python](https://realpython.com)
 
-#### Objectives
+#### <span style="font-family:'Montserrat', 'sans-serif';">Objectives</span>
 
 By the end of this part, you should be able to...
 
@@ -93,7 +93,7 @@ By the end of this part, you should be able to...
 1. Work with Python and Flask running inside a Docker Container
 1. Install Flask, Ngnix, and Gunicorn on an Amazon EC2 instance
 
-#### App
+#### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
 
 Check out the live app, running on EC2 - [http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com](http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com)
 
@@ -109,6 +109,6 @@ You can also test out the following endpoints...
 
 Essentially, the app is running in three containers - Flask, Postgres, and Nginx. At the end of this first part, you will have the above app completed and deployed. We'll add authentication and a number of other services in the subsequent parts.
 
-#### Code
+#### <span style="font-family:'Montserrat', 'sans-serif';">Code</span>
 
 Grab the code from the [flask-microservices-users](https://github.com/realpython/flask-microservices-users/releases/tag/part1) repo.

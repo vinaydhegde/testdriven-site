@@ -44,11 +44,7 @@ main {
   height: 1.8rem;
 }
 
-.nav-button-container {
-  margin-left: auto;
-}
-
-li {
+li, h2, h5, .page-nav {
   font-family: "Montserrat",sans-serif;
 }
 
@@ -94,6 +90,7 @@ td, th {
 }
 
 .main-brand-logo {
+  font-family: "Montserrat",sans-serif;
   font-size: 1.6rem !important;
 }
 

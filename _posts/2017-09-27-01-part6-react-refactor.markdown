@@ -517,7 +517,7 @@ const FormErrors = (props) => {
 export default FormErrors;
 ```
 
-##### App
+##### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
 
 Add the following imports:
 

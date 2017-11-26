@@ -15,7 +15,7 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 
 <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev"&amp;url="https://testdriven.io"&amp;via="https://twitter.com" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-#### Structure
+#### <span style="font-family:'Montserrat', 'sans-serif';">Structure</span>
 
 1. *flask-microservices-main* - Docker Compose files, Nginx, admin scripts
 1. *flask-microservices-users* - Flask app for managing users and auth
@@ -23,7 +23,7 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 1. *flask-microservices-swagger* - Swagger API docs
 1. *flask-microservices-eval* - Flask app for managing user scores and exercises
 
-#### App
+#### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
 
 <div style="text-align:left;">
   <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
