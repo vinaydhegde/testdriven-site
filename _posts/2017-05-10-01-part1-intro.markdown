@@ -57,6 +57,10 @@ This series uses the following tools and technologies:
 1. node-randomstring v1.1.5
 1. Swagger UI v3.0.8
 
+**Part 5**
+
+No new dependencies.
+
 **Part 6**
 
 1. Flask v0.12.2
