@@ -27,7 +27,7 @@ For each component, we'll roughly follow these steps:
 1. Wire up the component to *App.jsx*, passing down any necessary `props`
 1. Test it out in the browser
 
-#### Navbar
+#### <span style="font-family:'Montserrat', 'sans-serif';">Navbar</span>
 
 Create a new file called *NavBar.jsx* in "src/components":
 
@@ -131,7 +131,7 @@ render() {
 
 Test it out in the browser before moving on.
 
-#### Form
+#### <span style="font-family:'Montserrat', 'sans-serif';">Form</span>
 
 Instead of using two different components to handle user registration and login, let's create a generic form component and customize it based on the state.
 

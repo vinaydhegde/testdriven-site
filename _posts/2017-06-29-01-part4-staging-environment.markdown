@@ -15,7 +15,7 @@ In this lesson, we'll set up a staging environment on AWS...
 
 It's important to test applications out in an environment as close to production as possible when deploying to avoid hitting unexpected environment-specific bugs. Docker containers help to eliminate much of the disparity between development and production, but problems can (and will) still arise. So, let's set up a staging environment.
 
-#### Staging
+#### <span style="font-family:'Montserrat', 'sans-serif';">Staging</span>
 
 Create a new Docker machine:
 
@@ -182,7 +182,7 @@ $ testcafe chrome e2e
 
 You also need to add port 8080 to the [Security Group](http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group) since Swagger is listening on that port.
 
-#### Travis
+#### <span style="font-family:'Montserrat', 'sans-serif';">Travis</span>
 
 Next, update the `before_script` and `script` within the *.travis.yml* file to use the *docker-compose-staging.yml* file for the build and test run:
 
@@ -204,7 +204,7 @@ script:
 
 Commit and push your code. Make sure the tests pass on Travis.
 
-#### Production
+#### <span style="font-family:'Montserrat', 'sans-serif';">Production</span>
 
 Let's update production with the changes from this part thus far. Start by adding swagger to *docker-compose-prod.yml*:
 
@@ -243,7 +243,7 @@ $ docker-compose -f docker-compose-prod.yml up -d --build
 
 Ensure all is well.
 
-#### Local
+#### <span style="font-family:'Montserrat', 'sans-serif';">Local</span>
 
 To simplify local development, let's make a few changes to the *docker-compose.yml* file:
 

@@ -11,7 +11,7 @@ share: true
 
 In Part 4, we'll add an *end-to-end* (e2e) testing solution, *form validation* to the React app, a *[Swagger](https://swagger.io/)* service to document the API, and deal with some tech debt. We'll also set up a staging environment to test on before the app goes into production.
 
-#### Objectives
+#### <span style="font-family:'Montserrat', 'sans-serif';">Objectives</span>
 
 By the end of part 4, you should be able to...
 
@@ -24,7 +24,7 @@ By the end of part 4, you should be able to...
 1. Configure Swagger to interact with a service running inside a Docker Container
 1. Set up a staging environment on AWS
 
-#### App
+#### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
 
 <div style="text-align:left;">
   <img src="/assets/img/testdriven-architecture-part4.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">

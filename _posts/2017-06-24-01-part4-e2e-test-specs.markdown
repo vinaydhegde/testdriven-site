@@ -19,7 +19,7 @@ Turn to your app. Navigate through it as an end user. What are some common user 
 
 Turn your answers into test cases...
 
-#### Test Cases
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test Cases</span>
 
 `/register`:
 
@@ -47,7 +47,7 @@ Turn your answers into test cases...
 
 1. should display the page correctly if a user is not logged in
 
-#### Register
+#### <span style="font-family:'Montserrat', 'sans-serif';">Register</span>
 
 Add a new file called *register.test.js* to the "e2e" directory:
 
@@ -121,7 +121,7 @@ Since we're not handling errors yet, let's hold off on these two test cases:
 1. *should throw an error if the username is taken*
 1. *should throw an error if the email is taken*
 
-#### Login
+#### <span style="font-family:'Montserrat', 'sans-serif';">Login</span>
 
 > Try writing the next few tests on your own!
 
@@ -194,7 +194,7 @@ Now add the following test specs:
 
 Again, since we're not handling errors yet, let's hold off on the following test case: *should throw an error if the credentials are incorrect*.
 
-#### Logout
+#### <span style="font-family:'Montserrat', 'sans-serif';">Logout</span>
 
 Let's just add *should log a user out* to the previous test case in *login.test.js*:
 
@@ -247,7 +247,7 @@ test(`should allow a user to sign in`, async (t) => {
 });
 ```
 
-#### Status
+#### <span style="font-family:'Montserrat', 'sans-serif';">Status</span>
 
 Add a new file called *status.test.js* to the "e2e" directory:
 
@@ -311,7 +311,7 @@ Add the following test specs:
     });
     ```
 
-#### Main Page
+#### <span style="font-family:'Montserrat', 'sans-serif';">Main Page</span>
 
 Within *index.test.js*, remove *users should be able to view the page* and, in its place, add *should display the page correctly if a user is not logged in*:
 
@@ -327,7 +327,7 @@ test(`should display the page correctly if a user is not logged in`, async (t) =
 });
 ```
 
-#### Docker Compose
+#### <span style="font-family:'Montserrat', 'sans-serif';">Docker Compose</span>
 
 Before running the tests, update the build context for each service to the local environment, to pull in the latest changes locally:
 
@@ -395,7 +395,7 @@ services:
       - users-service
 ```
 
-#### Test!
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test!</span>
 
 Set the environment variable:
 

@@ -16,7 +16,7 @@ Let's update the CI process to include [Docker Hub](https://docs.docker.com/dock
 1. New build is triggered on Travis
 1. If the tests pass, images are created and pushed to Docker Hub
 
-#### Docker Hub
+#### <span style="font-family:'Montserrat', 'sans-serif';">Docker Hub</span>
 
 [Docker Hub](https://docs.docker.com/docker-hub/) is an image registry, which is simply a service that stores Docker images - basically GitHub for Docker images.
 
@@ -38,7 +38,7 @@ Next, create four new repositories on Docker Hub:
 
 > Keep in mind that we will be storing these repositories publicly so do not add any sensitive info to the images on the build.
 
-#### Users
+#### <span style="font-family:'Montserrat', 'sans-serif';">Users</span>
 
 Let's update the *.travis.yml* file in *flask-microservices-main*:
 
@@ -193,7 +193,7 @@ services:
 
 To test, commit your code and then push to GitHub. Make sure the build passes on Travis and that a new [tag](https://docs.docker.com/docker-hub/repos/#viewing-repository-tags) was added to Docker Hub.
 
-#### Users DB
+#### <span style="font-family:'Montserrat', 'sans-serif';">Users DB</span>
 
 For the users database, add the environment variables to *.travis.yml*:
 
@@ -215,7 +215,7 @@ Commit, push, and ensure all is well.
 
 For each of the next three services, we need to make the updates to *.travis.yml*, commit and push the code, and then ensure the build passes and the tag is added to Docker Hub....
 
-#### Web
+#### <span style="font-family:'Montserrat', 'sans-serif';">Web</span>
 
 Environment variables:
 
@@ -233,7 +233,7 @@ Environment variables:
 - docker push $DOCKER_ID/$CLIENT
 ```
 
-#### Swagger
+#### <span style="font-family:'Montserrat', 'sans-serif';">Swagger</span>
 
 Environment variables:
 
@@ -251,7 +251,7 @@ Environment variables:
 - docker push $DOCKER_ID/$SWAGGER
 ```
 
-#### Nginx
+#### <span style="font-family:'Montserrat', 'sans-serif';">Nginx</span>
 
 Environment variables:
 
@@ -269,7 +269,7 @@ Environment variables:
 - docker push $DOCKER_ID/$NGINX
 ```
 
-#### Scripts
+#### <span style="font-family:'Montserrat', 'sans-serif';">Scripts</span>
 
 Since we only want the `after_success` to run when the branch is `master`, let's create a simple shell script:
 
@@ -341,7 +341,7 @@ before_script:
 
 To test create a new branch feature branch and push your code to GitHub. A new build should be triggered, but it should not run any code within the `if` block within *docker_push.sh*. Merge your code to master in GitHub, which will trigger another new build on Travis. This time, the script should fire.
 
-#### Architecture
+#### <span style="font-family:'Montserrat', 'sans-serif';">Architecture</span>
 
 | Name             | Repo | Image |  Container | Tech         |
 |------------------|------|-------|------------|--------------|

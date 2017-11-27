@@ -27,7 +27,7 @@ You should see five failing e2e tests:
 1. `should allow a user to sign in`
 1. `should allow a user to register`
 
-##### `should display the page correctly if a user is not logged in`
+#### `should display the page correctly if a user is not logged in`
 
 Update the URL from `/` to `/all-users`:
 

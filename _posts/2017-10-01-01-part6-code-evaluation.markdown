@@ -21,7 +21,7 @@ With [AWS Lambda](https://aws.amazon.com/lambda/), we can run scripts without ha
 
 We'll start by simply setting up an HTTP endpoint with [API Gateway](https://aws.amazon.com/api-gateway/), which is used to trigger the Lambda function. Keep in mind that you would probably want to set up a message queuing service, like Redis or [SQS](https://aws.amazon.com/sqs/), as well. To quickly get up and running we'll skip the message queue... for now...
 
-#### AWS Lambda and API Gateway Setup
+#### <span style="font-family:'Montserrat', 'sans-serif';">AWS Lambda and API Gateway Setup</span>
 
 Follow the "Lambda Setup" and "API Gateway Setup" sections of the [Code Evaluation With AWS Lambda and API Gateway](https://realpython.com/blog/python/code-evaluation-with-aws-lambda-and-api-gateway/) blog post to quickly get up and running.
 
@@ -54,7 +54,7 @@ def lambda_handler(event, context):
 
 With that, let's turn our attention to the client-side...
 
-#### Exercise Component
+#### <span style="font-family:'Montserrat', 'sans-serif';">Exercise Component</span>
 
 Workflow:
 

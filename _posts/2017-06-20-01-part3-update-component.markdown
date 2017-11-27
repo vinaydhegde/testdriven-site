@@ -28,7 +28,7 @@ $ npm start
 
 Make sure all is well!
 
-#### Remove Form
+#### <span style="font-family:'Montserrat', 'sans-serif';">Remove Form</span>
 
 To remove the form, update *UsersList.jsx*:
 
@@ -64,7 +64,7 @@ Update the route in the `App` component:
 
 Make sure to remove the `AddUser` import at the top of the file, and then test it out.
 
-#### Table
+#### <span style="font-family:'Montserrat', 'sans-serif';">Table</span>
 
 Next, let's use React-Bootstrap to add a [table](https://react-bootstrap.github.io/components.html#tables) in the `UsersList` component:
 

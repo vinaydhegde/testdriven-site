@@ -18,7 +18,7 @@ Start by reviewing the Staging Cluster. Which AWS resources do we need to set up
 1. Create an Application Load Balancer (ALB)
 1. Configure Target Groups
 1. Add Listeners to the ALB
-1. Create an ECS Cluster
+1. Create An ECS Cluster
 1. Create new *Dockerfile* for *flask-microservices-users*
 1. Update the *docker_push.sh* file
 1. Add images to ECR
@@ -26,7 +26,7 @@ Start by reviewing the Staging Cluster. Which AWS resources do we need to set up
 1. Create Task Definitions
 1. Add new local Task Definition JSON files
 1. Create Services
-1. Sanity Check (take one)
+1. Sanity Check (Take One)
 1. Create a Docker deploy file
 1. Update Travis file
 1. Sanity Check (take two)
@@ -35,7 +35,7 @@ Let's get to it!
 
 > This is a great time to check your understanding. There are a number of steps, but the only difference between production and staging is the RDS database. Do your best to configure everything on your own before reviewing the lesson.
 
-#### Create an ALB
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create an ALB</span>
 
 Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balancers" on the sidebar, and then click the "Create Load Balancer" button. Select "Application Load Balancer".
 
@@ -62,7 +62,7 @@ Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balan
 
 1. Don't assign any instances manually since this will be managed by ECS.
 
-#### Target Groups
+#### <span style="font-family:'Montserrat', 'sans-serif';">Target Groups</span>
 
 Next, set up new Target Groups for `swagger` and `users-service`. Within [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Target Groups", and then create the following Target Groups:
 
@@ -84,7 +84,7 @@ Then, under "Health check settings":
 
 1. "Path": `/`
 
-#### Add Listeners to the ALB
+#### <span style="font-family:'Montserrat', 'sans-serif';">Add Listeners to the ALB</span>
 
 Back on the "Load Balancers" page, click the `flask-microservices-prod-alb` Load Balancer, and then select the "Listeners" tab. Here, we can add [Listeners](http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) to the ALB, which are then forwarded to a specific Target Group.
 
@@ -101,7 +101,7 @@ Add a new listener:
 1. "Port": `8080`
 1. "Default target group": `swagger-tg`
 
-#### Create an ECS Cluster
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create An ECS Cluster</span>
 
 Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), and create a new Cluster:
 
@@ -114,7 +114,7 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), and create a new C
 
 Make sure to pick the "VPC" and "Security group" associated with ALB. Select one of the available "Subnets" as well - either `us-east-1a` or `us-east-1b`.
 
-#### Create new *Dockerfile* for *flask-microservices-users*
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create New *Dockerfile* For *flask-microservices-users*</span>
 
 Next, within *flask-microservices-users*, create a new file called *Dockerfile-prod*:
 
@@ -148,7 +148,7 @@ So, instead of running *entrypoint.sh*, we are now just running Gunicorn. Why? W
 
 Commit and push your changes to GitHub.
 
-#### Update the *docker_push.sh* file
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update The *docker_push.sh* File</span>
 
 Within *flask-microservices-main*, update the environment variables for `production` in *docker_push.sh*:
 
@@ -207,7 +207,7 @@ then
 fi
 ```
 
-#### Add images to ECR
+#### <span style="font-family:'Montserrat', 'sans-serif';">Add Images To ECR</span>
 
 Assuming you are still using the `ecs` feature branch, create a new branch on GitHub called `production`. Within *flask-microservices-main*, commit and push your code to GitHub. Open a PR against the `production` branch, and then merge the PR once the Travis build passes, to trigger a new build.
 
@@ -215,13 +215,13 @@ Once done, you should see that a new image image was added to each of the reposi
 
 > Since we're not using *flask-microservices-users_db* or *flask-microservices-nginx* in production, you may want to update the *docker_push.sh* file so they are not built, tagged, or pushed when the branch is `production`.
 
-#### Create new Swagger Spec
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create New Swagger Spec</span>
 
 Next, let's add a production Swagger Spec file. Within *flask-microservices-swagger*, create a duplicate of the current Spec file, *swagger.json*, called *swagger-prod.json*. Update the `host` to the LOAD_BALANCER_DNS_NAME.
 
 Commit and push the changes up to GitHub.
 
-#### Create Task Definitions
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create Task Definitions</span>
 
 Create the following Task Definitions...
 
@@ -261,7 +261,7 @@ Create the following Task Definitions...
       - `DATABASE_URL` - YOUR_RDS_URI
       - `SECRET_KEY` - TBD
 
-#### Add new local Task Definition JSON files
+#### <span style="font-family:'Montserrat', 'sans-serif';">Add New Local Task Definition JSON Files</span>
 
 Next, within the "ecs" folder, add the Task Definition JSON files to match the Task Definitions we just added...
 
@@ -387,7 +387,7 @@ Next, within the "ecs" folder, add the Task Definition JSON files to match the T
 
 Make sure you update `http://LOAD_BALANCER_DNS_NAME` in *ecs_client_prod_taskdefinition.json* and set up the production logs. To set up, navigate to [CloudWatch](https://console.aws.amazon.com/cloudwatch), click "Logs", click the "Actions" drop-down button, and then select "Create log group". Name the group `flask-microservices-production`.
 
-#### Create Services
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create Services</span>
 
 Add the following Services...
 
@@ -445,7 +445,7 @@ Click "Add to ELB".
 
 Click "Save" and then "Create Service".
 
-#### Sanity Check (take one)
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take One)</span>
 
 Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), and click "Target Groups". Make sure `client-prod-tg`, `swagger-prod-tg`, and `users-prod-tg` have a single registered instance each. They should all be healthy.
 
@@ -484,7 +484,7 @@ $ testcafe chrome e2e
 
 They should pass!
 
-#### Create a Docker deploy file
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create A Docker Deploy File</span>
 
 Create a new file in *flask-microservices-main* called *docker_deploy_prod.sh*:
 
@@ -568,7 +568,7 @@ fi
 
 Compare this file to *docker_deploy.sh*. What are the differences?
 
-#### Update Travis file
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update Travis file</span>
 
 Update the `after_success` in *.travis.yml*:
 
@@ -579,7 +579,7 @@ after_success:
   - bash ./docker_deploy_prod.sh
 ```
 
-#### Sanity Check (take two)
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span>
 
 Assuming you are still using the `ecs` feature branch, commit and push your code to GitHub. Open a PR against the `production` branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the each Task Definition and the Services should now be running a new Task based on that revision.
 

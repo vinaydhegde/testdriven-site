@@ -15,14 +15,14 @@ Let's add some methods to handle a user signing up, logging in, and logging out.
 
 With the `Form` component set up, we can now configure the methods to:
 
-1. Handle form submit event
-1. Obtain user input
-1. Send AJAX request
-1. Update the page
+1. Handle Form Submit Event
+1. Obtain User Input
+1. Send AJAX Request
+1. Update The Page
 
 > These steps should look familiar since we already went through this process in the [React Forms](/part-two-react-forms/) lesson. Put your skills to the test and implement the code on your own before going through this lesson.
 
-#### Handle form submit event
+#### <span style="font-family:'Montserrat', 'sans-serif';">Handle Form Submit Event</span>
 
 Turn to *Form.jsx*. Which method gets fired on the form submit?
 
@@ -62,7 +62,7 @@ To test, remove the `required` attribute on each of the form `input`s in *src/co
 
 Remove `console.log('sanity check!')` and add the `required` attributes back when done.
 
-#### Obtain user input
+#### <span style="font-family:'Montserrat', 'sans-serif';">Obtain User Input</span>
 
 Next, to get the user inputs, add the following method to `App`:
 
@@ -84,7 +84,7 @@ Add a `console.log()` to the method - `console.log(this.state.formData);` - to e
 
 What's next? AJAX!
 
-#### Send AJAX request
+#### <span style="font-family:'Montserrat', 'sans-serif';">Send AJAX Request</span>
 
 Update the `handleUserFormSubmit` method to send the data to the user service on a successful form submit:
 
@@ -127,7 +127,7 @@ Test the user registration out. If you have everything set up correctly, you sho
 
 Test logging in as well. Again, you should see the very same object in the console.
 
-#### Update the page
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update The Page</span>
 
 After a user register or logs in, we need to:
 
@@ -246,7 +246,7 @@ To update that, fire `this.getUsers()` in the `.then` within `handleUserFormSubm
 
 Test it out again.
 
-#### Logout
+#### <span style="font-family:'Montserrat', 'sans-serif';">Logout</span>
 
 How about logging out? Add a new component to the "components" folder called *Logout.jsx*:
 
@@ -297,7 +297,7 @@ To test:
 1. Log out
 1. Verify that the token was removed from LocalStorage
 
-#### User Status
+#### <span style="font-family:'Montserrat', 'sans-serif';">User Status</span>
 
 For the `/status` link, we need to add a new component that displays the response from a call to `/auth/status` on the users service. *Remember*: You need to be authenticated to hit this end-point successfully. So, we will need to add the token to the header prior to sending the AJAX request.
 
@@ -386,7 +386,7 @@ render() {
 
 Test it out.
 
-#### Update Navbar Links
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update Navbar Links</span>
 
 Finally, let's make the following changes to the Navbar:
 

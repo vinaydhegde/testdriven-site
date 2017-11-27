@@ -25,7 +25,7 @@ $ source env/bin/activate
 
 > You may need to change the username and password depending on your local Postgres config.
 
-#### Remove Main Route
+#### <span style="font-family:'Montserrat', 'sans-serif';">Remove Main Route</span>
 
 Since we are now using the users service simply as a RESTful API, remove the main route:
 
@@ -51,7 +51,7 @@ FAIL: test_main_with_users (test_users.TestUserService)
 
 Remove them from *flask-microservices-users/project/tests/test_users.py*, and then run the tests again. All should pass. Remove the "templates" directory as well.
 
-#### Order Users By Date
+#### <span style="font-family:'Montserrat', 'sans-serif';">Order Users By Date</span>
 
 Next, let's update the GET ALL `/users` route to order the users by `created_at` date descending.
 
@@ -130,7 +130,7 @@ def get_all_users():
 
 Run the tests! Deactivate the virtual environment. Commit and push your code. Did the tests pass on Travis CI?
 
-#### Update Docker
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update Docker</span>
 
 Set the `dev` machine as the active machine and update the containers:
 
@@ -160,7 +160,7 @@ $ docker-compose -f docker-compose-prod.yml up -d --build
 
 Test!
 
-#### Next Steps
+#### <span style="font-family:'Montserrat', 'sans-serif';">Next Steps</span>
 
 Now is a great time to pause, review the code, and write more unit and integration tests. Do this on your own to check your understanding.
 

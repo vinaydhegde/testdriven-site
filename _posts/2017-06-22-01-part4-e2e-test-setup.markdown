@@ -83,7 +83,7 @@ script:
 
 Commit and push your code to ensure the tests still pass on Travis.
 
-#### TestCafe
+#### <span style="font-family:'Montserrat', 'sans-serif';">TestCafe</span>
 
 Unlike the majority of other end-to-end (e2e) testing tools, [TestCafe](https://github.com/DevExpress/testcafe) is not dependent on Selenium or WebDriver. Instead, it injects scripts into the browser to communicate directly with the DOM and handle events. It works on any modern browser that supports HTML5 without any plugins.
 
@@ -118,7 +118,7 @@ The dependency (and sub dependencies) were installed to a newly created "node_mo
 
 Let's write our first test spec!
 
-#### First Test
+#### <span style="font-family:'Montserrat', 'sans-serif';">First Test</span>
 
 First, add a new folder to the project root called "e2e". Then add a new file to that folder called *index.test.js*:
 
@@ -172,7 +172,7 @@ Using locally installed version of TestCafe.
 
 Experiment with this. Try [navigating](http://devexpress.github.io/testcafe/documentation/test-api/actions/navigate.html) to a different page. Add a [click action](http://devexpress.github.io/testcafe/documentation/test-api/actions/click.html). Set up additional [selectors](http://devexpress.github.io/testcafe/documentation/test-api/selecting-page-elements/selectors.html) and run some more assertions.
 
-#### CI
+#### <span style="font-family:'Montserrat', 'sans-serif';">CI</span>
 
 Add the test to the *test.sh* file:
 

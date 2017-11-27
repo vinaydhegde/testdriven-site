@@ -13,7 +13,7 @@ Let's get the rest of the services up and running on ECS...
 
 ---
 
-#### Remove Resources
+#### <span style="font-family:'Montserrat', 'sans-serif';">Remove Resources</span>
 
 Start by remove the current AWS resources, in the following order:
 
@@ -21,7 +21,7 @@ Start by remove the current AWS resources, in the following order:
 1. Target Group: `sample`
 1. Cluster: `flask-microservices-staging`
 
-#### ALB
+#### <span style="font-family:'Montserrat', 'sans-serif';">ALB</span>
 
 Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balancers" on the sidebar, and then click the "Create Load Balancer" button. Select "Application Load Balancer".
 
@@ -48,7 +48,7 @@ Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balan
 
 1. We don't need to assign any instances manually since this will be managed by ECS.
 
-#### Target Groups
+#### <span style="font-family:'Montserrat', 'sans-serif';">Target Groups</span>
 
 Next, we need to set up new Target Groups for `swagger` and `users-service`. Within [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Target Groups", and then create the following Target Groups:
 
@@ -70,7 +70,7 @@ Then, under "Health check settings":
 
 1. "Path": `/`
 
-#### Update ALB
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update ALB</span>
 
 Back on the "Load Balancers" page, click the `flask-microservices-staging-alb` Load Balancer, and then select the "Listeners" tab. Here, we can add [Listeners](http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html) to the ALB, which are then forwarded to a specific Target Group.
 
@@ -87,7 +87,7 @@ Add a new listener:
 1. "Port": `8080`
 1. "Default target group": `swagger-tg`
 
-#### Cluster
+#### <span style="font-family:'Montserrat', 'sans-serif';">Cluster</span>
 
 Navigate back to ECS, and create a new Cluster:
 
@@ -98,7 +98,7 @@ Navigate back to ECS, and create a new Cluster:
 
 Make sure to pick the "VPC" and "Security group" associated with ALB. Select one of the available "Subnets" as well - either `us-east-1a` or `us-east-1b`.
 
-#### Task Definitions
+#### <span style="font-family:'Montserrat', 'sans-serif';">Task Definitions</span>
 
 Create the following Task Definitions...
 
@@ -129,7 +129,7 @@ Create the following Task Definitions...
 
 Since the containers are already set up for this under the `testdriven-staging` Task Definition, we can just rename it. Create a new revision of `testdriven-staging` Task Definition, changing the name to `flask-microservices-users-td`. This will actually create a new Task Definition.
 
-#### Services
+#### <span style="font-family:'Montserrat', 'sans-serif';">Services</span>
 
 Create the following Services...
 
@@ -187,7 +187,7 @@ Click "Add to ELB".
 
 Click "Save" and then "Create Service".
 
-#### Sanity Check
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span>
 
 Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), and click "Target Groups". Make sure `client-tg`, `swagger-tg`, and `users-tg` have a single registered instance each. They should all be healthy.
 
@@ -209,13 +209,13 @@ $ testcafe chrome e2e
 
 They should pass!
 
-#### Swagger URL
+#### <span style="font-family:'Montserrat', 'sans-serif';">Swagger URL</span>
 
 Did you test any of the endpoints from the Swagger UI at [http://LOAD_BALANCER_DNS_NAME:8080](http://LOAD_BALANCER_DNS_NAME:8080)? They all should break since the `host` within the *swagger.json* file needs to be updated.
 
 Update this within *flask-microservices-swagger*, commit, and push the changes up to GitHub. Test it again in your browser.
 
-#### Travis Update
+#### <span style="font-family:'Montserrat', 'sans-serif';">Travis Update</span>
 
 Before moving on, we need to update the CI workflow to handle the new Task Definitions and Services...
 
@@ -473,7 +473,7 @@ then
 fi
 ```
 
-#### Sanity Check (take 2)
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span>
 
 Assuming you are still using the `ecs` feature branch, commit and push your code to GitHub. Open a PR against the `staging` branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the each Task Definition and the Services should now be running a new Task based on that revision.
 

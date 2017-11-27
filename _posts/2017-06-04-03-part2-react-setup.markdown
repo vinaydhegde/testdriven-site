@@ -26,7 +26,7 @@ $ npm -v
 4.2.0
 ```
 
-#### Project Setup
+#### <span style="font-family:'Montserrat', 'sans-serif';">Project Setup</span>
 
 We'll be using the excellent [Create React App](https://github.com/facebookincubator/create-react-app) tool to generate a boilerplate that's all set up and ready to go.
 
@@ -52,7 +52,7 @@ $ npm start
 
 Now we're ready build our first component!
 
-#### First Component
+#### <span style="font-family:'Montserrat', 'sans-serif';">First Component</span>
 
 First, to simplify the structure, remove the *App.css*, *App.js*, *App.test.js*, and *index.css* from the "src" folder, and then update *index.js*:
 
@@ -96,7 +96,7 @@ Add Bootstrap to *index.html* in the `head`:
 >
 ```
 
-#### Class-based Component
+#### <span style="font-family:'Montserrat', 'sans-serif';">Class-based Component</span>
 
 Update *index.js*:
 
@@ -136,7 +136,7 @@ What's happening?
 
 You may have already noticed, but the output is the exact same as before.
 
-#### AJAX
+#### <span style="font-family:'Montserrat', 'sans-serif';">AJAX</span>
 
 To connect the client to the server, add a `getUsers()` method to the `App` class:
 
@@ -304,7 +304,7 @@ constructor() {
 
 Well, the `constructor()` fires *before* the component is mounted to the DOM. What would happen if the AJAX request took longer than expected and the component was mounted before it was complete? This introduces a [race condition](https://en.wikipedia.org/wiki/Race_condition). Fortunately, React makes it fairly simple to correct this via Lifecycle Methods.
 
-#### Component Lifecycle Methods
+#### <span style="font-family:'Montserrat', 'sans-serif';">Component Lifecycle Methods</span>
 
 Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the [official documentation](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle) to learn about each method and when each is called.
 
@@ -349,7 +349,7 @@ class App extends Component {
 
 Make sure everything still works as it did before.
 
-#### State
+#### <span style="font-family:'Montserrat', 'sans-serif';">State</span>
 
 To add the [state](https://en.wikipedia.org/wiki/State_(computer_science)) - i.e., the users - to the component we need to use `setState()`, which is an asynchronous function use to update state.
 
@@ -406,7 +406,7 @@ What's happening?
 1. We iterated over the users (from the AJAX request) and created a new H4 element. This is why we needed to set an initial state of an empty array - it prevents `map` from exploding.
 1. `key`? - used by React to keep track of each element. Review the [official docs](https://facebook.github.io/react/docs/lists-and-keys.html#keys) for more.
 
-#### Functional Component
+#### <span style="font-family:'Montserrat', 'sans-serif';">Functional Component</span>
 
 Let's create a new component for the users list. Add a new folder called "components" to "src". Add a new file to that folder called *UsersList.jsx*:
 

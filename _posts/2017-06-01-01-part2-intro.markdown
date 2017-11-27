@@ -11,13 +11,13 @@ share: true
 
 In Part 2, we'll split the project into three distinct projects. We'll also add *code coverage* and *continuous integration* testing to ensure that each service can be run and tested independently from the whole. Finally, we'll add *ReactJS* to the client-side.
 
-#### Structure
+#### <span style="font-family:'Montserrat', 'sans-serif';">Structure</span>
 
 1. *flask-microservices-main* - Docker Compose files, Nginx, admin scripts
 1. *flask-microservices-users* - Flask app
 1. *flask-microservices-client* - client-side
 
-#### Objectives
+#### <span style="font-family:'Montserrat', 'sans-serif';">Objectives</span>
 
 By the end of this part, you should be able to...
 
@@ -34,7 +34,7 @@ By the end of this part, you should be able to...
 1. Pass environment variables to a Docker image at build time
 1. Use React controlled components to handle form submissions
 
-#### App
+#### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
 
 <div style="text-align:left;">
   <img src="/assets/img/testdriven-architecture.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">

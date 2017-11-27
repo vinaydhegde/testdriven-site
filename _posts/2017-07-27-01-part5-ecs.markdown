@@ -19,13 +19,13 @@ With ECR setup, we now need to create a task definition along with a cluster and
   <img src="/assets/img/ecs.png" style="max-width: 100%; border:0; box-shadow: none;" alt="ecs">
 </div>
 
-#### Key Pair
+#### <span style="font-family:'Montserrat', 'sans-serif';">Key Pair</span>
 
 To start, let's create a new [EC2 Key Pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) so we can SSH into the EC2 instances managed by ECS.
 
 Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Key Pairs" on the sidebar, and then click the "Create Key Pair" button. Name the the new key pair `ecs` and add it to "~/.ssh".
 
-#### Task Definition
+#### <span style="font-family:'Montserrat', 'sans-serif';">Task Definition</span>
 
 The [Task Definition](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html) defines which containers make up the overall app and how much resources are allocated to each container. It is similar to a Docker Compose file.
 
@@ -56,7 +56,7 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Task Defini
     - `POSTGRES_USER` - `postgres`
     - `POSTGRES_PASSWORD` - `postgres`
 
-#### Cluster
+#### <span style="font-family:'Montserrat', 'sans-serif';">Cluster</span>
 
 [Clusters](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_clusters.html) are where the actual containers run. They are just groups of EC2 instances that run Docker containers managed by ECS. To create a Cluster, click "Clusters" on the sidebar, and then click the "Create Cluster" button.
 
@@ -69,7 +69,7 @@ Add:
 
 This will create a number of EC2 resources, like the Internet Gateway, VPC, Security Group, Auto Scaling group, etc. It will take a few minutes to setup.
 
-#### Service
+#### <span style="font-family:'Montserrat', 'sans-serif';">Service</span>
 
 [Services](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) instantiate the containers from the Task Definition and run them within the Cluster. To define a Service, on the "Services" tab within the newly created Cluster, click "Create".
 
@@ -78,7 +78,7 @@ Add:
 1. "Service name": `flask-microservices-staging`
 1. "Number of tasks": `2`
 
-#### Sanity Check
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span>
 
 Add ports 80 and 22 to the [Security Group](http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group). Then grab the Public IP address of the EC2 instance, and navigate to [http://EC2_PUBLIC_IP/ping](http://EC2_PUBLIC_IP/ping) in your browser. If all went well, you should see:
 
@@ -107,7 +107,7 @@ $ docker exec -it Container_ID bash
 
 Navigate to [http://EC2_PUBLIC_IP/users](http://EC2_PUBLIC_IP/users) again and you should see the users.
 
-#### Travis - update task definition
+#### <span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Task Definition</span>
 
 To incorporate the updating of ECS into the CI/CD process, create a new feature branch called `ecs` in *flask-microservices-main*, and then add a new script called *docker_deploy.sh*:
 
@@ -266,7 +266,7 @@ After the next build passes, make sure a new revision to the Task Definition is 
 
 Open the `flask-microservices-staging` Log Group in Cloud Watch. Find the logs for the database. In a different browser window, navigate to [http://EC2_PUBLIC_IP/users](http://EC2_PUBLIC_IP/users). You should see a 500 error. Refresh the logs. You should see `ERROR: relation "users" does not exist at character 227`.
 
-#### Update *Dockerfile*
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update *Dockerfile*</span>
 
 Next, within *flask-microservices-users*, update the *Dockerfile* to run a shell script rather than the server:
 
@@ -321,7 +321,7 @@ Here, we wait for the `users-db` service to be up before updating and seeding th
 
 Commit and push your code.
 
-#### Travis - update cluster and service
+#### <span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Cluster And Service</span>
 
 Next, using the same feature branch as before, update the `deploy_cluster` function in *docker_deploy.sh* in the *flask-microservices-main* project:
 
@@ -349,7 +349,7 @@ Again, commit and push your code to GitHub. Open a PR against the `staging` bran
 
 Ensure [http://EC2_PUBLIC_IP/users](http://EC2_PUBLIC_IP/users) works as expected.
 
-#### Sanity Check (take 2)
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span>
 
 Test out each of the endpoints:
 

@@ -84,12 +84,12 @@ Now, since this is a single page application, we want to prevent the normal brow
 
 *Steps*:
 
-1. Handle form submit event
-1. Obtain user input
-1. Send AJAX request
-1. Update the page
+1. Handle Form Submit Event
+1. Obtain User Input
+1. Send AJAX Request
+1. Update The Page
 
-#### Handle form submit event
+#### <span style="font-family:'Montserrat', 'sans-serif';">Handle Form Submit Event</span>
 
 To handle the submit event, simply update the `form` element in *AddUser.jsx*:
 
@@ -126,7 +126,7 @@ Here, we bound the context of `this` manually via `bind()`. Without it, the cont
 
 Test it out in the browser. You should see `sanity check!` in the JavaScript console on form submit.
 
-#### Obtain user input
+#### <span style="font-family:'Montserrat', 'sans-serif';">Obtain User Input</span>
 
 We'll use [controlled components](https://facebook.github.io/react/docs/forms.html#controlled-components) to obtain the user submitted input.
 
@@ -240,7 +240,7 @@ addUser(event) {
 
 Now that we have the values, let's send the AJAX request so the data can be added to the database and then update the DOM...
 
-#### Send AJAX request
+#### <span style="font-family:'Montserrat', 'sans-serif';">Send AJAX Request</span>
 
 Turn back to *flask-microservices-users*. What do we need to send in the JSON payload to add a user - username and email, right? Let's use Axios to send the POST request:
 
@@ -261,7 +261,7 @@ Test it out. It should work as long as the email address is unique.
 
 > If you have problems, analyze the response object from the "Network" tab in Developer Tools. You can also fire up *flask-microservices-users* outside of Docker and debug using the Flask debugger or with `print` statements.
 
-#### Update the page
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update The Page</span>
 
 Finally, let's update the list of users on a successful form submit and then clear the form.
 

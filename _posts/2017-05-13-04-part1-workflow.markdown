@@ -11,7 +11,7 @@ share: true
 
 Reference guide...
 
-#### Aliases
+#### <span style="font-family:'Montserrat', 'sans-serif';">Aliases</span>
 
 To save some precious keystrokes, let's create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
 
@@ -32,7 +32,7 @@ Test out the new aliases!
 
 > On Windows? You will first need to create a [PowerShell Profile](https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise) (if you don't already have one), and then you can add the aliases to it using [Set-Alias](https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias) - i.e., `Set-Alias dc docker-compose`.
 
-#### "Saved" State
+#### <span style="font-family:'Montserrat', 'sans-serif';">"Saved" State</span>
 
 Is the VM stuck in a "Saved" state?
 
@@ -77,7 +77,7 @@ aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.0
 dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
 ```
 
-#### Common Commands
+#### <span style="font-family:'Montserrat', 'sans-serif';">Common Commands</span>
 
 Build the images:
 
@@ -109,7 +109,7 @@ Run the tests:
 $ docker-compose run users-service python manage.py test
 ```
 
-#### Other commands
+#### <span style="font-family:'Montserrat', 'sans-serif';">Other commands</span>
 
 To stop the containers:
 
@@ -135,7 +135,7 @@ Remove images:
 $ docker rmi $(docker images -q)
 ```
 
-#### Postgres
+#### <span style="font-family:'Montserrat', 'sans-serif';">Postgres</span>
 
 Want to access the database via psql?
 

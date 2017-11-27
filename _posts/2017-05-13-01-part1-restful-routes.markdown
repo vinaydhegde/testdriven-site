@@ -24,9 +24,9 @@ For each, we'll-
 1. write just enough code to get the test to pass (**green**)
 1. **refactor** (if necessary)
 
-Let' start with the POST route...
+Let's start with the POST route...
 
-#### POST
+#### <span style="font-family:'Montserrat', 'sans-serif';">POST</span>
 
 Add the test to the `TestUserService()` class in *project/tests/test_users.py*:
 
@@ -196,7 +196,7 @@ from sqlalchemy import exc
 
 Ensure the tests pass, and then move on to the next route...
 
-#### GET single user
+#### <span style="font-family:'Montserrat', 'sans-serif';">GET Single User</span>
 
 Start with a test:
 
@@ -296,7 +296,7 @@ def get_single_user(user_id):
         return jsonify(response_object), 404
 ```
 
-#### GET all users
+#### <span style="font-family:'Montserrat', 'sans-serif';">GET All Users</span>
 
 Again, let's start with a test. Since we'll have to add a few users first, let's add a quick helper function to the top of the *project/tests/test_users.py* file, just above the `TestUserService()` class.
 

@@ -54,7 +54,7 @@ Run the full test suite to ensure all tests pass locally:
 sh test.sh
 ```
 
-#### Travis
+#### <span style="font-family:'Montserrat', 'sans-serif';">Travis</span>
 
 Next, we need to configure Travis to handle the new `eval` and `eval-db` services.
 
@@ -294,7 +294,7 @@ ENV REACT_APP_EVAL_SERVICE_URL=$REACT_APP_EVAL_SERVICE_URL
 
 Commit and push your code in *flask-microservices-client*, and then do the same in *flask-microservices-main* to trigger a new Travis build. Make sure it passes!
 
-#### Development
+#### <span style="font-family:'Montserrat', 'sans-serif';">Development</span>
 
 Check out the `development` branch locally, and then rebase `master` on `development`:
 
@@ -357,7 +357,7 @@ fi
 
 Commit your code and push to GitHub, which will trigger a new build on Travis. Make sure the build passes and that the pushes to Docker Hub were successful.
 
-#### Staging
+#### <span style="font-family:'Montserrat', 'sans-serif';">Staging</span>
 
 Check out the `staging` branch locally, and then rebase `development` on `staging`:
 
@@ -585,7 +585,7 @@ $ ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
 ```
 Be sure to double-check all environment variables!
 
-#### Production
+#### <span style="font-family:'Montserrat', 'sans-serif';">Production</span>
 
 You know the drill: Check out the `production` branch locally, and then rebase `staging` on `production`:
 
@@ -697,7 +697,7 @@ Click "Add to ELB".
 
 Click "Save" and then "Create Service".
 
-##### Sanity Check (take one)
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take One)</span>
 
 Commit and push to GitHub. Once the build passes, hop on to AWS to confirm that the images are up-to-date on ECR and that an `flask-microservices-eval-prod-td` Task Definition was created. The EC2 instance associated with the Target Group, `eval-prod-tg`, should not be healthy since we still need to set up the database.
 
@@ -762,7 +762,7 @@ Add the AWS_RDS_EVAL_URI and PRODUCTION_URI environment variables to the  *flask
 
 Commit. Push your code to GitHub. Once done, the app should be live, ready to go.
 
-##### Sanity Check (take two)
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span>
 
 Grab the Container ID for `flask-microservices-eval` (via `docker ps`), enter the shell within the running container, and then update the database:
 

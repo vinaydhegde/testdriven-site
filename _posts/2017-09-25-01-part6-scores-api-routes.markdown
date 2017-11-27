@@ -35,7 +35,7 @@ Files:
 
 > Try writing each of these routes (and tests) on your own!
 
-#### GET all scores
+#### <span style="font-family:'Montserrat', 'sans-serif';">GET All Scores</span>
 
 Test:
 
@@ -89,7 +89,7 @@ def get_all_scores():
     return jsonify(response_object), 200
 ```
 
-#### GET single score
+#### <span style="font-family:'Montserrat', 'sans-serif';">GET Single Score</span>
 
 Tests:
 
@@ -158,7 +158,7 @@ def get_single_score(score_id):
         return jsonify(response_object), 404
 ```
 
-#### GET all scores by user id
+#### <span style="font-family:'Montserrat', 'sans-serif';">GET All Scores By User ID</span>
 
 Tests:
 
@@ -257,7 +257,7 @@ def ensure_authenticated(token):
 
 Instead of returning `True`, we are now returning a test object. So, there's even more test code polluting the source code. Refactor this!
 
-#### GET single score by user id
+#### <span style="font-family:'Montserrat', 'sans-serif';">GET Single Score By User ID</span>
 
 Tests:
 
@@ -347,7 +347,7 @@ def get_single_score_by_user_id(resp, score_id):
         return jsonify(response_object), 404
 ```
 
-#### POST
+#### <span style="font-family:'Montserrat', 'sans-serif';">POST</span>
 
 Tests:
 
@@ -485,7 +485,7 @@ from sqlalchemy import exc
 from project import db
 ```
 
-#### PUT
+#### <span style="font-family:'Montserrat', 'sans-serif';">PUT</span>
 
 Test:
 
@@ -615,7 +615,7 @@ def update_score(resp, score_id):
         return jsonify(response_object), 400
 ```
 
-#### PATCH
+#### <span style="font-family:'Montserrat', 'sans-serif';">PATCH</span>
 
 Test:
 
@@ -756,7 +756,7 @@ def upsert_score(resp, score_id=None):
 ```
 
 
-#### Sanity Check
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span>
 
 Do the tests pass?
 

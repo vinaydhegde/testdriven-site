@@ -13,7 +13,7 @@ In this lesson, we'll add the EC2 Container Registry (ECR), a private image regi
 
 ---
 
-#### ECR
+#### <span style="font-family:'Montserrat', 'sans-serif';">ECR</span>
 
 Why [EC2 Container Registry](https://aws.amazon.com/ecr/)?
 
@@ -36,7 +36,7 @@ Navigate to [Amazon ECS](https://console.aws.amazon.com/ecs), click "Repositorie
 $ aws ecr create-repository --repository-name REPOSITORY_NAME
 ```
 
-#### Update Travis
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update Travis</span>
 
 Update *docker_build.sh* to only pull images from Docker Hub if the branch is `development`:
 
@@ -127,7 +127,7 @@ Set them as environment variables within the [Repository Settings](https://docs.
 
 Let's test this out. Create a `staging` branch, commit your code, and then push it to GitHub. If all goes well, the build should pass and a new image should be added to each of the repositories.
 
-#### Docker Compose
+#### <span style="font-family:'Montserrat', 'sans-serif';">Docker Compose</span>
 
 We can remove the *docker-compose-prod.yml* and *docker-compose-staging.yml* files and, instead, use *docker-compose-ci.yml* for both staging and production.
 
@@ -208,7 +208,7 @@ fi
 
 Hold off on updating those variables for now. We'll get to it when we set up the EC2 Container Service.
 
-#### Workflow
+#### <span style="font-family:'Montserrat', 'sans-serif';">Workflow</span>
 
 With that, test out the following workflow:
 

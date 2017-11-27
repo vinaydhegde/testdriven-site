@@ -28,7 +28,7 @@ share: true
 
 <br>
 
-#### What's new in version 2?
+#### <span style="font-family:'Montserrat', 'sans-serif';">What's new in version 2?</span>
 
 *Overall:*
 
@@ -66,7 +66,7 @@ share: true
 
 <br>
 
-#### When will version 2 be released?
+#### <span style="font-family:'Montserrat', 'sans-serif';">When will version 2 be released?</span>
 
 December 1, 2017.
 
@@ -89,7 +89,7 @@ Or: Join our mailing list to be notified when version 2 is released.
 </div>
 </form>
 
-#### What will you learn?
+#### <span style="font-family:'Montserrat', 'sans-serif';">What will you learn?</span>
 
 ##### Part 1
 

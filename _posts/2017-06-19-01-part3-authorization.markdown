@@ -47,7 +47,7 @@ Routes:
 
 So, for routes that you must be authenticated to view, you must be active. You also must be an admin to POST to the `/users` endpoint.
 
-#### Active
+#### <span style="font-family:'Montserrat', 'sans-serif';">Active</span>
 
 Start with a test. Add the following to *flask-microservices-users/project/tests/test_auth.py*:
 
@@ -328,7 +328,7 @@ Run the tests. You should see a number of failures since we are not passing a va
 
 Refactor. Test again to make sure they pass.
 
-#### Admin
+#### <span style="font-family:'Montserrat', 'sans-serif';">Admin</span>
 
 Finally, in order to POST to the `/users` endpoint, you must be an admin. Turn to the models. Do we have an admin property? No. Let's add one. Start by adding an additional assert to the `test_add_user` test in *project/tests/test_user_model.py*:
 
