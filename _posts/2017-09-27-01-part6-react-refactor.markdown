@@ -15,7 +15,7 @@ In this lesson, we'll shift our attention to the client-side and update a number
 
 > Although we will be updating the end-to-end test suite in the next lesson, challenge yourself to update the test specs *before* changing the code as you go through this lesson.
 
-#### Navbar
+#### <span style="font-family:'Montserrat', 'sans-serif';">Navbar</span>
 
 Within *flask-microservices-client*, add a new file called *NavBar.css* to "src/components":
 
@@ -89,7 +89,7 @@ const NavBar = (props) => (
 export default NavBar
 ```
 
-#### Footer
+#### <span style="font-family:'Montserrat', 'sans-serif';">Footer</span>
 
 Add a new file to "src/components" called *Footer.jsx*:
 
@@ -135,7 +135,7 @@ Then, add the component in the `render()`, just before the closing `div`:
 <Footer/>
 ```
 
-#### Custom Font
+#### <span style="font-family:'Montserrat', 'sans-serif';">Custom Font</span>
 
 Let's add the [Roboto](https://fonts.google.com/specimen/Roboto) font. First, add the stylesheet to the `head` in *index.html*, just below the Bootstrap stylesheet:
 
@@ -157,7 +157,7 @@ Again, add the stylesheet to the *index.html* file, below the Roboto stylesheet:
 <link rel="stylesheet" href="main.css">
 ```
 
-#### Forms
+#### <span style="font-family:'Montserrat', 'sans-serif';">Forms</span>
 
 You may already have noticed, but the login form probably does not need the same validation rules applied to it that the register form has. Let's break them apart.
 
@@ -517,7 +517,7 @@ const FormErrors = (props) => {
 export default FormErrors;
 ```
 
-##### <span style="font-family:'Montserrat', 'sans-serif';">App</span>
+##### App
 
 Add the following imports:
 
@@ -553,7 +553,7 @@ Finally, update the following routes in the `render()`:
 
 Take note of what changed in each of these files. How would you DRY out the forms to remove the duplicate methods?
 
-#### Users
+#### <span style="font-family:'Montserrat', 'sans-serif';">Users</span>
 
 Next, let's move the `UsersList` component to a new route. Within the `render()` in *src/App.jsx*, update the main route to:
 

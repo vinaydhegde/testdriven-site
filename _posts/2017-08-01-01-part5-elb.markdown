@@ -24,7 +24,7 @@ The [Application Load Balancer](https://aws.amazon.com/elasticloadbalancing/appl
 
 Plus, when a new Task is added to the Service it will automatically be added to the ALB.
 
-#### Configure ALB
+#### <span style="font-family:'Montserrat', 'sans-serif';">Configure ALB</span>
 
 Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balancers" on the sidebar, and then click the "Create Load Balancer" button. Select "Application Load Balancer".
 
@@ -51,7 +51,7 @@ Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), click "Load Balan
 
 1. We don't need to assign any instances manually since this will be managed by ECS.
 
-#### ECS
+#### <span style="font-family:'Montserrat', 'sans-serif';">ECS</span>
 
 So, a new [VPC](https://aws.amazon.com/vpc/) and [Security Group](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) were created with the ALB. We need to associate them with a new Cluster. If we use the current Cluster, we will get an error (`The following targets are not in the target group VPC`) when we spin up new Tasks and ECS tries to register them with the ALB.
 
@@ -96,7 +96,7 @@ Click "Configure Service Auto scaling", and then select "Configure Service Auto 
 
 Click "Save" and then "Create Service".
 
-#### Sanity Check
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span>
 
 Navigate to [Amazon EC2](https://console.aws.amazon.com/ec2/), and click "Target Groups". With the `sample` group selected, click the "Targets" tab. You should see a single registered instance. It should be healthy.
 
@@ -105,7 +105,7 @@ Then, navigate back to the Load Balancer and grab the "DNS name" from the "Descr
 1. [http://LOAD_BALANCER_DNS_NAME/ping](http://LOAD_BALANCER_DNS_NAME/ping)
 1. [http://LOAD_BALANCER_DNS_NAME/users](http://LOAD_BALANCER_DNS_NAME/users)
 
-#### Update Task Definition
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update Task Definition</span>
 
 Next, within *ecs_taskdefinition.json*, update the `hostPort` for the `users-service`:
 
@@ -122,13 +122,13 @@ Test this in your browser:
 1. [http://LOAD_BALANCER_DNS_NAME/ping](http://LOAD_BALANCER_DNS_NAME/ping)
 1. [http://LOAD_BALANCER_DNS_NAME/users](http://LOAD_BALANCER_DNS_NAME/users)
 
-#### Test Load Balancing
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test Load Balancing</span>
 
 What happens if an instance goes does?
 
 Within the "Tasks" tab on the Service, click the currently running Task and then on the Task page click the "Stop" button. On the "Events" tab you should see an event for a Task being drained as well as an event for a new Task starting. Perfect.
 
-#### Sanity Check (take 2)
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span>
 
 Finally, test out each of the endpoints:
 

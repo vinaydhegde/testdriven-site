@@ -21,7 +21,7 @@ First off, why should we set up Amazon [Relational Database Service](https://aws
 
 > For more, check out [this](https://www.reddit.com/r/devops/comments/4tt6za/use_aws_ecs_with_docker_for_a_postgres_db_or_aws/) Reddit post.
 
-#### RDS Setup
+#### <span style="font-family:'Montserrat', 'sans-serif';">RDS Setup</span>
 
 Navigate to [Amazon RDS](https://console.aws.amazon.com/rds), click "Instances" on the sidebar, and then click the "Launch DB Instance" button.
 

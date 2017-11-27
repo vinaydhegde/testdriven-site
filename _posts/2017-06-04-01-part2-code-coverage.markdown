@@ -137,7 +137,7 @@ if __name__ == '__main__':
     manager.run()
 ```
 
-#### Sanity Check
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span>
 
 Finally, let's make sure we can run and test this project in isolation, without Docker Compose.
 

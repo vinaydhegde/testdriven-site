@@ -66,7 +66,7 @@ class TestUserModel(BaseTestCase):
 
 Run the tests. You should see a single failure - `AssertionError: False is not true` - since `user.active` is `False`.
 
-#### Flask Migrate
+#### <span style="font-family:'Montserrat', 'sans-serif';">Flask Migrate</span>
 
 Since we need to make a schema change, add [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/):
 
@@ -207,7 +207,7 @@ from sqlalchemy.exc import IntegrityError
 
 Test again.
 
-#### Refactor
+#### <span style="font-family:'Montserrat', 'sans-serif';">Refactor</span>
 
 Now is a good time to do some refactoring...
 

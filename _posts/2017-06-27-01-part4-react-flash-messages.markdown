@@ -13,7 +13,7 @@ Let's add flash messaging to send quick alerts to the end user...
 
 ---
 
-#### Create message
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create Message</span>
 
 Start by adding `.expect(Selector('.alert-success').withText('Welcome!').exists).ok()` to the *should allow a user to sign in* test:
 
@@ -141,7 +141,7 @@ test(`should display the page correctly if a user is not logged in`, async (t) =
 });
 ```
 
-#### Error messages
+#### <span style="font-family:'Montserrat', 'sans-serif';">Error Messages</span>
 
 Let's use the flash message system to properly handle errors...
 
@@ -311,7 +311,7 @@ Update the containers, and then test.
 
 > `User does not exist` isn't really accurate if it was just an incorrect password; `Login failed` is probably a better generic error message. Check your understanding and update this on your own.
 
-#### Delete Message
+#### <span style="font-family:'Montserrat', 'sans-serif';">Delete Message</span>
 
 Next, the message should disappear when any of these occur-
 

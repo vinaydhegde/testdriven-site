@@ -44,7 +44,7 @@ main {
   height: 1.8rem;
 }
 
-li, h2, h5, .page-nav {
+li, h2, h5, .page-nav, .btn, .btn-large {
   font-family: "Montserrat",sans-serif;
 }
 

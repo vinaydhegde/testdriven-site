@@ -31,7 +31,7 @@ The *main* project will house the Docker Compose files, Nginx config, and any ad
 1. Test new structure
 1. Update production
 
-#### Test current structure
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test Current Structure</span>
 
 Run the tests:
 
@@ -41,7 +41,7 @@ $ docker-compose run users-service python manage.py test
 
 All should pass. With tests in place, we can refactor with confidence.
 
-#### Refactor
+#### <span style="font-family:'Montserrat', 'sans-serif';">Refactor</span>
 
 Bring down the containers and remove the images:
 
@@ -106,7 +106,7 @@ $ docker-compose up -d --build
 
 > While this is spinning up think about why we had to remove the volume. What is the "build context"? Turn to Google for help.
 
-#### Test new structure
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test New Structure</span>
 
 Once up, create and seed the db and run the tests:
 
@@ -118,7 +118,7 @@ $ docker-compose run users-service python manage.py test
 
 Grab the IP, from `docker-machine ip dev`, and make sure the app works in the browser.
 
-#### Update production
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update Production</span>
 
 First, change the active host and point the Docker client at it:
 

@@ -13,7 +13,7 @@ In this lesson, we'll add an exercises API...
 
 ---
 
-#### Check Your Understanding
+#### <span style="font-family:'Montserrat', 'sans-serif';">Check Your Understanding</span>
 
 It's highly, highly recommended to do this all on your own! Put your skills to test!
 
@@ -36,7 +36,7 @@ Set up an `Exercise` model with the following columns:
 | /exercises | GET         | No             | get all exercises |
 | /exercises | POST        | Yes (admin)    | add an exercise   |
 
-#### Database Setup
+#### <span style="font-family:'Montserrat', 'sans-serif';">Database Setup</span>
 
 Steps:
 
@@ -161,7 +161,7 @@ You are now connected to database "eval_dev" as user "postgres".
 # \q
 ```
 
-#### Routes
+#### <span style="font-family:'Montserrat', 'sans-serif';">Routes</span>
 
 Next, let's set up the following routes...
 
@@ -182,7 +182,7 @@ Files:
 1. Test - *project/tests/exercises/test_exercises_api.py*
 1. API - *project/api/exercises/exercises.py*
 
-#### GET all exercises
+#### <span style="font-family:'Montserrat', 'sans-serif';">GET all exercises</span>
 
 Test:
 
@@ -246,7 +246,7 @@ def get_all_exercises():
     return jsonify(response_object), 200
 ```
 
-#### POST
+#### <span style="font-family:'Montserrat', 'sans-serif';">POST</span>
 
 Tests:
 
@@ -357,7 +357,7 @@ def add_exercise(resp):
         return jsonify(response_object), 400
 ```
 
-#### Sanity Check
+#### <span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span>
 
 Do the tests pass?
 

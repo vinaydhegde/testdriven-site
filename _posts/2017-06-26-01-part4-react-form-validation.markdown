@@ -26,7 +26,7 @@ Validation rules:
 Since we now have a means of testing on the client, let's test-drive this change.
 
 
-#### Disable button
+#### <span style="font-family:'Montserrat', 'sans-serif';">Disable Button</span>
 
 Let's add a `disabled` attribute to the button and set the initial value to `true` so the form cannot be submitted. Then, when the form validates properly, `disabled` will be set to `false`.
 
@@ -98,7 +98,7 @@ Re-build. Run the tests.
 
 We still need to add validation logic to `validateForm()`, but before that we need to define the rules...
 
-#### Validation rules
+#### <span style="font-family:'Montserrat', 'sans-serif';">Validation Rules</span>
 
 Next, let's add the validation rules below each input field, starting with some tests...
 
@@ -260,7 +260,7 @@ Finally, render the component just above the form, back within the `Form` compon
 
 Run the tests.
 
-#### Validate password input
+#### <span style="font-family:'Montserrat', 'sans-serif';">Validate Password Input</span>
 
 To keep things simple, we can start with validating a single input. To test, add the following spec to the login tests:
 
@@ -384,7 +384,7 @@ componentWillReceiveProps(nextProps) {
 
 Re-build the containers. Test again. Now, we just need to apply that same logic to the remaining fields...
 
-#### Validate inputs
+#### <span style="font-family:'Montserrat', 'sans-serif';">Validate Inputs</span>
 
 First, add a password to the top of *login.test.js*, *register.test.js*, and *status.test.js*:
 

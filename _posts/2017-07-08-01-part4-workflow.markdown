@@ -11,7 +11,7 @@ share: true
 
 Updated reference guide...
 
-#### All Services
+#### <span style="font-family:'Montserrat', 'sans-serif';">All Services</span>
 
 The following commands are for spinning up all the containers...
 
@@ -93,7 +93,7 @@ Remove images:
 $ docker rmi $(docker images -q)
 ```
 
-#### Individual Services
+#### <span style="font-family:'Montserrat', 'sans-serif';">Individual Services</span>
 
 The following commands are for spinning up individual containers...
 
@@ -183,7 +183,7 @@ $ docker-compose up -d --build swagger
 
 To test, navigate to [http://DOCKER_MACHINE_DEV_IP:8080](http://DOCKER_MACHINE_DEV_IP:8080) in your browser.
 
-#### Aliases
+#### <span style="font-family:'Montserrat', 'sans-serif';">Aliases</span>
 
 To save some precious keystrokes, create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
 
@@ -204,7 +204,7 @@ Test out the new aliases!
 
 > On Windows? You will first need to create a [PowerShell Profile](https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise) (if you don't already have one), and then you can add the aliases to it using [Set-Alias](https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias) - i.e., `Set-Alias dc docker-compose`.
 
-#### "Saved" State
+#### <span style="font-family:'Montserrat', 'sans-serif';">"Saved" State</span>
 
 Is the VM stuck in a "Saved" state?
 
@@ -249,7 +249,7 @@ aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.0
 dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
 ```
 
-#### Other Commands
+#### <span style="font-family:'Montserrat', 'sans-serif';">Other Commands</span>
 
 Want to force a build?
 

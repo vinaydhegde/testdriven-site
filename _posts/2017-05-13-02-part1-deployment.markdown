@@ -51,7 +51,7 @@ Add port 5001 to the [Security Group](http://stackoverflow.com/questions/2633830
 
 Grab the IP and make sure to test in the browser.
 
-#### Config
+#### <span style="font-family:'Montserrat', 'sans-serif';">Config</span>
 
 What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:
 
@@ -85,7 +85,7 @@ $ docker-compose -f docker-compose-prod.yml run users-service python manage.py s
 
 Ensure the app is still running and check the environment variables again.
 
-#### Gunicorn
+#### <span style="font-family:'Montserrat', 'sans-serif';">Gunicorn</span>
 
 To use Gunicorn, first add the dependency to the *requirements.txt* file:
 
@@ -109,7 +109,7 @@ $ docker-compose -f docker-compose-prod.yml up -d --build
 
 > The `--build` flag is necessary since we need to install the new dependency.
 
-#### Nginx
+#### <span style="font-family:'Montserrat', 'sans-serif';">Nginx</span>
 
 Next, let's get Nginx up and running as a reverse proxy to the web server. Create a new folder called "nginx" in the project root, and then add a *Dockerfile*:
 

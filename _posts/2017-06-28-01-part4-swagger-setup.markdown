@@ -17,7 +17,7 @@ Swagger is a [specification](https://swagger.io/specification/) for describing, 
 
 > New to Swagger? Review the [What Is Swagger?](https://swagger.io/docs/specification/what-is-swagger/) guide from the official documentation.
 
-#### New container
+#### <span style="font-family:'Montserrat', 'sans-serif';">New Container</span>
 
 Let's set up a new service for this. Create a new project and init a new Git repo:
 
@@ -116,7 +116,7 @@ swagger:
 
 Update the container. Test it out in the browser.
 
-#### Unauthenticated Routes
+#### <span style="font-family:'Montserrat', 'sans-serif';">Unauthenticated Routes</span>
 
 Add each of these as properties to the `paths` object in the *swagger.json* file...
 
@@ -258,7 +258,7 @@ Add each of these as properties to the `paths` object in the *swagger.json* file
 }
 ```
 
-#### Schemas
+#### <span style="font-family:'Montserrat', 'sans-serif';">Schemas</span>
 
 To keep things DRY, let's abstract out the schema definitions via a [reference object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#referenceObject). Add a new schema to the `definitions`:
 
@@ -296,7 +296,7 @@ Now, turn back to the `/auth/register` and `/auth/login` routes and update the `
 
 This schema definition can now be reused.
 
-#### Authenticated Routes
+#### <span style="font-family:'Montserrat', 'sans-serif';">Authenticated Routes</span>
 
 To access authenticated routes, we need to add a [Bearer token](https://stackoverflow.com/questions/25838183/what-is-the-oauth-2-0-bearer-token-exactly) to the request header. Unfortunately, Swagger does not currently support this out of the box. There is a workaround though.
 
@@ -426,7 +426,7 @@ Finally, for the `/users` route, since we already defined a `users` path, we can
 
 Remember: To test this route, you will need to be authenticated as an admin.
 
-#### Next steps
+#### <span style="font-family:'Montserrat', 'sans-serif';">Next Steps</span>
 
 Before moving on, add error handling to the `responses` for each path, based on the actual error responses from the users service.
 

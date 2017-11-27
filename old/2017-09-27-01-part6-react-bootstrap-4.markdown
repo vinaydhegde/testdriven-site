@@ -12,7 +12,7 @@ In this lesson, we'll add Bootstrap 4 to the React front-end...
 
 Coming soon!
 
-#### Getting Started
+#### <span style="font-family:'Montserrat', 'sans-serif';">Getting Started</span>
 
 Bootstrap 4 is [rewrite](https://getbootstrap.com/docs/4.0/migration/) of the Bootstrap project. In the end, it's a better framework, but if you prefer Bootstrap 3, you are more than welcome to stick with it.
 
@@ -47,9 +47,9 @@ Make sure you remove the following line from the `head` in *public/index.html* s
 >
 ```
 
-#### Navbar
+#### <span style="font-family:'Montserrat', 'sans-serif';">Navbar</span>
 
-#### Table
+#### <span style="font-family:'Montserrat', 'sans-serif';">Table</span>
 
 Coming soon!
 

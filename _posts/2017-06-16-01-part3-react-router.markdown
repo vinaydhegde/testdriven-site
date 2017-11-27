@@ -27,7 +27,7 @@ In the terminal, open *flask-microservices-client* and then install [react-route
 $ npm install --save react-router-dom@4.1.1
 ```
 
-#### Check Your Understanding
+#### <span style="font-family:'Montserrat', 'sans-serif';">Check Your Understanding</span>
 
 > This part is optional but highly recommended.
 
@@ -37,7 +37,7 @@ Put your skills to test!
 1. Add two components - `Home` and `Contact`. These should be functional components that just display an `<h2>` element with the name of the component.
 1. Follow the official [Quick Start](https://reacttraining.com/react-router/web/guides/quick-start) guide to add react-router-dom to your app.
 
-#### Refactor
+#### <span style="font-family:'Montserrat', 'sans-serif';">Refactor</span>
 
 Before adding the Router, let's move the `App` component out of *index.js* to clean things up. Add an *App.jsx* file to the "src" directory, and then update both files...
 
@@ -140,7 +140,7 @@ $ npm start
 
 Make sure all is well!
 
-#### Router Setup
+#### <span style="font-family:'Montserrat', 'sans-serif';">Router Setup</span>
 
 Let's start with a basic `/about` route.
 

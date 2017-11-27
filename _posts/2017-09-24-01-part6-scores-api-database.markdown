@@ -39,7 +39,7 @@ Run the tests:
 $ sh test.sh
 ```
 
-#### Database Setup
+#### <span style="font-family:'Montserrat', 'sans-serif';">Database Setup</span>
 
 Steps:
 

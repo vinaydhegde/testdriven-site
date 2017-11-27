@@ -11,11 +11,11 @@ share: true
 
 Updated reference guide...
 
-#### Development Environment
+#### <span style="font-family:'Montserrat', 'sans-serif';">Development Environment</span>
 
 The following commands are for spinning up all the containers in your `development` environment...
 
-##### Environment Variables
+##### Environment 
 
 ```sh
 $ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP
@@ -75,7 +75,7 @@ Bring down the containers:
 $ docker-compose down
 ```
 
-#### Aliases
+#### <span style="font-family:'Montserrat', 'sans-serif';">Aliases</span>
 
 To save some precious keystrokes, create aliases for both the `docker-compose` and `docker-machine` commands - `dc` and `dm`, respectively.
 
@@ -96,7 +96,7 @@ Test out the new aliases!
 
 > On Windows? You will first need to create a [PowerShell Profile](https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise) (if you don't already have one), and then you can add the aliases to it using [Set-Alias](https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias) - i.e., `Set-Alias dc docker-compose`.
 
-#### "Saved" State
+#### <span style="font-family:'Montserrat', 'sans-serif';">"Saved" State</span>
 
 Is the VM stuck in a "Saved" state?
 
@@ -141,7 +141,7 @@ aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.0
 dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
 ```
 
-#### Other Commands
+#### <span style="font-family:'Montserrat', 'sans-serif';">Other Commands</span>
 
 Want to force a build?
 
@@ -173,7 +173,7 @@ $ docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’)
 $ eval $(docker-machine env -u)
 ```
 
-#### Development Workflow
+#### <span style="font-family:'Montserrat', 'sans-serif';">Development Workflow</span>
 
 Try out the following development workflow...
 

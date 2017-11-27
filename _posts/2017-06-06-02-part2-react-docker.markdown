@@ -71,7 +71,7 @@ Navigate to [http://DOCKER_MACHINE_IP:3007/](http://DOCKER_MACHINE_IP:3007/) in 
 
 What happens if you navigate to the main route? Since we're still routing traffic to the Flask app (via Nginx), you will see the old app, served up with server-side templating. We need to update the Nginx configuration to route traffic to that main route to the React app. Before we update this, though, let's create a [build](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment) with Create React App locally, outside of Docker, which will generate static files.
 
-#### Create React App Build
+#### <span style="font-family:'Montserrat', 'sans-serif';">Create React App Build</span>
 
 Make sure the `REACT_APP_USERS_SERVICE_URL` environment variable is set:
 
@@ -96,7 +96,7 @@ $ python3 -m http.server
 
 This will serve up the app on [http://localhost:8000/](http://localhost:8000/). Test it out in the browser to make sure it works. Once done, kill the server and navigate back to the project root.
 
-#### Dockerfile
+#### <span style="font-family:'Montserrat', 'sans-serif';">Dockerfile</span>
 
 Update the *Dockerfile*
 
@@ -174,7 +174,7 @@ $ docker rmi test
 
 Commit and push your code.
 
-#### Docker Compose
+#### <span style="font-family:'Montserrat', 'sans-serif';">Docker Compose</span>
 
 With the *Dockerfile* set up and tested, update the `web-service` in *docker-compose.yml*:
 
@@ -209,7 +209,7 @@ Test it out again at [http://DOCKER_MACHINE_IP:9000/](http://DOCKER_MACHINE_IP:9
 
 With that, let's update Nginx...
 
-#### Nginx
+#### <span style="font-family:'Montserrat', 'sans-serif';">Nginx</span>
 
 Make the following updates to *flask.conf* in "flask-microservices-main":
 
@@ -287,7 +287,7 @@ $ docker-compose run users-service python manage.py test
 
 Now, let's update production...
 
-#### Update Production
+#### <span style="font-family:'Montserrat', 'sans-serif';">Update Production</span>
 
 Add the `web-service` to *docker-compose-prod.yml*:
 

@@ -34,7 +34,7 @@ Install:
 
 Now, let's write some tests!
 
-#### Test 1
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test 1</span>
 
 *Request*
 
@@ -162,7 +162,7 @@ from project.api.docker_service import create_container, get_output
 
 Run the tests. They should pass.
 
-#### Test 2
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test 2</span>
 
 What if there's a syntax error in the submitted code?
 
@@ -189,7 +189,7 @@ def test_eval_endpoint_handles_syntax_errors(self):
 
 Run the test. It should already pass!
 
-#### Test 3
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test 3</span>
 
 What if the end user submits JavaScript rather than Python?
 
@@ -216,7 +216,7 @@ def test_eval_endpoint_handles_name_errors(self):
 
 Again, this should already pass!
 
-#### Test 4
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test 4</span>
 
 Test:
 
@@ -237,7 +237,7 @@ def test_eval_endpoint_invalid_json(self):
 
 Does it pass?
 
-#### Test 5
+#### <span style="font-family:'Montserrat', 'sans-serif';">Test 5</span>
 
 Test:
 
@@ -295,7 +295,7 @@ def eval():
         return jsonify(response_object), 500
 ```
 
-#### Code Coverage
+#### <span style="font-family:'Montserrat', 'sans-serif';">Code Coverage</span>
 
 Where are we at in terms of code coverage?
 
@@ -323,6 +323,6 @@ project/config.py                  14      0      0      0   100%
 TOTAL                              96     17     12      2    81%
 ```
 
-#### Check Your Understanding
+#### <span style="font-family:'Montserrat', 'sans-serif';">Check Your Understanding</span>
 
 Add more test cases. Increase the code coverage. Email me your results for a surprise!

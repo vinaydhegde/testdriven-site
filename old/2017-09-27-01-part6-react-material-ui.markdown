@@ -12,7 +12,7 @@ In this lesson, we'll add Bootstrap 4 to the React front-end...
 
 Coming soon!
 
-#### Getting Started
+#### <span style="font-family:'Montserrat', 'sans-serif';">Getting Started</span>
 
 Material UI is a set of React components that implement [Material Design](https://material.io/guidelines/material-design/introduction.html). If you prefer Bootstrap, you are more than welcoem to stick with it.
 
@@ -51,7 +51,7 @@ Make sure you remove the following line since we're not longer using the Bootstr
 >
 ```
 
-#### Navbar
+#### <span style="font-family:'Montserrat', 'sans-serif';">Navbar</span>
 
 
 Coming soon!

@@ -24,7 +24,7 @@ from project.api.users import users_blueprint
 
 Run the tests to make sure nothing broke.
 
-#### Routes Setup
+#### <span style="font-family:'Montserrat', 'sans-serif';">Routes Setup</span>
 
 | Endpoint        | HTTP Method | Authenticated?  | Result          |
 |-----------------|-------------|-----------------|-----------------|
@@ -79,7 +79,7 @@ class TestAuthBlueprint(BaseTestCase):
     pass
 ```
 
-#### Register Route
+#### <span style="font-family:'Montserrat', 'sans-serif';">Register Route</span>
 
 Start with a test:
 
@@ -250,7 +250,7 @@ def register_user():
         return jsonify(response_object), 400
 ```
 
-#### Login Route
+#### <span style="font-family:'Montserrat', 'sans-serif';">Login Route</span>
 
 Again, start with a few tests:
 
@@ -332,7 +332,7 @@ def login_user():
         return jsonify(response_object), 500
 ```
 
-#### Logout Route
+#### <span style="font-family:'Montserrat', 'sans-serif';">Logout Route</span>
 
 Test valid logout:
 
@@ -450,7 +450,7 @@ Ran 31 tests in 6.683s
 OK
 ```
 
-#### Status Route
+#### <span style="font-family:'Montserrat', 'sans-serif';">Status Route</span>
 
 Remember: In order to get the user details of the currently logged in user, the auth token *must* be sent with the request.
 

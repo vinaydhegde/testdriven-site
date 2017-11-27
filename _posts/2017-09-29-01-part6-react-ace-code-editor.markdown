@@ -13,7 +13,7 @@ In this lesson, we'll add some exercises to the client-side using the Ace code e
 
 ---
 
-#### Seed Data
+#### <span style="font-family:'Montserrat', 'sans-serif';">Seed Data</span>
 
 Within *flask-microservices-eval*, start by adding a seed command to the *manage.py* file to populate the database with some initial data:
 
@@ -72,7 +72,7 @@ Apply the seed:
 $ docker-compose run eval-service python manage.py seed_db
 ```
 
-#### Exercise Component
+#### <span style="font-family:'Montserrat', 'sans-serif';">Exercise Component</span>
 
 Next, let's add a new Component to the React app. Within *flask-microservices-client*, add a new class-based component called *Exercises.jsx* to "src/components":
 
@@ -179,7 +179,7 @@ render() {
 }
 ```
 
-#### Ace Code Editor
+#### <span style="font-family:'Montserrat', 'sans-serif';">Ace Code Editor</span>
 
 [Ace](https://ace.c9.io/) is an embeddable code editor, which we'll use to allow end users to submit their exercise solutions directly in the browser. We'll use a pre-configured Component for Ace called [React-Ace](https://github.com/securingsincity/react-ace).
 
@@ -246,7 +246,7 @@ Jump back to the browser. You should see something similar to:
   <img src="/assets/img/react-ace-code-editor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ace code editor">
 </div>
 
-#### Ensure Authenticated
+#### <span style="font-family:'Montserrat', 'sans-serif';">Ensure Authenticated</span>
 
 Next, let's only display the button if a user is logged in:
 
@@ -317,7 +317,7 @@ render() {
 ```
 {% endraw %}
 
-#### Event Handler
+#### <span style="font-family:'Montserrat', 'sans-serif';">Event Handler</span>
 
 Start by adding the `value` to the state:
 
