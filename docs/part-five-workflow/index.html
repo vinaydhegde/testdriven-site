@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Workflow</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -918,11 +927,11 @@
 
           <p>Updated reference guide...</p>
 
-<h4 id="development-environment">Development Environment</h4>
+<h4 id="development-environment"><span style="font-family:'Montserrat', 'sans-serif';">Development Environment</span></h4>
 
 <p>The following commands are for spinning up all the containers in your <code>development</code> environment...</p>
 
-<h5 id="environment-variables">Environment Variables</h5>
+<h5 id="environment">Environment</h5>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 <span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div>
@@ -955,7 +964,7 @@
 <p>Bring down the containers:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
 </code></pre></div>
-<h4 id="aliases">Aliases</h4>
+<h4 id="aliases"><span style="font-family:'Montserrat', 'sans-serif';">Aliases</span></h4>
 
 <p>To save some precious keystrokes, create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
 
@@ -972,7 +981,7 @@ alias dm=&#39;docker-machine&#39;
 <p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
 </blockquote>
 
-<h4 id="quot-saved-quot-state">&quot;Saved&quot; State</h4>
+<h4 id="quot-saved-quot-state"><span style="font-family:'Montserrat', 'sans-serif';">&quot;Saved&quot; State</span></h4>
 
 <p>Is the VM stuck in a &quot;Saved&quot; state?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
@@ -1007,7 +1016,7 @@ NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKE
 aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
 dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
 </code></pre></div>
-<h4 id="other-commands">Other Commands</h4>
+<h4 id="other-commands"><span style="font-family:'Montserrat', 'sans-serif';">Other Commands</span></h4>
 
 <p>Want to force a build?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
@@ -1024,7 +1033,7 @@ dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.0
 <p><a href="https://stackoverflow.com/a/33251637/1799408">Reset</a> Docker environment back to localhost, unsetting all Docker environment variables:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env -u<span class="k">)</span>
 </code></pre></div>
-<h4 id="development-workflow">Development Workflow</h4>
+<h4 id="development-workflow"><span style="font-family:'Montserrat', 'sans-serif';">Development Workflow</span></h4>
 
 <p>Try out the following development workflow...</p>
 
@@ -1085,11 +1094,11 @@ dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.0
 
           <p>Updated reference guide...</p>
 
-<h4 id="development-environment">Development Environment</h4>
+<h4 id="development-environment"><span style="font-family:'Montserrat', 'sans-serif';">Development Environment</span></h4>
 
 <p>The following commands are for spinning up all the containers in your <code>development</code> environment...</p>
 
-<h5 id="environment-variables">Environment Variables</h5>
+<h5 id="environment">Environment</h5>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 <span class="nv">$ </span><span class="nb">export </span><span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div>
@@ -1122,7 +1131,7 @@ dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.0
 <p>Bring down the containers:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
 </code></pre></div>
-<h4 id="aliases">Aliases</h4>
+<h4 id="aliases"><span style="font-family:'Montserrat', 'sans-serif';">Aliases</span></h4>
 
 <p>To save some precious keystrokes, create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
 
@@ -1139,7 +1148,7 @@ alias dm=&#39;docker-machine&#39;
 <p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
 </blockquote>
 
-<h4 id="quot-saved-quot-state">&quot;Saved&quot; State</h4>
+<h4 id="quot-saved-quot-state"><span style="font-family:'Montserrat', 'sans-serif';">&quot;Saved&quot; State</span></h4>
 
 <p>Is the VM stuck in a &quot;Saved&quot; state?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine ls
@@ -1174,7 +1183,7 @@ NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKE
 aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
 dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
 </code></pre></div>
-<h4 id="other-commands">Other Commands</h4>
+<h4 id="other-commands"><span style="font-family:'Montserrat', 'sans-serif';">Other Commands</span></h4>
 
 <p>Want to force a build?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose build --no-cache
@@ -1191,7 +1200,7 @@ dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.0
 <p><a href="https://stackoverflow.com/a/33251637/1799408">Reset</a> Docker environment back to localhost, unsetting all Docker environment variables:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine env -u<span class="k">)</span>
 </code></pre></div>
-<h4 id="development-workflow">Development Workflow</h4>
+<h4 id="development-workflow"><span style="font-family:'Montserrat', 'sans-serif';">Development Workflow</span></h4>
 
 <p>Try out the following development workflow...</p>
 

@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Staging Environment</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -922,7 +931,7 @@
 
 <p>It&#39;s important to test applications out in an environment as close to production as possible when deploying to avoid hitting unexpected environment-specific bugs. Docker containers help to eliminate much of the disparity between development and production, but problems can (and will) still arise. So, let&#39;s set up a staging environment.</p>
 
-<h4 id="staging">Staging</h4>
+<h4 id="staging"><span style="font-family:'Montserrat', 'sans-serif';">Staging</span></h4>
 
 <p>Create a new Docker machine:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create --driver amazonec2 staging
@@ -1053,7 +1062,7 @@
 </code></pre></div>
 <p>You also need to add port 8080 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a> since Swagger is listening on that port.</p>
 
-<h4 id="travis">Travis</h4>
+<h4 id="travis"><span style="font-family:'Montserrat', 'sans-serif';">Travis</span></h4>
 
 <p>Next, update the <code>before_script</code> and <code>script</code> within the <em>.travis.yml</em> file to use the <em>docker-compose-staging.yml</em> file for the build and test run:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
@@ -1072,7 +1081,7 @@
 </code></pre></div>
 <p>Commit and push your code. Make sure the tests pass on Travis.</p>
 
-<h4 id="production">Production</h4>
+<h4 id="production"><span style="font-family:'Montserrat', 'sans-serif';">Production</span></h4>
 
 <p>Let&#39;s update production with the changes from this part thus far. Start by adding swagger to <em>docker-compose-prod.yml</em>:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
@@ -1099,7 +1108,7 @@
 </code></pre></div>
 <p>Ensure all is well.</p>
 
-<h4 id="local">Local</h4>
+<h4 id="local"><span style="font-family:'Montserrat', 'sans-serif';">Local</span></h4>
 
 <p>To simplify local development, let&#39;s make a few changes to the <em>docker-compose.yml</em> file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
@@ -1268,7 +1277,7 @@ CMD python manage.py runserver -h 0.0.0.0
 
 <p>It&#39;s important to test applications out in an environment as close to production as possible when deploying to avoid hitting unexpected environment-specific bugs. Docker containers help to eliminate much of the disparity between development and production, but problems can (and will) still arise. So, let&#39;s set up a staging environment.</p>
 
-<h4 id="staging">Staging</h4>
+<h4 id="staging"><span style="font-family:'Montserrat', 'sans-serif';">Staging</span></h4>
 
 <p>Create a new Docker machine:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine create --driver amazonec2 staging
@@ -1399,7 +1408,7 @@ CMD python manage.py runserver -h 0.0.0.0
 </code></pre></div>
 <p>You also need to add port 8080 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a> since Swagger is listening on that port.</p>
 
-<h4 id="travis">Travis</h4>
+<h4 id="travis"><span style="font-family:'Montserrat', 'sans-serif';">Travis</span></h4>
 
 <p>Next, update the <code>before_script</code> and <code>script</code> within the <em>.travis.yml</em> file to use the <em>docker-compose-staging.yml</em> file for the build and test run:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
@@ -1418,7 +1427,7 @@ CMD python manage.py runserver -h 0.0.0.0
 </code></pre></div>
 <p>Commit and push your code. Make sure the tests pass on Travis.</p>
 
-<h4 id="production">Production</h4>
+<h4 id="production"><span style="font-family:'Montserrat', 'sans-serif';">Production</span></h4>
 
 <p>Let&#39;s update production with the changes from this part thus far. Start by adding swagger to <em>docker-compose-prod.yml</em>:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">swagger</span><span class="p-Indicator">:</span>
@@ -1445,7 +1454,7 @@ CMD python manage.py runserver -h 0.0.0.0
 </code></pre></div>
 <p>Ensure all is well.</p>
 
-<h4 id="local">Local</h4>
+<h4 id="local"><span style="font-family:'Montserrat', 'sans-serif';">Local</span></h4>
 
 <p>To simplify local development, let&#39;s make a few changes to the <em>docker-compose.yml</em> file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>

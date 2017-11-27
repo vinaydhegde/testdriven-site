@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - EC2 Container Service</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -926,13 +935,13 @@
   <img src="/assets/img/ecs.png" style="max-width: 100%; border:0; box-shadow: none;" alt="ecs">
 </div>
 
-<h4 id="key-pair">Key Pair</h4>
+<h4 id="key-pair"><span style="font-family:'Montserrat', 'sans-serif';">Key Pair</span></h4>
 
 <p>To start, let&#39;s create a new <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">EC2 Key Pair</a> so we can SSH into the EC2 instances managed by ECS.</p>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Key Pairs&quot; on the sidebar, and then click the &quot;Create Key Pair&quot; button. Name the the new key pair <code>ecs</code> and add it to &quot;~/.ssh&quot;.</p>
 
-<h4 id="task-definition">Task Definition</h4>
+<h4 id="task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Task Definition</span></h4>
 
 <p>The <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definition</a> defines which containers make up the overall app and how much resources are allocated to each container. It is similar to a Docker Compose file.</p>
 
@@ -975,7 +984,7 @@
 </ul></li>
 </ol>
 
-<h4 id="cluster">Cluster</h4>
+<h4 id="cluster"><span style="font-family:'Montserrat', 'sans-serif';">Cluster</span></h4>
 
 <p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_clusters.html">Clusters</a> are where the actual containers run. They are just groups of EC2 instances that run Docker containers managed by ECS. To create a Cluster, click &quot;Clusters&quot; on the sidebar, and then click the &quot;Create Cluster&quot; button.</p>
 
@@ -990,7 +999,7 @@
 
 <p>This will create a number of EC2 resources, like the Internet Gateway, VPC, Security Group, Auto Scaling group, etc. It will take a few minutes to setup.</p>
 
-<h4 id="service">Service</h4>
+<h4 id="service"><span style="font-family:'Montserrat', 'sans-serif';">Service</span></h4>
 
 <p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a> instantiate the containers from the Task Definition and run them within the Cluster. To define a Service, on the &quot;Services&quot; tab within the newly created Cluster, click &quot;Create&quot;.</p>
 
@@ -1001,7 +1010,7 @@
 <li>&quot;Number of tasks&quot;: <code>2</code></li>
 </ol>
 
-<h4 id="sanity-check">Sanity Check</h4>
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
 
 <p>Add ports 80 and 22 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>. Then grab the Public IP address of the EC2 instance, and navigate to <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a> in your browser. If all went well, you should see:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
@@ -1023,7 +1032,7 @@
 </code></pre></div>
 <p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
 
-<h4 id="travis-update-task-definition">Travis - update task definition</h4>
+<h4 id="travis-update-task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Task Definition</span></h4>
 
 <p>To incorporate the updating of ECS into the CI/CD process, create a new feature branch called <code>ecs</code> in <em>flask-microservices-main</em>, and then add a new script called <em>docker_deploy.sh</em>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
@@ -1170,7 +1179,7 @@
 
 <p>Open the <code>flask-microservices-staging</code> Log Group in Cloud Watch. Find the logs for the database. In a different browser window, navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error. Refresh the logs. You should see <code>ERROR: relation &quot;users&quot; does not exist at character 227</code>.</p>
 
-<h4 id="update-dockerfile">Update <em>Dockerfile</em></h4>
+<h4 id="update-dockerfile"><span style="font-family:'Montserrat', 'sans-serif';">Update <em>Dockerfile</em></span></h4>
 
 <p>Next, within <em>flask-microservices-users</em>, update the <em>Dockerfile</em> to run a shell script rather than the server:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
@@ -1219,7 +1228,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Commit and push your code.</p>
 
-<h4 id="travis-update-cluster-and-service">Travis - update cluster and service</h4>
+<h4 id="travis-update-cluster-and-service"><span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Cluster And Service</span></h4>
 
 <p>Next, using the same feature branch as before, update the <code>deploy_cluster</code> function in <em>docker_deploy.sh</em> in the <em>flask-microservices-main</em> project:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">deploy_cluster<span class="o">()</span> <span class="o">{</span>
@@ -1244,7 +1253,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
 
-<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Test out each of the endpoints:</p>
 
@@ -1344,13 +1353,13 @@ gunicorn -b 0.0.0.0:5000 manage:app
   <img src="/assets/img/ecs.png" style="max-width: 100%; border:0; box-shadow: none;" alt="ecs">
 </div>
 
-<h4 id="key-pair">Key Pair</h4>
+<h4 id="key-pair"><span style="font-family:'Montserrat', 'sans-serif';">Key Pair</span></h4>
 
 <p>To start, let&#39;s create a new <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">EC2 Key Pair</a> so we can SSH into the EC2 instances managed by ECS.</p>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Key Pairs&quot; on the sidebar, and then click the &quot;Create Key Pair&quot; button. Name the the new key pair <code>ecs</code> and add it to &quot;~/.ssh&quot;.</p>
 
-<h4 id="task-definition">Task Definition</h4>
+<h4 id="task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Task Definition</span></h4>
 
 <p>The <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definition</a> defines which containers make up the overall app and how much resources are allocated to each container. It is similar to a Docker Compose file.</p>
 
@@ -1393,7 +1402,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 </ul></li>
 </ol>
 
-<h4 id="cluster">Cluster</h4>
+<h4 id="cluster"><span style="font-family:'Montserrat', 'sans-serif';">Cluster</span></h4>
 
 <p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_clusters.html">Clusters</a> are where the actual containers run. They are just groups of EC2 instances that run Docker containers managed by ECS. To create a Cluster, click &quot;Clusters&quot; on the sidebar, and then click the &quot;Create Cluster&quot; button.</p>
 
@@ -1408,7 +1417,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>This will create a number of EC2 resources, like the Internet Gateway, VPC, Security Group, Auto Scaling group, etc. It will take a few minutes to setup.</p>
 
-<h4 id="service">Service</h4>
+<h4 id="service"><span style="font-family:'Montserrat', 'sans-serif';">Service</span></h4>
 
 <p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a> instantiate the containers from the Task Definition and run them within the Cluster. To define a Service, on the &quot;Services&quot; tab within the newly created Cluster, click &quot;Create&quot;.</p>
 
@@ -1419,7 +1428,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 <li>&quot;Number of tasks&quot;: <code>2</code></li>
 </ol>
 
-<h4 id="sanity-check">Sanity Check</h4>
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
 
 <p>Add ports 80 and 22 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>. Then grab the Public IP address of the EC2 instance, and navigate to <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a> in your browser. If all went well, you should see:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
@@ -1441,7 +1450,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 </code></pre></div>
 <p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
 
-<h4 id="travis-update-task-definition">Travis - update task definition</h4>
+<h4 id="travis-update-task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Task Definition</span></h4>
 
 <p>To incorporate the updating of ECS into the CI/CD process, create a new feature branch called <code>ecs</code> in <em>flask-microservices-main</em>, and then add a new script called <em>docker_deploy.sh</em>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
@@ -1588,7 +1597,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Open the <code>flask-microservices-staging</code> Log Group in Cloud Watch. Find the logs for the database. In a different browser window, navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error. Refresh the logs. You should see <code>ERROR: relation &quot;users&quot; does not exist at character 227</code>.</p>
 
-<h4 id="update-dockerfile">Update <em>Dockerfile</em></h4>
+<h4 id="update-dockerfile"><span style="font-family:'Montserrat', 'sans-serif';">Update <em>Dockerfile</em></span></h4>
 
 <p>Next, within <em>flask-microservices-users</em>, update the <em>Dockerfile</em> to run a shell script rather than the server:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
@@ -1637,7 +1646,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Commit and push your code.</p>
 
-<h4 id="travis-update-cluster-and-service">Travis - update cluster and service</h4>
+<h4 id="travis-update-cluster-and-service"><span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Cluster And Service</span></h4>
 
 <p>Next, using the same feature branch as before, update the <code>deploy_cluster</code> function in <em>docker_deploy.sh</em> in the <em>flask-microservices-main</em> project:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">deploy_cluster<span class="o">()</span> <span class="o">{</span>
@@ -1662,7 +1671,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
 
-<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Test out each of the endpoints:</p>
 

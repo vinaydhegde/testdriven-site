@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Project Refactor</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -942,14 +951,14 @@
 <li>Update production</li>
 </ol>
 
-<h4 id="test-current-structure">Test current structure</h4>
+<h4 id="test-current-structure"><span style="font-family:'Montserrat', 'sans-serif';">Test Current Structure</span></h4>
 
 <p>Run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>All should pass. With tests in place, we can refactor with confidence.</p>
 
-<h4 id="refactor">Refactor</h4>
+<h4 id="refactor"><span style="font-family:'Montserrat', 'sans-serif';">Refactor</span></h4>
 
 <p>Bring down the containers and remove the images:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
@@ -996,7 +1005,7 @@ nginx/flask.conf
 <p>While this is spinning up think about why we had to remove the volume. What is the &quot;build context&quot;? Turn to Google for help.</p>
 </blockquote>
 
-<h4 id="test-new-structure">Test new structure</h4>
+<h4 id="test-new-structure"><span style="font-family:'Montserrat', 'sans-serif';">Test New Structure</span></h4>
 
 <p>Once up, create and seed the db and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
@@ -1005,7 +1014,7 @@ nginx/flask.conf
 </code></pre></div>
 <p>Grab the IP, from <code>docker-machine ip dev</code>, and make sure the app works in the browser.</p>
 
-<h4 id="update-production">Update production</h4>
+<h4 id="update-production"><span style="font-family:'Montserrat', 'sans-serif';">Update Production</span></h4>
 
 <p>First, change the active host and point the Docker client at it:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws
@@ -1069,14 +1078,14 @@ nginx/flask.conf
 <li>Update production</li>
 </ol>
 
-<h4 id="test-current-structure">Test current structure</h4>
+<h4 id="test-current-structure"><span style="font-family:'Montserrat', 'sans-serif';">Test Current Structure</span></h4>
 
 <p>Run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py <span class="nb">test</span>
 </code></pre></div>
 <p>All should pass. With tests in place, we can refactor with confidence.</p>
 
-<h4 id="refactor">Refactor</h4>
+<h4 id="refactor"><span style="font-family:'Montserrat', 'sans-serif';">Refactor</span></h4>
 
 <p>Bring down the containers and remove the images:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose down
@@ -1123,7 +1132,7 @@ nginx/flask.conf
 <p>While this is spinning up think about why we had to remove the volume. What is the &quot;build context&quot;? Turn to Google for help.</p>
 </blockquote>
 
-<h4 id="test-new-structure">Test new structure</h4>
+<h4 id="test-new-structure"><span style="font-family:'Montserrat', 'sans-serif';">Test New Structure</span></h4>
 
 <p>Once up, create and seed the db and run the tests:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run users-service python manage.py recreate_db
@@ -1132,7 +1141,7 @@ nginx/flask.conf
 </code></pre></div>
 <p>Grab the IP, from <code>docker-machine ip dev</code>, and make sure the app works in the browser.</p>
 
-<h4 id="update-production">Update production</h4>
+<h4 id="update-production"><span style="font-family:'Montserrat', 'sans-serif';">Update Production</span></h4>
 
 <p>First, change the active host and point the Docker client at it:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env aws

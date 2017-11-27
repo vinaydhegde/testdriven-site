@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - ECS Staging</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -920,7 +929,7 @@
 
 <hr>
 
-<h4 id="remove-resources">Remove Resources</h4>
+<h4 id="remove-resources"><span style="font-family:'Montserrat', 'sans-serif';">Remove Resources</span></h4>
 
 <p>Start by remove the current AWS resources, in the following order:</p>
 
@@ -930,7 +939,7 @@
 <li>Cluster: <code>flask-microservices-staging</code></li>
 </ol>
 
-<h4 id="alb">ALB</h4>
+<h4 id="alb"><span style="font-family:'Montserrat', 'sans-serif';">ALB</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
 
@@ -967,7 +976,7 @@
 <li>We don&#39;t need to assign any instances manually since this will be managed by ECS.</li>
 </ol>
 
-<h4 id="target-groups">Target Groups</h4>
+<h4 id="target-groups"><span style="font-family:'Montserrat', 'sans-serif';">Target Groups</span></h4>
 
 <p>Next, we need to set up new Target Groups for <code>swagger</code> and <code>users-service</code>. Within <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Target Groups&quot;, and then create the following Target Groups:</p>
 
@@ -997,7 +1006,7 @@
 <li>&quot;Path&quot;: <code>/</code></li>
 </ol>
 
-<h4 id="update-alb">Update ALB</h4>
+<h4 id="update-alb"><span style="font-family:'Montserrat', 'sans-serif';">Update ALB</span></h4>
 
 <p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-staging-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
 
@@ -1018,7 +1027,7 @@
 <li>&quot;Default target group&quot;: <code>swagger-tg</code></li>
 </ol>
 
-<h4 id="cluster">Cluster</h4>
+<h4 id="cluster"><span style="font-family:'Montserrat', 'sans-serif';">Cluster</span></h4>
 
 <p>Navigate back to ECS, and create a new Cluster:</p>
 
@@ -1031,7 +1040,7 @@
 
 <p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
 
-<h4 id="task-definitions">Task Definitions</h4>
+<h4 id="task-definitions"><span style="font-family:'Montserrat', 'sans-serif';">Task Definitions</span></h4>
 
 <p>Create the following Task Definitions...</p>
 
@@ -1078,7 +1087,7 @@
 
 <p>Since the containers are already set up for this under the <code>testdriven-staging</code> Task Definition, we can just rename it. Create a new revision of <code>testdriven-staging</code> Task Definition, changing the name to <code>flask-microservices-users-td</code>. This will actually create a new Task Definition.</p>
 
-<h4 id="services">Services</h4>
+<h4 id="services"><span style="font-family:'Montserrat', 'sans-serif';">Services</span></h4>
 
 <p>Create the following Services...</p>
 
@@ -1154,7 +1163,7 @@
 
 <p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
 
-<h4 id="sanity-check">Sanity Check</h4>
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. Make sure <code>client-tg</code>, <code>swagger-tg</code>, and <code>users-tg</code> have a single registered instance each. They should all be healthy.</p>
 
@@ -1175,13 +1184,13 @@
 </code></pre></div>
 <p>They should pass!</p>
 
-<h4 id="swagger-url">Swagger URL</h4>
+<h4 id="swagger-url"><span style="font-family:'Montserrat', 'sans-serif';">Swagger URL</span></h4>
 
 <p>Did you test any of the endpoints from the Swagger UI at <a href="http://LOAD_BALANCER_DNS_NAME:8080">http://LOAD_BALANCER_DNS_NAME:8080</a>? They all should break since the <code>host</code> within the <em>swagger.json</em> file needs to be updated.</p>
 
 <p>Update this within <em>flask-microservices-swagger</em>, commit, and push the changes up to GitHub. Test it again in your browser.</p>
 
-<h4 id="travis-update">Travis Update</h4>
+<h4 id="travis-update"><span style="font-family:'Montserrat', 'sans-serif';">Travis Update</span></h4>
 
 <p>Before moving on, we need to update the CI workflow to handle the new Task Definitions and Services...</p>
 
@@ -1424,7 +1433,7 @@
 
 <span class="k">fi</span>
 </code></pre></div>
-<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Assuming you are still using the <code>ecs</code> feature branch, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the each Task Definition and the Services should now be running a new Task based on that revision.</p>
 
@@ -1456,7 +1465,7 @@
 
 <hr>
 
-<h4 id="remove-resources">Remove Resources</h4>
+<h4 id="remove-resources"><span style="font-family:'Montserrat', 'sans-serif';">Remove Resources</span></h4>
 
 <p>Start by remove the current AWS resources, in the following order:</p>
 
@@ -1466,7 +1475,7 @@
 <li>Cluster: <code>flask-microservices-staging</code></li>
 </ol>
 
-<h4 id="alb">ALB</h4>
+<h4 id="alb"><span style="font-family:'Montserrat', 'sans-serif';">ALB</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
 
@@ -1503,7 +1512,7 @@
 <li>We don&#39;t need to assign any instances manually since this will be managed by ECS.</li>
 </ol>
 
-<h4 id="target-groups">Target Groups</h4>
+<h4 id="target-groups"><span style="font-family:'Montserrat', 'sans-serif';">Target Groups</span></h4>
 
 <p>Next, we need to set up new Target Groups for <code>swagger</code> and <code>users-service</code>. Within <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Target Groups&quot;, and then create the following Target Groups:</p>
 
@@ -1533,7 +1542,7 @@
 <li>&quot;Path&quot;: <code>/</code></li>
 </ol>
 
-<h4 id="update-alb">Update ALB</h4>
+<h4 id="update-alb"><span style="font-family:'Montserrat', 'sans-serif';">Update ALB</span></h4>
 
 <p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-staging-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
 
@@ -1554,7 +1563,7 @@
 <li>&quot;Default target group&quot;: <code>swagger-tg</code></li>
 </ol>
 
-<h4 id="cluster">Cluster</h4>
+<h4 id="cluster"><span style="font-family:'Montserrat', 'sans-serif';">Cluster</span></h4>
 
 <p>Navigate back to ECS, and create a new Cluster:</p>
 
@@ -1567,7 +1576,7 @@
 
 <p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
 
-<h4 id="task-definitions">Task Definitions</h4>
+<h4 id="task-definitions"><span style="font-family:'Montserrat', 'sans-serif';">Task Definitions</span></h4>
 
 <p>Create the following Task Definitions...</p>
 
@@ -1614,7 +1623,7 @@
 
 <p>Since the containers are already set up for this under the <code>testdriven-staging</code> Task Definition, we can just rename it. Create a new revision of <code>testdriven-staging</code> Task Definition, changing the name to <code>flask-microservices-users-td</code>. This will actually create a new Task Definition.</p>
 
-<h4 id="services">Services</h4>
+<h4 id="services"><span style="font-family:'Montserrat', 'sans-serif';">Services</span></h4>
 
 <p>Create the following Services...</p>
 
@@ -1690,7 +1699,7 @@
 
 <p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
 
-<h4 id="sanity-check">Sanity Check</h4>
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. Make sure <code>client-tg</code>, <code>swagger-tg</code>, and <code>users-tg</code> have a single registered instance each. They should all be healthy.</p>
 
@@ -1711,13 +1720,13 @@
 </code></pre></div>
 <p>They should pass!</p>
 
-<h4 id="swagger-url">Swagger URL</h4>
+<h4 id="swagger-url"><span style="font-family:'Montserrat', 'sans-serif';">Swagger URL</span></h4>
 
 <p>Did you test any of the endpoints from the Swagger UI at <a href="http://LOAD_BALANCER_DNS_NAME:8080">http://LOAD_BALANCER_DNS_NAME:8080</a>? They all should break since the <code>host</code> within the <em>swagger.json</em> file needs to be updated.</p>
 
 <p>Update this within <em>flask-microservices-swagger</em>, commit, and push the changes up to GitHub. Test it again in your browser.</p>
 
-<h4 id="travis-update">Travis Update</h4>
+<h4 id="travis-update"><span style="font-family:'Montserrat', 'sans-serif';">Travis Update</span></h4>
 
 <p>Before moving on, we need to update the CI workflow to handle the new Task Definitions and Services...</p>
 
@@ -1960,7 +1969,7 @@
 
 <span class="k">fi</span>
 </code></pre></div>
-<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Assuming you are still using the <code>ecs</code> feature branch, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the each Task Definition and the Services should now be running a new Task based on that revision.</p>
 

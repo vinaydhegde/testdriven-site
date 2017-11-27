@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Scores API Routes</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -990,7 +999,7 @@
 <p>Try writing each of these routes (and tests) on your own!</p>
 </blockquote>
 
-<h4 id="get-all-scores">GET all scores</h4>
+<h4 id="get-all-scores"><span style="font-family:'Montserrat', 'sans-serif';">GET All Scores</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_all_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1038,7 +1047,7 @@
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
-<h4 id="get-single-score">GET single score</h4>
+<h4 id="get-single-score"><span style="font-family:'Montserrat', 'sans-serif';">GET Single Score</span></h4>
 
 <p>Tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_single_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1101,7 +1110,7 @@
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
 </code></pre></div>
-<h4 id="get-all-scores-by-user-id">GET all scores by user id</h4>
+<h4 id="get-all-scores-by-user-id"><span style="font-family:'Montserrat', 'sans-serif';">GET All Scores By User ID</span></h4>
 
 <p>Tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_all_scores_by_user_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1191,7 +1200,7 @@
 </code></pre></div>
 <p>Instead of returning <code>True</code>, we are now returning a test object. So, there&#39;s even more test code polluting the source code. Refactor this!</p>
 
-<h4 id="get-single-score-by-user-id">GET single score by user id</h4>
+<h4 id="get-single-score-by-user-id"><span style="font-family:'Montserrat', 'sans-serif';">GET Single Score By User ID</span></h4>
 
 <p>Tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_single_score_by_user_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1275,7 +1284,7 @@
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
 </code></pre></div>
-<h4 id="post">POST</h4>
+<h4 id="post"><span style="font-family:'Montserrat', 'sans-serif';">POST</span></h4>
 
 <p>Tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1404,7 +1413,7 @@
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">exc</span>
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
 </code></pre></div>
-<h4 id="put">PUT</h4>
+<h4 id="put"><span style="font-family:'Montserrat', 'sans-serif';">PUT</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_update_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1528,7 +1537,7 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
-<h4 id="patch">PATCH</h4>
+<h4 id="patch"><span style="font-family:'Montserrat', 'sans-serif';">PATCH</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_upsert_score_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1662,7 +1671,7 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
-<h4 id="sanity-check">Sanity Check</h4>
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
 
 <p>Do the tests pass?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py <span class="nb">test</span>
@@ -1781,7 +1790,7 @@ TOTAL                            <span class="m">196</span>     <span class="m">
 <p>Try writing each of these routes (and tests) on your own!</p>
 </blockquote>
 
-<h4 id="get-all-scores">GET all scores</h4>
+<h4 id="get-all-scores"><span style="font-family:'Montserrat', 'sans-serif';">GET All Scores</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_all_scores</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1829,7 +1838,7 @@ TOTAL                            <span class="m">196</span>     <span class="m">
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">200</span>
 </code></pre></div>
-<h4 id="get-single-score">GET single score</h4>
+<h4 id="get-single-score"><span style="font-family:'Montserrat', 'sans-serif';">GET Single Score</span></h4>
 
 <p>Tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_single_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1892,7 +1901,7 @@ TOTAL                            <span class="m">196</span>     <span class="m">
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
 </code></pre></div>
-<h4 id="get-all-scores-by-user-id">GET all scores by user id</h4>
+<h4 id="get-all-scores-by-user-id"><span style="font-family:'Montserrat', 'sans-serif';">GET All Scores By User ID</span></h4>
 
 <p>Tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_all_scores_by_user_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1982,7 +1991,7 @@ TOTAL                            <span class="m">196</span>     <span class="m">
 </code></pre></div>
 <p>Instead of returning <code>True</code>, we are now returning a test object. So, there&#39;s even more test code polluting the source code. Refactor this!</p>
 
-<h4 id="get-single-score-by-user-id">GET single score by user id</h4>
+<h4 id="get-single-score-by-user-id"><span style="font-family:'Montserrat', 'sans-serif';">GET Single Score By User ID</span></h4>
 
 <p>Tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_single_score_by_user_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2066,7 +2075,7 @@ TOTAL                            <span class="m">196</span>     <span class="m">
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
 </code></pre></div>
-<h4 id="post">POST</h4>
+<h4 id="post"><span style="font-family:'Montserrat', 'sans-serif';">POST</span></h4>
 
 <p>Tests:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2195,7 +2204,7 @@ TOTAL                            <span class="m">196</span>     <span class="m">
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">exc</span>
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
 </code></pre></div>
-<h4 id="put">PUT</h4>
+<h4 id="put"><span style="font-family:'Montserrat', 'sans-serif';">PUT</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_update_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2319,7 +2328,7 @@ TOTAL                            <span class="m">196</span>     <span class="m">
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
-<h4 id="patch">PATCH</h4>
+<h4 id="patch"><span style="font-family:'Montserrat', 'sans-serif';">PATCH</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_upsert_score_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -2453,7 +2462,7 @@ TOTAL                            <span class="m">196</span>     <span class="m">
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">400</span>
 </code></pre></div>
-<h4 id="sanity-check">Sanity Check</h4>
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
 
 <p>Do the tests pass?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py <span class="nb">test</span>

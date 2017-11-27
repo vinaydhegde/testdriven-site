@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - React Refactor</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -924,7 +933,7 @@
 <p>Although we will be updating the end-to-end test suite in the next lesson, challenge yourself to update the test specs <em>before</em> changing the code as you go through this lesson.</p>
 </blockquote>
 
-<h4 id="navbar">Navbar</h4>
+<h4 id="navbar"><span style="font-family:'Montserrat', 'sans-serif';">Navbar</span></h4>
 
 <p>Within <em>flask-microservices-client</em>, add a new file called <em>NavBar.css</em> to &quot;src/components&quot;:</p>
 <div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.navbar</span> <span class="p">{</span>
@@ -992,7 +1001,7 @@
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">NavBar</span>
 </code></pre></div>
-<h4 id="footer">Footer</h4>
+<h4 id="footer"><span style="font-family:'Montserrat', 'sans-serif';">Footer</span></h4>
 
 <p>Add a new file to &quot;src/components&quot; called <em>Footer.jsx</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1026,7 +1035,7 @@
 <p>Then, add the component in the <code>render()</code>, just before the closing <code>div</code>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Footer</span><span class="o">/&gt;</span>
 </code></pre></div>
-<h4 id="custom-font">Custom Font</h4>
+<h4 id="custom-font"><span style="font-family:'Montserrat', 'sans-serif';">Custom Font</span></h4>
 
 <p>Let&#39;s add the <a href="https://fonts.google.com/specimen/Roboto">Roboto</a> font. First, add the stylesheet to the <code>head</code> in <em>index.html</em>, just below the Bootstrap stylesheet:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;//fonts.googleapis.com/css?family=Roboto&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span><span class="nt">&gt;</span>
@@ -1039,7 +1048,7 @@
 <p>Again, add the stylesheet to the <em>index.html</em> file, below the Roboto stylesheet:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;main.css&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
-<h4 id="forms">Forms</h4>
+<h4 id="forms"><span style="font-family:'Montserrat', 'sans-serif';">Forms</span></h4>
 
 <p>You may already have noticed, but the login form probably does not need the same validation rules applied to it that the register form has. Let&#39;s break them apart.</p>
 
@@ -1419,7 +1428,7 @@
 </code></pre></div>
 <p>Take note of what changed in each of these files. How would you DRY out the forms to remove the duplicate methods?</p>
 
-<h4 id="users">Users</h4>
+<h4 id="users"><span style="font-family:'Montserrat', 'sans-serif';">Users</span></h4>
 
 <p>Next, let&#39;s move the <code>UsersList</code> component to a new route. Within the <code>render()</code> in <em>src/App.jsx</em>, update the main route to:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
@@ -1472,7 +1481,7 @@
 <p>Although we will be updating the end-to-end test suite in the next lesson, challenge yourself to update the test specs <em>before</em> changing the code as you go through this lesson.</p>
 </blockquote>
 
-<h4 id="navbar">Navbar</h4>
+<h4 id="navbar"><span style="font-family:'Montserrat', 'sans-serif';">Navbar</span></h4>
 
 <p>Within <em>flask-microservices-client</em>, add a new file called <em>NavBar.css</em> to &quot;src/components&quot;:</p>
 <div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.navbar</span> <span class="p">{</span>
@@ -1540,7 +1549,7 @@
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">NavBar</span>
 </code></pre></div>
-<h4 id="footer">Footer</h4>
+<h4 id="footer"><span style="font-family:'Montserrat', 'sans-serif';">Footer</span></h4>
 
 <p>Add a new file to &quot;src/components&quot; called <em>Footer.jsx</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1574,7 +1583,7 @@
 <p>Then, add the component in the <code>render()</code>, just before the closing <code>div</code>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Footer</span><span class="o">/&gt;</span>
 </code></pre></div>
-<h4 id="custom-font">Custom Font</h4>
+<h4 id="custom-font"><span style="font-family:'Montserrat', 'sans-serif';">Custom Font</span></h4>
 
 <p>Let&#39;s add the <a href="https://fonts.google.com/specimen/Roboto">Roboto</a> font. First, add the stylesheet to the <code>head</code> in <em>index.html</em>, just below the Bootstrap stylesheet:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;//fonts.googleapis.com/css?family=Roboto&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span><span class="nt">&gt;</span>
@@ -1587,7 +1596,7 @@
 <p>Again, add the stylesheet to the <em>index.html</em> file, below the Roboto stylesheet:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;main.css&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
-<h4 id="forms">Forms</h4>
+<h4 id="forms"><span style="font-family:'Montserrat', 'sans-serif';">Forms</span></h4>
 
 <p>You may already have noticed, but the login form probably does not need the same validation rules applied to it that the register form has. Let&#39;s break them apart.</p>
 
@@ -1967,7 +1976,7 @@
 </code></pre></div>
 <p>Take note of what changed in each of these files. How would you DRY out the forms to remove the duplicate methods?</p>
 
-<h4 id="users">Users</h4>
+<h4 id="users"><span style="font-family:'Montserrat', 'sans-serif';">Users</span></h4>
 
 <p>Next, let&#39;s move the <code>UsersList</code> component to a new route. Within the <code>render()</code> in <em>src/App.jsx</em>, update the main route to:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>

@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - ECS Production</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -926,7 +935,7 @@
 <li>Create an Application Load Balancer (ALB)</li>
 <li>Configure Target Groups</li>
 <li>Add Listeners to the ALB</li>
-<li>Create an ECS Cluster</li>
+<li>Create An ECS Cluster</li>
 <li>Create new <em>Dockerfile</em> for <em>flask-microservices-users</em></li>
 <li>Update the <em>docker_push.sh</em> file</li>
 <li>Add images to ECR</li>
@@ -934,7 +943,7 @@
 <li>Create Task Definitions</li>
 <li>Add new local Task Definition JSON files</li>
 <li>Create Services</li>
-<li>Sanity Check (take one)</li>
+<li>Sanity Check (Take One)</li>
 <li>Create a Docker deploy file</li>
 <li>Update Travis file</li>
 <li>Sanity Check (take two)</li>
@@ -946,7 +955,7 @@
 <p>This is a great time to check your understanding. There are a number of steps, but the only difference between production and staging is the RDS database. Do your best to configure everything on your own before reviewing the lesson.</p>
 </blockquote>
 
-<h4 id="create-an-alb">Create an ALB</h4>
+<h4 id="create-an-alb"><span style="font-family:'Montserrat', 'sans-serif';">Create an ALB</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
 
@@ -983,7 +992,7 @@
 <li>Don&#39;t assign any instances manually since this will be managed by ECS.</li>
 </ol>
 
-<h4 id="target-groups">Target Groups</h4>
+<h4 id="target-groups"><span style="font-family:'Montserrat', 'sans-serif';">Target Groups</span></h4>
 
 <p>Next, set up new Target Groups for <code>swagger</code> and <code>users-service</code>. Within <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Target Groups&quot;, and then create the following Target Groups:</p>
 
@@ -1013,7 +1022,7 @@
 <li>&quot;Path&quot;: <code>/</code></li>
 </ol>
 
-<h4 id="add-listeners-to-the-alb">Add Listeners to the ALB</h4>
+<h4 id="add-listeners-to-the-alb"><span style="font-family:'Montserrat', 'sans-serif';">Add Listeners to the ALB</span></h4>
 
 <p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-prod-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
 
@@ -1034,7 +1043,7 @@
 <li>&quot;Default target group&quot;: <code>swagger-tg</code></li>
 </ol>
 
-<h4 id="create-an-ecs-cluster">Create an ECS Cluster</h4>
+<h4 id="create-an-ecs-cluster"><span style="font-family:'Montserrat', 'sans-serif';">Create An ECS Cluster</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ecs">Amazon ECS</a>, and create a new Cluster:</p>
 
@@ -1051,7 +1060,7 @@
 
 <p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
 
-<h4 id="create-new-dockerfile-for-flask-microservices-users">Create new <em>Dockerfile</em> for <em>flask-microservices-users</em></h4>
+<h4 id="create-new-dockerfile-for-flask-microservices-users"><span style="font-family:'Montserrat', 'sans-serif';">Create New <em>Dockerfile</em> For <em>flask-microservices-users</em></span></h4>
 
 <p>Next, within <em>flask-microservices-users</em>, create a new file called <em>Dockerfile-prod</em>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
@@ -1082,7 +1091,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Commit and push your changes to GitHub.</p>
 
-<h4 id="update-the-docker_push-sh-file">Update the <em>docker_push.sh</em> file</h4>
+<h4 id="update-the-docker_push-sh-file"><span style="font-family:'Montserrat', 'sans-serif';">Update The <em>docker_push.sh</em> File</span></h4>
 
 <p>Within <em>flask-microservices-main</em>, update the environment variables for <code>production</code> in <em>docker_push.sh</em>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
@@ -1132,7 +1141,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
   docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
 <span class="k">fi</span>
 </code></pre></div>
-<h4 id="add-images-to-ecr">Add images to ECR</h4>
+<h4 id="add-images-to-ecr"><span style="font-family:'Montserrat', 'sans-serif';">Add Images To ECR</span></h4>
 
 <p>Assuming you are still using the <code>ecs</code> feature branch, create a new branch on GitHub called <code>production</code>. Within <em>flask-microservices-main</em>, commit and push your code to GitHub. Open a PR against the <code>production</code> branch, and then merge the PR once the Travis build passes, to trigger a new build.</p>
 
@@ -1142,13 +1151,13 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <p>Since we&#39;re not using <em>flask-microservices-users_db</em> or <em>flask-microservices-nginx</em> in production, you may want to update the <em>docker_push.sh</em> file so they are not built, tagged, or pushed when the branch is <code>production</code>.</p>
 </blockquote>
 
-<h4 id="create-new-swagger-spec">Create new Swagger Spec</h4>
+<h4 id="create-new-swagger-spec"><span style="font-family:'Montserrat', 'sans-serif';">Create New Swagger Spec</span></h4>
 
 <p>Next, let&#39;s add a production Swagger Spec file. Within <em>flask-microservices-swagger</em>, create a duplicate of the current Spec file, <em>swagger.json</em>, called <em>swagger-prod.json</em>. Update the <code>host</code> to the LOAD_BALANCER_DNS_NAME.</p>
 
 <p>Commit and push the changes up to GitHub.</p>
 
-<h4 id="create-task-definitions">Create Task Definitions</h4>
+<h4 id="create-task-definitions"><span style="font-family:'Montserrat', 'sans-serif';">Create Task Definitions</span></h4>
 
 <p>Create the following Task Definitions...</p>
 
@@ -1212,7 +1221,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 </ol></li>
 </ol>
 
-<h4 id="add-new-local-task-definition-json-files">Add new local Task Definition JSON files</h4>
+<h4 id="add-new-local-task-definition-json-files"><span style="font-family:'Montserrat', 'sans-serif';">Add New Local Task Definition JSON Files</span></h4>
 
 <p>Next, within the &quot;ecs&quot; folder, add the Task Definition JSON files to match the Task Definitions we just added...</p>
 
@@ -1329,7 +1338,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 </code></pre></div>
 <p>Make sure you update <code>http://LOAD_BALANCER_DNS_NAME</code> in <em>ecs_client_prod_taskdefinition.json</em> and set up the production logs. To set up, navigate to <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, click &quot;Logs&quot;, click the &quot;Actions&quot; drop-down button, and then select &quot;Create log group&quot;. Name the group <code>flask-microservices-production</code>.</p>
 
-<h4 id="create-services">Create Services</h4>
+<h4 id="create-services"><span style="font-family:'Montserrat', 'sans-serif';">Create Services</span></h4>
 
 <p>Add the following Services...</p>
 
@@ -1405,7 +1414,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
 
-<h4 id="sanity-check-take-one">Sanity Check (take one)</h4>
+<h4 id="sanity-check-take-one"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take One)</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. Make sure <code>client-prod-tg</code>, <code>swagger-prod-tg</code>, and <code>users-prod-tg</code> have a single registered instance each. They should all be healthy.</p>
 
@@ -1439,7 +1448,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 </code></pre></div>
 <p>They should pass!</p>
 
-<h4 id="create-a-docker-deploy-file">Create a Docker deploy file</h4>
+<h4 id="create-a-docker-deploy-file"><span style="font-family:'Montserrat', 'sans-serif';">Create A Docker Deploy File</span></h4>
 
 <p>Create a new file in <em>flask-microservices-main</em> called <em>docker_deploy_prod.sh</em>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
@@ -1520,7 +1529,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 </code></pre></div>
 <p>Compare this file to <em>docker_deploy.sh</em>. What are the differences?</p>
 
-<h4 id="update-travis-file">Update Travis file</h4>
+<h4 id="update-travis-file"><span style="font-family:'Montserrat', 'sans-serif';">Update Travis file</span></h4>
 
 <p>Update the <code>after_success</code> in <em>.travis.yml</em>:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
@@ -1528,7 +1537,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy_prod.sh</span>
 </code></pre></div>
-<h4 id="sanity-check-take-two">Sanity Check (take two)</h4>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Assuming you are still using the <code>ecs</code> feature branch, commit and push your code to GitHub. Open a PR against the <code>production</code> branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the each Task Definition and the Services should now be running a new Task based on that revision.</p>
 
@@ -1624,7 +1633,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <li>Create an Application Load Balancer (ALB)</li>
 <li>Configure Target Groups</li>
 <li>Add Listeners to the ALB</li>
-<li>Create an ECS Cluster</li>
+<li>Create An ECS Cluster</li>
 <li>Create new <em>Dockerfile</em> for <em>flask-microservices-users</em></li>
 <li>Update the <em>docker_push.sh</em> file</li>
 <li>Add images to ECR</li>
@@ -1632,7 +1641,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <li>Create Task Definitions</li>
 <li>Add new local Task Definition JSON files</li>
 <li>Create Services</li>
-<li>Sanity Check (take one)</li>
+<li>Sanity Check (Take One)</li>
 <li>Create a Docker deploy file</li>
 <li>Update Travis file</li>
 <li>Sanity Check (take two)</li>
@@ -1644,7 +1653,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <p>This is a great time to check your understanding. There are a number of steps, but the only difference between production and staging is the RDS database. Do your best to configure everything on your own before reviewing the lesson.</p>
 </blockquote>
 
-<h4 id="create-an-alb">Create an ALB</h4>
+<h4 id="create-an-alb"><span style="font-family:'Montserrat', 'sans-serif';">Create an ALB</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
 
@@ -1681,7 +1690,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <li>Don&#39;t assign any instances manually since this will be managed by ECS.</li>
 </ol>
 
-<h4 id="target-groups">Target Groups</h4>
+<h4 id="target-groups"><span style="font-family:'Montserrat', 'sans-serif';">Target Groups</span></h4>
 
 <p>Next, set up new Target Groups for <code>swagger</code> and <code>users-service</code>. Within <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Target Groups&quot;, and then create the following Target Groups:</p>
 
@@ -1711,7 +1720,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <li>&quot;Path&quot;: <code>/</code></li>
 </ol>
 
-<h4 id="add-listeners-to-the-alb">Add Listeners to the ALB</h4>
+<h4 id="add-listeners-to-the-alb"><span style="font-family:'Montserrat', 'sans-serif';">Add Listeners to the ALB</span></h4>
 
 <p>Back on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-prod-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners</a> to the ALB, which are then forwarded to a specific Target Group.</p>
 
@@ -1732,7 +1741,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <li>&quot;Default target group&quot;: <code>swagger-tg</code></li>
 </ol>
 
-<h4 id="create-an-ecs-cluster">Create an ECS Cluster</h4>
+<h4 id="create-an-ecs-cluster"><span style="font-family:'Montserrat', 'sans-serif';">Create An ECS Cluster</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ecs">Amazon ECS</a>, and create a new Cluster:</p>
 
@@ -1749,7 +1758,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
 
-<h4 id="create-new-dockerfile-for-flask-microservices-users">Create new <em>Dockerfile</em> for <em>flask-microservices-users</em></h4>
+<h4 id="create-new-dockerfile-for-flask-microservices-users"><span style="font-family:'Montserrat', 'sans-serif';">Create New <em>Dockerfile</em> For <em>flask-microservices-users</em></span></h4>
 
 <p>Next, within <em>flask-microservices-users</em>, create a new file called <em>Dockerfile-prod</em>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM python:3.6.1
@@ -1780,7 +1789,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Commit and push your changes to GitHub.</p>
 
-<h4 id="update-the-docker_push-sh-file">Update the <em>docker_push.sh</em> file</h4>
+<h4 id="update-the-docker_push-sh-file"><span style="font-family:'Montserrat', 'sans-serif';">Update The <em>docker_push.sh</em> File</span></h4>
 
 <p>Within <em>flask-microservices-main</em>, update the environment variables for <code>production</code> in <em>docker_push.sh</em>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_BRANCH&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
@@ -1830,7 +1839,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
   docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
 <span class="k">fi</span>
 </code></pre></div>
-<h4 id="add-images-to-ecr">Add images to ECR</h4>
+<h4 id="add-images-to-ecr"><span style="font-family:'Montserrat', 'sans-serif';">Add Images To ECR</span></h4>
 
 <p>Assuming you are still using the <code>ecs</code> feature branch, create a new branch on GitHub called <code>production</code>. Within <em>flask-microservices-main</em>, commit and push your code to GitHub. Open a PR against the <code>production</code> branch, and then merge the PR once the Travis build passes, to trigger a new build.</p>
 
@@ -1840,13 +1849,13 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 <p>Since we&#39;re not using <em>flask-microservices-users_db</em> or <em>flask-microservices-nginx</em> in production, you may want to update the <em>docker_push.sh</em> file so they are not built, tagged, or pushed when the branch is <code>production</code>.</p>
 </blockquote>
 
-<h4 id="create-new-swagger-spec">Create new Swagger Spec</h4>
+<h4 id="create-new-swagger-spec"><span style="font-family:'Montserrat', 'sans-serif';">Create New Swagger Spec</span></h4>
 
 <p>Next, let&#39;s add a production Swagger Spec file. Within <em>flask-microservices-swagger</em>, create a duplicate of the current Spec file, <em>swagger.json</em>, called <em>swagger-prod.json</em>. Update the <code>host</code> to the LOAD_BALANCER_DNS_NAME.</p>
 
 <p>Commit and push the changes up to GitHub.</p>
 
-<h4 id="create-task-definitions">Create Task Definitions</h4>
+<h4 id="create-task-definitions"><span style="font-family:'Montserrat', 'sans-serif';">Create Task Definitions</span></h4>
 
 <p>Create the following Task Definitions...</p>
 
@@ -1910,7 +1919,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 </ol></li>
 </ol>
 
-<h4 id="add-new-local-task-definition-json-files">Add new local Task Definition JSON files</h4>
+<h4 id="add-new-local-task-definition-json-files"><span style="font-family:'Montserrat', 'sans-serif';">Add New Local Task Definition JSON Files</span></h4>
 
 <p>Next, within the &quot;ecs&quot; folder, add the Task Definition JSON files to match the Task Definitions we just added...</p>
 
@@ -2027,7 +2036,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 </code></pre></div>
 <p>Make sure you update <code>http://LOAD_BALANCER_DNS_NAME</code> in <em>ecs_client_prod_taskdefinition.json</em> and set up the production logs. To set up, navigate to <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, click &quot;Logs&quot;, click the &quot;Actions&quot; drop-down button, and then select &quot;Create log group&quot;. Name the group <code>flask-microservices-production</code>.</p>
 
-<h4 id="create-services">Create Services</h4>
+<h4 id="create-services"><span style="font-family:'Montserrat', 'sans-serif';">Create Services</span></h4>
 
 <p>Add the following Services...</p>
 
@@ -2103,7 +2112,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 
 <p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
 
-<h4 id="sanity-check-take-one">Sanity Check (take one)</h4>
+<h4 id="sanity-check-take-one"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take One)</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. Make sure <code>client-prod-tg</code>, <code>swagger-prod-tg</code>, and <code>users-prod-tg</code> have a single registered instance each. They should all be healthy.</p>
 
@@ -2137,7 +2146,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 </code></pre></div>
 <p>They should pass!</p>
 
-<h4 id="create-a-docker-deploy-file">Create a Docker deploy file</h4>
+<h4 id="create-a-docker-deploy-file"><span style="font-family:'Montserrat', 'sans-serif';">Create A Docker Deploy File</span></h4>
 
 <p>Create a new file in <em>flask-microservices-main</em> called <em>docker_deploy_prod.sh</em>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c">#!/bin/sh</span>
@@ -2218,7 +2227,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
 </code></pre></div>
 <p>Compare this file to <em>docker_deploy.sh</em>. What are the differences?</p>
 
-<h4 id="update-travis-file">Update Travis file</h4>
+<h4 id="update-travis-file"><span style="font-family:'Montserrat', 'sans-serif';">Update Travis file</span></h4>
 
 <p>Update the <code>after_success</code> in <em>.travis.yml</em>:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
@@ -2226,7 +2235,7 @@ CMD gunicorn -b 0.0.0.0:5000 manage:app
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy.sh</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">bash ./docker_deploy_prod.sh</span>
 </code></pre></div>
-<h4 id="sanity-check-take-two">Sanity Check (take two)</h4>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Assuming you are still using the <code>ecs</code> feature branch, commit and push your code to GitHub. Open a PR against the <code>production</code> branch, and then merge the PR once the Travis build passes, to trigger a new build. Once done, you should see a new revision associated with the each Task Definition and the Services should now be running a new Task based on that revision.</p>
 

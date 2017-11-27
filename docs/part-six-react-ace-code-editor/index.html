@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - React Ace Code Editor</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -920,7 +929,7 @@
 
 <hr>
 
-<h4 id="seed-data">Seed Data</h4>
+<h4 id="seed-data"><span style="font-family:'Montserrat', 'sans-serif';">Seed Data</span></h4>
 
 <p>Within <em>flask-microservices-eval</em>, start by adding a seed command to the <em>manage.py</em> file to populate the database with some initial data:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
@@ -960,7 +969,7 @@
 <p>Apply the seed:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py seed_db
 </code></pre></div>
-<h4 id="exercise-component">Exercise Component</h4>
+<h4 id="exercise-component"><span style="font-family:'Montserrat', 'sans-serif';">Exercise Component</span></h4>
 
 <p>Next, let&#39;s add a new Component to the React app. Within <em>flask-microservices-client</em>, add a new class-based component called <em>Exercises.jsx</em> to &quot;src/components&quot;:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1037,7 +1046,7 @@
   <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="ace-code-editor">Ace Code Editor</h4>
+<h4 id="ace-code-editor"><span style="font-family:'Montserrat', 'sans-serif';">Ace Code Editor</span></h4>
 
 <p><a href="https://ace.c9.io/">Ace</a> is an embeddable code editor, which we&#39;ll use to allow end users to submit their exercise solutions directly in the browser. We&#39;ll use a pre-configured Component for Ace called <a href="https://github.com/securingsincity/react-ace">React-Ace</a>.</p>
 
@@ -1090,7 +1099,7 @@
   <img src="/assets/img/react-ace-code-editor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ace code editor">
 </div>
 
-<h4 id="ensure-authenticated">Ensure Authenticated</h4>
+<h4 id="ensure-authenticated"><span style="font-family:'Montserrat', 'sans-serif';">Ensure Authenticated</span></h4>
 
 <p>Next, let&#39;s only display the button if a user is logged in:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
@@ -1150,7 +1159,7 @@
   <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="event-handler">Event Handler</h4>
+<h4 id="event-handler"><span style="font-family:'Montserrat', 'sans-serif';">Event Handler</span></h4>
 
 <p>Start by adding the <code>value</code> to the state:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
@@ -1226,7 +1235,7 @@
 
 <hr>
 
-<h4 id="seed-data">Seed Data</h4>
+<h4 id="seed-data"><span style="font-family:'Montserrat', 'sans-serif';">Seed Data</span></h4>
 
 <p>Within <em>flask-microservices-eval</em>, start by adding a seed command to the <em>manage.py</em> file to populate the database with some initial data:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@manager.command</span>
@@ -1266,7 +1275,7 @@
 <p>Apply the seed:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose run <span class="nb">eval</span>-service python manage.py seed_db
 </code></pre></div>
-<h4 id="exercise-component">Exercise Component</h4>
+<h4 id="exercise-component"><span style="font-family:'Montserrat', 'sans-serif';">Exercise Component</span></h4>
 
 <p>Next, let&#39;s add a new Component to the React app. Within <em>flask-microservices-client</em>, add a new class-based component called <em>Exercises.jsx</em> to &quot;src/components&quot;:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1343,7 +1352,7 @@
   <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="ace-code-editor">Ace Code Editor</h4>
+<h4 id="ace-code-editor"><span style="font-family:'Montserrat', 'sans-serif';">Ace Code Editor</span></h4>
 
 <p><a href="https://ace.c9.io/">Ace</a> is an embeddable code editor, which we&#39;ll use to allow end users to submit their exercise solutions directly in the browser. We&#39;ll use a pre-configured Component for Ace called <a href="https://github.com/securingsincity/react-ace">React-Ace</a>.</p>
 
@@ -1396,7 +1405,7 @@
   <img src="/assets/img/react-ace-code-editor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ace code editor">
 </div>
 
-<h4 id="ensure-authenticated">Ensure Authenticated</h4>
+<h4 id="ensure-authenticated"><span style="font-family:'Montserrat', 'sans-serif';">Ensure Authenticated</span></h4>
 
 <p>Next, let&#39;s only display the button if a user is logged in:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
@@ -1456,7 +1465,7 @@
   <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="event-handler">Event Handler</h4>
+<h4 id="event-handler"><span style="font-family:'Montserrat', 'sans-serif';">Event Handler</span></h4>
 
 <p>Start by adding the <code>value</code> to the state:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>

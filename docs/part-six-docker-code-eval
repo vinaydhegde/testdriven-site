@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Docker Code Eval</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -915,7 +924,7 @@
 </code></pre></div>
 <p>Now, let&#39;s write some tests!</p>
 
-<h4 id="test-1">Test 1</h4>
+<h4 id="test-1"><span style="font-family:'Montserrat', 'sans-serif';">Test 1</span></h4>
 
 <p><em>Request</em></p>
 
@@ -1029,7 +1038,7 @@
 </code></pre></div>
 <p>Run the tests. They should pass.</p>
 
-<h4 id="test-2">Test 2</h4>
+<h4 id="test-2"><span style="font-family:'Montserrat', 'sans-serif';">Test 2</span></h4>
 
 <p>What if there&#39;s a syntax error in the submitted code?</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_eval_endpoint_handles_syntax_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1053,7 +1062,7 @@
 </code></pre></div>
 <p>Run the test. It should already pass!</p>
 
-<h4 id="test-3">Test 3</h4>
+<h4 id="test-3"><span style="font-family:'Montserrat', 'sans-serif';">Test 3</span></h4>
 
 <p>What if the end user submits JavaScript rather than Python?</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_eval_endpoint_handles_name_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1077,7 +1086,7 @@
 </code></pre></div>
 <p>Again, this should already pass!</p>
 
-<h4 id="test-4">Test 4</h4>
+<h4 id="test-4"><span style="font-family:'Montserrat', 'sans-serif';">Test 4</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_eval_endpoint_invalid_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1095,7 +1104,7 @@
 </code></pre></div>
 <p>Does it pass?</p>
 
-<h4 id="test-5">Test 5</h4>
+<h4 id="test-5"><span style="font-family:'Montserrat', 'sans-serif';">Test 5</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_eval_endpoint_no_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1147,7 +1156,7 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">500</span>
 </code></pre></div>
-<h4 id="code-coverage">Code Coverage</h4>
+<h4 id="code-coverage"><span style="font-family:'Montserrat', 'sans-serif';">Code Coverage</span></h4>
 
 <p>Where are we at in terms of code coverage?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py cov
@@ -1169,7 +1178,7 @@ project/config.py                  <span class="m">14</span>      <span class="m
 -----------------------------------------------------------------
 TOTAL                              <span class="m">96</span>     <span class="m">17</span>     <span class="m">12</span>      <span class="m">2</span>    81%
 </code></pre></div>
-<h4 id="check-your-understanding">Check Your Understanding</h4>
+<h4 id="check-your-understanding"><span style="font-family:'Montserrat', 'sans-serif';">Check Your Understanding</span></h4>
 
 <p>Add more test cases. Increase the code coverage. Email me your results for a surprise!</p>
 
@@ -1210,7 +1219,7 @@ TOTAL                              <span class="m">96</span>     <span class="m"
 </code></pre></div>
 <p>Now, let&#39;s write some tests!</p>
 
-<h4 id="test-1">Test 1</h4>
+<h4 id="test-1"><span style="font-family:'Montserrat', 'sans-serif';">Test 1</span></h4>
 
 <p><em>Request</em></p>
 
@@ -1324,7 +1333,7 @@ TOTAL                              <span class="m">96</span>     <span class="m"
 </code></pre></div>
 <p>Run the tests. They should pass.</p>
 
-<h4 id="test-2">Test 2</h4>
+<h4 id="test-2"><span style="font-family:'Montserrat', 'sans-serif';">Test 2</span></h4>
 
 <p>What if there&#39;s a syntax error in the submitted code?</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_eval_endpoint_handles_syntax_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1348,7 +1357,7 @@ TOTAL                              <span class="m">96</span>     <span class="m"
 </code></pre></div>
 <p>Run the test. It should already pass!</p>
 
-<h4 id="test-3">Test 3</h4>
+<h4 id="test-3"><span style="font-family:'Montserrat', 'sans-serif';">Test 3</span></h4>
 
 <p>What if the end user submits JavaScript rather than Python?</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_eval_endpoint_handles_name_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1372,7 +1381,7 @@ TOTAL                              <span class="m">96</span>     <span class="m"
 </code></pre></div>
 <p>Again, this should already pass!</p>
 
-<h4 id="test-4">Test 4</h4>
+<h4 id="test-4"><span style="font-family:'Montserrat', 'sans-serif';">Test 4</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_eval_endpoint_invalid_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1390,7 +1399,7 @@ TOTAL                              <span class="m">96</span>     <span class="m"
 </code></pre></div>
 <p>Does it pass?</p>
 
-<h4 id="test-5">Test 5</h4>
+<h4 id="test-5"><span style="font-family:'Montserrat', 'sans-serif';">Test 5</span></h4>
 
 <p>Test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_eval_endpoint_no_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1442,7 +1451,7 @@ TOTAL                              <span class="m">96</span>     <span class="m"
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">500</span>
 </code></pre></div>
-<h4 id="code-coverage">Code Coverage</h4>
+<h4 id="code-coverage"><span style="font-family:'Montserrat', 'sans-serif';">Code Coverage</span></h4>
 
 <p>Where are we at in terms of code coverage?</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="o">(</span>env<span class="o">)</span><span class="nv">$ </span>python manage.py cov
@@ -1464,7 +1473,7 @@ project/config.py                  <span class="m">14</span>      <span class="m
 -----------------------------------------------------------------
 TOTAL                              <span class="m">96</span>     <span class="m">17</span>     <span class="m">12</span>      <span class="m">2</span>    81%
 </code></pre></div>
-<h4 id="check-your-understanding">Check Your Understanding</h4>
+<h4 id="check-your-understanding"><span style="font-family:'Montserrat', 'sans-serif';">Check Your Understanding</span></h4>
 
 <p>Add more test cases. Increase the code coverage. Email me your results for a surprise!</p>
 

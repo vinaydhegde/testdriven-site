@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - React Forms</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -983,13 +992,13 @@
 <p><em>Steps</em>:</p>
 
 <ol>
-<li>Handle form submit event</li>
-<li>Obtain user input</li>
-<li>Send AJAX request</li>
-<li>Update the page</li>
+<li>Handle Form Submit Event</li>
+<li>Obtain User Input</li>
+<li>Send AJAX Request</li>
+<li>Update The Page</li>
 </ol>
 
-<h4 id="handle-form-submit-event">Handle form submit event</h4>
+<h4 id="handle-form-submit-event"><span style="font-family:'Montserrat', 'sans-serif';">Handle Form Submit Event</span></h4>
 
 <p>To handle the submit event, simply update the <code>form</code> element in <em>AddUser.jsx</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()}</span><span class="o">&gt;</span>
@@ -1016,7 +1025,7 @@
 
 <p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit.</p>
 
-<h4 id="obtain-user-input">Obtain user input</h4>
+<h4 id="obtain-user-input"><span style="font-family:'Montserrat', 'sans-serif';">Obtain User Input</span></h4>
 
 <p>We&#39;ll use <a href="https://facebook.github.io/react/docs/forms.html#controlled-components">controlled components</a> to obtain the user submitted input.</p>
 
@@ -1111,7 +1120,7 @@
 </code></pre></div>
 <p>Now that we have the values, let&#39;s send the AJAX request so the data can be added to the database and then update the DOM...</p>
 
-<h4 id="send-ajax-request">Send AJAX request</h4>
+<h4 id="send-ajax-request"><span style="font-family:'Montserrat', 'sans-serif';">Send AJAX Request</span></h4>
 
 <p>Turn back to <em>flask-microservices-users</em>. What do we need to send in the JSON payload to add a user - username and email, right? Let&#39;s use Axios to send the POST request:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -1131,7 +1140,7 @@
 <p>If you have problems, analyze the response object from the &quot;Network&quot; tab in Developer Tools. You can also fire up <em>flask-microservices-users</em> outside of Docker and debug using the Flask debugger or with <code>print</code> statements.</p>
 </blockquote>
 
-<h4 id="update-the-page">Update the page</h4>
+<h4 id="update-the-page"><span style="font-family:'Montserrat', 'sans-serif';">Update The Page</span></h4>
 
 <p>Finally, let&#39;s update the list of users on a successful form submit and then clear the form.</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -1239,13 +1248,13 @@
 <p><em>Steps</em>:</p>
 
 <ol>
-<li>Handle form submit event</li>
-<li>Obtain user input</li>
-<li>Send AJAX request</li>
-<li>Update the page</li>
+<li>Handle Form Submit Event</li>
+<li>Obtain User Input</li>
+<li>Send AJAX Request</li>
+<li>Update The Page</li>
 </ol>
 
-<h4 id="handle-form-submit-event">Handle form submit event</h4>
+<h4 id="handle-form-submit-event"><span style="font-family:'Montserrat', 'sans-serif';">Handle Form Submit Event</span></h4>
 
 <p>To handle the submit event, simply update the <code>form</code> element in <em>AddUser.jsx</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()}</span><span class="o">&gt;</span>
@@ -1272,7 +1281,7 @@
 
 <p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit.</p>
 
-<h4 id="obtain-user-input">Obtain user input</h4>
+<h4 id="obtain-user-input"><span style="font-family:'Montserrat', 'sans-serif';">Obtain User Input</span></h4>
 
 <p>We&#39;ll use <a href="https://facebook.github.io/react/docs/forms.html#controlled-components">controlled components</a> to obtain the user submitted input.</p>
 
@@ -1367,7 +1376,7 @@
 </code></pre></div>
 <p>Now that we have the values, let&#39;s send the AJAX request so the data can be added to the database and then update the DOM...</p>
 
-<h4 id="send-ajax-request">Send AJAX request</h4>
+<h4 id="send-ajax-request"><span style="font-family:'Montserrat', 'sans-serif';">Send AJAX Request</span></h4>
 
 <p>Turn back to <em>flask-microservices-users</em>. What do we need to send in the JSON payload to add a user - username and email, right? Let&#39;s use Axios to send the POST request:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -1387,7 +1396,7 @@
 <p>If you have problems, analyze the response object from the &quot;Network&quot; tab in Developer Tools. You can also fire up <em>flask-microservices-users</em> outside of Docker and debug using the Flask debugger or with <code>print</code> statements.</p>
 </blockquote>
 
-<h4 id="update-the-page">Update the page</h4>
+<h4 id="update-the-page"><span style="font-family:'Montserrat', 'sans-serif';">Update The Page</span></h4>
 
 <p>Finally, let&#39;s update the list of users on a successful form submit and then clear the form.</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>

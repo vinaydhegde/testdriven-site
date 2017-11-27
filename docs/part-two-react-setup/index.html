@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - React Setup</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -930,7 +939,7 @@ v7.10.0
 <span class="nv">$ </span>npm -v
 4.2.0
 </code></pre></div>
-<h4 id="project-setup">Project Setup</h4>
+<h4 id="project-setup"><span style="font-family:'Montserrat', 'sans-serif';">Project Setup</span></h4>
 
 <p>We&#39;ll be using the excellent <a href="https://github.com/facebookincubator/create-react-app">Create React App</a> tool to generate a boilerplate that&#39;s all set up and ready to go.</p>
 
@@ -949,7 +958,7 @@ v7.10.0
 </code></pre></div>
 <p>Now we&#39;re ready build our first component!</p>
 
-<h4 id="first-component">First Component</h4>
+<h4 id="first-component"><span style="font-family:'Montserrat', 'sans-serif';">First Component</span></h4>
 
 <p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the &quot;src&quot; folder, and then update <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -991,7 +1000,7 @@ v7.10.0
   <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
 <span class="nt">&gt;</span>
 </code></pre></div>
-<h4 id="class-based-component">Class-based Component</h4>
+<h4 id="class-based-component"><span style="font-family:'Montserrat', 'sans-serif';">Class-based Component</span></h4>
 
 <p>Update <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1030,7 +1039,7 @@ v7.10.0
 
 <p>You may have already noticed, but the output is the exact same as before.</p>
 
-<h4 id="ajax">AJAX</h4>
+<h4 id="ajax"><span style="font-family:'Montserrat', 'sans-serif';">AJAX</span></h4>
 
 <p>To connect the client to the server, add a <code>getUsers()</code> method to the <code>App</code> class:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
@@ -1160,7 +1169,7 @@ v7.10.0
 </code></pre></div>
 <p>Well, the <code>constructor()</code> fires <em>before</em> the component is mounted to the DOM. What would happen if the AJAX request took longer than expected and the component was mounted before it was complete? This introduces a <a href="https://en.wikipedia.org/wiki/Race_condition">race condition</a>. Fortunately, React makes it fairly simple to correct this via Lifecycle Methods.</p>
 
-<h4 id="component-lifecycle-methods">Component Lifecycle Methods</h4>
+<h4 id="component-lifecycle-methods"><span style="font-family:'Montserrat', 'sans-serif';">Component Lifecycle Methods</span></h4>
 
 <p>Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the <a href="https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle">official documentation</a> to learn about each method and when each is called.</p>
 
@@ -1199,7 +1208,7 @@ v7.10.0
 </code></pre></div>
 <p>Make sure everything still works as it did before.</p>
 
-<h4 id="state">State</h4>
+<h4 id="state"><span style="font-family:'Montserrat', 'sans-serif';">State</span></h4>
 
 <p>To add the <a href="https://en.wikipedia.org/wiki/State_(computer_science)">state</a> - i.e., the users - to the component we need to use <code>setState()</code>, which is an asynchronous function use to update state.</p>
 
@@ -1251,7 +1260,7 @@ v7.10.0
 <li><code>key</code>? - used by React to keep track of each element. Review the <a href="https://facebook.github.io/react/docs/lists-and-keys.html#keys">official docs</a> for more.</li>
 </ol>
 
-<h4 id="functional-component">Functional Component</h4>
+<h4 id="functional-component"><span style="font-family:'Montserrat', 'sans-serif';">Functional Component</span></h4>
 
 <p>Let&#39;s create a new component for the users list. Add a new folder called &quot;components&quot; to &quot;src&quot;. Add a new file to that folder called <em>UsersList.jsx</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1348,7 +1357,7 @@ v7.10.0
 <span class="nv">$ </span>npm -v
 4.2.0
 </code></pre></div>
-<h4 id="project-setup">Project Setup</h4>
+<h4 id="project-setup"><span style="font-family:'Montserrat', 'sans-serif';">Project Setup</span></h4>
 
 <p>We&#39;ll be using the excellent <a href="https://github.com/facebookincubator/create-react-app">Create React App</a> tool to generate a boilerplate that&#39;s all set up and ready to go.</p>
 
@@ -1367,7 +1376,7 @@ v7.10.0
 </code></pre></div>
 <p>Now we&#39;re ready build our first component!</p>
 
-<h4 id="first-component">First Component</h4>
+<h4 id="first-component"><span style="font-family:'Montserrat', 'sans-serif';">First Component</span></h4>
 
 <p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the &quot;src&quot; folder, and then update <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1409,7 +1418,7 @@ v7.10.0
   <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
 <span class="nt">&gt;</span>
 </code></pre></div>
-<h4 id="class-based-component">Class-based Component</h4>
+<h4 id="class-based-component"><span style="font-family:'Montserrat', 'sans-serif';">Class-based Component</span></h4>
 
 <p>Update <em>index.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1448,7 +1457,7 @@ v7.10.0
 
 <p>You may have already noticed, but the output is the exact same as before.</p>
 
-<h4 id="ajax">AJAX</h4>
+<h4 id="ajax"><span style="font-family:'Montserrat', 'sans-serif';">AJAX</span></h4>
 
 <p>To connect the client to the server, add a <code>getUsers()</code> method to the <code>App</code> class:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
@@ -1578,7 +1587,7 @@ v7.10.0
 </code></pre></div>
 <p>Well, the <code>constructor()</code> fires <em>before</em> the component is mounted to the DOM. What would happen if the AJAX request took longer than expected and the component was mounted before it was complete? This introduces a <a href="https://en.wikipedia.org/wiki/Race_condition">race condition</a>. Fortunately, React makes it fairly simple to correct this via Lifecycle Methods.</p>
 
-<h4 id="component-lifecycle-methods">Component Lifecycle Methods</h4>
+<h4 id="component-lifecycle-methods"><span style="font-family:'Montserrat', 'sans-serif';">Component Lifecycle Methods</span></h4>
 
 <p>Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the <a href="https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle">official documentation</a> to learn about each method and when each is called.</p>
 
@@ -1617,7 +1626,7 @@ v7.10.0
 </code></pre></div>
 <p>Make sure everything still works as it did before.</p>
 
-<h4 id="state">State</h4>
+<h4 id="state"><span style="font-family:'Montserrat', 'sans-serif';">State</span></h4>
 
 <p>To add the <a href="https://en.wikipedia.org/wiki/State_(computer_science)">state</a> - i.e., the users - to the component we need to use <code>setState()</code>, which is an asynchronous function use to update state.</p>
 
@@ -1669,7 +1678,7 @@ v7.10.0
 <li><code>key</code>? - used by React to keep track of each element. Review the <a href="https://facebook.github.io/react/docs/lists-and-keys.html#keys">official docs</a> for more.</li>
 </ol>
 
-<h4 id="functional-component">Functional Component</h4>
+<h4 id="functional-component"><span style="font-family:'Montserrat', 'sans-serif';">Functional Component</span></h4>
 
 <p>Let&#39;s create a new component for the users list. Add a new folder called &quot;components&quot; to &quot;src&quot;. Add a new file to that folder called <em>UsersList.jsx</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>

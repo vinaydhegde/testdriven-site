@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - ECS Deployment</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -943,7 +952,7 @@
 <p>Run the full test suite to ensure all tests pass locally:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">sh test.sh
 </code></pre></div>
-<h4 id="travis">Travis</h4>
+<h4 id="travis"><span style="font-family:'Montserrat', 'sans-serif';">Travis</span></h4>
 
 <p>Next, we need to configure Travis to handle the new <code>eval</code> and <code>eval-db</code> services.</p>
 
@@ -1173,7 +1182,7 @@ ENV <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span><s
 </code></pre></div>
 <p>Commit and push your code in <em>flask-microservices-client</em>, and then do the same in <em>flask-microservices-main</em> to trigger a new Travis build. Make sure it passes!</p>
 
-<h4 id="development">Development</h4>
+<h4 id="development"><span style="font-family:'Montserrat', 'sans-serif';">Development</span></h4>
 
 <p>Check out the <code>development</code> branch locally, and then rebase <code>master</code> on <code>development</code>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git checkout development
@@ -1230,7 +1239,7 @@ ENV <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span><s
 </code></pre></div>
 <p>Commit your code and push to GitHub, which will trigger a new build on Travis. Make sure the build passes and that the pushes to Docker Hub were successful.</p>
 
-<h4 id="staging">Staging</h4>
+<h4 id="staging"><span style="font-family:'Montserrat', 'sans-serif';">Staging</span></h4>
 
 <p>Check out the <code>staging</code> branch locally, and then rebase <code>development</code> on <code>staging</code>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git checkout staging
@@ -1553,7 +1562,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 <p>Be sure to double-check all environment variables!</p>
 </blockquote>
 
-<h4 id="production">Production</h4>
+<h4 id="production"><span style="font-family:'Montserrat', 'sans-serif';">Production</span></h4>
 
 <p>You know the drill: Check out the <code>production</code> branch locally, and then rebase <code>staging</code> on <code>production</code>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git checkout production
@@ -1667,7 +1676,7 @@ update_service
 
 <p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
 
-<h5 id="sanity-check-take-one">Sanity Check (take one)</h5>
+<h4 id="sanity-check-take-one"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take One)</span></h4>
 
 <p>Commit and push to GitHub. Once the build passes, hop on to AWS to confirm that the images are up-to-date on ECR and that an <code>flask-microservices-eval-prod-td</code> Task Definition was created. The EC2 instance associated with the Target Group, <code>eval-prod-tg</code>, should not be healthy since we still need to set up the database.</p>
 
@@ -1726,7 +1735,7 @@ update_service
 
 <p>Commit. Push your code to GitHub. Once done, the app should be live, ready to go.</p>
 
-<h5 id="sanity-check-take-two">Sanity Check (take two)</h5>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Grab the Container ID for <code>flask-microservices-eval</code> (via <code>docker ps</code>), enter the shell within the running container, and then update the database:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash
@@ -1786,7 +1795,7 @@ update_service
 <p>Run the full test suite to ensure all tests pass locally:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh">sh test.sh
 </code></pre></div>
-<h4 id="travis">Travis</h4>
+<h4 id="travis"><span style="font-family:'Montserrat', 'sans-serif';">Travis</span></h4>
 
 <p>Next, we need to configure Travis to handle the new <code>eval</code> and <code>eval-db</code> services.</p>
 
@@ -2016,7 +2025,7 @@ ENV <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span><s
 </code></pre></div>
 <p>Commit and push your code in <em>flask-microservices-client</em>, and then do the same in <em>flask-microservices-main</em> to trigger a new Travis build. Make sure it passes!</p>
 
-<h4 id="development">Development</h4>
+<h4 id="development"><span style="font-family:'Montserrat', 'sans-serif';">Development</span></h4>
 
 <p>Check out the <code>development</code> branch locally, and then rebase <code>master</code> on <code>development</code>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git checkout development
@@ -2073,7 +2082,7 @@ ENV <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span><s
 </code></pre></div>
 <p>Commit your code and push to GitHub, which will trigger a new build on Travis. Make sure the build passes and that the pushes to Docker Hub were successful.</p>
 
-<h4 id="staging">Staging</h4>
+<h4 id="staging"><span style="font-family:'Montserrat', 'sans-serif';">Staging</span></h4>
 
 <p>Check out the <code>staging</code> branch locally, and then rebase <code>development</code> on <code>staging</code>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git checkout staging
@@ -2396,7 +2405,7 @@ gunicorn -b 0.0.0.0:5000 manage:app
 <p>Be sure to double-check all environment variables!</p>
 </blockquote>
 
-<h4 id="production">Production</h4>
+<h4 id="production"><span style="font-family:'Montserrat', 'sans-serif';">Production</span></h4>
 
 <p>You know the drill: Check out the <code>production</code> branch locally, and then rebase <code>staging</code> on <code>production</code>:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>git checkout production
@@ -2510,7 +2519,7 @@ update_service
 
 <p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
 
-<h5 id="sanity-check-take-one">Sanity Check (take one)</h5>
+<h4 id="sanity-check-take-one"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take One)</span></h4>
 
 <p>Commit and push to GitHub. Once the build passes, hop on to AWS to confirm that the images are up-to-date on ECR and that an <code>flask-microservices-eval-prod-td</code> Task Definition was created. The EC2 instance associated with the Target Group, <code>eval-prod-tg</code>, should not be healthy since we still need to set up the database.</p>
 
@@ -2569,7 +2578,7 @@ update_service
 
 <p>Commit. Push your code to GitHub. Once done, the app should be live, ready to go.</p>
 
-<h5 id="sanity-check-take-two">Sanity Check (take two)</h5>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Grab the Container ID for <code>flask-microservices-eval</code> (via <code>docker ps</code>), enter the shell within the running container, and then update the database:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker <span class="nb">exec</span> -it Container_ID bash

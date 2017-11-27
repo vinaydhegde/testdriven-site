@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - React and Docker</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -966,7 +975,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
 
 <p>What happens if you navigate to the main route? Since we&#39;re still routing traffic to the Flask app (via Nginx), you will see the old app, served up with server-side templating. We need to update the Nginx configuration to route traffic to that main route to the React app. Before we update this, though, let&#39;s create a <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment">build</a> with Create React App locally, outside of Docker, which will generate static files.</p>
 
-<h4 id="create-react-app-build">Create React App Build</h4>
+<h4 id="create-react-app-build"><span style="font-family:'Montserrat', 'sans-serif';">Create React App Build</span></h4>
 
 <p>Make sure the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable is set:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_IP
@@ -983,7 +992,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
 </code></pre></div>
 <p>This will serve up the app on <a href="http://localhost:8000/">http://localhost:8000/</a>. Test it out in the browser to make sure it works. Once done, kill the server and navigate back to the project root.</p>
 
-<h4 id="dockerfile">Dockerfile</h4>
+<h4 id="dockerfile"><span style="font-family:'Montserrat', 'sans-serif';">Dockerfile</span></h4>
 
 <p>Update the <em>Dockerfile</em></p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM node:latest
@@ -1045,7 +1054,7 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 </code></pre></div>
 <p>Commit and push your code.</p>
 
-<h4 id="docker-compose">Docker Compose</h4>
+<h4 id="docker-compose"><span style="font-family:'Montserrat', 'sans-serif';">Docker Compose</span></h4>
 
 <p>With the <em>Dockerfile</em> set up and tested, update the <code>web-service</code> in <em>docker-compose.yml</em>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
@@ -1076,7 +1085,7 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 
 <p>With that, let&#39;s update Nginx...</p>
 
-<h4 id="nginx">Nginx</h4>
+<h4 id="nginx"><span style="font-family:'Montserrat', 'sans-serif';">Nginx</span></h4>
 
 <p>Make the following updates to <em>flask.conf</em> in &quot;flask-microservices-main&quot;:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">server {
@@ -1146,7 +1155,7 @@ ADD /nginx.conf /etc/nginx/conf.d
 </code></pre></div>
 <p>Now, let&#39;s update production...</p>
 
-<h4 id="update-production">Update Production</h4>
+<h4 id="update-production"><span style="font-family:'Montserrat', 'sans-serif';">Update Production</span></h4>
 
 <p>Add the <code>web-service</code> to <em>docker-compose-prod.yml</em>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
@@ -1264,7 +1273,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
 
 <p>What happens if you navigate to the main route? Since we&#39;re still routing traffic to the Flask app (via Nginx), you will see the old app, served up with server-side templating. We need to update the Nginx configuration to route traffic to that main route to the React app. Before we update this, though, let&#39;s create a <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment">build</a> with Create React App locally, outside of Docker, which will generate static files.</p>
 
-<h4 id="create-react-app-build">Create React App Build</h4>
+<h4 id="create-react-app-build"><span style="font-family:'Montserrat', 'sans-serif';">Create React App Build</span></h4>
 
 <p>Make sure the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable is set:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_IP
@@ -1281,7 +1290,7 @@ CMD [&quot;npm&quot;, &quot;start&quot;]
 </code></pre></div>
 <p>This will serve up the app on <a href="http://localhost:8000/">http://localhost:8000/</a>. Test it out in the browser to make sure it works. Once done, kill the server and navigate back to the project root.</p>
 
-<h4 id="dockerfile">Dockerfile</h4>
+<h4 id="dockerfile"><span style="font-family:'Montserrat', 'sans-serif';">Dockerfile</span></h4>
 
 <p>Update the <em>Dockerfile</em></p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM node:latest
@@ -1343,7 +1352,7 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 </code></pre></div>
 <p>Commit and push your code.</p>
 
-<h4 id="docker-compose">Docker Compose</h4>
+<h4 id="docker-compose"><span style="font-family:'Montserrat', 'sans-serif';">Docker Compose</span></h4>
 
 <p>With the <em>Dockerfile</em> set up and tested, update the <code>web-service</code> in <em>docker-compose.yml</em>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">web-service:
@@ -1374,7 +1383,7 @@ CMD [&quot;pushstate-server&quot;, &quot;build&quot;]
 
 <p>With that, let&#39;s update Nginx...</p>
 
-<h4 id="nginx">Nginx</h4>
+<h4 id="nginx"><span style="font-family:'Montserrat', 'sans-serif';">Nginx</span></h4>
 
 <p>Make the following updates to <em>flask.conf</em> in &quot;flask-microservices-main&quot;:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">server {
@@ -1444,7 +1453,7 @@ ADD /nginx.conf /etc/nginx/conf.d
 </code></pre></div>
 <p>Now, let&#39;s update production...</p>
 
-<h4 id="update-production">Update Production</h4>
+<h4 id="update-production"><span style="font-family:'Montserrat', 'sans-serif';">Update Production</span></h4>
 
 <p>Add the <code>web-service</code> to <em>docker-compose-prod.yml</em>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">web-service:

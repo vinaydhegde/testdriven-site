@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - React Bootstrap 4</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -902,7 +911,7 @@
 
 <p>Coming soon!</p>
 
-<h4 id="getting-started">Getting Started</h4>
+<h4 id="getting-started"><span style="font-family:'Montserrat', 'sans-serif';">Getting Started</span></h4>
 
 <p>Bootstrap 4 is <a href="https://getbootstrap.com/docs/4.0/migration/">rewrite</a> of the Bootstrap project. In the end, it&#39;s a better framework, but if you prefer Bootstrap 3, you are more than welcome to stick with it.</p>
 
@@ -927,9 +936,9 @@
   <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
 <span class="nt">&gt;</span>
 </code></pre></div>
-<h4 id="navbar">Navbar</h4>
+<h4 id="navbar"><span style="font-family:'Montserrat', 'sans-serif';">Navbar</span></h4>
 
-<h4 id="table">Table</h4>
+<h4 id="table"><span style="font-family:'Montserrat', 'sans-serif';">Table</span></h4>
 
 <p>Coming soon!</p>
 
@@ -963,7 +972,7 @@
 
 <p>Coming soon!</p>
 
-<h4 id="getting-started">Getting Started</h4>
+<h4 id="getting-started"><span style="font-family:'Montserrat', 'sans-serif';">Getting Started</span></h4>
 
 <p>Bootstrap 4 is <a href="https://getbootstrap.com/docs/4.0/migration/">rewrite</a> of the Bootstrap project. In the end, it&#39;s a better framework, but if you prefer Bootstrap 3, you are more than welcome to stick with it.</p>
 
@@ -988,9 +997,9 @@
   <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span>
 <span class="nt">&gt;</span>
 </code></pre></div>
-<h4 id="navbar">Navbar</h4>
+<h4 id="navbar"><span style="font-family:'Montserrat', 'sans-serif';">Navbar</span></h4>
 
-<h4 id="table">Table</h4>
+<h4 id="table"><span style="font-family:'Montserrat', 'sans-serif';">Table</span></h4>
 
 <p>Coming soon!</p>
 

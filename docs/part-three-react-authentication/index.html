@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - React Authentication</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -923,17 +932,17 @@
 <p>With the <code>Form</code> component set up, we can now configure the methods to:</p>
 
 <ol>
-<li>Handle form submit event</li>
-<li>Obtain user input</li>
-<li>Send AJAX request</li>
-<li>Update the page</li>
+<li>Handle Form Submit Event</li>
+<li>Obtain User Input</li>
+<li>Send AJAX Request</li>
+<li>Update The Page</li>
 </ol>
 
 <blockquote>
 <p>These steps should look familiar since we already went through this process in the <a href="/part-two-react-forms/">React Forms</a> lesson. Put your skills to the test and implement the code on your own before going through this lesson.</p>
 </blockquote>
 
-<h4 id="handle-form-submit-event">Handle form submit event</h4>
+<h4 id="handle-form-submit-event"><span style="font-family:'Montserrat', 'sans-serif';">Handle Form Submit Event</span></h4>
 
 <p>Turn to <em>Form.jsx</em>. Which method gets fired on the form submit?</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
@@ -964,7 +973,7 @@
 
 <p>Remove <code>console.log(&#39;sanity check!&#39;)</code> and add the <code>required</code> attributes back when done.</p>
 
-<h4 id="obtain-user-input">Obtain user input</h4>
+<h4 id="obtain-user-input"><span style="font-family:'Montserrat', 'sans-serif';">Obtain User Input</span></h4>
 
 <p>Next, to get the user inputs, add the following method to <code>App</code>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -980,7 +989,7 @@
 
 <p>What&#39;s next? AJAX!</p>
 
-<h4 id="send-ajax-request">Send AJAX request</h4>
+<h4 id="send-ajax-request"><span style="font-family:'Montserrat', 'sans-serif';">Send AJAX Request</span></h4>
 
 <p>Update the <code>handleUserFormSubmit</code> method to send the data to the user service on a successful form submit:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -1017,7 +1026,7 @@
 </code></pre></div>
 <p>Test logging in as well. Again, you should see the very same object in the console.</p>
 
-<h4 id="update-the-page">Update the page</h4>
+<h4 id="update-the-page"><span style="font-family:'Montserrat', 'sans-serif';">Update The Page</span></h4>
 
 <p>After a user register or logs in, we need to:</p>
 
@@ -1116,7 +1125,7 @@
 </code></pre></div>
 <p>Test it out again.</p>
 
-<h4 id="logout">Logout</h4>
+<h4 id="logout"><span style="font-family:'Montserrat', 'sans-serif';">Logout</span></h4>
 
 <p>How about logging out? Add a new component to the &quot;components&quot; folder called <em>Logout.jsx</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1160,7 +1169,7 @@
 <li>Verify that the token was removed from LocalStorage</li>
 </ol>
 
-<h4 id="user-status">User Status</h4>
+<h4 id="user-status"><span style="font-family:'Montserrat', 'sans-serif';">User Status</span></h4>
 
 <p>For the <code>/status</code> link, we need to add a new component that displays the response from a call to <code>/auth/status</code> on the users service. <em>Remember</em>: You need to be authenticated to hit this end-point successfully. So, we will need to add the token to the header prior to sending the AJAX request.</p>
 
@@ -1237,7 +1246,7 @@
 </code></pre></div>
 <p>Test it out.</p>
 
-<h4 id="update-navbar-links">Update Navbar Links</h4>
+<h4 id="update-navbar-links"><span style="font-family:'Montserrat', 'sans-serif';">Update Navbar Links</span></h4>
 
 <p>Finally, let&#39;s make the following changes to the Navbar:</p>
 
@@ -1360,17 +1369,17 @@
 <p>With the <code>Form</code> component set up, we can now configure the methods to:</p>
 
 <ol>
-<li>Handle form submit event</li>
-<li>Obtain user input</li>
-<li>Send AJAX request</li>
-<li>Update the page</li>
+<li>Handle Form Submit Event</li>
+<li>Obtain User Input</li>
+<li>Send AJAX Request</li>
+<li>Update The Page</li>
 </ol>
 
 <blockquote>
 <p>These steps should look familiar since we already went through this process in the <a href="/part-two-react-forms/">React Forms</a> lesson. Put your skills to the test and implement the code on your own before going through this lesson.</p>
 </blockquote>
 
-<h4 id="handle-form-submit-event">Handle form submit event</h4>
+<h4 id="handle-form-submit-event"><span style="font-family:'Montserrat', 'sans-serif';">Handle Form Submit Event</span></h4>
 
 <p>Turn to <em>Form.jsx</em>. Which method gets fired on the form submit?</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
@@ -1401,7 +1410,7 @@
 
 <p>Remove <code>console.log(&#39;sanity check!&#39;)</code> and add the <code>required</code> attributes back when done.</p>
 
-<h4 id="obtain-user-input">Obtain user input</h4>
+<h4 id="obtain-user-input"><span style="font-family:'Montserrat', 'sans-serif';">Obtain User Input</span></h4>
 
 <p>Next, to get the user inputs, add the following method to <code>App</code>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -1417,7 +1426,7 @@
 
 <p>What&#39;s next? AJAX!</p>
 
-<h4 id="send-ajax-request">Send AJAX request</h4>
+<h4 id="send-ajax-request"><span style="font-family:'Montserrat', 'sans-serif';">Send AJAX Request</span></h4>
 
 <p>Update the <code>handleUserFormSubmit</code> method to send the data to the user service on a successful form submit:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -1454,7 +1463,7 @@
 </code></pre></div>
 <p>Test logging in as well. Again, you should see the very same object in the console.</p>
 
-<h4 id="update-the-page">Update the page</h4>
+<h4 id="update-the-page"><span style="font-family:'Montserrat', 'sans-serif';">Update The Page</span></h4>
 
 <p>After a user register or logs in, we need to:</p>
 
@@ -1553,7 +1562,7 @@
 </code></pre></div>
 <p>Test it out again.</p>
 
-<h4 id="logout">Logout</h4>
+<h4 id="logout"><span style="font-family:'Montserrat', 'sans-serif';">Logout</span></h4>
 
 <p>How about logging out? Add a new component to the &quot;components&quot; folder called <em>Logout.jsx</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
@@ -1597,7 +1606,7 @@
 <li>Verify that the token was removed from LocalStorage</li>
 </ol>
 
-<h4 id="user-status">User Status</h4>
+<h4 id="user-status"><span style="font-family:'Montserrat', 'sans-serif';">User Status</span></h4>
 
 <p>For the <code>/status</code> link, we need to add a new component that displays the response from a call to <code>/auth/status</code> on the users service. <em>Remember</em>: You need to be authenticated to hit this end-point successfully. So, we will need to add the token to the header prior to sending the AJAX request.</p>
 
@@ -1674,7 +1683,7 @@
 </code></pre></div>
 <p>Test it out.</p>
 
-<h4 id="update-navbar-links">Update Navbar Links</h4>
+<h4 id="update-navbar-links"><span style="font-family:'Montserrat', 'sans-serif';">Update Navbar Links</span></h4>
 
 <p>Finally, let&#39;s make the following changes to the Navbar:</p>
 

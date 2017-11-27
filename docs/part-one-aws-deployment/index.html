@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Deployment</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -950,7 +959,7 @@
 
 <p>Grab the IP and make sure to test in the browser.</p>
 
-<h4 id="config">Config</h4>
+<h4 id="config"><span style="font-family:'Montserrat', 'sans-serif';">Config</span></h4>
 
 <p>What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service env
@@ -972,7 +981,7 @@
 </code></pre></div>
 <p>Ensure the app is still running and check the environment variables again.</p>
 
-<h4 id="gunicorn">Gunicorn</h4>
+<h4 id="gunicorn"><span style="font-family:'Montserrat', 'sans-serif';">Gunicorn</span></h4>
 
 <p>To use Gunicorn, first add the dependency to the <em>requirements.txt</em> file:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">gunicorn==19.7.1
@@ -989,7 +998,7 @@
 <p>The <code>--build</code> flag is necessary since we need to install the new dependency.</p>
 </blockquote>
 
-<h4 id="nginx">Nginx</h4>
+<h4 id="nginx"><span style="font-family:'Montserrat', 'sans-serif';">Nginx</span></h4>
 
 <p>Next, let&#39;s get Nginx up and running as a reverse proxy to the web server. Create a new folder called &quot;nginx&quot; in the project root, and then add a <em>Dockerfile</em>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM nginx:1.13.0
@@ -1120,7 +1129,7 @@ aws
 
 <p>Grab the IP and make sure to test in the browser.</p>
 
-<h4 id="config">Config</h4>
+<h4 id="config"><span style="font-family:'Montserrat', 'sans-serif';">Config</span></h4>
 
 <p>What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose -f docker-compose-prod.yml run users-service env
@@ -1142,7 +1151,7 @@ aws
 </code></pre></div>
 <p>Ensure the app is still running and check the environment variables again.</p>
 
-<h4 id="gunicorn">Gunicorn</h4>
+<h4 id="gunicorn"><span style="font-family:'Montserrat', 'sans-serif';">Gunicorn</span></h4>
 
 <p>To use Gunicorn, first add the dependency to the <em>requirements.txt</em> file:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">gunicorn==19.7.1
@@ -1159,7 +1168,7 @@ aws
 <p>The <code>--build</code> flag is necessary since we need to install the new dependency.</p>
 </blockquote>
 
-<h4 id="nginx">Nginx</h4>
+<h4 id="nginx"><span style="font-family:'Montserrat', 'sans-serif';">Nginx</span></h4>
 
 <p>Next, let&#39;s get Nginx up and running as a reverse proxy to the web server. Create a new folder called &quot;nginx&quot; in the project root, and then add a <em>Dockerfile</em>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">FROM nginx:1.13.0

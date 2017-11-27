@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Swagger Setup</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -926,7 +935,7 @@
 <p>New to Swagger? Review the <a href="https://swagger.io/docs/specification/what-is-swagger/">What Is Swagger?</a> guide from the official documentation.</p>
 </blockquote>
 
-<h4 id="new-container">New container</h4>
+<h4 id="new-container"><span style="font-family:'Montserrat', 'sans-serif';">New Container</span></h4>
 
 <p>Let&#39;s set up a new service for this. Create a new project and init a new Git repo:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>mkdir flask-microservices-swagger <span class="o">&amp;&amp;</span> <span class="nb">cd </span>flask-microservices-swagger
@@ -1065,7 +1074,7 @@
 </code></pre></div>
 <p>Update the container. Test it out in the browser.</p>
 
-<h4 id="unauthenticated-routes">Unauthenticated Routes</h4>
+<h4 id="unauthenticated-routes"><span style="font-family:'Montserrat', 'sans-serif';">Unauthenticated Routes</span></h4>
 
 <p>Add each of these as properties to the <code>paths</code> object in the <em>swagger.json</em> file...</p>
 
@@ -1192,7 +1201,7 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="schemas">Schemas</h4>
+<h4 id="schemas"><span style="font-family:'Montserrat', 'sans-serif';">Schemas</span></h4>
 
 <p>To keep things DRY, let&#39;s abstract out the schema definitions via a <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#referenceObject">reference object</a>. Add a new schema to the <code>definitions</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;definitions&quot;</span><span class="err">:</span> <span class="p">{</span>
@@ -1224,7 +1233,7 @@
 </code></pre></div>
 <p>This schema definition can now be reused.</p>
 
-<h4 id="authenticated-routes">Authenticated Routes</h4>
+<h4 id="authenticated-routes"><span style="font-family:'Montserrat', 'sans-serif';">Authenticated Routes</span></h4>
 
 <p>To access authenticated routes, we need to add a <a href="https://stackoverflow.com/questions/25838183/what-is-the-oauth-2-0-bearer-token-exactly">Bearer token</a> to the request header. Unfortunately, Swagger does not currently support this out of the box. There is a workaround though.</p>
 
@@ -1339,7 +1348,7 @@
 </code></pre></div>
 <p>Remember: To test this route, you will need to be authenticated as an admin.</p>
 
-<h4 id="next-steps">Next steps</h4>
+<h4 id="next-steps"><span style="font-family:'Montserrat', 'sans-serif';">Next Steps</span></h4>
 
 <p>Before moving on, add error handling to the <code>responses</code> for each path, based on the actual error responses from the users service.</p>
 
@@ -1377,7 +1386,7 @@
 <p>New to Swagger? Review the <a href="https://swagger.io/docs/specification/what-is-swagger/">What Is Swagger?</a> guide from the official documentation.</p>
 </blockquote>
 
-<h4 id="new-container">New container</h4>
+<h4 id="new-container"><span style="font-family:'Montserrat', 'sans-serif';">New Container</span></h4>
 
 <p>Let&#39;s set up a new service for this. Create a new project and init a new Git repo:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>mkdir flask-microservices-swagger <span class="o">&amp;&amp;</span> <span class="nb">cd </span>flask-microservices-swagger
@@ -1516,7 +1525,7 @@
 </code></pre></div>
 <p>Update the container. Test it out in the browser.</p>
 
-<h4 id="unauthenticated-routes">Unauthenticated Routes</h4>
+<h4 id="unauthenticated-routes"><span style="font-family:'Montserrat', 'sans-serif';">Unauthenticated Routes</span></h4>
 
 <p>Add each of these as properties to the <code>paths</code> object in the <em>swagger.json</em> file...</p>
 
@@ -1643,7 +1652,7 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="schemas">Schemas</h4>
+<h4 id="schemas"><span style="font-family:'Montserrat', 'sans-serif';">Schemas</span></h4>
 
 <p>To keep things DRY, let&#39;s abstract out the schema definitions via a <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#referenceObject">reference object</a>. Add a new schema to the <code>definitions</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;definitions&quot;</span><span class="err">:</span> <span class="p">{</span>
@@ -1675,7 +1684,7 @@
 </code></pre></div>
 <p>This schema definition can now be reused.</p>
 
-<h4 id="authenticated-routes">Authenticated Routes</h4>
+<h4 id="authenticated-routes"><span style="font-family:'Montserrat', 'sans-serif';">Authenticated Routes</span></h4>
 
 <p>To access authenticated routes, we need to add a <a href="https://stackoverflow.com/questions/25838183/what-is-the-oauth-2-0-bearer-token-exactly">Bearer token</a> to the request header. Unfortunately, Swagger does not currently support this out of the box. There is a workaround though.</p>
 
@@ -1790,7 +1799,7 @@
 </code></pre></div>
 <p>Remember: To test this route, you will need to be authenticated as an admin.</p>
 
-<h4 id="next-steps">Next steps</h4>
+<h4 id="next-steps"><span style="font-family:'Montserrat', 'sans-serif';">Next Steps</span></h4>
 
 <p>Before moving on, add error handling to the <code>responses</code> for each path, based on the actual error responses from the users service.</p>
 

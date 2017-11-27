@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - React Form Validation</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -934,7 +943,7 @@
 
 <p>Since we now have a means of testing on the client, let&#39;s test-drive this change.</p>
 
-<h4 id="disable-button">Disable button</h4>
+<h4 id="disable-button"><span style="font-family:'Montserrat', 'sans-serif';">Disable Button</span></h4>
 
 <p>Let&#39;s add a <code>disabled</code> attribute to the button and set the initial value to <code>true</code> so the form cannot be submitted. Then, when the form validates properly, <code>disabled</code> will be set to <code>false</code>.</p>
 
@@ -988,7 +997,7 @@
 
 <p>We still need to add validation logic to <code>validateForm()</code>, but before that we need to define the rules...</p>
 
-<h4 id="validation-rules">Validation rules</h4>
+<h4 id="validation-rules"><span style="font-family:'Montserrat', 'sans-serif';">Validation Rules</span></h4>
 
 <p>Next, let&#39;s add the validation rules below each input field, starting with some tests...</p>
 
@@ -1130,7 +1139,7 @@
 </code></pre></div>
 <p>Run the tests.</p>
 
-<h4 id="validate-password-input">Validate password input</h4>
+<h4 id="validate-password-input"><span style="font-family:'Montserrat', 'sans-serif';">Validate Password Input</span></h4>
 
 <p>To keep things simple, we can start with validating a single input. To test, add the following spec to the login tests:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">.</span><span class="nx">only</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">validate</span> <span class="nx">the</span> <span class="nx">password</span> <span class="nx">field</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -1232,7 +1241,7 @@
 </code></pre></div>
 <p>Re-build the containers. Test again. Now, we just need to apply that same logic to the remaining fields...</p>
 
-<h4 id="validate-inputs">Validate inputs</h4>
+<h4 id="validate-inputs"><span style="font-family:'Montserrat', 'sans-serif';">Validate Inputs</span></h4>
 
 <p>First, add a password to the top of <em>login.test.js</em>, <em>register.test.js</em>, and <em>status.test.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">password</span> <span class="o">=</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">;</span>
@@ -1308,7 +1317,7 @@
 
 <p>Since we now have a means of testing on the client, let&#39;s test-drive this change.</p>
 
-<h4 id="disable-button">Disable button</h4>
+<h4 id="disable-button"><span style="font-family:'Montserrat', 'sans-serif';">Disable Button</span></h4>
 
 <p>Let&#39;s add a <code>disabled</code> attribute to the button and set the initial value to <code>true</code> so the form cannot be submitted. Then, when the form validates properly, <code>disabled</code> will be set to <code>false</code>.</p>
 
@@ -1362,7 +1371,7 @@
 
 <p>We still need to add validation logic to <code>validateForm()</code>, but before that we need to define the rules...</p>
 
-<h4 id="validation-rules">Validation rules</h4>
+<h4 id="validation-rules"><span style="font-family:'Montserrat', 'sans-serif';">Validation Rules</span></h4>
 
 <p>Next, let&#39;s add the validation rules below each input field, starting with some tests...</p>
 
@@ -1504,7 +1513,7 @@
 </code></pre></div>
 <p>Run the tests.</p>
 
-<h4 id="validate-password-input">Validate password input</h4>
+<h4 id="validate-password-input"><span style="font-family:'Montserrat', 'sans-serif';">Validate Password Input</span></h4>
 
 <p>To keep things simple, we can start with validating a single input. To test, add the following spec to the login tests:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">.</span><span class="nx">only</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">validate</span> <span class="nx">the</span> <span class="nx">password</span> <span class="nx">field</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -1606,7 +1615,7 @@
 </code></pre></div>
 <p>Re-build the containers. Test again. Now, we just need to apply that same logic to the remaining fields...</p>
 
-<h4 id="validate-inputs">Validate inputs</h4>
+<h4 id="validate-inputs"><span style="font-family:'Montserrat', 'sans-serif';">Validate Inputs</span></h4>
 
 <p>First, add a password to the top of <em>login.test.js</em>, <em>register.test.js</em>, and <em>status.test.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">password</span> <span class="o">=</span> <span class="s1">&#39;greaterthanten&#39;</span><span class="p">;</span>

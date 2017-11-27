@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Flask Refactor</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -931,7 +940,7 @@
 <p>You may need to change the username and password depending on your local Postgres config.</p>
 </blockquote>
 
-<h4 id="remove-main-route">Remove Main Route</h4>
+<h4 id="remove-main-route"><span style="font-family:'Montserrat', 'sans-serif';">Remove Main Route</span></h4>
 
 <p>Since we are now using the users service simply as a RESTful API, remove the main route:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@users_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">])</span>
@@ -951,7 +960,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 </code></pre></div>
 <p>Remove them from <em>flask-microservices-users/project/tests/test_users.py</em>, and then run the tests again. All should pass. Remove the &quot;templates&quot; directory as well.</p>
 
-<h4 id="order-users-by-date">Order Users By Date</h4>
+<h4 id="order-users-by-date"><span style="font-family:'Montserrat', 'sans-serif';">Order Users By Date</span></h4>
 
 <p>Next, let&#39;s update the GET ALL <code>/users</code> route to order the users by <code>created_at</code> date descending.</p>
 
@@ -1020,7 +1029,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 </code></pre></div>
 <p>Run the tests! Deactivate the virtual environment. Commit and push your code. Did the tests pass on Travis CI?</p>
 
-<h4 id="update-docker">Update Docker</h4>
+<h4 id="update-docker"><span style="font-family:'Montserrat', 'sans-serif';">Update Docker</span></h4>
 
 <p>Set the <code>dev</code> machine as the active machine and update the containers:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
@@ -1041,7 +1050,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 </code></pre></div>
 <p>Test!</p>
 
-<h4 id="next-steps">Next Steps</h4>
+<h4 id="next-steps"><span style="font-family:'Montserrat', 'sans-serif';">Next Steps</span></h4>
 
 <p>Now is a great time to pause, review the code, and write more unit and integration tests. Do this on your own to check your understanding.</p>
 
@@ -1086,7 +1095,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 <p>You may need to change the username and password depending on your local Postgres config.</p>
 </blockquote>
 
-<h4 id="remove-main-route">Remove Main Route</h4>
+<h4 id="remove-main-route"><span style="font-family:'Montserrat', 'sans-serif';">Remove Main Route</span></h4>
 
 <p>Since we are now using the users service simply as a RESTful API, remove the main route:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@users_blueprint.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">])</span>
@@ -1106,7 +1115,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 </code></pre></div>
 <p>Remove them from <em>flask-microservices-users/project/tests/test_users.py</em>, and then run the tests again. All should pass. Remove the &quot;templates&quot; directory as well.</p>
 
-<h4 id="order-users-by-date">Order Users By Date</h4>
+<h4 id="order-users-by-date"><span style="font-family:'Montserrat', 'sans-serif';">Order Users By Date</span></h4>
 
 <p>Next, let&#39;s update the GET ALL <code>/users</code> route to order the users by <code>created_at</code> date descending.</p>
 
@@ -1175,7 +1184,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 </code></pre></div>
 <p>Run the tests! Deactivate the virtual environment. Commit and push your code. Did the tests pass on Travis CI?</p>
 
-<h4 id="update-docker">Update Docker</h4>
+<h4 id="update-docker"><span style="font-family:'Montserrat', 'sans-serif';">Update Docker</span></h4>
 
 <p>Set the <code>dev</code> machine as the active machine and update the containers:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-machine env dev
@@ -1196,7 +1205,7 @@ FAIL: test_main_with_users <span class="o">(</span>test_users.TestUserService<sp
 </code></pre></div>
 <p>Test!</p>
 
-<h4 id="next-steps">Next Steps</h4>
+<h4 id="next-steps"><span style="font-family:'Montserrat', 'sans-serif';">Next Steps</span></h4>
 
 <p>Now is a great time to pause, review the code, and write more unit and integration tests. Do this on your own to check your understanding.</p>
 

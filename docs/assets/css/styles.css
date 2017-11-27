@@ -34,6 +34,20 @@ main {
  padding-left: 20px;
 }
 
+.nav-logo-container {
+  align-items: center;
+  height: 100%;
+  display: flex;
+}
+
+.nav-logo {
+  height: 1.8rem;
+}
+
+li, h2, h5, .page-nav, .btn, .btn-large {
+  font-family: "Montserrat",sans-serif;
+}
+
 table {
   border: 1px solid black;
   width: auto;
@@ -76,6 +90,7 @@ td, th {
 }
 
 .main-brand-logo {
+  font-family: "Montserrat",sans-serif;
   font-size: 1.6rem !important;
 }
 

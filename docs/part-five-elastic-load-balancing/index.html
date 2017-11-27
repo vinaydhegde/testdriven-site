@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - Elastic Load Balancing</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -933,7 +942,7 @@
 
 <p>Plus, when a new Task is added to the Service it will automatically be added to the ALB.</p>
 
-<h4 id="configure-alb">Configure ALB</h4>
+<h4 id="configure-alb"><span style="font-family:'Montserrat', 'sans-serif';">Configure ALB</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
 
@@ -970,7 +979,7 @@
 <li>We don&#39;t need to assign any instances manually since this will be managed by ECS.</li>
 </ol>
 
-<h4 id="ecs">ECS</h4>
+<h4 id="ecs"><span style="font-family:'Montserrat', 'sans-serif';">ECS</span></h4>
 
 <p>So, a new <a href="https://aws.amazon.com/vpc/">VPC</a> and <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security Group</a> were created with the ALB. We need to associate them with a new Cluster. If we use the current Cluster, we will get an error (<code>The following targets are not in the target group VPC</code>) when we spin up new Tasks and ECS tries to register them with the ALB.</p>
 
@@ -1025,7 +1034,7 @@
 
 <p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
 
-<h4 id="sanity-check">Sanity Check</h4>
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. With the <code>sample</code> group selected, click the &quot;Targets&quot; tab. You should see a single registered instance. It should be healthy.</p>
 
@@ -1036,7 +1045,7 @@
 <li><a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a></li>
 </ol>
 
-<h4 id="update-task-definition">Update Task Definition</h4>
+<h4 id="update-task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Update Task Definition</span></h4>
 
 <p>Next, within <em>ecs_taskdefinition.json</em>, update the <code>hostPort</code> for the <code>users-service</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;hostPort&quot;</span><span class="err">:</span> <span class="mi">0</span><span class="err">,</span>
@@ -1052,13 +1061,13 @@
 <li><a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a></li>
 </ol>
 
-<h4 id="test-load-balancing">Test Load Balancing</h4>
+<h4 id="test-load-balancing"><span style="font-family:'Montserrat', 'sans-serif';">Test Load Balancing</span></h4>
 
 <p>What happens if an instance goes does?</p>
 
 <p>Within the &quot;Tasks&quot; tab on the Service, click the currently running Task and then on the Task page click the &quot;Stop&quot; button. On the &quot;Events&quot; tab you should see an event for a Task being drained as well as an event for a new Task starting. Perfect.</p>
 
-<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Finally, test out each of the endpoints:</p>
 
@@ -1159,7 +1168,7 @@
 
 <p>Plus, when a new Task is added to the Service it will automatically be added to the ALB.</p>
 
-<h4 id="configure-alb">Configure ALB</h4>
+<h4 id="configure-alb"><span style="font-family:'Montserrat', 'sans-serif';">Configure ALB</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Load Balancers&quot; on the sidebar, and then click the &quot;Create Load Balancer&quot; button. Select &quot;Application Load Balancer&quot;.</p>
 
@@ -1196,7 +1205,7 @@
 <li>We don&#39;t need to assign any instances manually since this will be managed by ECS.</li>
 </ol>
 
-<h4 id="ecs">ECS</h4>
+<h4 id="ecs"><span style="font-family:'Montserrat', 'sans-serif';">ECS</span></h4>
 
 <p>So, a new <a href="https://aws.amazon.com/vpc/">VPC</a> and <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security Group</a> were created with the ALB. We need to associate them with a new Cluster. If we use the current Cluster, we will get an error (<code>The following targets are not in the target group VPC</code>) when we spin up new Tasks and ECS tries to register them with the ALB.</p>
 
@@ -1251,7 +1260,7 @@
 
 <p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
 
-<h4 id="sanity-check">Sanity Check</h4>
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
 
 <p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, and click &quot;Target Groups&quot;. With the <code>sample</code> group selected, click the &quot;Targets&quot; tab. You should see a single registered instance. It should be healthy.</p>
 
@@ -1262,7 +1271,7 @@
 <li><a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a></li>
 </ol>
 
-<h4 id="update-task-definition">Update Task Definition</h4>
+<h4 id="update-task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Update Task Definition</span></h4>
 
 <p>Next, within <em>ecs_taskdefinition.json</em>, update the <code>hostPort</code> for the <code>users-service</code>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="s2">&quot;hostPort&quot;</span><span class="err">:</span> <span class="mi">0</span><span class="err">,</span>
@@ -1278,13 +1287,13 @@
 <li><a href="http://LOAD_BALANCER_DNS_NAME/users">http://LOAD_BALANCER_DNS_NAME/users</a></li>
 </ol>
 
-<h4 id="test-load-balancing">Test Load Balancing</h4>
+<h4 id="test-load-balancing"><span style="font-family:'Montserrat', 'sans-serif';">Test Load Balancing</span></h4>
 
 <p>What happens if an instance goes does?</p>
 
 <p>Within the &quot;Tasks&quot; tab on the Service, click the currently running Task and then on the Task page click the &quot;Stop&quot; button. On the &quot;Events&quot; tab you should see an event for a Task being drained as well as an event for a new Task starting. Perfect.</p>
 
-<h4 id="sanity-check-take-2">Sanity Check (take 2)</h4>
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
 
 <p>Finally, test out each of the endpoints:</p>
 

@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - End-to-End Test Specs</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -926,7 +935,7 @@
 
 <p>Turn your answers into test cases...</p>
 
-<h4 id="test-cases">Test Cases</h4>
+<h4 id="test-cases"><span style="font-family:'Montserrat', 'sans-serif';">Test Cases</span></h4>
 
 <p><code>/register</code>:</p>
 
@@ -964,7 +973,7 @@
 <li>should display the page correctly if a user is not logged in</li>
 </ol>
 
-<h4 id="register">Register</h4>
+<h4 id="register"><span style="font-family:'Montserrat', 'sans-serif';">Register</span></h4>
 
 <p>Add a new file called <em>register.test.js</em> to the &quot;e2e&quot; directory:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
@@ -1028,7 +1037,7 @@
 <li><em>should throw an error if the email is taken</em></li>
 </ol>
 
-<h4 id="login">Login</h4>
+<h4 id="login"><span style="font-family:'Montserrat', 'sans-serif';">Login</span></h4>
 
 <blockquote>
 <p>Try writing the next few tests on your own!</p>
@@ -1097,7 +1106,7 @@
 
 <p>Again, since we&#39;re not handling errors yet, let&#39;s hold off on the following test case: <em>should throw an error if the credentials are incorrect</em>.</p>
 
-<h4 id="logout">Logout</h4>
+<h4 id="logout"><span style="font-family:'Montserrat', 'sans-serif';">Logout</span></h4>
 
 <p>Let&#39;s just add <em>should log a user out</em> to the previous test case in <em>login.test.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">sign</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -1147,7 +1156,7 @@
 
 <span class="p">});</span>
 </code></pre></div>
-<h4 id="status">Status</h4>
+<h4 id="status"><span style="font-family:'Montserrat', 'sans-serif';">Status</span></h4>
 
 <p>Add a new file called <em>status.test.js</em> to the &quot;e2e&quot; directory:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
@@ -1205,7 +1214,7 @@
 </code></pre></div></li>
 </ol>
 
-<h4 id="main-page">Main Page</h4>
+<h4 id="main-page"><span style="font-family:'Montserrat', 'sans-serif';">Main Page</span></h4>
 
 <p>Within <em>index.test.js</em>, remove <em>users should be able to view the page</em> and, in its place, add <em>should display the page correctly if a user is not logged in</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">page</span> <span class="nx">correctly</span> <span class="k">if</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -1218,7 +1227,7 @@
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
 <span class="p">});</span>
 </code></pre></div>
-<h4 id="docker-compose">Docker Compose</h4>
+<h4 id="docker-compose"><span style="font-family:'Montserrat', 'sans-serif';">Docker Compose</span></h4>
 
 <p>Before running the tests, update the build context for each service to the local environment, to pull in the latest changes locally:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
@@ -1283,7 +1292,7 @@
     <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
       <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
 </code></pre></div>
-<h4 id="test">Test!</h4>
+<h4 id="test"><span style="font-family:'Montserrat', 'sans-serif';">Test!</span></h4>
 
 <p>Set the environment variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
@@ -1372,7 +1381,7 @@ should display user info if user is logged in
 
 <p>Turn your answers into test cases...</p>
 
-<h4 id="test-cases">Test Cases</h4>
+<h4 id="test-cases"><span style="font-family:'Montserrat', 'sans-serif';">Test Cases</span></h4>
 
 <p><code>/register</code>:</p>
 
@@ -1410,7 +1419,7 @@ should display user info if user is logged in
 <li>should display the page correctly if a user is not logged in</li>
 </ol>
 
-<h4 id="register">Register</h4>
+<h4 id="register"><span style="font-family:'Montserrat', 'sans-serif';">Register</span></h4>
 
 <p>Add a new file called <em>register.test.js</em> to the &quot;e2e&quot; directory:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
@@ -1474,7 +1483,7 @@ should display user info if user is logged in
 <li><em>should throw an error if the email is taken</em></li>
 </ol>
 
-<h4 id="login">Login</h4>
+<h4 id="login"><span style="font-family:'Montserrat', 'sans-serif';">Login</span></h4>
 
 <blockquote>
 <p>Try writing the next few tests on your own!</p>
@@ -1543,7 +1552,7 @@ should display user info if user is logged in
 
 <p>Again, since we&#39;re not handling errors yet, let&#39;s hold off on the following test case: <em>should throw an error if the credentials are incorrect</em>.</p>
 
-<h4 id="logout">Logout</h4>
+<h4 id="logout"><span style="font-family:'Montserrat', 'sans-serif';">Logout</span></h4>
 
 <p>Let&#39;s just add <em>should log a user out</em> to the previous test case in <em>login.test.js</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">allow</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">to</span> <span class="nx">sign</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -1593,7 +1602,7 @@ should display user info if user is logged in
 
 <span class="p">});</span>
 </code></pre></div>
-<h4 id="status">Status</h4>
+<h4 id="status"><span style="font-family:'Montserrat', 'sans-serif';">Status</span></h4>
 
 <p>Add a new file called <em>status.test.js</em> to the &quot;e2e&quot; directory:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Selector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;testcafe&#39;</span><span class="p">;</span>
@@ -1651,7 +1660,7 @@ should display user info if user is logged in
 </code></pre></div></li>
 </ol>
 
-<h4 id="main-page">Main Page</h4>
+<h4 id="main-page"><span style="font-family:'Montserrat', 'sans-serif';">Main Page</span></h4>
 
 <p>Within <em>index.test.js</em>, remove <em>users should be able to view the page</em> and, in its place, add <em>should display the page correctly if a user is not logged in</em>:</p>
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">test</span><span class="p">(</span><span class="err">`</span><span class="nx">should</span> <span class="nx">display</span> <span class="nx">the</span> <span class="nx">page</span> <span class="nx">correctly</span> <span class="k">if</span> <span class="nx">a</span> <span class="nx">user</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">logged</span> <span class="k">in</span><span class="err">`</span><span class="p">,</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -1664,7 +1673,7 @@ should display user info if user is logged in
     <span class="p">.</span><span class="nx">expect</span><span class="p">(</span><span class="nx">Selector</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s1">&#39;Log In&#39;</span><span class="p">).</span><span class="nx">exists</span><span class="p">).</span><span class="nx">ok</span><span class="p">()</span>
 <span class="p">});</span>
 </code></pre></div>
-<h4 id="docker-compose">Docker Compose</h4>
+<h4 id="docker-compose"><span style="font-family:'Montserrat', 'sans-serif';">Docker Compose</span></h4>
 
 <p>Before running the tests, update the build context for each service to the local environment, to pull in the latest changes locally:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">version</span><span class="p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
@@ -1729,7 +1738,7 @@ should display user info if user is logged in
     <span class="l-Scalar-Plain">links</span><span class="p-Indicator">:</span>
       <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">users-service</span>
 </code></pre></div>
-<h4 id="test">Test!</h4>
+<h4 id="test"><span style="font-family:'Montserrat', 'sans-serif';">Test!</span></h4>
 
 <p>Set the environment variable:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP

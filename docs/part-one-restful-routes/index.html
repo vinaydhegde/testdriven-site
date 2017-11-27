@@ -6,6 +6,7 @@
     <title>Microservices with Docker, Flask, and React - RESTful Routes</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
   <link
     rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
   >
@@ -24,6 +25,11 @@
   >
   <link
     href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
     rel="stylesheet"
     type="text/css"
   >
@@ -47,14 +53,17 @@
 
   <body>
 
-    <nav class="red darken-1">
+    <nav class="indigo darken-4">
   <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img class="nav-logo" src="../assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io" />
+    </a>
     <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
       Test Driven Development Courses
     </a>
-    <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
       TDD Courses
-    </a>
+    </a> -->
     <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
       <li><a href="/course-contents">Contents</a></li>
@@ -955,9 +964,9 @@
 <li><strong>refactor</strong> (if necessary)</li>
 </ol>
 
-<p>Let&#39; start with the POST route...</p>
+<p>Let&#39;s start with the POST route...</p>
 
-<h4 id="post">POST</h4>
+<h4 id="post"><span style="font-family:'Montserrat', 'sans-serif';">POST</span></h4>
 
 <p>Add the test to the <code>TestUserService()</code> class in <em>project/tests/test_users.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1105,7 +1114,7 @@ OK
 </code></pre></div>
 <p>Ensure the tests pass, and then move on to the next route...</p>
 
-<h4 id="get-single-user">GET single user</h4>
+<h4 id="get-single-user"><span style="font-family:'Montserrat', 'sans-serif';">GET Single User</span></h4>
 
 <p>Start with a test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_single_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1192,7 +1201,7 @@ OK
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
 </code></pre></div>
-<h4 id="get-all-users">GET all users</h4>
+<h4 id="get-all-users"><span style="font-family:'Montserrat', 'sans-serif';">GET All Users</span></h4>
 
 <p>Again, let&#39;s start with a test. Since we&#39;ll have to add a few users first, let&#39;s add a quick helper function to the top of the <em>project/tests/test_users.py</em> file, just above the <code>TestUserService()</code> class.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
@@ -1340,9 +1349,9 @@ OK
 <li><strong>refactor</strong> (if necessary)</li>
 </ol>
 
-<p>Let&#39; start with the POST route...</p>
+<p>Let&#39;s start with the POST route...</p>
 
-<h4 id="post">POST</h4>
+<h4 id="post"><span style="font-family:'Montserrat', 'sans-serif';">POST</span></h4>
 
 <p>Add the test to the <code>TestUserService()</code> class in <em>project/tests/test_users.py</em>:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_add_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1490,7 +1499,7 @@ OK
 </code></pre></div>
 <p>Ensure the tests pass, and then move on to the next route...</p>
 
-<h4 id="get-single-user">GET single user</h4>
+<h4 id="get-single-user"><span style="font-family:'Montserrat', 'sans-serif';">GET Single User</span></h4>
 
 <p>Start with a test:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test_single_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1577,7 +1586,7 @@ OK
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">response_object</span><span class="p">),</span> <span class="mi">404</span>
 </code></pre></div>
-<h4 id="get-all-users">GET all users</h4>
+<h4 id="get-all-users"><span style="font-family:'Montserrat', 'sans-serif';">GET All Users</span></h4>
 
 <p>Again, let&#39;s start with a test. Since we&#39;ll have to add a few users first, let&#39;s add a quick helper function to the top of the <em>project/tests/test_users.py</em> file, just above the <code>TestUserService()</code> class.</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
