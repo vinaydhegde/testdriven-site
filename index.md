@@ -43,10 +43,6 @@ Check out the live app, running on multiple EC2 instances -
 
 <br><hr><br>
 
-This tutorial is powered by *[Real Python](https://realpython.com)*. Please support this open source project by purchasing our [courses](http://www.realpython.com/courses) to learn Python and web development with Django and Flask!
-
-<a href="https://realpython.com"><img src="//raw.githubusercontent.com/realpython/about/master/rp_small.png" alt="real python logo"></a>
-
 *Join our mailing list to be notified when version 2 is released.*
 
 <form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>

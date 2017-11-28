@@ -21,4 +21,4 @@ Well, that's it. It's your turn! Spend some time refactoring and dealing with te
 
 It's also a great time to pause, review the code, and write more unit,  integration, and end-to-end tests. Do this on your own to check your understanding.
 
-> Want feedback on your code? Shoot an email to `michael@realpython.com` with a link to the GitHub repo. Cheers!
+> Want feedback on your code? Shoot an email to `michael@mherman.orf` with a link to the GitHub repo. Cheers!

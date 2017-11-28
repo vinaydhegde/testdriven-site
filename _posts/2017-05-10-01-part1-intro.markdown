@@ -82,7 +82,7 @@ Before beginning, you should have some familiarity with the following topics. Re
 | Docker           | [Get started with Docker](https://docs.docker.com/engine/getstarted/) |
 | Docker Compose   | [Get started with Docker Compose](https://docs.docker.com/compose/gettingstarted/) |
 | Docker Machine | [Docker Machine Overview](https://docs.docker.com/machine/overview/) |
-| Flask | [Real Python](https://realpython.com)
+| Flask | [Flaskr TDD](https://github.com/mjhea0/flaskr-tdd)
 
 #### <span style="font-family:'Montserrat', 'sans-serif';">Objectives</span>
 
