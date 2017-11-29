@@ -28,7 +28,7 @@ Then, check out the [v0](https://github.com/realpython/flask-microservices-eval/
 $ git checkout tags/v0 -b master
 ```
 
-Open the project in your code editor of choice, and quickly review the code. Then, within the *flask-microservices-main* project, add the service to *docker-compose.yml*:``
+Open the project in your code editor of choice, and quickly review the code. Then, within the *flask-microservices-main* project, add the service to *docker-compose.yml*:
 
 ```yaml
 eval-service:
