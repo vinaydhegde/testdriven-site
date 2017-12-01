@@ -38,7 +38,7 @@
     rel="stylesheet"
     type="text/css"
   >
-  <link href="/assets/css/styles.css?1511915818296967000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1512157026107612000" rel="stylesheet">
   <script
     src="//code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -47,6 +47,10 @@
   <script
     type="text/javascript"
     src="/assets/js/main.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://gumroad.com/js/gumroad.js"
   ></script>
 </head>
 
@@ -1137,7 +1141,7 @@
     <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
     <span class="n">auth_token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </code></pre></div>
 <p>Add the following method to the <code>User()</code> class:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@staticmethod</span>
@@ -1385,7 +1389,7 @@
     <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">&#39;justatest&#39;</span><span class="p">,</span> <span class="s">&#39;test@test.com&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">)</span>
     <span class="n">auth_token</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">encode_auth_token</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">auth_token</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">decode_auth_token</span><span class="p">(</span><span class="n">auth_token</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 </code></pre></div>
 <p>Add the following method to the <code>User()</code> class:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="nd">@staticmethod</span>

@@ -15,7 +15,7 @@ share: true
 <p>"Code without tests is broken by design." - Jacob Kaplan-Moss</p>
 
 <div>
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Pre-Order Now!</a>
+  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Purchase Now!</a>
 </div>
 
 <br>
@@ -56,22 +56,18 @@ share: true
 1. Added caching with Flask-Cache
 1. Mocked `time.sleep` in the test suite
 
-*Deployment:*
+*Orchestration and Deployment:*
 
-1. Updated the ECS Service Task Placement Strategy
-1. Managed secret keys in S3
-1. Added Docker cache to Travis CI build
-1. Added basic IAM and Route 53 setup info
+1. Complete revamp of Parts 5 and 6
+1. Reviewed ECS Service Task Placement Strategy
 1. Added an AWS Billing Alarm
+1. Added info on using Docker cache to speed up Travis CI builds
+1. Added basic IAM and Route 53 setup info
 
 <br>
 
-#### <span style="font-family:'Montserrat', 'sans-serif';">When will version 2 be released?</span>
-
-December 1, 2017.
-
 <div>
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Pre-Order Now!</a>
+  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Purchase Now!</a>
 </div>
 
 <br>
@@ -130,5 +126,5 @@ In the final part, we'll focus our attention on adding a new Flask service, with
 <br>
 
 <div>
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Pre-Order Now!</a>
+  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Purchase Now!</a>
 </div>

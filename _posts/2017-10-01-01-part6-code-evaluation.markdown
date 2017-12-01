@@ -262,7 +262,7 @@ this.state = {
 }
 ```
 
-The, update the `submitExercise` function to change the state of the appropriate key based on the value of `data`:
+Then, update the `submitExercise` function to change the state of the appropriate key based on the value of `data`:
 
 ```javascript
 submitExercise(event) {
