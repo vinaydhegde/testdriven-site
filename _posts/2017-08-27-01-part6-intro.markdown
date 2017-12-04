@@ -31,7 +31,7 @@ By the end of part 6, you should be able to...
 Check out the live app, running on EC2 -
 
 1. [Production](http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com)
-1. [Staging](http://flask-microservices-staging-alb-1366920567.us-east-1.elb.amazonaws.com)
+1. [Staging](http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com)
 
 You can also test out the following endpoints...
 
