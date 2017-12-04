@@ -38,7 +38,7 @@
     rel="stylesheet"
     type="text/css"
   >
-  <link href="/assets/css/styles.css?1512354013244779000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1512396818444619000" rel="stylesheet">
   <script
     src="//code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -1089,7 +1089,7 @@ services:
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
-<p>This registers a new command, <code>recreate_db</code>,  to the manager so that we can run the it from the command line. Apply the model to the dev database:</p>
+<p>This registers a new command, <code>recreate_db</code>, to the manager so that we can run it from the command line. Apply the model to the dev database:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ docker-compose run users-service python manage.py recreate_db
 </code></pre></div>
 <p>Did this work? Let&#39;s hop into psql...</p>
@@ -1287,7 +1287,7 @@ services:
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </code></pre></div>
-<p>This registers a new command, <code>recreate_db</code>,  to the manager so that we can run the it from the command line. Apply the model to the dev database:</p>
+<p>This registers a new command, <code>recreate_db</code>, to the manager so that we can run it from the command line. Apply the model to the dev database:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ docker-compose run users-service python manage.py recreate_db
 </code></pre></div>
 <p>Did this work? Let&#39;s hop into psql...</p>
