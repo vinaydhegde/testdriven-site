@@ -38,7 +38,7 @@
     rel="stylesheet"
     type="text/css"
   >
-  <link href="/assets/css/styles.css?1512569506672077000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1513213884589920000" rel="stylesheet">
   <script
     src="//code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
@@ -1048,7 +1048,8 @@ services:
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
 </code></pre></div>
 <p>Want to test? Add a <code>print</code> statement to the <em>__init__.py</em>, right before the route handler, to view the app config to ensure that it is working:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
 </code></pre></div>
 <p>Then just view the logs:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose logs -f users-service
@@ -1212,7 +1213,8 @@ services:
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose up -d
 </code></pre></div>
 <p>Want to test? Add a <code>print</code> statement to the <em>__init__.py</em>, right before the route handler, to view the app config to ensure that it is working:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
 </code></pre></div>
 <p>Then just view the logs:</p>
 <div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>docker-compose logs -f users-service

@@ -152,7 +152,8 @@ $ docker-compose up -d
 Want to test? Add a `print` statement to the *\_\_init\_\_.py*, right before the route handler, to view the app config to ensure that it is working:
 
 ```python
-print(app.config)
+import sys
+print(app.config, file=sys.stderr)
 ```
 
 Then just view the logs:
