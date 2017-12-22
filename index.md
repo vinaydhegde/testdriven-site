@@ -31,8 +31,8 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 
 Check out the live app, running on multiple EC2 instances -
 
-1. [Production](http://flask-microservices-prod-alb-814316018.us-east-1.elb.amazonaws.com)
-1. [Staging](http://flask-microservices-staging-alb-1366920567.us-east-1.elb.amazonaws.com)
+1. [Production](http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/)
+1. [Staging](http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/)
 
 <br>
 
