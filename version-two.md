@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Version 2
+title: Version 2.1
 permalink: version-two/
 share: true
 ---
@@ -30,6 +30,8 @@ share: true
 
 #### <span style="font-family:'Montserrat', 'sans-serif';">What's new in version 2?</span>
 
+(*Current version: 2.1, released on 12/22/2017*)
+
 *Overall:*
 
 1. Simplified the overall project structure
@@ -40,7 +42,7 @@ share: true
 1. Updated the development workflow so that all development work is done within the Docker containers
 1. Updated the test script
 1. Upgraded to TestCafe v0.18.2 for the e2e tests
-1. Upgrade to OpenAPI 3.0 (based on the original Swagger 2.0 specification)
+1. Upgraded to OpenAPI 3.0 (based on the original Swagger 2.0 specification)
 
 *Client:*
 
@@ -48,6 +50,7 @@ share: true
 1. Upgraded Bootstrap 3 to 4
 1. Added auto-reload to the Docker container to speed up the development process
 1. Added client-side React tests with Jest and Enzyme
+1. Added type checking via PropTypes
 
 *Server:*
 
@@ -58,7 +61,7 @@ share: true
 
 *Orchestration and Deployment:*
 
-1. Complete revamp of Parts 5 and 6
+1. Revamped Parts 5 and 6
 1. Reviewed ECS Service Task Placement Strategy
 1. Added an AWS Billing Alarm
 1. Added info on using Docker cache to speed up Travis CI builds
@@ -122,6 +125,12 @@ In Part 5, we'll dive into container orchestration with Amazon ECS as we move ou
 In the final part, we'll focus our attention on adding a new Flask service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we'll tie in AWS Lambda and API Gateway and spend a bit of time refactoring React and the end-to-end test suite. Finally, we'll update the staging and production environments on ECS.
 
 **Tools and Technologies**: AWS Lambda and API Gateway
+
+##### Part 7
+
+In part 7, we'll refactor the *AWS Lambda* function to make it dynamic so it can be used with more than one exercise, introduce type checking on the client-side with React PropTypes, and update a number of components. We'll also introduce another new Flask service to manage scores. Again, we'll update the staging and production environments on ECS.
+
+**Tools and Technologies**: AWS Lambda and ECS, PropTypes, and Flask
 
 <br>
 
