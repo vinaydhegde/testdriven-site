@@ -28,7 +28,7 @@ share: true
 
 <br>
 
-#### <span style="font-family:'Montserrat', 'sans-serif';">What's new in version 2?</span>
+#### <span style="font-family:'Montserrat', 'sans-serif';">What's new in version 2.1?</span>
 
 (*Current version: 2.1, released on 12/22/2017*)
 
