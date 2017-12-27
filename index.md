@@ -13,7 +13,7 @@ We'll also be practicing test-driven development (TDD), writing tests first when
   <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
 
-<a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev"&amp;url="https://testdriven.io"&amp;via="https://twitter.com" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via={{ site.twitter }}" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 #### <span style="font-family:'Montserrat', 'sans-serif';">Structure</span>
 
