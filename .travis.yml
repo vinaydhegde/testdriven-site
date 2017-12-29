@@ -11,7 +11,3 @@ env:
 script:
   - bundle exec jekyll build
   - bundle exec htmlproofer ./_site --url-ignore "#,/talks,/about" --only-4xx
-
-branches:
-  only:
-  - backup
