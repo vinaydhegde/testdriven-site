@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  
+    <title>Microservices with Docker, Flask, and React - EC2 Container Service</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
+  <link
+    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <link
+    rel="stylesheet"
+    href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  >
+  <link
+    href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link href="/assets/css/styles.css?1514562237825185000" rel="stylesheet">
+  <script
+    src="//code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    type="text/javascript"
+    src="/assets/js/main.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://gumroad.com/js/gumroad.js"
+  ></script>
+</head>
+
+
+  <body>
+
+    <nav class="indigo darken-4">
+  <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img
+        class="nav-logo" src="/assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io"
+      />
+    </a>
+    <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
+      Test Driven Development Courses
+    </a>
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+      TDD Courses
+    </a> -->
+    <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="/course-contents">Contents</a></li>
+      <li><a href="/version-two">Version 2.1</a></li>
+    </ul>
+    <ul class="side-nav" id="mobile-demo">
+      <li><a href="/">Home</a></li>
+      <li><a href="/course-contents">Contents</a></li>
+      <li><a href="/version-two">Version 2</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+    <br>
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col m3 hide-on-small-and-down">
+  <br>
+  <div id="toc-block" class="collection hide-on-small-and-down">
+    <ul class="collapsible collapsible-accordion">
+      
+        
+          <li>
+            <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+              Part 1
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-getting-started"
+              >Getting Started</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-docker-config"
+              >Docker Config</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-postgres-setup"
+              >Postgres Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-test-setup"
+              >Test Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-flask-blueprints"
+              >Flask Blueprints</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-restful-routes"
+              >RESTful Routes</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-aws-deployment"
+              >Deployment</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-jinja-templates"
+              >Jinja Templates</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>10.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-workflow"
+              >Workflow</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+              Part 2
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-project-refactor"
+              >Project Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-code-coverage"
+              >Code Coverage</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-continuous-integration"
+              >Continuous Integration</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-react-setup"
+              >React Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-flask-deployment"
+              >Flask Deployment</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-react-forms"
+              >React Forms</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-react-docker"
+              >React and Docker</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-flask-refactor"
+              >Flask Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
+              Part 3
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-flask-migrate"
+              >Flask Migrate</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-flask-bcrypt"
+              >Flask Bcrypt</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-jwt-setup"
+              >JWT Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-auth-routes"
+              >Auth Routes</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-react-router"
+              >React Router</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-react-bootstrap"
+              >React Bootstrap</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-react-authentication"
+              >React Authentication</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-authorization"
+              >Authorization</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>10.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-update-component"
+              >Update Component</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>11.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-update-docker"
+              >Update Docker</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="4" class="collapsible-header  waves-effect waves-teal">
+              Part 4
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-e2e-test-setup"
+              >End-to-End Test Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-e2e-test-specs"
+              >End-to-End Test Specs</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-react-component-refactor"
+              >React Component Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-react-form-validation"
+              >React Form Validation</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-react-flash-messages"
+              >React Flash Messaging</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-swagger-setup"
+              >Swagger Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-staging-environment"
+              >Staging Environment</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-workflow"
+              >Workflow</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
+              Part 5
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-docker-hub"
+              >Docker Hub</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-container-registry"
+              >EC2 Container Registry</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-container-service"
+              >EC2 Container Service</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-elastic-load-balancing"
+              >Elastic Load Balancing</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-container-service-staging"
+              >ECS Staging</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-relational-database-service"
+              >Setting up RDS</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-container-service-production"
+              >ECS Production</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-workflow"
+              >Workflow</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="6" class="collapsible-header  waves-effect waves-teal">
+              Part 6
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-eval-service-setup"
+              >Eval Service Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-scores-api-database"
+              >Scores API Database</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-scores-api-routes"
+              >Scores API Routes</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-exercises-api"
+              >Exercises API</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-react-refactor"
+              >React Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-e2e-tests-refactor"
+              >End-to-End Tests Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-react-ace-code-editor"
+              >React Ace Code Editor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-code-evaluation"
+              >Code Evaluation</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>10.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-ecs-deployment"
+              >ECS Deployment</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>11.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-next-steps"
+              >Next Steps</a>
+            </span>
+          </li>
+        </ul>
+      
+    </div>
+  </li>
+    </ul>
+  </div>
+</div>
+
+
+        <div class="col m9 hide-on-small-and-down">
+
+          <h2>EC2 Container Service</h2>
+
+          
+            <h5>Part 5, Lesson 4</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-five-ec2-container-registry">&laquo; EC2 Container Registry</a>
+              
+              
+                <a class="next btn right-align" href="/part-five-elastic-load-balancing">Elastic Load Balancing &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - EC2 Container Service&amp;url=http%3A%2F%2Ftestdriven.io/part-five-ec2-container-service&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
+
+          
+
+
+          <p>With ECR setup, we now need to create a task definition along with a cluster and a service within EC2 Container Service (ECS)...</p>
+
+<hr>
+
+<p><a href="https://aws.amazon.com/ecs/">ECS</a> is a container orchestration system used for managing and deploying Docker-based containers.</p>
+
+<div style="text-align:left;">
+  <img src="/assets/img/ecs.png" style="max-width: 100%; border:0; box-shadow: none;" alt="ecs">
+</div>
+
+<h4 id="key-pair"><span style="font-family:'Montserrat', 'sans-serif';">Key Pair</span></h4>
+
+<p>To start, let&#39;s create a new <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">EC2 Key Pair</a> so we can SSH into the EC2 instances managed by ECS.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Key Pairs&quot; on the sidebar, and then click the &quot;Create Key Pair&quot; button. Name the the new key pair <code>ecs</code> and add it to &quot;~/.ssh&quot;.</p>
+
+<h4 id="task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Task Definition</span></h4>
+
+<p>The <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definition</a> defines which containers make up the overall app and how much resources are allocated to each container. It is similar to a Docker Compose file.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ecs">Amazon ECS</a>, click &quot;Task Definitions&quot;, and then click the button &quot;Create new Task Definition&quot;. First, Update the &quot;Task Definition Name&quot; to <code>testdriven-staging</code> and then add two new containers. Once done, make sure to click the &quot;Create&quot; button.</p>
+
+<blockquote>
+<p>To add a new container, click the button &quot;Add container&quot;.</p>
+</blockquote>
+
+<h5 id="container-1-flask-microservices-users">Container 1: <em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-service</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>80</code> host, <code>5000</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>APP_SETTINGS</code> - <code>project.config.StagingConfig</code></li>
+<li><code>DATABASE_URL</code> - <code>postgres://postgres:postgres@users-db:5432/users_staging</code></li>
+<li><code>DATABASE_TEST_URL</code> - <code>postgres://postgres:postgres@users-db:5432/users_test</code></li>
+<li><code>SECRET_KEY</code> - <code>my_precious</code></li>
+</ul></li>
+<li>&quot;Links&quot;: <code>users-db</code></li>
+</ol>
+
+<h5 id="container-2-flask-microservices-users_db">Container 2: <em>flask-microservices-users_db</em></h5>
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-db</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_CCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>5432</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>POSTGRES_USER</code> - <code>postgres</code></li>
+<li><code>POSTGRES_PASSWORD</code> - <code>postgres</code></li>
+</ul></li>
+</ol>
+
+<h4 id="cluster"><span style="font-family:'Montserrat', 'sans-serif';">Cluster</span></h4>
+
+<p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_clusters.html">Clusters</a> are where the actual containers run. They are just groups of EC2 instances that run Docker containers managed by ECS. To create a Cluster, click &quot;Clusters&quot; on the sidebar, and then click the &quot;Create Cluster&quot; button.</p>
+
+<p>Add:</p>
+
+<ol>
+<li>&quot;Cluster name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.micro</code></li>
+<li>&quot;Number of instances&quot;: <code>2</code></li>
+<li>&quot;Key pair&quot;: <code>ecs</code></li>
+</ol>
+
+<p>This will create a number of EC2 resources, like the Internet Gateway, VPC, Security Group, Auto Scaling group, etc. It will take a few minutes to setup.</p>
+
+<h4 id="service"><span style="font-family:'Montserrat', 'sans-serif';">Service</span></h4>
+
+<p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a> instantiate the containers from the Task Definition and run them within the Cluster. To define a Service, on the &quot;Services&quot; tab within the newly created Cluster, click &quot;Create&quot;.</p>
+
+<p>Add:</p>
+
+<ol>
+<li>&quot;Service name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Number of tasks&quot;: <code>2</code></li>
+</ol>
+
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
+
+<p>Add ports 80 and 22 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>. Then grab the Public IP address of the EC2 instance, and navigate to <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a> in your browser. If all went well, you should see:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;pong!&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Try the <code>/users</code> endpoint: <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error since the migrations have not been ran. To do this, let&#39;s SSH into the EC2 instance:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
+</code></pre></div>
+<blockquote>
+<p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
+</blockquote>
+
+<p>Next, grab the Container ID for <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker <span class="nb">exec</span> -it Container_ID bash
+<span class="c1"># python manage.py recreate_db</span>
+<span class="c1"># python manage.py seed_db</span>
+</code></pre></div>
+<p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
+
+<h4 id="travis-update-task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Task Definition</span></h4>
+
+<p>To incorporate the updating of ECS into the CI/CD process, create a new feature branch called <code>ecs</code> in <em>flask-microservices-main</em>, and then add a new script called <em>docker_deploy.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$TRAVIS_PULL_REQUEST</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_PULL_REQUEST</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+
+    <span class="nv">JQ</span><span class="o">=</span><span class="s2">&quot;jq --raw-output --exit-status&quot;</span>
+
+    configure_aws_cli<span class="o">()</span> <span class="o">{</span>
+        aws --version
+        aws configure <span class="nb">set</span> default.region us-east-1
+        aws configure <span class="nb">set</span> default.output json
+        <span class="nb">echo</span> <span class="s2">&quot;AWS Configured!&quot;</span>
+    <span class="o">}</span>
+
+    make_task_def<span class="o">()</span> <span class="o">{</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat ecs_taskdefinition.json<span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$task_template</span><span class="s2">&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span>
+    <span class="o">}</span>
+
+    register_definition<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="nv">revision</span><span class="o">=</span><span class="k">$(</span>aws ecs register-task-definition --cli-input-json <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span> --family <span class="nv">$family</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.taskDefinition.taskDefinitionArn&#39;</span><span class="k">)</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Revision: </span><span class="nv">$revision</span><span class="s2">&quot;</span>
+      <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Failed to register task definition&quot;</span>
+        <span class="k">return</span> <span class="m">1</span>
+      <span class="k">fi</span>
+    <span class="o">}</span>
+
+    deploy_cluster<span class="o">()</span> <span class="o">{</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;testdriven-staging&quot;</span>
+      make_task_def
+      register_definition
+    <span class="o">}</span>
+
+    configure_aws_cli
+    deploy_cluster
+
+  <span class="k">fi</span>
+
+<span class="k">fi</span>
+</code></pre></div>
+<p>Here, if the branch is <code>staging</code> and it&#39;s not a a pull request the AWS CLI is configured and then the <code>deploy_cluster</code> function is fired, which sets the Task Definition family name and then fires the <code>make_task_def</code> and <code>register_definition</code> functions. These simply update the existing Task Definition with the definition found in <em>ecs_taskdefinition.json</em> and set a new revision.</p>
+
+<p>Add <em>ecs_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-service&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.StagingConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_TEST_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@users-db:5432/users_test&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@users-db:5432/users_staging&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;my_precious&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;links&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;users-db&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-db&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users_db:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5432</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_PASSWORD&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_USER&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This should look almost identical to the Task Definition defined in the ECS GUI, except for the logging info. Essentially, you can pipe out the container logs to <a href="https://aws.amazon.com/cloudwatch/">AWS CloudWatch</a>. To set up, navigate to <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, click &quot;Logs&quot;, click the &quot;Actions&quot; drop-down button, and then select &quot;Create log group&quot;. Name the group <code>flask-microservices-staging</code>.</p>
+
+<p>Update the <code>after_success</code> in <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">after_success</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_push.sh</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_deploy.sh</span>
+</code></pre></div>
+<p>Then, update the <code>SECRET_KEY</code> environment variable for <code>staging</code> in <em>docker_push.sh</em>, to match the Task Definition:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+  <span class="nb">export</span> <span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;my_precious&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Commit. Push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes, to trigger a new build.</p>
+
+<p>After the next build passes, make sure a new revision to the Task Definition is created, and then navigate to the Service itself. Update it so that it references the new revision of the Task Definition, and then stop the currently running Task. This will cause the Service to fire up a new Task, based on the new revision. Ensure all is still well <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a>.</p>
+
+<p>Open the <code>flask-microservices-staging</code> Log Group in Cloud Watch. Find the logs for the database. In a different browser window, navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error. Refresh the logs. You should see <code>ERROR: relation &quot;users&quot; does not exist at character 227</code>.</p>
+
+<h4 id="update-dockerfile"><span style="font-family:'Montserrat', 'sans-serif';">Update <em>Dockerfile</em></span></h4>
+
+<p>Next, within <em>flask-microservices-users</em>, update the <em>Dockerfile</em> to run a shell script rather than the server:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>FROM python:3.6.1
+
+# install environment dependencies
+RUN apt-get update -yqq \
+  &amp;&amp; apt-get install -yqq --no-install-recommends \
+    netcat \
+  &amp;&amp; apt-get -q clean
+
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# add entrypoint.sh
+ADD ./entrypoint.sh /usr/src/app/entrypoint.sh
+
+# add app
+ADD . /usr/src/app
+
+# run server
+CMD [&quot;./entrypoint.sh&quot;]
+</code></pre></div>
+<p>Add <em>entrypoint.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Waiting for postgres...&quot;</span>
+
+<span class="k">while</span> ! nc -z users-db <span class="m">5432</span><span class="p">;</span> <span class="k">do</span>
+  sleep <span class="m">0</span>.1
+<span class="k">done</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;PostgreSQL started&quot;</span>
+
+python manage.py recreate_db
+python manage.py seed_db
+gunicorn -b <span class="m">0</span>.0.0.0:5000 manage:app
+</code></pre></div>
+<p>Here, we wait for the <code>users-db</code> service to be up before updating and seeding the database and then firing the server.</p>
+
+<p>Commit and push your code.</p>
+
+<h4 id="travis-update-cluster-and-service"><span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Cluster And Service</span></h4>
+
+<p>Next, using the same feature branch as before, update the <code>deploy_cluster</code> function in <em>docker_deploy.sh</em> in the <em>flask-microservices-main</em> project:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>deploy_cluster<span class="o">()</span> <span class="o">{</span>
+
+  <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;testdriven-staging&quot;</span>
+  <span class="nv">cluster</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging&quot;</span>
+  <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging&quot;</span>
+
+  make_task_def
+  register_definition
+
+  <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span>aws ecs update-service --cluster <span class="nv">$cluster</span> --service <span class="nv">$service</span> --task-definition <span class="nv">$revision</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.service.taskDefinition&#39;</span><span class="k">)</span> !<span class="o">=</span> <span class="nv">$revision</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Error updating service.&quot;</span>
+    <span class="k">return</span> <span class="m">1</span>
+  <span class="k">fi</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>Now, the service will automatically be updated with the new Task Definition revision.</p>
+
+<p>Again, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a Task based on that revision.</p>
+
+<p>Ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
+
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
+
+<p>Test out each of the endpoints:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
+
+<p><br></p>
+
+<hr>
+
+<p>Well, we still need to add the remaining containers to ECS, but first let&#39;s take a look at load balancing...</p>
+
+
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-five-ec2-container-registry">&laquo; EC2 Container Registry</a>
+            
+            
+              <a class="next btn right-align" href="/part-five-elastic-load-balancing">Elastic Load Balancing &raquo;</a>
+            
+          </div>
+
+          
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - EC2 Container Service&amp;url=http%3A%2F%2Ftestdriven.io/part-five-ec2-container-service&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+        </div>
+
+        <div class="hide-on-med-and-up">
+
+          <h2>EC2 Container Service</h2>
+
+          <p>With ECR setup, we now need to create a task definition along with a cluster and a service within EC2 Container Service (ECS)...</p>
+
+<hr>
+
+<p><a href="https://aws.amazon.com/ecs/">ECS</a> is a container orchestration system used for managing and deploying Docker-based containers.</p>
+
+<div style="text-align:left;">
+  <img src="/assets/img/ecs.png" style="max-width: 100%; border:0; box-shadow: none;" alt="ecs">
+</div>
+
+<h4 id="key-pair"><span style="font-family:'Montserrat', 'sans-serif';">Key Pair</span></h4>
+
+<p>To start, let&#39;s create a new <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">EC2 Key Pair</a> so we can SSH into the EC2 instances managed by ECS.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ec2/">Amazon EC2</a>, click &quot;Key Pairs&quot; on the sidebar, and then click the &quot;Create Key Pair&quot; button. Name the the new key pair <code>ecs</code> and add it to &quot;~/.ssh&quot;.</p>
+
+<h4 id="task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Task Definition</span></h4>
+
+<p>The <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Task Definition</a> defines which containers make up the overall app and how much resources are allocated to each container. It is similar to a Docker Compose file.</p>
+
+<p>Navigate to <a href="https://console.aws.amazon.com/ecs">Amazon ECS</a>, click &quot;Task Definitions&quot;, and then click the button &quot;Create new Task Definition&quot;. First, Update the &quot;Task Definition Name&quot; to <code>testdriven-staging</code> and then add two new containers. Once done, make sure to click the &quot;Create&quot; button.</p>
+
+<blockquote>
+<p>To add a new container, click the button &quot;Add container&quot;.</p>
+</blockquote>
+
+<h5 id="container-1-flask-microservices-users">Container 1: <em>flask-microservices-users</em></h5>
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-service</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users:staging</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>80</code> host, <code>5000</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>APP_SETTINGS</code> - <code>project.config.StagingConfig</code></li>
+<li><code>DATABASE_URL</code> - <code>postgres://postgres:postgres@users-db:5432/users_staging</code></li>
+<li><code>DATABASE_TEST_URL</code> - <code>postgres://postgres:postgres@users-db:5432/users_test</code></li>
+<li><code>SECRET_KEY</code> - <code>my_precious</code></li>
+</ul></li>
+<li>&quot;Links&quot;: <code>users-db</code></li>
+</ol>
+
+<h5 id="container-2-flask-microservices-users_db">Container 2: <em>flask-microservices-users_db</em></h5>
+
+<ol>
+<li>&quot;Container name&quot;: <code>users-db</code></li>
+<li>&quot;Image&quot;: <code>YOUR_AWS_CCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/flask-microservices-users_db:staging</code></li>
+<li>&quot;Memory Limits (MB)&quot;: <code>300</code> soft limit</li>
+<li>&quot;Port mappings&quot;: <code>5432</code> container</li>
+<li>&quot;Env Variables&quot;:
+
+<ul>
+<li><code>POSTGRES_USER</code> - <code>postgres</code></li>
+<li><code>POSTGRES_PASSWORD</code> - <code>postgres</code></li>
+</ul></li>
+</ol>
+
+<h4 id="cluster"><span style="font-family:'Montserrat', 'sans-serif';">Cluster</span></h4>
+
+<p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_clusters.html">Clusters</a> are where the actual containers run. They are just groups of EC2 instances that run Docker containers managed by ECS. To create a Cluster, click &quot;Clusters&quot; on the sidebar, and then click the &quot;Create Cluster&quot; button.</p>
+
+<p>Add:</p>
+
+<ol>
+<li>&quot;Cluster name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;EC2 instance type&quot;: <code>t2.micro</code></li>
+<li>&quot;Number of instances&quot;: <code>2</code></li>
+<li>&quot;Key pair&quot;: <code>ecs</code></li>
+</ol>
+
+<p>This will create a number of EC2 resources, like the Internet Gateway, VPC, Security Group, Auto Scaling group, etc. It will take a few minutes to setup.</p>
+
+<h4 id="service"><span style="font-family:'Montserrat', 'sans-serif';">Service</span></h4>
+
+<p><a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a> instantiate the containers from the Task Definition and run them within the Cluster. To define a Service, on the &quot;Services&quot; tab within the newly created Cluster, click &quot;Create&quot;.</p>
+
+<p>Add:</p>
+
+<ol>
+<li>&quot;Service name&quot;: <code>flask-microservices-staging</code></li>
+<li>&quot;Number of tasks&quot;: <code>2</code></li>
+</ol>
+
+<h4 id="sanity-check"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check</span></h4>
+
+<p>Add ports 80 and 22 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>. Then grab the Public IP address of the EC2 instance, and navigate to <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a> in your browser. If all went well, you should see:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;pong!&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Try the <code>/users</code> endpoint: <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error since the migrations have not been ran. To do this, let&#39;s SSH into the EC2 instance:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
+</code></pre></div>
+<blockquote>
+<p>You may need to update the permissions on the Pem file - i.e., <code>chmod 400 ~/.ssh/ecs.pem</code>.</p>
+</blockquote>
+
+<p>Next, grab the Container ID for <em>flask-microservices-users</em>, enter the shell within the running container, and then update the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker <span class="nb">exec</span> -it Container_ID bash
+<span class="c1"># python manage.py recreate_db</span>
+<span class="c1"># python manage.py seed_db</span>
+</code></pre></div>
+<p>Navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> again and you should see the users.</p>
+
+<h4 id="travis-update-task-definition"><span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Task Definition</span></h4>
+
+<p>To incorporate the updating of ECS into the CI/CD process, create a new feature branch called <code>ecs</code> in <em>flask-microservices-main</em>, and then add a new script called <em>docker_deploy.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$TRAVIS_PULL_REQUEST</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_PULL_REQUEST</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+
+    <span class="nv">JQ</span><span class="o">=</span><span class="s2">&quot;jq --raw-output --exit-status&quot;</span>
+
+    configure_aws_cli<span class="o">()</span> <span class="o">{</span>
+        aws --version
+        aws configure <span class="nb">set</span> default.region us-east-1
+        aws configure <span class="nb">set</span> default.output json
+        <span class="nb">echo</span> <span class="s2">&quot;AWS Configured!&quot;</span>
+    <span class="o">}</span>
+
+    make_task_def<span class="o">()</span> <span class="o">{</span>
+      <span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat ecs_taskdefinition.json<span class="k">)</span>
+      <span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$task_template</span><span class="s2">&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+      <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span>
+    <span class="o">}</span>
+
+    register_definition<span class="o">()</span> <span class="o">{</span>
+      <span class="k">if</span> <span class="nv">revision</span><span class="o">=</span><span class="k">$(</span>aws ecs register-task-definition --cli-input-json <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span> --family <span class="nv">$family</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.taskDefinition.taskDefinitionArn&#39;</span><span class="k">)</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Revision: </span><span class="nv">$revision</span><span class="s2">&quot;</span>
+      <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Failed to register task definition&quot;</span>
+        <span class="k">return</span> <span class="m">1</span>
+      <span class="k">fi</span>
+    <span class="o">}</span>
+
+    deploy_cluster<span class="o">()</span> <span class="o">{</span>
+      <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;testdriven-staging&quot;</span>
+      make_task_def
+      register_definition
+    <span class="o">}</span>
+
+    configure_aws_cli
+    deploy_cluster
+
+  <span class="k">fi</span>
+
+<span class="k">fi</span>
+</code></pre></div>
+<p>Here, if the branch is <code>staging</code> and it&#39;s not a a pull request the AWS CLI is configured and then the <code>deploy_cluster</code> function is fired, which sets the Task Definition family name and then fires the <code>make_task_def</code> and <code>register_definition</code> functions. These simply update the existing Task Definition with the definition found in <em>ecs_taskdefinition.json</em> and set a new revision.</p>
+
+<p>Add <em>ecs_taskdefinition.json</em>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-service&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.StagingConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_TEST_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@users-db:5432/users_test&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@users-db:5432/users_staging&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;my_precious&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;links&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;users-db&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;users-db&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-users_db:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5432</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_PASSWORD&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_USER&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This should look almost identical to the Task Definition defined in the ECS GUI, except for the logging info. Essentially, you can pipe out the container logs to <a href="https://aws.amazon.com/cloudwatch/">AWS CloudWatch</a>. To set up, navigate to <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, click &quot;Logs&quot;, click the &quot;Actions&quot; drop-down button, and then select &quot;Create log group&quot;. Name the group <code>flask-microservices-staging</code>.</p>
+
+<p>Update the <code>after_success</code> in <em>.travis.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">after_success</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_push.sh</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_deploy.sh</span>
+</code></pre></div>
+<p>Then, update the <code>SECRET_KEY</code> environment variable for <code>staging</code> in <em>docker_push.sh</em>, to match the Task Definition:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;TBD&quot;</span>
+  <span class="nb">export</span> <span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;my_precious&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Commit. Push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes, to trigger a new build.</p>
+
+<p>After the next build passes, make sure a new revision to the Task Definition is created, and then navigate to the Service itself. Update it so that it references the new revision of the Task Definition, and then stop the currently running Task. This will cause the Service to fire up a new Task, based on the new revision. Ensure all is still well <a href="http://EC2_PUBLIC_IP/ping">http://EC2_PUBLIC_IP/ping</a>.</p>
+
+<p>Open the <code>flask-microservices-staging</code> Log Group in Cloud Watch. Find the logs for the database. In a different browser window, navigate to <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a>. You should see a 500 error. Refresh the logs. You should see <code>ERROR: relation &quot;users&quot; does not exist at character 227</code>.</p>
+
+<h4 id="update-dockerfile"><span style="font-family:'Montserrat', 'sans-serif';">Update <em>Dockerfile</em></span></h4>
+
+<p>Next, within <em>flask-microservices-users</em>, update the <em>Dockerfile</em> to run a shell script rather than the server:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>FROM python:3.6.1
+
+# install environment dependencies
+RUN apt-get update -yqq \
+  &amp;&amp; apt-get install -yqq --no-install-recommends \
+    netcat \
+  &amp;&amp; apt-get -q clean
+
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
+
+# install requirements
+RUN pip install -r requirements.txt
+
+# add entrypoint.sh
+ADD ./entrypoint.sh /usr/src/app/entrypoint.sh
+
+# add app
+ADD . /usr/src/app
+
+# run server
+CMD [&quot;./entrypoint.sh&quot;]
+</code></pre></div>
+<p>Add <em>entrypoint.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Waiting for postgres...&quot;</span>
+
+<span class="k">while</span> ! nc -z users-db <span class="m">5432</span><span class="p">;</span> <span class="k">do</span>
+  sleep <span class="m">0</span>.1
+<span class="k">done</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;PostgreSQL started&quot;</span>
+
+python manage.py recreate_db
+python manage.py seed_db
+gunicorn -b <span class="m">0</span>.0.0.0:5000 manage:app
+</code></pre></div>
+<p>Here, we wait for the <code>users-db</code> service to be up before updating and seeding the database and then firing the server.</p>
+
+<p>Commit and push your code.</p>
+
+<h4 id="travis-update-cluster-and-service"><span style="font-family:'Montserrat', 'sans-serif';">Travis - Update Cluster And Service</span></h4>
+
+<p>Next, using the same feature branch as before, update the <code>deploy_cluster</code> function in <em>docker_deploy.sh</em> in the <em>flask-microservices-main</em> project:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>deploy_cluster<span class="o">()</span> <span class="o">{</span>
+
+  <span class="nv">family</span><span class="o">=</span><span class="s2">&quot;testdriven-staging&quot;</span>
+  <span class="nv">cluster</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging&quot;</span>
+  <span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-staging&quot;</span>
+
+  make_task_def
+  register_definition
+
+  <span class="k">if</span> <span class="o">[[</span> <span class="k">$(</span>aws ecs update-service --cluster <span class="nv">$cluster</span> --service <span class="nv">$service</span> --task-definition <span class="nv">$revision</span> <span class="p">|</span> <span class="nv">$JQ</span> <span class="s1">&#39;.service.taskDefinition&#39;</span><span class="k">)</span> !<span class="o">=</span> <span class="nv">$revision</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Error updating service.&quot;</span>
+    <span class="k">return</span> <span class="m">1</span>
+  <span class="k">fi</span>
+
+<span class="o">}</span>
+</code></pre></div>
+<p>Now, the service will automatically be updated with the new Task Definition revision.</p>
+
+<p>Again, commit and push your code to GitHub. Open a PR against the <code>staging</code> branch, and then merge the PR once the Travis build passes. Once done, you should see a new revision associated with the Task Definition and the Service should now be running a Task based on that revision.</p>
+
+<p>Ensure <a href="http://EC2_PUBLIC_IP/users">http://EC2_PUBLIC_IP/users</a> works as expected.</p>
+
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
+
+<p>Test out each of the endpoints:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+</tbody></table>
+
+<p><br></p>
+
+<hr>
+
+<p>Well, we still need to add the remaining containers to ECS, but first let&#39;s take a look at load balancing...</p>
+
+
+          
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - EC2 Container Service&amp;url=http%3A%2F%2Ftestdriven.io/part-five-ec2-container-service&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-five-ec2-container-registry">&laquo; EC2 Container Registry</a>
+            
+            
+              <a class="next btn right-align" href="/part-five-elastic-load-balancing">Elastic Load Balancing &raquo;</a>
+            
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+     <footer class="page-footer white">
+  <div class="container footer-container center-align">
+    <ul>
+      <li><small>Content by Michael Herman (michael@mherman.org)</small></li>
+      <li><small>&copy; Copyright 2017 <a href="http://testdriven.io">TestDriven.io</a></small></li>
+    </ul>
+  </div>
+</footer>
+
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+    
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-100160465-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+
+  </body>
+</html>

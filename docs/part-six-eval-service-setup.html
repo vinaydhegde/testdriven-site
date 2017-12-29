@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Eval Service Setup</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,152 +906,260 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Eval Service Setup</h2>
+
+          
+            <h5>Part 6, Lesson 2</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-six-intro">&laquo; Introduction</a>
+              
+              
+                <a class="next btn right-align" href="/part-six-scores-api-database">Scores API Database &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Eval Service Setup&amp;url=http%3A%2F%2Ftestdriven.io/part-six-eval-service-setup&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>In this lesson, we&#39;ll quickly wire up a new service...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>In the next few lessons we&#39;ll spin up a new microservice that is responsible for maintaining exercises and keeping track of user scores.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Start by cloning down the repo containing the project boilerplate:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git clone https://github.com/realpython/flask-microservices-eval  <span class="se">\</span>
+  --branch v0 --single-branch
+</code></pre></div>
+<p>Then, check out the <a href="https://github.com/realpython/flask-microservices-eval/releases/tag/v0">v0</a> tag to the master branch and install the dependencies:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git checkout tags/v0 -b master
+</code></pre></div>
+<p>Open the project in your code editor of choice, and quickly review the code. Then, within the <em>flask-microservices-main</em> project, add the service to <em>docker-compose.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">eval-service</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eval-service</span>
+  <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../flask-microservices-eval</span>
+    <span class="l l-Scalar l-Scalar-Plain">dockerfile</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Dockerfile-local</span>
+  <span class="l l-Scalar l-Scalar-Plain">volumes</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;../flask-microservices-eval:/usr/src/app&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5002:5000</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+  <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">APP_SETTINGS=project.config.DevelopmentConfig</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_SERVICE_URL=http://users-service:5000</span>
+  <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+  <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+</code></pre></div>
+<p>Take note of the <code>USERS_SERVICE_URL</code> above. Then, jump to the <code>ensure_authenticated</code> function in <em>flask-microservices-eval/project/api/utils.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">ensure_authenticated</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;TESTING&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;{0}/auth/status&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;USERS_SERVICE_URL&#39;</span><span class="p">])</span>
+    <span class="n">bearer</span> <span class="o">=</span> <span class="s1">&#39;Bearer {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="n">bearer</span><span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> \
+       <span class="n">data</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;success&#39;</span> <span class="ow">and</span> \
+       <span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;active&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</code></pre></div>
+<p>In this case, we&#39;ll make a request from one container to another so we need to reference the container name rather than the Docker Machine IP.</p>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<blockquote>
+<p>Did you notice that we simply return <code>True</code> in the <code>ensure_authenticated</code> function in test mode? It&#39;s probably better to <a href="https://stackoverflow.com/questions/3459287/whats-the-difference-between-a-mock-stub">mock</a> the <code>authenticate</code> function in the test suite to separate the source code from the test code. Refactor on your own.</p>
+</blockquote>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p>Next, to spin up the containers, first set <code>dev</code> as the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env dev
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP:5001
+$ <span class="nb">export</span> <span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Fire up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d --build
+</code></pre></div>
+<p>Update <em>test.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="ch">#!/bin/bash</span>
 
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
+<span class="nv">fails</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+inspect<span class="o">()</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="nv">$1</span> -ne <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nv">fails</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">fails</span><span class="si">}</span><span class="s2"> </span><span class="nv">$2</span><span class="s2">&quot;</span>
+  <span class="k">fi</span>
+<span class="o">}</span>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+docker-compose run users-service python manage.py <span class="nb">test</span>
+inspect <span class="nv">$?</span> users-service
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+docker-compose run eval-service python manage.py <span class="nb">test</span>
+inspect <span class="nv">$?</span> eval-service
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+testcafe chrome e2e
+inspect <span class="nv">$?</span> e2e
 
-<p><br></p>
-
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
-
-<p><br><hr><br></p>
-
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
-
+<span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;</span><span class="si">${</span><span class="nv">fails</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span>
+  <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Tests failed: </span><span class="si">${</span><span class="nv">fails</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">exit</span> <span class="m">1</span>
+  <span class="k">else</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Tests passed!&quot;</span>
+    <span class="nb">exit</span> <span class="m">0</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ sh test.sh
+</code></pre></div>
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-six-intro">&laquo; Introduction</a>
+            
+            
+              <a class="next btn right-align" href="/part-six-scores-api-database">Scores API Database &raquo;</a>
             
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Eval Service Setup&amp;url=http%3A%2F%2Ftestdriven.io/part-six-eval-service-setup&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Eval Service Setup</h2>
 
-          <p><hr><br></p>
+          <p>In this lesson, we&#39;ll quickly wire up a new service...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>In the next few lessons we&#39;ll spin up a new microservice that is responsible for maintaining exercises and keeping track of user scores.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Start by cloning down the repo containing the project boilerplate:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git clone https://github.com/realpython/flask-microservices-eval  <span class="se">\</span>
+  --branch v0 --single-branch
+</code></pre></div>
+<p>Then, check out the <a href="https://github.com/realpython/flask-microservices-eval/releases/tag/v0">v0</a> tag to the master branch and install the dependencies:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git checkout tags/v0 -b master
+</code></pre></div>
+<p>Open the project in your code editor of choice, and quickly review the code. Then, within the <em>flask-microservices-main</em> project, add the service to <em>docker-compose.yml</em>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">eval-service</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eval-service</span>
+  <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">../flask-microservices-eval</span>
+    <span class="l l-Scalar l-Scalar-Plain">dockerfile</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Dockerfile-local</span>
+  <span class="l l-Scalar l-Scalar-Plain">volumes</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;../flask-microservices-eval:/usr/src/app&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5002:5000</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+  <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">APP_SETTINGS=project.config.DevelopmentConfig</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_SERVICE_URL=http://users-service:5000</span>
+  <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+  <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+</code></pre></div>
+<p>Take note of the <code>USERS_SERVICE_URL</code> above. Then, jump to the <code>ensure_authenticated</code> function in <em>flask-microservices-eval/project/api/utils.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="k">def</span> <span class="nf">ensure_authenticated</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;TESTING&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;{0}/auth/status&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;USERS_SERVICE_URL&#39;</span><span class="p">])</span>
+    <span class="n">bearer</span> <span class="o">=</span> <span class="s1">&#39;Bearer {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="n">bearer</span><span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">and</span> \
+       <span class="n">data</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;success&#39;</span> <span class="ow">and</span> \
+       <span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;active&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</code></pre></div>
+<p>In this case, we&#39;ll make a request from one container to another so we need to reference the container name rather than the Docker Machine IP.</p>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<blockquote>
+<p>Did you notice that we simply return <code>True</code> in the <code>ensure_authenticated</code> function in test mode? It&#39;s probably better to <a href="https://stackoverflow.com/questions/3459287/whats-the-difference-between-a-mock-stub">mock</a> the <code>authenticate</code> function in the test suite to separate the source code from the test code. Refactor on your own.</p>
+</blockquote>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p>Next, to spin up the containers, first set <code>dev</code> as the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env dev
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP:5001
+$ <span class="nb">export</span> <span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Fire up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d --build
+</code></pre></div>
+<p>Update <em>test.sh</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="ch">#!/bin/bash</span>
 
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
+<span class="nv">fails</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+inspect<span class="o">()</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="nv">$1</span> -ne <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nv">fails</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">fails</span><span class="si">}</span><span class="s2"> </span><span class="nv">$2</span><span class="s2">&quot;</span>
+  <span class="k">fi</span>
+<span class="o">}</span>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+docker-compose run users-service python manage.py <span class="nb">test</span>
+inspect <span class="nv">$?</span> users-service
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+docker-compose run eval-service python manage.py <span class="nb">test</span>
+inspect <span class="nv">$?</span> eval-service
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+testcafe chrome e2e
+inspect <span class="nv">$?</span> e2e
 
-<p><br></p>
-
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
-
-<p><br><hr><br></p>
-
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
-
+<span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;</span><span class="si">${</span><span class="nv">fails</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span>
+  <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Tests failed: </span><span class="si">${</span><span class="nv">fails</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">exit</span> <span class="m">1</span>
+  <span class="k">else</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Tests passed!&quot;</span>
+    <span class="nb">exit</span> <span class="m">0</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ sh test.sh
+</code></pre></div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Eval Service Setup&amp;url=http%3A%2F%2Ftestdriven.io/part-six-eval-service-setup&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-six-intro">&laquo; Introduction</a>
+            
+            
+              <a class="next btn right-align" href="/part-six-scores-api-database">Scores API Database &raquo;</a>
             
           </div>
 

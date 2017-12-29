@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Docker Config</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,152 +906,352 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Docker Config</h2>
+
+          
+            <h5>Part 1, Lesson 3</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-one-getting-started">&laquo; Getting Started</a>
+              
+              
+                <a class="next btn right-align" href="/part-one-postgres-setup">Postgres Setup &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Docker Config&amp;url=http%3A%2F%2Ftestdriven.io/part-one-docker-config&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>Let&#39;s containerize the Flask app...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>Start by ensuring that you have Docker, Docker Compose, and Docker Machine installed:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker -v
+Docker version <span class="m">17</span>.03.1-ce, build c6d412e
+$ docker-compose -v
+docker-compose version <span class="m">1</span>.11.2, build dfed245
+$ docker-machine -v
+docker-machine version <span class="m">0</span>.10.0, build 76ed2a6
+</code></pre></div>
+<p>Next, we need to <a href="https://docs.docker.com/machine/reference/create/">create</a> a new Docker host with <a href="https://docs.docker.com/machine/">Docker Machine</a> and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine create -d virtualbox dev
+$ <span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>docker-machine env dev<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+<blockquote>
+<p>Learn more about the above command <a href="https://stackoverflow.com/questions/40038572/eval-docker-machine-env-default/40040077#40040077">here</a>.</p>
+</blockquote>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Add a <em>Dockerfile</em> to the root directory, making sure to review the code comments:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>FROM python:3.6.1
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
 
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
+# install requirements
+RUN pip install -r requirements.txt
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+# add app
+ADD . /usr/src/app
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+# run server
+CMD python manage.py runserver -h 0.0.0.0
+</code></pre></div>
+<p>Then add a <em>docker-compose.yml</em> file to the root:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>version: &#39;2.1&#39;
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+services:
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+  users-service:
+    container_name: users-service
+    build: .
+    volumes:
+      - &#39;.:/usr/src/app&#39;
+    ports:
+      - 5001:5000 # expose ports - HOST:CONTAINER
+</code></pre></div>
+<p>This config will create a container called <code>users-service</code>, from the Dockerfile.</p>
 
-<p><br></p>
+<blockquote>
+<p>Directories are relative to the <em>docker-compose.yml</em> file.</p>
+</blockquote>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>The <code>volume</code> is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image after each code change.</p>
 
-<p><br><hr><br></p>
+<p>Take note of the <a href="https://docs.docker.com/compose/compose-file/">Docker compose file version</a> used - <code>2.1</code>. Keep in mind that this does <em>not</em> relate directly to the version of Docker Compose installed - it simply specifies the file format that you want to use.</p>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
+<p>Build the image:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose build
+</code></pre></div>
+<p>This will take a few minutes the first time. Subsequent builds will be much faster since Docker caches the results of the first build. Once done, fire up the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d
+</code></pre></div>
+<blockquote>
+<p>The <code>-d</code> flag is used to run the containers in the background.</p>
+</blockquote>
 
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<p>Grab the IP associated with the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ip dev
+</code></pre></div>
+<p>Navigate to <a href="http://YOUR-IP:5001/ping">http://YOUR-IP:5001/ping</a>. Make sure you see the same JSON response as before. Next, add an environment variable to the <em>docker-compose.yml</em> file to load the app config for the dev environment:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>version: &#39;2.1&#39;
+
+services:
+
+  users-service:
+    container_name: users-service
+    build: .
+    volumes:
+      - &#39;.:/usr/src/app&#39;
+    ports:
+      - 5001:5000 # expose ports - HOST:CONTAINER
+    environment:
+      - APP_SETTINGS=project.config.DevelopmentConfig
+</code></pre></div>
+<p>Then update <em>project/__init__.py</em>, to pull in the environment variables:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># project/__init__.py</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+
+
+<span class="c1"># instantiate the app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># set config</span>
+<span class="n">app_settings</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;APP_SETTINGS&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">app_settings</span><span class="p">)</span>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;pong!&#39;</span>
+    <span class="p">})</span>
+</code></pre></div>
+<p>Update the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d
+</code></pre></div>
+<p>Want to test? Add a <code>print</code> statement to the <em>__init__.py</em>, right before the route handler, to view the app config to ensure that it is working:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+</code></pre></div>
+<p>Then just view the logs:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose logs -f users-service
+</code></pre></div>
+<p>You should see something like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;Config {
+  &#39;DEBUG&#39;: True, &#39;TESTING&#39;: False, &#39;PROPAGATE_EXCEPTIONS&#39;: None,
+  &#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;: None, &#39;SECRET_KEY&#39;: None,
+  &#39;PERMANENT_SESSION_LIFETIME&#39;: datetime.timedelta(31), &#39;USE_X_SENDFILE&#39;:
+  False, &#39;LOGGER_NAME&#39;: &#39;project&#39;, &#39;LOGGER_HANDLER_POLICY&#39;: &#39;always&#39;,
+  &#39;SERVER_NAME&#39;: None, &#39;APPLICATION_ROOT&#39;: None, &#39;SESSION_COOKIE_NAME&#39;:
+  &#39;session&#39;, &#39;SESSION_COOKIE_DOMAIN&#39;: None, &#39;SESSION_COOKIE_PATH&#39;: None,
+  &#39;SESSION_COOKIE_HTTPONLY&#39;: True, &#39;SESSION_COOKIE_SECURE&#39;: False,
+  &#39;SESSION_REFRESH_EACH_REQUEST&#39;: True, &#39;MAX_CONTENT_LENGTH&#39;: None,
+  &#39;SEND_FILE_MAX_AGE_DEFAULT&#39;: datetime.timedelta(0, 43200),
+  &#39;TRAP_BAD_REQUEST_ERRORS&#39;: False, &#39;TRAP_HTTP_EXCEPTIONS&#39;: False,
+  &#39;EXPLAIN_TEMPLATE_LOADING&#39;: False, &#39;PREFERRED_URL_SCHEME&#39;: &#39;http&#39;,
+  &#39;JSON_AS_ASCII&#39;: True, &#39;JSON_SORT_KEYS&#39;: True,
+  &#39;JSONIFY_PRETTYPRINT_REGULAR&#39;: True, &#39;JSONIFY_MIMETYPE&#39;:
+  &#39;application/json&#39;, &#39;TEMPLATES_AUTO_RELOAD&#39;: None}
+&gt;
+</code></pre></div>
+<p>Make sure to remove the <code>print</code> statement before moving on.</p>
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-one-getting-started">&laquo; Getting Started</a>
+            
+            
+              <a class="next btn right-align" href="/part-one-postgres-setup">Postgres Setup &raquo;</a>
             
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Docker Config&amp;url=http%3A%2F%2Ftestdriven.io/part-one-docker-config&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Docker Config</h2>
 
-          <p><hr><br></p>
+          <p>Let&#39;s containerize the Flask app...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>Start by ensuring that you have Docker, Docker Compose, and Docker Machine installed:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker -v
+Docker version <span class="m">17</span>.03.1-ce, build c6d412e
+$ docker-compose -v
+docker-compose version <span class="m">1</span>.11.2, build dfed245
+$ docker-machine -v
+docker-machine version <span class="m">0</span>.10.0, build 76ed2a6
+</code></pre></div>
+<p>Next, we need to <a href="https://docs.docker.com/machine/reference/create/">create</a> a new Docker host with <a href="https://docs.docker.com/machine/">Docker Machine</a> and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine create -d virtualbox dev
+$ <span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>docker-machine env dev<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+<blockquote>
+<p>Learn more about the above command <a href="https://stackoverflow.com/questions/40038572/eval-docker-machine-env-default/40040077#40040077">here</a>.</p>
+</blockquote>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Add a <em>Dockerfile</em> to the root directory, making sure to review the code comments:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>FROM python:3.6.1
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
 
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
+# install requirements
+RUN pip install -r requirements.txt
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+# add app
+ADD . /usr/src/app
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+# run server
+CMD python manage.py runserver -h 0.0.0.0
+</code></pre></div>
+<p>Then add a <em>docker-compose.yml</em> file to the root:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>version: &#39;2.1&#39;
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+services:
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+  users-service:
+    container_name: users-service
+    build: .
+    volumes:
+      - &#39;.:/usr/src/app&#39;
+    ports:
+      - 5001:5000 # expose ports - HOST:CONTAINER
+</code></pre></div>
+<p>This config will create a container called <code>users-service</code>, from the Dockerfile.</p>
 
-<p><br></p>
+<blockquote>
+<p>Directories are relative to the <em>docker-compose.yml</em> file.</p>
+</blockquote>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>The <code>volume</code> is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image after each code change.</p>
 
-<p><br><hr><br></p>
+<p>Take note of the <a href="https://docs.docker.com/compose/compose-file/">Docker compose file version</a> used - <code>2.1</code>. Keep in mind that this does <em>not</em> relate directly to the version of Docker Compose installed - it simply specifies the file format that you want to use.</p>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
+<p>Build the image:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose build
+</code></pre></div>
+<p>This will take a few minutes the first time. Subsequent builds will be much faster since Docker caches the results of the first build. Once done, fire up the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d
+</code></pre></div>
+<blockquote>
+<p>The <code>-d</code> flag is used to run the containers in the background.</p>
+</blockquote>
 
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<p>Grab the IP associated with the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ip dev
+</code></pre></div>
+<p>Navigate to <a href="http://YOUR-IP:5001/ping">http://YOUR-IP:5001/ping</a>. Make sure you see the same JSON response as before. Next, add an environment variable to the <em>docker-compose.yml</em> file to load the app config for the dev environment:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>version: &#39;2.1&#39;
+
+services:
+
+  users-service:
+    container_name: users-service
+    build: .
+    volumes:
+      - &#39;.:/usr/src/app&#39;
+    ports:
+      - 5001:5000 # expose ports - HOST:CONTAINER
+    environment:
+      - APP_SETTINGS=project.config.DevelopmentConfig
+</code></pre></div>
+<p>Then update <em>project/__init__.py</em>, to pull in the environment variables:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># project/__init__.py</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
+
+
+<span class="c1"># instantiate the app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># set config</span>
+<span class="n">app_settings</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;APP_SETTINGS&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">app_settings</span><span class="p">)</span>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;pong!&#39;</span>
+    <span class="p">})</span>
+</code></pre></div>
+<p>Update the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d
+</code></pre></div>
+<p>Want to test? Add a <code>print</code> statement to the <em>__init__.py</em>, right before the route handler, to view the app config to ensure that it is working:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+</code></pre></div>
+<p>Then just view the logs:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose logs -f users-service
+</code></pre></div>
+<p>You should see something like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;Config {
+  &#39;DEBUG&#39;: True, &#39;TESTING&#39;: False, &#39;PROPAGATE_EXCEPTIONS&#39;: None,
+  &#39;PRESERVE_CONTEXT_ON_EXCEPTION&#39;: None, &#39;SECRET_KEY&#39;: None,
+  &#39;PERMANENT_SESSION_LIFETIME&#39;: datetime.timedelta(31), &#39;USE_X_SENDFILE&#39;:
+  False, &#39;LOGGER_NAME&#39;: &#39;project&#39;, &#39;LOGGER_HANDLER_POLICY&#39;: &#39;always&#39;,
+  &#39;SERVER_NAME&#39;: None, &#39;APPLICATION_ROOT&#39;: None, &#39;SESSION_COOKIE_NAME&#39;:
+  &#39;session&#39;, &#39;SESSION_COOKIE_DOMAIN&#39;: None, &#39;SESSION_COOKIE_PATH&#39;: None,
+  &#39;SESSION_COOKIE_HTTPONLY&#39;: True, &#39;SESSION_COOKIE_SECURE&#39;: False,
+  &#39;SESSION_REFRESH_EACH_REQUEST&#39;: True, &#39;MAX_CONTENT_LENGTH&#39;: None,
+  &#39;SEND_FILE_MAX_AGE_DEFAULT&#39;: datetime.timedelta(0, 43200),
+  &#39;TRAP_BAD_REQUEST_ERRORS&#39;: False, &#39;TRAP_HTTP_EXCEPTIONS&#39;: False,
+  &#39;EXPLAIN_TEMPLATE_LOADING&#39;: False, &#39;PREFERRED_URL_SCHEME&#39;: &#39;http&#39;,
+  &#39;JSON_AS_ASCII&#39;: True, &#39;JSON_SORT_KEYS&#39;: True,
+  &#39;JSONIFY_PRETTYPRINT_REGULAR&#39;: True, &#39;JSONIFY_MIMETYPE&#39;:
+  &#39;application/json&#39;, &#39;TEMPLATES_AUTO_RELOAD&#39;: None}
+&gt;
+</code></pre></div>
+<p>Make sure to remove the <code>print</code> statement before moving on.</p>
 
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Docker Config&amp;url=http%3A%2F%2Ftestdriven.io/part-one-docker-config&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-one-getting-started">&laquo; Getting Started</a>
+            
+            
+              <a class="next btn right-align" href="/part-one-postgres-setup">Postgres Setup &raquo;</a>
             
           </div>
 

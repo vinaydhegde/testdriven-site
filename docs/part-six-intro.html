@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Introduction</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,31 +906,43 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Introduction</h2>
+
+          
+            <h5>Part 6, Lesson 1</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-five-workflow">&laquo; Workflow</a>
+              
+              
+                <a class="next btn right-align" href="/part-six-eval-service-setup">Eval Service Setup &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-six-intro&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>In the final part, we&#39;ll focus our attention on adding a new <em>Flask</em> service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we&#39;ll tie in <em>AWS Lambda</em> and <em>API Gateway</em> and spend a bit of time refactoring <em>React</em> and the <em>end-to-end</em> test suite. Finally, we&#39;ll update the staging and production environments on ECS.</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<h4 id="objectives"><span style="font-family:'Montserrat', 'sans-serif';">Objectives</span></h4>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
-
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
-
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p>By the end of part 6, you should be able to...</p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li>Practice test driven development while refactoring code</li>
+<li>Integrate a new microservice in the existing set of services</li>
+<li>Explain what AWS Lambda and API Gateway are and why would would want to use them</li>
+<li>Develop a RESTful API endpoint with API Gateway that triggers an AWS Lambda function</li>
+<li>Update the staging and production environments on Amazon ECS</li>
 </ol>
 
 <h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
@@ -939,73 +951,177 @@
   <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p>Check out the live app, running on EC2 -</p>
 
 <ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
+<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com">Production</a></li>
+<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com">Staging</a></li>
 </ol>
 
-<p><br></p>
+<p>You can also test out the following endpoints...</p>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/health</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>GET</td>
+<td>No</td>
+<td>get all scores</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single score</td>
+</tr>
+<tr>
+<td>/scores/user</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get all scores by user id</td>
+</tr>
+<tr>
+<td>/scores/user/:id</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get single score by user id</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>POST</td>
+<td>Yes</td>
+<td>add a score</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>PUT</td>
+<td>Yes</td>
+<td>update a score</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>PATCH</td>
+<td>Yes</td>
+<td>upsert (update or add if the score does not exist)</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
 
-<p><br><hr><br></p>
+<p>Grab the code:</p>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-swagger">flask-microservices-swagger</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-eval">flask-microservices-eval</a></li>
+</ol>
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-five-workflow">&laquo; Workflow</a>
+            
+            
+              <a class="next btn right-align" href="/part-six-eval-service-setup">Eval Service Setup &raquo;</a>
             
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-six-intro&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Introduction</h2>
 
-          <p><hr><br></p>
+          <p>In the final part, we&#39;ll focus our attention on adding a new <em>Flask</em> service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we&#39;ll tie in <em>AWS Lambda</em> and <em>API Gateway</em> and spend a bit of time refactoring <em>React</em> and the <em>end-to-end</em> test suite. Finally, we&#39;ll update the staging and production environments on ECS.</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<h4 id="objectives"><span style="font-family:'Montserrat', 'sans-serif';">Objectives</span></h4>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
-
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
-
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p>By the end of part 6, you should be able to...</p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li>Practice test driven development while refactoring code</li>
+<li>Integrate a new microservice in the existing set of services</li>
+<li>Explain what AWS Lambda and API Gateway are and why would would want to use them</li>
+<li>Develop a RESTful API endpoint with API Gateway that triggers an AWS Lambda function</li>
+<li>Update the staging and production environments on Amazon ECS</li>
 </ol>
 
 <h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
@@ -1014,44 +1130,156 @@
   <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p>Check out the live app, running on EC2 -</p>
 
 <ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
+<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com">Production</a></li>
+<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com">Staging</a></li>
 </ol>
 
-<p><br></p>
+<p>You can also test out the following endpoints...</p>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/health</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>GET</td>
+<td>No</td>
+<td>get all scores</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single score</td>
+</tr>
+<tr>
+<td>/scores/user</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get all scores by user id</td>
+</tr>
+<tr>
+<td>/scores/user/:id</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get single score by user id</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>POST</td>
+<td>Yes</td>
+<td>add a score</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>PUT</td>
+<td>Yes</td>
+<td>update a score</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>PATCH</td>
+<td>Yes</td>
+<td>upsert (update or add if the score does not exist)</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
 
-<p><br><hr><br></p>
+<p>Grab the code:</p>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<ol>
+<li><a href="https://github.com/realpython/flask-microservices-main">flask-microservices-main</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-users">flask-microservices-users</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-client">flask-microservices-client</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-swagger">flask-microservices-swagger</a></li>
+<li><a href="https://github.com/realpython/flask-microservices-eval">flask-microservices-eval</a></li>
+</ol>
 
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-six-intro&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-five-workflow">&laquo; Workflow</a>
+            
+            
+              <a class="next btn right-align" href="/part-six-eval-service-setup">Eval Service Setup &raquo;</a>
             
           </div>
 

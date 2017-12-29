@@ -1,0 +1,2647 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  
+    <title>Microservices with Docker, Flask, and React - ECS Deployment</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico">
+  <link
+    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+  >
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <link
+    rel="stylesheet"
+    href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  >
+  <link
+    href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//fonts.googleapis.com/css?family=Lato:900,300"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link
+    href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
+    rel="stylesheet"
+    type="text/css"
+  >
+  <link href="/assets/css/styles.css?1514562237825185000" rel="stylesheet">
+  <script
+    src="//code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"
+  ></script>
+  <script
+    type="text/javascript"
+    src="/assets/js/main.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://gumroad.com/js/gumroad.js"
+  ></script>
+</head>
+
+
+  <body>
+
+    <nav class="indigo darken-4">
+  <div class="nav-wrapper">
+    <a href="/" class="nav-logo-container left">
+      <img
+        class="nav-logo" src="/assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io"
+      />
+    </a>
+    <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
+      Test Driven Development Courses
+    </a>
+    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
+      TDD Courses
+    </a> -->
+    <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="/course-contents">Contents</a></li>
+      <li><a href="/version-two">Version 2.1</a></li>
+    </ul>
+    <ul class="side-nav" id="mobile-demo">
+      <li><a href="/">Home</a></li>
+      <li><a href="/course-contents">Contents</a></li>
+      <li><a href="/version-two">Version 2</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+    <br>
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col m3 hide-on-small-and-down">
+  <br>
+  <div id="toc-block" class="collection hide-on-small-and-down">
+    <ul class="collapsible collapsible-accordion">
+      
+        
+          <li>
+            <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
+              Part 1
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-getting-started"
+              >Getting Started</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-docker-config"
+              >Docker Config</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-postgres-setup"
+              >Postgres Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-test-setup"
+              >Test Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-flask-blueprints"
+              >Flask Blueprints</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-restful-routes"
+              >RESTful Routes</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-aws-deployment"
+              >Deployment</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-jinja-templates"
+              >Jinja Templates</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>10.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-one-workflow"
+              >Workflow</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
+              Part 2
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-project-refactor"
+              >Project Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-code-coverage"
+              >Code Coverage</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-continuous-integration"
+              >Continuous Integration</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-react-setup"
+              >React Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-flask-deployment"
+              >Flask Deployment</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-react-forms"
+              >React Forms</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-react-docker"
+              >React and Docker</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-two-flask-refactor"
+              >Flask Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
+              Part 3
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-flask-migrate"
+              >Flask Migrate</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-flask-bcrypt"
+              >Flask Bcrypt</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-jwt-setup"
+              >JWT Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-auth-routes"
+              >Auth Routes</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-react-router"
+              >React Router</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-react-bootstrap"
+              >React Bootstrap</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-react-authentication"
+              >React Authentication</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-authorization"
+              >Authorization</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>10.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-update-component"
+              >Update Component</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>11.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-three-update-docker"
+              >Update Docker</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="4" class="collapsible-header  waves-effect waves-teal">
+              Part 4
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-e2e-test-setup"
+              >End-to-End Test Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-e2e-test-specs"
+              >End-to-End Test Specs</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-react-component-refactor"
+              >React Component Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-react-form-validation"
+              >React Form Validation</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-react-flash-messages"
+              >React Flash Messaging</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-swagger-setup"
+              >Swagger Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-staging-environment"
+              >Staging Environment</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-four-workflow"
+              >Workflow</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="5" class="collapsible-header  waves-effect waves-teal">
+              Part 5
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-docker-hub"
+              >Docker Hub</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-container-registry"
+              >EC2 Container Registry</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-container-service"
+              >EC2 Container Service</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-elastic-load-balancing"
+              >Elastic Load Balancing</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-container-service-staging"
+              >ECS Staging</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-relational-database-service"
+              >Setting up RDS</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-ec2-container-service-production"
+              >ECS Production</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-five-workflow"
+              >Workflow</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+          <li>
+            <h5 data-part="6" class="collapsible-header  waves-effect waves-teal">
+              Part 6
+            </h5>
+            <div class="collapsible-body">
+        
+        <ul>
+          <li class="collection-li">
+            <span>1.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-intro"
+              >Introduction</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>2.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-eval-service-setup"
+              >Eval Service Setup</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>3.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-scores-api-database"
+              >Scores API Database</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>4.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-scores-api-routes"
+              >Scores API Routes</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>5.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-exercises-api"
+              >Exercises API</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>6.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-react-refactor"
+              >React Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>7.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-e2e-tests-refactor"
+              >End-to-End Tests Refactor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>8.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-react-ace-code-editor"
+              >React Ace Code Editor</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>9.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-code-evaluation"
+              >Code Evaluation</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>10.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-ecs-deployment"
+              >ECS Deployment</a>
+            </span>
+          </li>
+        </ul>
+      
+        
+        <ul>
+          <li class="collection-li">
+            <span>11.&nbsp;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="/part-six-next-steps"
+              >Next Steps</a>
+            </span>
+          </li>
+        </ul>
+      
+    </div>
+  </li>
+    </ul>
+  </div>
+</div>
+
+
+        <div class="col m9 hide-on-small-and-down">
+
+          <h2>ECS Deployment</h2>
+
+          
+            <h5>Part 6, Lesson 10</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-six-code-evaluation">&laquo; Code Evaluation</a>
+              
+              
+                <a class="next btn right-align" href="/part-six-next-steps">Next Steps &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - ECS Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-six-ecs-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
+
+          
+
+
+          <p>Finally, let&#39;s update staging and production...</p>
+
+<hr>
+
+<p>Set <code>dev</code> as the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env dev
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP:5001
+$ <span class="nb">export</span> <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+$ <span class="nb">export</span> <span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Fire up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d --build
+</code></pre></div>
+<p>Create the databases:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run eval-service python manage.py recreate_db
+$ docker-compose run users-service python manage.py recreate_db
+</code></pre></div>
+<p>Apply the seeds:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run eval-service python manage.py seed_db
+$ docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the full test suite to ensure all tests pass locally:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>sh test.sh
+</code></pre></div>
+<h4 id="travis"><span style="font-family:'Montserrat', 'sans-serif';">Travis</span></h4>
+
+<p>Next, we need to configure Travis to handle the new <code>eval</code> and <code>eval-db</code> services.</p>
+
+<p>Make sure the <code>master</code> branch is updated for each of the following repos, locally as well as on GitHub:</p>
+
+<ol>
+<li><code>flask-microservices-users</code></li>
+<li><code>flask-microservices-eval</code></li>
+<li><code>flask-microservices-client</code></li>
+<li><code>flask-microservices-swagger</code></li>
+<li><code>flask-microservices-main</code></li>
+</ol>
+
+<p>The Travis builds should also pass for the first two services.</p>
+
+<p>Update <em>.travis.yml</em> in <em>flask-microservices-main</em>, adding in the proper environment variables and updating the <code>script</code> to run the tests and create the DB for the <code>eval-service</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">language</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">node_js</span>
+<span class="l l-Scalar l-Scalar-Plain">node_js</span><span class="p p-Indicator">:</span> <span class="s">&#39;7&#39;</span>
+
+<span class="l l-Scalar l-Scalar-Plain">before_install</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">stty cols 80</span>
+
+<span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
+<span class="l l-Scalar l-Scalar-Plain">sudo</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">required</span>
+
+<span class="l l-Scalar l-Scalar-Plain">addons</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">apt</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">sources</span><span class="p p-Indicator">:</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">google-chrome</span>
+    <span class="l l-Scalar l-Scalar-Plain">packages</span><span class="p p-Indicator">:</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">google-chrome-stable</span>
+
+<span class="l l-Scalar l-Scalar-Plain">services</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker</span>
+
+<span class="l l-Scalar l-Scalar-Plain">env</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">global</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DOCKER_COMPOSE_VERSION=1.11.2</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">COMMIT=${TRAVIS_COMMIT::8}</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS=flask-microservices-users</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_REPO=https://github.com/realpython/$USERS.git</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_DB=flask-microservices-users_db</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_DB_REPO=https://github.com/realpython/$USERS.git#master:project/db</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CLIENT=flask-microservices-client</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CLIENT_REPO=https://github.com/realpython/$CLIENT.git</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SWAGGER=flask-microservices-swagger</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SWAGGER_REPO=https://github.com/realpython/$SWAGGER.git</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">EVAL=flask-microservices-eval</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">EVAL_REPO=https://github.com/realpython/$EVAL.git</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">EVAL_DB=flask-microservices-eval_db</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">EVAL_DB_REPO=https://github.com/realpython/$EVAL.git#master:project/db</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">NGINX=flask-microservices-nginx</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">NGINX_REPO=https://github.com/realpython/flask-microservices-main.git#master:nginx</span>
+
+<span class="l l-Scalar l-Scalar-Plain">before_install</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sudo rm /usr/local/bin/docker-compose</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">chmod +x docker-compose</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sudo mv docker-compose /usr/local/bin</span>
+
+<span class="l l-Scalar l-Scalar-Plain">before_script</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export TEST_URL=http://127.0.0.1</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export REACT_APP_EVAL_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export SECRET_KEY=my_precious</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export DISPLAY=:99.0</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sh -e /etc/init.d/xvfb start</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sleep 3</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_build.sh</span>
+
+<span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run users-service python manage.py test</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run users-service python manage.py recreate_db</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run eval-service python manage.py test</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run eval-service python manage.py recreate_db</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run eval-service python manage.py seed_db</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">testcafe chrome e2e</span>
+
+<span class="l l-Scalar l-Scalar-Plain">after_script</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose down</span>
+
+<span class="l l-Scalar l-Scalar-Plain">after_success</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_push.sh</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_deploy.sh</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_deploy_prod.sh</span>
+</code></pre></div>
+<p>Then, add the new services along with the proper <code>args</code> to the <code>web-service</code> in the <em>docker-compose-ci.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">version</span><span class="p p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l l-Scalar l-Scalar-Plain">services</span><span class="p p-Indicator">:</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">users-db</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">users-db</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git#master:project/db</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l l-Scalar l-Scalar-Plain">healthcheck</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">test</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">exit 0</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git</span>
+    <span class="l l-Scalar l-Scalar-Plain">expose</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&#39;5000&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">APP_SETTINGS=project.config.StagingConfig</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_staging</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SECRET_KEY=${SECRET_KEY}</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-db</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
+    <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-db</span>
+    <span class="l l-Scalar l-Scalar-Plain">command</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">gunicorn -b 0.0.0.0:5000 manage:app</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">nginx</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">./nginx/</span>
+    <span class="l l-Scalar l-Scalar-Plain">restart</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">always</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">80:80</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+      <span class="l l-Scalar l-Scalar-Plain">web-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+    <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">web-service</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">web-service</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">web-service</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-client.git</span>
+      <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">NODE_ENV=development</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+    <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">swagger</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">swagger</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-swagger.git</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">eval-service</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eval-service</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-eval.git</span>
+    <span class="l l-Scalar l-Scalar-Plain">expose</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5002:5000</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">APP_SETTINGS=project.config.StagingConfig</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_SERVICE_URL=http://users-service:5000</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@eval-db:5432/eval_staging</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@eval-db:5432/eval_test</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+      <span class="l l-Scalar l-Scalar-Plain">eval-db</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
+    <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">eval-db</span>
+    <span class="l l-Scalar l-Scalar-Plain">command</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">gunicorn -b 0.0.0.0:5000 manage:app</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">eval-db</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eval-db</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-eval.git#master:project/db</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5436:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l l-Scalar l-Scalar-Plain">healthcheck</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">test</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">exit 0</span>
+</code></pre></div>
+<p>Add two new <code>location</code> blocks to <em>nginx/nginx.conf</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>location /scores {
+    proxy_pass http://eval-service:5000;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection &quot;upgrade&quot;;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+
+location /exercises {
+    proxy_pass http://eval-service:5000;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection &quot;upgrade&quot;;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+</code></pre></div>
+<p>Make sure to set all of the environment variables in <em>flask-microservices-client/Dockerfile</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># add environment variables</span>
+ARG REACT_APP_USERS_SERVICE_URL
+ENV <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="nv">$REACT_APP_USERS_SERVICE_URL</span>
+ARG NODE_ENV
+ENV <span class="nv">NODE_ENV</span><span class="o">=</span><span class="nv">$NODE_ENV</span>
+ARG REACT_APP_EVAL_SERVICE_URL
+ENV <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span><span class="nv">$REACT_APP_EVAL_SERVICE_URL</span>
+</code></pre></div>
+<p>Commit and push your code in <em>flask-microservices-client</em>, and then do the same in <em>flask-microservices-main</em> to trigger a new Travis build. Make sure it passes!</p>
+
+<h4 id="development"><span style="font-family:'Montserrat', 'sans-serif';">Development</span></h4>
+
+<p>Check out the <code>development</code> branch locally, and then rebase <code>master</code> on <code>development</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git checkout development
+$ git rebase master
+</code></pre></div>
+<p>Now, let&#39;s update some of the build scripts...</p>
+
+<h5 id="docker_push-sh"><em>docker_push.sh</em></h5>
+
+<p>Update the last <code>if</code> block:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+   <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+   <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="c1"># users</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> -f Dockerfile-prod
+  <span class="k">else</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+  <span class="k">fi</span>
+  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  <span class="c1"># users db</span>
+  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  <span class="c1"># eval</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker build <span class="nv">$EVAL_REPO</span> -t <span class="nv">$EVAL</span>:<span class="nv">$COMMIT</span> -f Dockerfile-prod
+  <span class="k">else</span>
+    docker build <span class="nv">$EVAL_REPO</span> -t <span class="nv">$EVAL</span>:<span class="nv">$COMMIT</span>
+  <span class="k">fi</span>
+  docker tag <span class="nv">$EVAL</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$EVAL</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$EVAL</span>:<span class="nv">$TAG</span>
+  <span class="c1"># eval db</span>
+  docker build <span class="nv">$EVAL_DB_REPO</span> -t <span class="nv">$EVAL_DB</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$EVAL_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$EVAL_DB</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$EVAL_DB</span>:<span class="nv">$TAG</span>
+  <span class="c1"># client</span>
+  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  <span class="c1"># swagger</span>
+  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  <span class="c1"># nginx</span>
+  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Commit your code and push to GitHub, which will trigger a new build on Travis. Make sure the build passes and that the pushes to Docker Hub were successful.</p>
+
+<h4 id="staging"><span style="font-family:'Montserrat', 'sans-serif';">Staging</span></h4>
+
+<p>Check out the <code>staging</code> branch locally, and then rebase <code>development</code> on <code>staging</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git checkout staging
+$ git rebase development
+</code></pre></div>
+<h5 id="docker_push-sh"><em>docker_push.sh</em></h5>
+
+<p>Update the environment variables in the <code>if [ &quot;$TRAVIS_BRANCH&quot; == &quot;staging&quot; ]</code> block, making sure to update <code>REACT_APP_USERS_SERVICE_URL</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;LOAD_BALANCER_DNS_NAME&quot;</span>
+  <span class="nb">export</span> <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;LOAD_BALANCER_DNS_NAME&quot;</span>
+  <span class="nb">export</span> <span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;my_precious&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<h5 id="docker_deploy-sh"><em>docker_deploy.sh</em></h5>
+
+<p>Add <code>eval</code> to the <code>deploy_cluster</code> function:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># eval</span>
+<span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-eval-td&quot;</span>
+<span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-eval&quot;</span>
+<span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_eval_taskdefinition.json&quot;</span>
+<span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$task_template</span><span class="s2">&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span>
+register_definition
+update_service
+</code></pre></div>
+<h5 id="ecs_eval_taskdefinition-json"><em>ecs_eval_taskdefinition.json</em></h5>
+
+<p>Create a new Task Definition file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;eval-service&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-eval:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.StagingConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_TEST_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@eval-db:5432/eval_test&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@eval-db:5432/eval_staging&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;USERS_SERVICE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://LOAD_BALANCER_DNS_NAME&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;links&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;eval-db&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;eval-db&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-eval_db:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5432</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_PASSWORD&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_USER&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>Again, update the <code>USERS_SERVICE_URL</code> environment variable.</p>
+</blockquote>
+
+<p>Add the Image repos to <a href="https://aws.amazon.com/ecr/">ECR</a>:</p>
+
+<ol>
+<li><code>flask-microservices-eval</code></li>
+<li><code>flask-microservices-eval_db</code></li>
+</ol>
+
+<h5 id="target-group">Target Group</h5>
+
+<p>Next, let&#39;s add a new Target Group for the <code>eval</code> service. Within <a href="https://console.aws.amazon.com/ec2">Amazon EC2</a>, click &quot;Target Groups&quot;, and then create the following Group:</p>
+
+<ol>
+<li>&quot;Target group name&quot;: <code>eval-tg</code></li>
+<li>&quot;Port&quot;: <code>5000</code></li>
+</ol>
+
+<p>Then, under &quot;Health check settings&quot;:</p>
+
+<ol>
+<li>&quot;Path&quot;: <code>/scores</code></li>
+</ol>
+
+<h5 id="load-balancer">Load Balancer</h5>
+
+<p>Then, on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-staging-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add Listeners to the ALB, which are then forwarded to a specific Target Group.</p>
+
+<p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules&quot; link, and then insert four new rules:</p>
+
+<ol>
+<li>If <code>/exercises</code>, Then <code>eval-tg</code></li>
+<li>If <code>/exercises/*</code>, Then <code>eval-tg</code></li>
+<li>If <code>/scores</code>, Then <code>eval-tg</code></li>
+<li>If <code>/scores/*</code>, Then <code>eval-tg</code></li>
+</ol>
+
+<h5 id="services">Services</h5>
+
+<p>Create the following ECS Service:</p>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-eval-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: flask-microservices-staging-eval</li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-staging-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>eval-service:0:5000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: eval-tg</li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h5 id="migrations">Migrations</h5>
+
+<p>We also need to run the migrations. Update the <em>entrypoint.sh</em> script in <em>flask-microservices-eval</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Waiting for postgres...&quot;</span>
+
+<span class="k">while</span> ! nc -z eval-db <span class="m">5432</span><span class="p">;</span> <span class="k">do</span>
+  sleep <span class="m">0</span>.1
+<span class="k">done</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;PostgreSQL started&quot;</span>
+
+python manage.py recreate_db
+python manage.py seed_db
+gunicorn -b <span class="m">0</span>.0.0.0:5000 manage:app
+</code></pre></div>
+<p>Commit and push your code up to GitHub.</p>
+
+<h5 id="sanity-check">Sanity Check</h5>
+
+<p>Commit. Push to GitHub. Make sure the Travis build passes and then jump to AWS and verify that the-</p>
+
+<ol>
+<li>Images are up-to-date on ECR</li>
+<li><code>flask-microservices-eval-td</code> Task Definition was created</li>
+<li><code>eval-tg</code> Target Group has healthy, registered instances</li>
+</ol>
+
+<p>Grab the &quot;DNS name&quot; for the Load Balancer, and then test each URL in the browser:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>GET</td>
+<td>No</td>
+<td>get all scores</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single score</td>
+</tr>
+<tr>
+<td>/scores/user</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get all scores by user id</td>
+</tr>
+<tr>
+<td>/scores/user/:id</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get single score by user id</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>POST</td>
+<td>Yes</td>
+<td>add a score</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>PUT</td>
+<td>Yes</td>
+<td>update a score</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>PATCH</td>
+<td>Yes</td>
+<td>upsert (update or add if the score does not exist)</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Remember: If you run into errors, you can always check the logs on <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, in the <code>flask-microservices-staging</code> group, or SSH directly into the EC2 instance to debug the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
+</code></pre></div>
+<p>Be sure to double-check all environment variables!</p>
+</blockquote>
+
+<h4 id="production"><span style="font-family:'Montserrat', 'sans-serif';">Production</span></h4>
+
+<p>You know the drill: Check out the <code>production</code> branch locally, and then rebase <code>staging</code> on <code>production</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git checkout production
+$ git rebase staging
+</code></pre></div>
+<h5 id="docker_deploy_prod-sh"><em>docker_deploy_prod.sh</em></h5>
+
+<p>Add <code>eval</code> to the <code>deploy_cluster</code> function:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># eval</span>
+<span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-eval-prod-td&quot;</span>
+<span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-eval&quot;</span>
+<span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_eval_prod_taskdefinition.json&quot;</span>
+<span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$task_template</span><span class="s2">&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_RDS_URI</span> <span class="nv">$PRODUCTION_SECRET_KEY</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span>
+register_definition
+update_service
+</code></pre></div>
+<h5 id="ecs_eval_taskdefinition-json"><em>ecs_eval_taskdefinition.json</em></h5>
+
+<p>Create a new Task Definition file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;eval-service-prod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-eval:production&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.ProductionConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;%s&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;USERS_SERVICE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;%s&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-production&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5 id="target-group">Target Group</h5>
+
+<p>Add a new Target Group for the <code>eval</code> service:</p>
+
+<ol>
+<li>&quot;Target group name&quot;: <code>eval-prod-tg</code></li>
+<li>&quot;Port&quot;: <code>5000</code></li>
+</ol>
+
+<p>Under &quot;Health check settings&quot;:</p>
+
+<ol>
+<li>&quot;Path&quot;: <code>/scores</code></li>
+</ol>
+
+<h5 id="load-balancer">Load Balancer</h5>
+
+<p>On the &quot;Load Balancers&quot; page, click the <code>flask-microservices-prod-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Click the &quot;View/edit rules&quot; link, and then insert four new rules:</p>
+
+<ol>
+<li>If <code>/exercises</code>, Then <code>eval-prod-tg</code></li>
+<li>If <code>/exercises/*</code>, Then <code>eval-prod-tg</code></li>
+<li>If <code>/scores</code>, Then <code>eval-prod-tg</code></li>
+<li>If <code>/scores/*</code>, Then <code>eval-prod-tg</code></li>
+</ol>
+
+<h5 id="services">Services</h5>
+
+<p>Next, create a new ECS Service:</p>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-eval-prod-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-prod-eval</code></li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>eval-service:0:5000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>eval-prod-tg</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h4 id="sanity-check-take-one"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take One)</span></h4>
+
+<p>Commit and push to GitHub. Once the build passes, hop on to AWS to confirm that the images are up-to-date on ECR and that an <code>flask-microservices-eval-prod-td</code> Task Definition was created. The EC2 instance associated with the Target Group, <code>eval-prod-tg</code>, should not be healthy since we still need to set up the database.</p>
+
+<p>Feel free to test out the other endpoints to make sure all is well.</p>
+
+<p>Before we add the database, let&#39;s ensure the app is up and working right with the ALB. Add a new, unprotected route to <em>flask-microservices-eval/project/api/eval.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@eval_blueprint.route</span><span class="p">(</span><span class="s1">&#39;/health&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">health</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;sanity check!&#39;</span>
+    <span class="p">})</span>
+</code></pre></div>
+<p>Add a test. Then, update the path for the Health check for the <code>eval-prod-tg</code> to <code>/health</code>. Add the rule to the Load Balancer as well. The next time the <code>flask-microservices-prod-eval</code> service is spun up, the Target Group should have a healthy instance associated with it.</p>
+
+<p>Test it out in the browser at  <a href="http://LOAD_BALANCER_DNS_NAME/health">http://LOAD_BALANCER_DNS_NAME/health</a>.</p>
+
+<h5 id="rds">RDS</h5>
+
+<p>Within <a href="https://console.aws.amazon.com/rds">Amazon RDS</a>, select &quot;Instances&quot; on the sidebar, and then click the &quot;Launch DB Instance&quot; button.</p>
+
+<blockquote>
+<p>You <em>probably</em> want to click the &quot;Free tier eligible only&quot;. More <a href="https://aws.amazon.com/free/">info</a>.</p>
+</blockquote>
+
+<p>Select the &quot;PostgreSQL&quot; engine and then &quot;Dev/Test&quot;:</p>
+
+<ol>
+<li>&quot;DB Engine Version&quot;: <code>PostgreSQL 9.6.2-R1</code></li>
+<li>&quot;DB Instance Class&quot;: <code>db.t2.micro</code></li>
+<li>&quot;Multi-AZ Deployment&quot;: <code>No</code></li>
+<li>&quot;Storage Type&quot;: <code>General Purpose (SSD)</code></li>
+<li>&quot;Allocated Storage&quot;: <code>5 GB</code></li>
+<li>&quot;DB Instance Identifier&quot;: <code>flask-microservices-eval-prod</code></li>
+<li>&quot;Master Username&quot;: <code>webapp</code></li>
+<li>&quot;Master Password&quot;: <code>something_super_secret</code></li>
+</ol>
+
+<p>Click &quot;Next Step&quot;. Under &quot;Network &amp; Security&quot;, make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
+
+<p>Take note of the production URI:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>postgres://webapp:YOUR_PASSWORD@YOUR_ADDRESS:5432/eval_prod
+</code></pre></div>
+<p>Update <code>eval</code> in the <code>deploy_cluster</code> function again in <em>docker_deploy_prod.sh</em>, adding the <code>AWS_RDS_EVAL_URI</code> and <code>$PRODUCTION_URI</code> environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># eval</span>
+<span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-eval-prod-td&quot;</span>
+<span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-eval&quot;</span>
+<span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_eval_prod_taskdefinition.json&quot;</span>
+<span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$task_template</span><span class="s2">&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_RDS_EVAL_URI</span> <span class="nv">$PRODUCTION_URI</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span>
+register_definition
+update_service
+</code></pre></div>
+<p>Add the AWS_RDS_EVAL_URI and PRODUCTION_URI environment variables to the  <em>flask-microservices-main</em> Travis project as well.</p>
+
+<p>Commit. Push your code to GitHub. Once done, the app should be live, ready to go.</p>
+
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
+
+<p>Grab the Container ID for <code>flask-microservices-eval</code> (via <code>docker ps</code>), enter the shell within the running container, and then update the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker <span class="nb">exec</span> -it Container_ID bash
+<span class="c1"># python manage.py recreate_db</span>
+<span class="c1"># python manage.py seed_db</span>
+</code></pre></div>
+<p>Ensure all URLs work properly, and then run the e2e tests. Within, <em>flask-microservices-main</em>, set the <code>TEST_URL</code> environment variable and then run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">export</span> <span class="nv">TEST_URL</span><span class="o">=</span>LOAD_BALANCER_DNS_NAME
+$ testcafe chrome e2e
+</code></pre></div>
+
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-six-code-evaluation">&laquo; Code Evaluation</a>
+            
+            
+              <a class="next btn right-align" href="/part-six-next-steps">Next Steps &raquo;</a>
+            
+          </div>
+
+          
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - ECS Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-six-ecs-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+        </div>
+
+        <div class="hide-on-med-and-up">
+
+          <h2>ECS Deployment</h2>
+
+          <p>Finally, let&#39;s update staging and production...</p>
+
+<hr>
+
+<p>Set <code>dev</code> as the active machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env dev
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Set the environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP:5001
+$ <span class="nb">export</span> <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span>DOCKER_MACHINE_DEV_IP:5002
+$ <span class="nb">export</span> <span class="nv">TEST_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
+</code></pre></div>
+<p>Fire up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d --build
+</code></pre></div>
+<p>Create the databases:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run eval-service python manage.py recreate_db
+$ docker-compose run users-service python manage.py recreate_db
+</code></pre></div>
+<p>Apply the seeds:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run eval-service python manage.py seed_db
+$ docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the full test suite to ensure all tests pass locally:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>sh test.sh
+</code></pre></div>
+<h4 id="travis"><span style="font-family:'Montserrat', 'sans-serif';">Travis</span></h4>
+
+<p>Next, we need to configure Travis to handle the new <code>eval</code> and <code>eval-db</code> services.</p>
+
+<p>Make sure the <code>master</code> branch is updated for each of the following repos, locally as well as on GitHub:</p>
+
+<ol>
+<li><code>flask-microservices-users</code></li>
+<li><code>flask-microservices-eval</code></li>
+<li><code>flask-microservices-client</code></li>
+<li><code>flask-microservices-swagger</code></li>
+<li><code>flask-microservices-main</code></li>
+</ol>
+
+<p>The Travis builds should also pass for the first two services.</p>
+
+<p>Update <em>.travis.yml</em> in <em>flask-microservices-main</em>, adding in the proper environment variables and updating the <code>script</code> to run the tests and create the DB for the <code>eval-service</code>:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">language</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">node_js</span>
+<span class="l l-Scalar l-Scalar-Plain">node_js</span><span class="p p-Indicator">:</span> <span class="s">&#39;7&#39;</span>
+
+<span class="l l-Scalar l-Scalar-Plain">before_install</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">stty cols 80</span>
+
+<span class="l l-Scalar l-Scalar-Plain">dist</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">trusty</span>
+<span class="l l-Scalar l-Scalar-Plain">sudo</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">required</span>
+
+<span class="l l-Scalar l-Scalar-Plain">addons</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">apt</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">sources</span><span class="p p-Indicator">:</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">google-chrome</span>
+    <span class="l l-Scalar l-Scalar-Plain">packages</span><span class="p p-Indicator">:</span>
+     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">google-chrome-stable</span>
+
+<span class="l l-Scalar l-Scalar-Plain">services</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker</span>
+
+<span class="l l-Scalar l-Scalar-Plain">env</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">global</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DOCKER_COMPOSE_VERSION=1.11.2</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">COMMIT=${TRAVIS_COMMIT::8}</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS=flask-microservices-users</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_REPO=https://github.com/realpython/$USERS.git</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_DB=flask-microservices-users_db</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_DB_REPO=https://github.com/realpython/$USERS.git#master:project/db</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CLIENT=flask-microservices-client</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CLIENT_REPO=https://github.com/realpython/$CLIENT.git</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SWAGGER=flask-microservices-swagger</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SWAGGER_REPO=https://github.com/realpython/$SWAGGER.git</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">EVAL=flask-microservices-eval</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">EVAL_REPO=https://github.com/realpython/$EVAL.git</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">EVAL_DB=flask-microservices-eval_db</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">EVAL_DB_REPO=https://github.com/realpython/$EVAL.git#master:project/db</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">NGINX=flask-microservices-nginx</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">NGINX_REPO=https://github.com/realpython/flask-microservices-main.git#master:nginx</span>
+
+<span class="l l-Scalar l-Scalar-Plain">before_install</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sudo rm /usr/local/bin/docker-compose</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` &gt; docker-compose</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">chmod +x docker-compose</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sudo mv docker-compose /usr/local/bin</span>
+
+<span class="l l-Scalar l-Scalar-Plain">before_script</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export TEST_URL=http://127.0.0.1</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export REACT_APP_EVAL_SERVICE_URL=http://127.0.0.1</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export SECRET_KEY=my_precious</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">export DISPLAY=:99.0</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sh -e /etc/init.d/xvfb start</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">sleep 3</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_build.sh</span>
+
+<span class="l l-Scalar l-Scalar-Plain">script</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run users-service python manage.py test</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run users-service python manage.py recreate_db</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run eval-service python manage.py test</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run eval-service python manage.py recreate_db</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose -f docker-compose-ci.yml run eval-service python manage.py seed_db</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">testcafe chrome e2e</span>
+
+<span class="l l-Scalar l-Scalar-Plain">after_script</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">docker-compose down</span>
+
+<span class="l l-Scalar l-Scalar-Plain">after_success</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_push.sh</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_deploy.sh</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bash ./docker_deploy_prod.sh</span>
+</code></pre></div>
+<p>Then, add the new services along with the proper <code>args</code> to the <code>web-service</code> in the <em>docker-compose-ci.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">version</span><span class="p p-Indicator">:</span> <span class="s">&#39;2.1&#39;</span>
+
+<span class="l l-Scalar l-Scalar-Plain">services</span><span class="p p-Indicator">:</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">users-db</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">users-db</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git#master:project/db</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5435:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l l-Scalar l-Scalar-Plain">healthcheck</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">test</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">exit 0</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-users.git</span>
+    <span class="l l-Scalar l-Scalar-Plain">expose</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&#39;5000&#39;</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">APP_SETTINGS=project.config.StagingConfig</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_staging</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">SECRET_KEY=${SECRET_KEY}</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-db</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
+    <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-db</span>
+    <span class="l l-Scalar l-Scalar-Plain">command</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">gunicorn -b 0.0.0.0:5000 manage:app</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">nginx</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">./nginx/</span>
+    <span class="l l-Scalar l-Scalar-Plain">restart</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">always</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">80:80</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+      <span class="l l-Scalar l-Scalar-Plain">web-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+    <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">web-service</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">web-service</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">web-service</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-client.git</span>
+      <span class="l l-Scalar l-Scalar-Plain">args</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">NODE_ENV=development</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">REACT_APP_EVAL_SERVICE_URL=${REACT_APP_EVAL_SERVICE_URL}</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&#39;9000:9000&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+    <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">swagger</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">swagger</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-swagger.git</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&#39;8080:8080&#39;</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">API_URL=https://raw.githubusercontent.com/realpython/flask-microservices-swagger/master/swagger.json</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">eval-service</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eval-service</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-eval.git</span>
+    <span class="l l-Scalar l-Scalar-Plain">expose</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5002:5000</span> <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">APP_SETTINGS=project.config.StagingConfig</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">USERS_SERVICE_URL=http://users-service:5000</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DATABASE_URL=postgres://postgres:postgres@eval-db:5432/eval_staging</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">DATABASE_TEST_URL=postgres://postgres:postgres@eval-db:5432/eval_test</span>
+    <span class="l l-Scalar l-Scalar-Plain">depends_on</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">users-service</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_started</span>
+      <span class="l l-Scalar l-Scalar-Plain">eval-db</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">condition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
+    <span class="l l-Scalar l-Scalar-Plain">links</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">users-service</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">eval-db</span>
+    <span class="l l-Scalar l-Scalar-Plain">command</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">gunicorn -b 0.0.0.0:5000 manage:app</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">eval-db</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">container_name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eval-db</span>
+    <span class="l l-Scalar l-Scalar-Plain">build</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">context</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/realpython/flask-microservices-eval.git#master:project/db</span>
+    <span class="l l-Scalar l-Scalar-Plain">ports</span><span class="p p-Indicator">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">5436:5432</span>  <span class="c1"># expose ports - HOST:CONTAINER</span>
+    <span class="l l-Scalar l-Scalar-Plain">environment</span><span class="p p-Indicator">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="l l-Scalar l-Scalar-Plain">healthcheck</span><span class="p p-Indicator">:</span>
+      <span class="l l-Scalar l-Scalar-Plain">test</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">exit 0</span>
+</code></pre></div>
+<p>Add two new <code>location</code> blocks to <em>nginx/nginx.conf</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>location /scores {
+    proxy_pass http://eval-service:5000;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection &quot;upgrade&quot;;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+
+location /exercises {
+    proxy_pass http://eval-service:5000;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection &quot;upgrade&quot;;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+</code></pre></div>
+<p>Make sure to set all of the environment variables in <em>flask-microservices-client/Dockerfile</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># add environment variables</span>
+ARG REACT_APP_USERS_SERVICE_URL
+ENV <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="nv">$REACT_APP_USERS_SERVICE_URL</span>
+ARG NODE_ENV
+ENV <span class="nv">NODE_ENV</span><span class="o">=</span><span class="nv">$NODE_ENV</span>
+ARG REACT_APP_EVAL_SERVICE_URL
+ENV <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span><span class="nv">$REACT_APP_EVAL_SERVICE_URL</span>
+</code></pre></div>
+<p>Commit and push your code in <em>flask-microservices-client</em>, and then do the same in <em>flask-microservices-main</em> to trigger a new Travis build. Make sure it passes!</p>
+
+<h4 id="development"><span style="font-family:'Montserrat', 'sans-serif';">Development</span></h4>
+
+<p>Check out the <code>development</code> branch locally, and then rebase <code>master</code> on <code>development</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git checkout development
+$ git rebase master
+</code></pre></div>
+<p>Now, let&#39;s update some of the build scripts...</p>
+
+<h5 id="docker_push-sh"><em>docker_push.sh</em></h5>
+
+<p>Update the last <code>if</code> block:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+   <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="se">\</span>
+   <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="c1"># users</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> -f Dockerfile-prod
+  <span class="k">else</span>
+    docker build <span class="nv">$USERS_REPO</span> -t <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span>
+  <span class="k">fi</span>
+  docker tag <span class="nv">$USERS</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS</span>:<span class="nv">$TAG</span>
+  <span class="c1"># users db</span>
+  docker build <span class="nv">$USERS_DB_REPO</span> -t <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$USERS_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$USERS_DB</span>:<span class="nv">$TAG</span>
+  <span class="c1"># eval</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span> <span class="o">]</span>
+  <span class="k">then</span>
+    docker build <span class="nv">$EVAL_REPO</span> -t <span class="nv">$EVAL</span>:<span class="nv">$COMMIT</span> -f Dockerfile-prod
+  <span class="k">else</span>
+    docker build <span class="nv">$EVAL_REPO</span> -t <span class="nv">$EVAL</span>:<span class="nv">$COMMIT</span>
+  <span class="k">fi</span>
+  docker tag <span class="nv">$EVAL</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$EVAL</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$EVAL</span>:<span class="nv">$TAG</span>
+  <span class="c1"># eval db</span>
+  docker build <span class="nv">$EVAL_DB_REPO</span> -t <span class="nv">$EVAL_DB</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$EVAL_DB</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$EVAL_DB</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$EVAL_DB</span>:<span class="nv">$TAG</span>
+  <span class="c1"># client</span>
+  docker build <span class="nv">$CLIENT_REPO</span> -t <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$CLIENT</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$CLIENT</span>:<span class="nv">$TAG</span>
+  <span class="c1"># swagger</span>
+  docker build <span class="nv">$SWAGGER_REPO</span> -t <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$SWAGGER</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$SWAGGER</span>:<span class="nv">$TAG</span>
+  <span class="c1"># nginx</span>
+  docker build <span class="nv">$NGINX_REPO</span> -t <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span>
+  docker tag <span class="nv">$NGINX</span>:<span class="nv">$COMMIT</span> <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+  docker push <span class="nv">$REPO</span>/<span class="nv">$NGINX</span>:<span class="nv">$TAG</span>
+<span class="k">fi</span>
+</code></pre></div>
+<p>Commit your code and push to GitHub, which will trigger a new build on Travis. Make sure the build passes and that the pushes to Docker Hub were successful.</p>
+
+<h4 id="staging"><span style="font-family:'Montserrat', 'sans-serif';">Staging</span></h4>
+
+<p>Check out the <code>staging</code> branch locally, and then rebase <code>development</code> on <code>staging</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git checkout staging
+$ git rebase development
+</code></pre></div>
+<h5 id="docker_push-sh"><em>docker_push.sh</em></h5>
+
+<p>Update the environment variables in the <code>if [ &quot;$TRAVIS_BRANCH&quot; == &quot;staging&quot; ]</code> block, making sure to update <code>REACT_APP_USERS_SERVICE_URL</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$TRAVIS_BRANCH</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;staging&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+  <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;LOAD_BALANCER_DNS_NAME&quot;</span>
+  <span class="nb">export</span> <span class="nv">REACT_APP_EVAL_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;LOAD_BALANCER_DNS_NAME&quot;</span>
+  <span class="nb">export</span> <span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;my_precious&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+<h5 id="docker_deploy-sh"><em>docker_deploy.sh</em></h5>
+
+<p>Add <code>eval</code> to the <code>deploy_cluster</code> function:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># eval</span>
+<span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-eval-td&quot;</span>
+<span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-eval&quot;</span>
+<span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_eval_taskdefinition.json&quot;</span>
+<span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$task_template</span><span class="s2">&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_ACCOUNT_ID</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span>
+register_definition
+update_service
+</code></pre></div>
+<h5 id="ecs_eval_taskdefinition-json"><em>ecs_eval_taskdefinition.json</em></h5>
+
+<p>Create a new Task Definition file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;eval-service&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-eval:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.StagingConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_TEST_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@eval-db:5432/eval_test&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres://postgres:postgres@eval-db:5432/eval_staging&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;USERS_SERVICE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;http://LOAD_BALANCER_DNS_NAME&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;links&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;eval-db&quot;</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;eval-db&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-eval_db:staging&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5432</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_PASSWORD&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;POSTGRES_USER&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-staging&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>Again, update the <code>USERS_SERVICE_URL</code> environment variable.</p>
+</blockquote>
+
+<p>Add the Image repos to <a href="https://aws.amazon.com/ecr/">ECR</a>:</p>
+
+<ol>
+<li><code>flask-microservices-eval</code></li>
+<li><code>flask-microservices-eval_db</code></li>
+</ol>
+
+<h5 id="target-group">Target Group</h5>
+
+<p>Next, let&#39;s add a new Target Group for the <code>eval</code> service. Within <a href="https://console.aws.amazon.com/ec2">Amazon EC2</a>, click &quot;Target Groups&quot;, and then create the following Group:</p>
+
+<ol>
+<li>&quot;Target group name&quot;: <code>eval-tg</code></li>
+<li>&quot;Port&quot;: <code>5000</code></li>
+</ol>
+
+<p>Then, under &quot;Health check settings&quot;:</p>
+
+<ol>
+<li>&quot;Path&quot;: <code>/scores</code></li>
+</ol>
+
+<h5 id="load-balancer">Load Balancer</h5>
+
+<p>Then, on the &quot;Load Balancers&quot; page, click the <code>flask-microservices-staging-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Here, we can add Listeners to the ALB, which are then forwarded to a specific Target Group.</p>
+
+<p>There should already be a listener for &quot;HTTP : 80&quot;. Click the &quot;View/edit rules&quot; link, and then insert four new rules:</p>
+
+<ol>
+<li>If <code>/exercises</code>, Then <code>eval-tg</code></li>
+<li>If <code>/exercises/*</code>, Then <code>eval-tg</code></li>
+<li>If <code>/scores</code>, Then <code>eval-tg</code></li>
+<li>If <code>/scores/*</code>, Then <code>eval-tg</code></li>
+</ol>
+
+<h5 id="services">Services</h5>
+
+<p>Create the following ECS Service:</p>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-eval-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: flask-microservices-staging-eval</li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-staging-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>eval-service:0:5000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: eval-tg</li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h5 id="migrations">Migrations</h5>
+
+<p>We also need to run the migrations. Update the <em>entrypoint.sh</em> script in <em>flask-microservices-eval</em>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Waiting for postgres...&quot;</span>
+
+<span class="k">while</span> ! nc -z eval-db <span class="m">5432</span><span class="p">;</span> <span class="k">do</span>
+  sleep <span class="m">0</span>.1
+<span class="k">done</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;PostgreSQL started&quot;</span>
+
+python manage.py recreate_db
+python manage.py seed_db
+gunicorn -b <span class="m">0</span>.0.0.0:5000 manage:app
+</code></pre></div>
+<p>Commit and push your code up to GitHub.</p>
+
+<h5 id="sanity-check">Sanity Check</h5>
+
+<p>Commit. Push to GitHub. Make sure the Travis build passes and then jump to AWS and verify that the-</p>
+
+<ol>
+<li>Images are up-to-date on ECR</li>
+<li><code>flask-microservices-eval-td</code> Task Definition was created</li>
+<li><code>eval-tg</code> Target Group has healthy, registered instances</li>
+</ol>
+
+<p>Grab the &quot;DNS name&quot; for the Load Balancer, and then test each URL in the browser:</p>
+
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>Authenticated?</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/auth/register</td>
+<td>POST</td>
+<td>No</td>
+<td>register user</td>
+</tr>
+<tr>
+<td>/auth/login</td>
+<td>POST</td>
+<td>No</td>
+<td>log in user</td>
+</tr>
+<tr>
+<td>/auth/logout</td>
+<td>GET</td>
+<td>Yes</td>
+<td>log out user</td>
+</tr>
+<tr>
+<td>/auth/status</td>
+<td>GET</td>
+<td>Yes</td>
+<td>check user status</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>No</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add a user</td>
+</tr>
+<tr>
+<td>/ping</td>
+<td>GET</td>
+<td>No</td>
+<td>sanity check</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>GET</td>
+<td>No</td>
+<td>get all scores</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>GET</td>
+<td>No</td>
+<td>get single score</td>
+</tr>
+<tr>
+<td>/scores/user</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get all scores by user id</td>
+</tr>
+<tr>
+<td>/scores/user/:id</td>
+<td>GET</td>
+<td>Yes</td>
+<td>get single score by user id</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>POST</td>
+<td>Yes</td>
+<td>add a score</td>
+</tr>
+<tr>
+<td>/scores/:id</td>
+<td>PUT</td>
+<td>Yes</td>
+<td>update a score</td>
+</tr>
+<tr>
+<td>/scores</td>
+<td>PATCH</td>
+<td>Yes</td>
+<td>upsert (update or add if the score does not exist)</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>GET</td>
+<td>No</td>
+<td>get all exercises</td>
+</tr>
+<tr>
+<td>/exercises</td>
+<td>POST</td>
+<td>Yes (admin)</td>
+<td>add an exercise</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Remember: If you run into errors, you can always check the logs on <a href="https://console.aws.amazon.com/cloudwatch">CloudWatch</a>, in the <code>flask-microservices-staging</code> group, or SSH directly into the EC2 instance to debug the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ ssh -i ~/.ssh/ecs.pem ec2-user@EC2_PUBLIC_IP
+</code></pre></div>
+<p>Be sure to double-check all environment variables!</p>
+</blockquote>
+
+<h4 id="production"><span style="font-family:'Montserrat', 'sans-serif';">Production</span></h4>
+
+<p>You know the drill: Check out the <code>production</code> branch locally, and then rebase <code>staging</code> on <code>production</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ git checkout production
+$ git rebase staging
+</code></pre></div>
+<h5 id="docker_deploy_prod-sh"><em>docker_deploy_prod.sh</em></h5>
+
+<p>Add <code>eval</code> to the <code>deploy_cluster</code> function:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># eval</span>
+<span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-eval-prod-td&quot;</span>
+<span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-eval&quot;</span>
+<span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_eval_prod_taskdefinition.json&quot;</span>
+<span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$task_template</span><span class="s2">&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_RDS_URI</span> <span class="nv">$PRODUCTION_SECRET_KEY</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span>
+register_definition
+update_service
+</code></pre></div>
+<h5 id="ecs_eval_taskdefinition-json"><em>ecs_eval_taskdefinition.json</em></h5>
+
+<p>Create a new Task Definition file:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;containerDefinitions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;eval-service-prod&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;%s.dkr.ecr.us-east-1.amazonaws.com\/flask-microservices-eval:production&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;essential&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nt">&quot;memoryReservation&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+      <span class="nt">&quot;portMappings&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;containerPort&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+          <span class="nt">&quot;hostPort&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="nt">&quot;protocol&quot;</span><span class="p">:</span> <span class="s2">&quot;tcp&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;environment&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;APP_SETTINGS&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;project.config.ProductionConfig&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;%s&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;USERS_SERVICE_URL&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;%s&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;logConfiguration&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;logDriver&quot;</span><span class="p">:</span> <span class="s2">&quot;awslogs&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;awslogs-group&quot;</span><span class="p">:</span> <span class="s2">&quot;flask-microservices-production&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;awslogs-region&quot;</span><span class="p">:</span> <span class="s2">&quot;us-east-1&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5 id="target-group">Target Group</h5>
+
+<p>Add a new Target Group for the <code>eval</code> service:</p>
+
+<ol>
+<li>&quot;Target group name&quot;: <code>eval-prod-tg</code></li>
+<li>&quot;Port&quot;: <code>5000</code></li>
+</ol>
+
+<p>Under &quot;Health check settings&quot;:</p>
+
+<ol>
+<li>&quot;Path&quot;: <code>/scores</code></li>
+</ol>
+
+<h5 id="load-balancer">Load Balancer</h5>
+
+<p>On the &quot;Load Balancers&quot; page, click the <code>flask-microservices-prod-alb</code> Load Balancer, and then select the &quot;Listeners&quot; tab. Click the &quot;View/edit rules&quot; link, and then insert four new rules:</p>
+
+<ol>
+<li>If <code>/exercises</code>, Then <code>eval-prod-tg</code></li>
+<li>If <code>/exercises/*</code>, Then <code>eval-prod-tg</code></li>
+<li>If <code>/scores</code>, Then <code>eval-prod-tg</code></li>
+<li>If <code>/scores/*</code>, Then <code>eval-prod-tg</code></li>
+</ol>
+
+<h5 id="services">Services</h5>
+
+<p>Next, create a new ECS Service:</p>
+
+<ol>
+<li>&quot;Task Definition&quot;: <code>flask-microservices-eval-prod-td:LATEST_REVISION_NUMBER</code></li>
+<li>&quot;Service name&quot;: <code>flask-microservices-prod-eval</code></li>
+<li>&quot;Number of tasks&quot;: <code>1</code></li>
+</ol>
+
+<p>Click &quot;Configure ELB&quot;.</p>
+
+<ol>
+<li>&quot;ELB Name&quot;: <code>flask-microservices-prod-alb</code></li>
+<li>&quot;Select a Container&quot;: <code>eval-service:0:5000</code></li>
+</ol>
+
+<p>Click &quot;Add to ELB&quot;.</p>
+
+<ol>
+<li>&quot;Listener port&quot;: <code>80:HTTP</code></li>
+<li>&quot;Target group name&quot;: <code>eval-prod-tg</code></li>
+</ol>
+
+<p>Click &quot;Save&quot; and then &quot;Create Service&quot;.</p>
+
+<h4 id="sanity-check-take-one"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take One)</span></h4>
+
+<p>Commit and push to GitHub. Once the build passes, hop on to AWS to confirm that the images are up-to-date on ECR and that an <code>flask-microservices-eval-prod-td</code> Task Definition was created. The EC2 instance associated with the Target Group, <code>eval-prod-tg</code>, should not be healthy since we still need to set up the database.</p>
+
+<p>Feel free to test out the other endpoints to make sure all is well.</p>
+
+<p>Before we add the database, let&#39;s ensure the app is up and working right with the ALB. Add a new, unprotected route to <em>flask-microservices-eval/project/api/eval.py</em>:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@eval_blueprint.route</span><span class="p">(</span><span class="s1">&#39;/health&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">health</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;sanity check!&#39;</span>
+    <span class="p">})</span>
+</code></pre></div>
+<p>Add a test. Then, update the path for the Health check for the <code>eval-prod-tg</code> to <code>/health</code>. Add the rule to the Load Balancer as well. The next time the <code>flask-microservices-prod-eval</code> service is spun up, the Target Group should have a healthy instance associated with it.</p>
+
+<p>Test it out in the browser at  <a href="http://LOAD_BALANCER_DNS_NAME/health">http://LOAD_BALANCER_DNS_NAME/health</a>.</p>
+
+<h5 id="rds">RDS</h5>
+
+<p>Within <a href="https://console.aws.amazon.com/rds">Amazon RDS</a>, select &quot;Instances&quot; on the sidebar, and then click the &quot;Launch DB Instance&quot; button.</p>
+
+<blockquote>
+<p>You <em>probably</em> want to click the &quot;Free tier eligible only&quot;. More <a href="https://aws.amazon.com/free/">info</a>.</p>
+</blockquote>
+
+<p>Select the &quot;PostgreSQL&quot; engine and then &quot;Dev/Test&quot;:</p>
+
+<ol>
+<li>&quot;DB Engine Version&quot;: <code>PostgreSQL 9.6.2-R1</code></li>
+<li>&quot;DB Instance Class&quot;: <code>db.t2.micro</code></li>
+<li>&quot;Multi-AZ Deployment&quot;: <code>No</code></li>
+<li>&quot;Storage Type&quot;: <code>General Purpose (SSD)</code></li>
+<li>&quot;Allocated Storage&quot;: <code>5 GB</code></li>
+<li>&quot;DB Instance Identifier&quot;: <code>flask-microservices-eval-prod</code></li>
+<li>&quot;Master Username&quot;: <code>webapp</code></li>
+<li>&quot;Master Password&quot;: <code>something_super_secret</code></li>
+</ol>
+
+<p>Click &quot;Next Step&quot;. Under &quot;Network &amp; Security&quot;, make sure to pick the &quot;VPC&quot; and &quot;Security group&quot; associated with ALB. Select one of the available &quot;Subnets&quot; as well - either <code>us-east-1a</code> or <code>us-east-1b</code>.</p>
+
+<p>Take note of the production URI:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>postgres://webapp:YOUR_PASSWORD@YOUR_ADDRESS:5432/eval_prod
+</code></pre></div>
+<p>Update <code>eval</code> in the <code>deploy_cluster</code> function again in <em>docker_deploy_prod.sh</em>, adding the <code>AWS_RDS_EVAL_URI</code> and <code>$PRODUCTION_URI</code> environment variables:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># eval</span>
+<span class="nv">family</span><span class="o">=</span><span class="s2">&quot;flask-microservices-eval-prod-td&quot;</span>
+<span class="nv">service</span><span class="o">=</span><span class="s2">&quot;flask-microservices-prod-eval&quot;</span>
+<span class="nv">template</span><span class="o">=</span><span class="s2">&quot;ecs_eval_prod_taskdefinition.json&quot;</span>
+<span class="nv">task_template</span><span class="o">=</span><span class="k">$(</span>cat <span class="s2">&quot;ecs/</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nv">task_def</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;</span><span class="nv">$task_template</span><span class="s2">&quot;</span> <span class="nv">$AWS_ACCOUNT_ID</span> <span class="nv">$AWS_RDS_EVAL_URI</span> <span class="nv">$PRODUCTION_URI</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$task_def</span><span class="s2">&quot;</span>
+register_definition
+update_service
+</code></pre></div>
+<p>Add the AWS_RDS_EVAL_URI and PRODUCTION_URI environment variables to the  <em>flask-microservices-main</em> Travis project as well.</p>
+
+<p>Commit. Push your code to GitHub. Once done, the app should be live, ready to go.</p>
+
+<h4 id="sanity-check-take-two"><span style="font-family:'Montserrat', 'sans-serif';">Sanity Check (Take Two)</span></h4>
+
+<p>Grab the Container ID for <code>flask-microservices-eval</code> (via <code>docker ps</code>), enter the shell within the running container, and then update the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker <span class="nb">exec</span> -it Container_ID bash
+<span class="c1"># python manage.py recreate_db</span>
+<span class="c1"># python manage.py seed_db</span>
+</code></pre></div>
+<p>Ensure all URLs work properly, and then run the e2e tests. Within, <em>flask-microservices-main</em>, set the <code>TEST_URL</code> environment variable and then run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">export</span> <span class="nv">TEST_URL</span><span class="o">=</span>LOAD_BALANCER_DNS_NAME
+$ testcafe chrome e2e
+</code></pre></div>
+
+          
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - ECS Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-six-ecs-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+          <div class="page-nav">
+            
+              <a class="prev btn left-align" href="/part-six-code-evaluation">&laquo; Code Evaluation</a>
+            
+            
+              <a class="next btn right-align" href="/part-six-next-steps">Next Steps &raquo;</a>
+            
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+     <footer class="page-footer white">
+  <div class="container footer-container center-align">
+    <ul>
+      <li><small>Content by Michael Herman (michael@mherman.org)</small></li>
+      <li><small>&copy; Copyright 2017 <a href="http://testdriven.io">TestDriven.io</a></small></li>
+    </ul>
+  </div>
+</footer>
+
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+    
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-100160465-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+
+  </body>
+</html>

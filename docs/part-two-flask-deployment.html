@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Flask Deployment</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,152 +906,148 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Flask Deployment</h2>
+
+          
+            <h5>Part 2, Lesson 6</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-two-react-setup">&laquo; React Setup</a>
+              
+              
+                <a class="next btn right-align" href="/part-two-react-forms">React Forms &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Flask Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-two-flask-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>Let&#39;s update the <code>users-service</code> container, locally and in production, and then test it with the local version of the React app running outside the container...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<h4 id="development"><span style="font-family:'Montserrat', 'sans-serif';">Development</span></h4>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>To update Docker, first commit and push your code for <em>flask-microserves-users</em> to GitHub (if necessary). Make sure the tests pass on Travis CI, and then navigate to <em>flask-microservices-main</em>.</p>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
-
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
-
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
-
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
-
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p>Set the <code>dev</code> machine as the active machine and update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env dev
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+$ docker-compose up -d --build
+</code></pre></div>
+<p>Make sure the tests pass:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Now we can test the React app against the Flask app running in the Docker Container:</p>
 
 <ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
+<li>Navigate to <em>flask-microservices-main</em> and grab the IP of the <code>dev</code> machine - <code>docker-machine ip dev</code></li>
+<li>Back in <em>flask-microservices-client</em>, update the environment variable with the IP - <code>export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_IP</code></li>
+<li>Fire up the app - <code>npm start</code> - and make sure it still works</li>
 </ol>
 
-<p><br></p>
+<h4 id="production"><span style="font-family:'Montserrat', 'sans-serif';">Production</span></h4>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>Let&#39;s update and then test in production.</p>
 
-<p><br><hr><br></p>
+<p>Within the <em>flask-microservices-main</em> project, set the <code>aws</code> machine as the active machine and update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env aws
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+$ docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<p>Just like before, test the React app against the Flask app:</p>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<ol>
+<li>Navigate to <em>flask-microservices-main</em> and grab the IP of the <code>aws</code> machine - <code>docker-machine ip aws</code></li>
+<li>Back in <em>flask-microservices-client</em>, update the environment variable with the IP - <code>export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_IP</code></li>
+<li>Fire up the app - <code>npm start</code> - and make sure it still works</li>
+</ol>
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-two-react-setup">&laquo; React Setup</a>
+            
+            
+              <a class="next btn right-align" href="/part-two-react-forms">React Forms &raquo;</a>
             
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Flask Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-two-flask-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Flask Deployment</h2>
 
-          <p><hr><br></p>
+          <p>Let&#39;s update the <code>users-service</code> container, locally and in production, and then test it with the local version of the React app running outside the container...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<h4 id="development"><span style="font-family:'Montserrat', 'sans-serif';">Development</span></h4>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>To update Docker, first commit and push your code for <em>flask-microserves-users</em> to GitHub (if necessary). Make sure the tests pass on Travis CI, and then navigate to <em>flask-microservices-main</em>.</p>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
-
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
-
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
-
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
-
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p>Set the <code>dev</code> machine as the active machine and update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env dev
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+$ docker-compose up -d --build
+</code></pre></div>
+<p>Make sure the tests pass:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Now we can test the React app against the Flask app running in the Docker Container:</p>
 
 <ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
+<li>Navigate to <em>flask-microservices-main</em> and grab the IP of the <code>dev</code> machine - <code>docker-machine ip dev</code></li>
+<li>Back in <em>flask-microservices-client</em>, update the environment variable with the IP - <code>export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_IP</code></li>
+<li>Fire up the app - <code>npm start</code> - and make sure it still works</li>
 </ol>
 
-<p><br></p>
+<h4 id="production"><span style="font-family:'Montserrat', 'sans-serif';">Production</span></h4>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>Let&#39;s update and then test in production.</p>
 
-<p><br><hr><br></p>
+<p>Within the <em>flask-microservices-main</em> project, set the <code>aws</code> machine as the active machine and update the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env aws
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+$ docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<p>Just like before, test the React app against the Flask app:</p>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<ol>
+<li>Navigate to <em>flask-microservices-main</em> and grab the IP of the <code>aws</code> machine - <code>docker-machine ip aws</code></li>
+<li>Back in <em>flask-microservices-client</em>, update the environment variable with the IP - <code>export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_IP</code></li>
+<li>Fire up the app - <code>npm start</code> - and make sure it still works</li>
+</ol>
 
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Flask Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-two-flask-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-two-react-setup">&laquo; React Setup</a>
+            
+            
+              <a class="next btn right-align" href="/part-two-react-forms">React Forms &raquo;</a>
             
           </div>
 

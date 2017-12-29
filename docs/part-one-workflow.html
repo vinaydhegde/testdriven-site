@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Workflow</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,152 +906,254 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Workflow</h2>
+
+          
+            <h5>Part 1, Lesson 10</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-one-jinja-templates">&laquo; Jinja Templates</a>
+              
+              
+                <a class="next btn right-align" href="/part-two-intro">Introduction &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Workflow&amp;url=http%3A%2F%2Ftestdriven.io/part-one-workflow&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>Reference guide...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<h4 id="aliases"><span style="font-family:'Montserrat', 'sans-serif';">Aliases</span></h4>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>To save some precious keystrokes, let&#39;s create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>alias dc=&#39;docker-compose&#39;
+alias dm=&#39;docker-machine&#39;
+</code></pre></div>
+<p>Save the file, then execute it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">source</span> ~/.bashrc
+</code></pre></div>
+<p>Test out the new aliases!</p>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<blockquote>
+<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
+</blockquote>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<h4 id="saved-state"><span style="font-family:'Montserrat', 'sans-serif';">&quot;Saved&quot; State</span></h4>
+
+<p>Is the VM stuck in a &quot;Saved&quot; state?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Saved                                         Unknown
+</code></pre></div>
+<p>To break out of this, you&#39;ll need to power off the VM:</p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li>Start virtualbox - <code>virtualbox</code></li>
+<li>Select the VM and click &quot;start&quot;</li>
+<li>Exit the VM and select &quot;Power off the machine&quot;</li>
+<li>Exit virtualbox</li>
 </ol>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+<p>The VM should now have a &quot;Stopped&quot; state:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ls
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Stopped                                       Unknown
+</code></pre></div>
+<p>Now you can start the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine start dev
+</code></pre></div>
+<p>It should be &quot;Running&quot;:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ls
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
+</code></pre></div>
+<h4 id="common-commands"><span style="font-family:'Montserrat', 'sans-serif';">Common Commands</span></h4>
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+<p>Build the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose build
+</code></pre></div>
+<p>Run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d
+</code></pre></div>
+<p>Create the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py recreate_db
+</code></pre></div>
+<p>Seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<h4 id="other-commands"><span style="font-family:'Montserrat', 'sans-serif';">Other commands</span></h4>
 
-<p><br></p>
+<p>To stop the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose stop
+</code></pre></div>
+<p>To bring down the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose down
+</code></pre></div>
+<p>Want to force a build?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose build --no-cache
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<h4 id="postgres"><span style="font-family:'Montserrat', 'sans-serif';">Postgres</span></h4>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
-
-<p><br><hr><br></p>
-
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
-
+<p>Want to access the database via psql?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
+</code></pre></div>
+<p>Then, you can connect to the database and run SQL queries. For example:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># \c users_dev</span>
+<span class="c1"># select * from users;</span>
+</code></pre></div>
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-one-jinja-templates">&laquo; Jinja Templates</a>
+            
+            
+              <a class="next btn right-align" href="/part-two-intro">Introduction &raquo;</a>
             
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Workflow&amp;url=http%3A%2F%2Ftestdriven.io/part-one-workflow&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Workflow</h2>
 
-          <p><hr><br></p>
+          <p>Reference guide...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<h4 id="aliases"><span style="font-family:'Montserrat', 'sans-serif';">Aliases</span></h4>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>To save some precious keystrokes, let&#39;s create aliases for both the <code>docker-compose</code> and <code>docker-machine</code> commands - <code>dc</code> and <code>dm</code>, respectively.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Simply add the following lines to your <em>.bashrc</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>alias dc=&#39;docker-compose&#39;
+alias dm=&#39;docker-machine&#39;
+</code></pre></div>
+<p>Save the file, then execute it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">source</span> ~/.bashrc
+</code></pre></div>
+<p>Test out the new aliases!</p>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<blockquote>
+<p>On Windows? You will first need to create a <a href="https://msdn.microsoft.com/en-us/powershell/scripting/core-powershell/ise/how-to-use-profiles-in-windows-powershell-ise">PowerShell Profile</a> (if you don&#39;t already have one), and then you can add the aliases to it using <a href="https://msdn.microsoft.com/en-us/powershell/reference/5.1/microsoft.powershell.utility/set-alias">Set-Alias</a> - i.e., <code>Set-Alias dc docker-compose</code>.</p>
+</blockquote>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<h4 id="saved-state"><span style="font-family:'Montserrat', 'sans-serif';">&quot;Saved&quot; State</span></h4>
+
+<p>Is the VM stuck in a &quot;Saved&quot; state?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ls
+
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Saved                                         Unknown
+</code></pre></div>
+<p>To break out of this, you&#39;ll need to power off the VM:</p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li>Start virtualbox - <code>virtualbox</code></li>
+<li>Select the VM and click &quot;start&quot;</li>
+<li>Exit the VM and select &quot;Power off the machine&quot;</li>
+<li>Exit virtualbox</li>
 </ol>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+<p>The VM should now have a &quot;Stopped&quot; state:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ls
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Stopped                                       Unknown
+</code></pre></div>
+<p>Now you can start the machine:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine start dev
+</code></pre></div>
+<p>It should be &quot;Running&quot;:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ls
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+aws    *        amazonec2    Running   tcp://34.207.173.181:2376           v17.05.0-ce
+dev    -        virtualbox   Running   tcp://192.168.99.100:2376           v17.05.0-ce
+</code></pre></div>
+<h4 id="common-commands"><span style="font-family:'Montserrat', 'sans-serif';">Common Commands</span></h4>
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+<p>Build the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose build
+</code></pre></div>
+<p>Run the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d
+</code></pre></div>
+<p>Create the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py recreate_db
+</code></pre></div>
+<p>Seed the database:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py seed_db
+</code></pre></div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<h4 id="other-commands"><span style="font-family:'Montserrat', 'sans-serif';">Other commands</span></h4>
 
-<p><br></p>
+<p>To stop the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose stop
+</code></pre></div>
+<p>To bring down the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose down
+</code></pre></div>
+<p>Want to force a build?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose build --no-cache
+</code></pre></div>
+<p>Remove images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker rmi <span class="k">$(</span>docker images -q<span class="k">)</span>
+</code></pre></div>
+<h4 id="postgres"><span style="font-family:'Montserrat', 'sans-serif';">Postgres</span></h4>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
-
-<p><br><hr><br></p>
-
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
-
+<p>Want to access the database via psql?</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker <span class="nb">exec</span> -ti users-db psql -U postgres -W
+</code></pre></div>
+<p>Then, you can connect to the database and run SQL queries. For example:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="c1"># \c users_dev</span>
+<span class="c1"># select * from users;</span>
+</code></pre></div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Workflow&amp;url=http%3A%2F%2Ftestdriven.io/part-one-workflow&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-one-jinja-templates">&laquo; Jinja Templates</a>
+            
+            
+              <a class="next btn right-align" href="/part-two-intro">Introduction &raquo;</a>
             
           </div>
 

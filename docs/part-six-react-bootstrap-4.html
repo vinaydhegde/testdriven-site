@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - React Bootstrap 4</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,70 +906,53 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>React Bootstrap 4</h2>
 
           
 
 
-          <p><hr><br></p>
+          <p>In this lesson, we&#39;ll add Bootstrap 4 to the React front-end...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>Coming soon!</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<h4 id="getting-started"><span style="font-family:'Montserrat', 'sans-serif';">Getting Started</span></h4>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>Bootstrap 4 is <a href="https://getbootstrap.com/docs/4.0/migration/">rewrite</a> of the Bootstrap project. In the end, it&#39;s a better framework, but if you prefer Bootstrap 3, you are more than welcome to stick with it.</p>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<blockquote>
+<p>Curious about the differences between Bootstrap 3 and 4? Check out the excellent <a href="https://medium.com/wdstack/bootstrap-4-whats-new-visual-guide-c84dd81d8387">Bootstrap 4: What&#39;s New</a> blog post.</p>
+</blockquote>
+
+<p>Within <em>flask-microservices-client</em>, install <a href="https://reactstrap.github.io/">reactstrap</a>, a Bootstrap 4 React component library, along with the peer dependencies:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ npm install --save reactstrap@4.8.0 <span class="se">\</span>
+  react-addons-transition-group@15.6.2 <span class="se">\</span>
+  react-addons-css-transition-group@15.6.2
+</code></pre></div>
+<p>Install Bootstrap <a href="https://github.com/twbs/bootstrap/releases/tag/v4.0.0-alpha.6">4.0.0-alpha.6</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ npm install bootstrap@4.0.0-alpha.6 --save
+</code></pre></div>
+<p>Import Bootstrap in the <em>src/index.js</em> file:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="s1">&#39;bootstrap/dist/css/bootstrap.css&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Make sure you remove the following line from the <code>head</code> in <em>public/index.html</em> since we&#39;re not longer using the Bootstrap 3 styles anymore:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span></span><span class="p">&lt;</span><span class="nt">link</span>
+  <span class="na">href</span><span class="o">=</span><span class="s">&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span>
+  <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span>
+<span class="p">&gt;</span>
+</code></pre></div>
+<h4 id="navbar"><span style="font-family:'Montserrat', 'sans-serif';">Navbar</span></h4>
+
+<h4 id="table"><span style="font-family:'Montserrat', 'sans-serif';">Table</span></h4>
+
+<p>Coming soon!</p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li>Material CSS</li>
+<li>Evaluation with AWS Lambda</li>
+<li>Material CSS</li>
 </ol>
-
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
-
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
-
-<p>Check out the live app, running on multiple EC2 instances -</p>
-
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
-
-<p><br></p>
-
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
-
-<p><br><hr><br></p>
-
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
 
 
           <div class="page-nav">
@@ -978,76 +961,65 @@
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Bootstrap 4&amp;url=http%3A%2F%2Ftestdriven.io/part-six-react-bootstrap-4&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>React Bootstrap 4</h2>
 
-          <p><hr><br></p>
+          <p>In this lesson, we&#39;ll add Bootstrap 4 to the React front-end...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>Coming soon!</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<h4 id="getting-started"><span style="font-family:'Montserrat', 'sans-serif';">Getting Started</span></h4>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>Bootstrap 4 is <a href="https://getbootstrap.com/docs/4.0/migration/">rewrite</a> of the Bootstrap project. In the end, it&#39;s a better framework, but if you prefer Bootstrap 3, you are more than welcome to stick with it.</p>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<blockquote>
+<p>Curious about the differences between Bootstrap 3 and 4? Check out the excellent <a href="https://medium.com/wdstack/bootstrap-4-whats-new-visual-guide-c84dd81d8387">Bootstrap 4: What&#39;s New</a> blog post.</p>
+</blockquote>
+
+<p>Within <em>flask-microservices-client</em>, install <a href="https://reactstrap.github.io/">reactstrap</a>, a Bootstrap 4 React component library, along with the peer dependencies:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ npm install --save reactstrap@4.8.0 <span class="se">\</span>
+  react-addons-transition-group@15.6.2 <span class="se">\</span>
+  react-addons-css-transition-group@15.6.2
+</code></pre></div>
+<p>Install Bootstrap <a href="https://github.com/twbs/bootstrap/releases/tag/v4.0.0-alpha.6">4.0.0-alpha.6</a>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ npm install bootstrap@4.0.0-alpha.6 --save
+</code></pre></div>
+<p>Import Bootstrap in the <em>src/index.js</em> file:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="s1">&#39;bootstrap/dist/css/bootstrap.css&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Make sure you remove the following line from the <code>head</code> in <em>public/index.html</em> since we&#39;re not longer using the Bootstrap 3 styles anymore:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span></span><span class="p">&lt;</span><span class="nt">link</span>
+  <span class="na">href</span><span class="o">=</span><span class="s">&quot;//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;</span>
+  <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span>
+<span class="p">&gt;</span>
+</code></pre></div>
+<h4 id="navbar"><span style="font-family:'Montserrat', 'sans-serif';">Navbar</span></h4>
+
+<h4 id="table"><span style="font-family:'Montserrat', 'sans-serif';">Table</span></h4>
+
+<p>Coming soon!</p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li>Material CSS</li>
+<li>Evaluation with AWS Lambda</li>
+<li>Material CSS</li>
 </ol>
-
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
-
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
-
-<p>Check out the live app, running on multiple EC2 instances -</p>
-
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
-
-<p><br></p>
-
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
-
-<p><br><hr><br></p>
-
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
 
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Bootstrap 4&amp;url=http%3A%2F%2Ftestdriven.io/part-six-react-bootstrap-4&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">

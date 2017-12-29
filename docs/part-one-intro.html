@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Introduction</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,152 +906,386 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Introduction</h2>
+
+          
+            <h5>Part 1, Lesson 1</h5>
+
+            <div class="page-nav">
+              
+              
+                <a class="next btn right-align" href="/part-one-getting-started">Getting Started &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-one-intro&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>In this first part, you&#39;ll learn how to quickly spin up a reproducible development environment with <em>Docker</em> to create a <em>RESTful API</em> powered by <em>Python</em>, <em>Postgres</em>, and the <em>Flask</em> web framework. After the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance.</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
-
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<blockquote>
+<p>We&#39;ll take a practical approach to test driven development (TDD), where we&#39;ll write tests first <em>only</em> when it makes sense.</p>
+</blockquote>
 
 <div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+  <img src="/assets/img/flask-tdd-logo.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>This series uses the following tools and technologies:</p>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p><strong>Part 1</strong></p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li>Python v3.6.1</li>
+<li>Flask v0.12.2</li>
+<li>Flask-Script v2.0.5</li>
+<li>Flask-SQLAlchemy v2.2</li>
+<li>Flask-Testing v0.6.2</li>
+<li>psycopg2 v2.7.1</li>
+<li>Gunicorn v19.7.1</li>
+<li>Nginx v1.13.0</li>
+<li>Docker v17.03.1-ce</li>
+<li>Docker Compose v1.11.2</li>
+<li>Docker Machine v0.10.0</li>
+</ol>
+
+<p><strong>Part 2</strong></p>
+
+<ol>
+<li>Coverage.py v4.4.1</li>
+<li>Node v7.10.0</li>
+<li>NPM v4.2.0</li>
+<li>Create React App v1.3.0</li>
+<li>Axios v0.16.2</li>
+<li>Flask-CORS v3.0.2</li>
+</ol>
+
+<p><strong>Part 3</strong></p>
+
+<ol>
+<li>Flask-Migrate v2.0.4</li>
+<li>Flask-Bcrypt v0.7.1</li>
+<li>PyJWT v1.5.0</li>
+<li>react-router-dom v4.1.1</li>
+<li>React Bootstrap v0.31.0</li>
+<li>React Router Bootstrap v0.24.2</li>
+</ol>
+
+<p><strong>Part 4</strong></p>
+
+<ol>
+<li>TestCafe v0.16.1</li>
+<li>node-randomstring v1.1.5</li>
+<li>Swagger UI v3.0.8</li>
+</ol>
+
+<p><strong>Part 5</strong></p>
+
+<p>No new dependencies.</p>
+
+<p><strong>Part 6</strong></p>
+
+<ol>
+<li>Flask v0.12.2</li>
+<li>Flask-Cors v3.0.3</li>
+<li>Flask-Script v2.0.6</li>
+<li>Flask-Testing v0.6.2</li>
+<li>Gunicorn v19.7.1</li>
+<li>Coverage.py v4.4.1</li>
+<li>Requests v2.18.4</li>
+<li>Flask-SQLAlchemy v2.2</li>
+<li>Flask-Migrate v2.0.4</li>
+<li>psycopg2 v2.7.1</li>
+<li>React-Ace v5.2.1</li>
+</ol>
+
+<p>Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:</p>
+
+<table><thead>
+<tr>
+<th>Topic</th>
+<th>Resource</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Docker</td>
+<td><a href="https://docs.docker.com/engine/getstarted/">Get started with Docker</a></td>
+</tr>
+<tr>
+<td>Docker Compose</td>
+<td><a href="https://docs.docker.com/compose/gettingstarted/">Get started with Docker Compose</a></td>
+</tr>
+<tr>
+<td>Docker Machine</td>
+<td><a href="https://docs.docker.com/machine/overview/">Docker Machine Overview</a></td>
+</tr>
+<tr>
+<td>Flask</td>
+<td><a href="https://github.com/mjhea0/flaskr-tdd">Flaskr TDD</a></td>
+</tr>
+</tbody></table>
+
+<h4 id="objectives"><span style="font-family:'Montserrat', 'sans-serif';">Objectives</span></h4>
+
+<p>By the end of this part, you should be able to...</p>
+
+<ol>
+<li>Develop a RESTful API with Flask</li>
+<li>Practice test driven development</li>
+<li>Configure and run services locally with Docker, Docker Compose, and Docker Machine</li>
+<li>Utilize volumes to mount your code into a container</li>
+<li>Run unit and integration tests inside a Docker container</li>
+<li>Enable services running in different containers to talk to one another</li>
+<li>Work with Python and Flask running inside a Docker Container</li>
+<li>Install Flask, Ngnix, and Gunicorn on an Amazon EC2 instance</li>
 </ol>
 
 <h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+<p>Check out the live app, running on EC2 - <a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com">http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com</a></p>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p>You can also test out the following endpoints...</p>
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>CRUD Method</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>READ</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>READ</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>CREATE</td>
+<td>add a user</td>
+</tr>
+</tbody></table>
 
-<p><br></p>
+<blockquote>
+<p>The <code>/users</code> POST endpoint is restricted as of Part 3.</p>
+</blockquote>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>Essentially, the app is running in three containers - Flask, Postgres, and Nginx. At the end of this first part, you will have the above app completed and deployed. We&#39;ll add authentication and a number of other services in the subsequent parts.</p>
 
-<p><br><hr><br></p>
+<h4 id="code"><span style="font-family:'Montserrat', 'sans-serif';">Code</span></h4>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<p>Grab the code from the <a href="https://github.com/realpython/flask-microservices-users/releases/tag/part1">flask-microservices-users</a> repo.</p>
 
 
           <div class="page-nav">
             
             
+              <a class="next btn right-align" href="/part-one-getting-started">Getting Started &raquo;</a>
+            
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-one-intro&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Introduction</h2>
 
-          <p><hr><br></p>
+          <p>In this first part, you&#39;ll learn how to quickly spin up a reproducible development environment with <em>Docker</em> to create a <em>RESTful API</em> powered by <em>Python</em>, <em>Postgres</em>, and the <em>Flask</em> web framework. After the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance.</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
-
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<blockquote>
+<p>We&#39;ll take a practical approach to test driven development (TDD), where we&#39;ll write tests first <em>only</em> when it makes sense.</p>
+</blockquote>
 
 <div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+  <img src="/assets/img/flask-tdd-logo.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>This series uses the following tools and technologies:</p>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p><strong>Part 1</strong></p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li>Python v3.6.1</li>
+<li>Flask v0.12.2</li>
+<li>Flask-Script v2.0.5</li>
+<li>Flask-SQLAlchemy v2.2</li>
+<li>Flask-Testing v0.6.2</li>
+<li>psycopg2 v2.7.1</li>
+<li>Gunicorn v19.7.1</li>
+<li>Nginx v1.13.0</li>
+<li>Docker v17.03.1-ce</li>
+<li>Docker Compose v1.11.2</li>
+<li>Docker Machine v0.10.0</li>
+</ol>
+
+<p><strong>Part 2</strong></p>
+
+<ol>
+<li>Coverage.py v4.4.1</li>
+<li>Node v7.10.0</li>
+<li>NPM v4.2.0</li>
+<li>Create React App v1.3.0</li>
+<li>Axios v0.16.2</li>
+<li>Flask-CORS v3.0.2</li>
+</ol>
+
+<p><strong>Part 3</strong></p>
+
+<ol>
+<li>Flask-Migrate v2.0.4</li>
+<li>Flask-Bcrypt v0.7.1</li>
+<li>PyJWT v1.5.0</li>
+<li>react-router-dom v4.1.1</li>
+<li>React Bootstrap v0.31.0</li>
+<li>React Router Bootstrap v0.24.2</li>
+</ol>
+
+<p><strong>Part 4</strong></p>
+
+<ol>
+<li>TestCafe v0.16.1</li>
+<li>node-randomstring v1.1.5</li>
+<li>Swagger UI v3.0.8</li>
+</ol>
+
+<p><strong>Part 5</strong></p>
+
+<p>No new dependencies.</p>
+
+<p><strong>Part 6</strong></p>
+
+<ol>
+<li>Flask v0.12.2</li>
+<li>Flask-Cors v3.0.3</li>
+<li>Flask-Script v2.0.6</li>
+<li>Flask-Testing v0.6.2</li>
+<li>Gunicorn v19.7.1</li>
+<li>Coverage.py v4.4.1</li>
+<li>Requests v2.18.4</li>
+<li>Flask-SQLAlchemy v2.2</li>
+<li>Flask-Migrate v2.0.4</li>
+<li>psycopg2 v2.7.1</li>
+<li>React-Ace v5.2.1</li>
+</ol>
+
+<p>Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:</p>
+
+<table><thead>
+<tr>
+<th>Topic</th>
+<th>Resource</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Docker</td>
+<td><a href="https://docs.docker.com/engine/getstarted/">Get started with Docker</a></td>
+</tr>
+<tr>
+<td>Docker Compose</td>
+<td><a href="https://docs.docker.com/compose/gettingstarted/">Get started with Docker Compose</a></td>
+</tr>
+<tr>
+<td>Docker Machine</td>
+<td><a href="https://docs.docker.com/machine/overview/">Docker Machine Overview</a></td>
+</tr>
+<tr>
+<td>Flask</td>
+<td><a href="https://github.com/mjhea0/flaskr-tdd">Flaskr TDD</a></td>
+</tr>
+</tbody></table>
+
+<h4 id="objectives"><span style="font-family:'Montserrat', 'sans-serif';">Objectives</span></h4>
+
+<p>By the end of this part, you should be able to...</p>
+
+<ol>
+<li>Develop a RESTful API with Flask</li>
+<li>Practice test driven development</li>
+<li>Configure and run services locally with Docker, Docker Compose, and Docker Machine</li>
+<li>Utilize volumes to mount your code into a container</li>
+<li>Run unit and integration tests inside a Docker container</li>
+<li>Enable services running in different containers to talk to one another</li>
+<li>Work with Python and Flask running inside a Docker Container</li>
+<li>Install Flask, Ngnix, and Gunicorn on an Amazon EC2 instance</li>
 </ol>
 
 <h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+<p>Check out the live app, running on EC2 - <a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com">http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com</a></p>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p>You can also test out the following endpoints...</p>
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+<table><thead>
+<tr>
+<th>Endpoint</th>
+<th>HTTP Method</th>
+<th>CRUD Method</th>
+<th>Result</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>/users</td>
+<td>GET</td>
+<td>READ</td>
+<td>get all users</td>
+</tr>
+<tr>
+<td>/users/:id</td>
+<td>GET</td>
+<td>READ</td>
+<td>get single user</td>
+</tr>
+<tr>
+<td>/users</td>
+<td>POST</td>
+<td>CREATE</td>
+<td>add a user</td>
+</tr>
+</tbody></table>
 
-<p><br></p>
+<blockquote>
+<p>The <code>/users</code> POST endpoint is restricted as of Part 3.</p>
+</blockquote>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>Essentially, the app is running in three containers - Flask, Postgres, and Nginx. At the end of this first part, you will have the above app completed and deployed. We&#39;ll add authentication and a number of other services in the subsequent parts.</p>
 
-<p><br><hr><br></p>
+<h4 id="code"><span style="font-family:'Montserrat', 'sans-serif';">Code</span></h4>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<p>Grab the code from the <a href="https://github.com/realpython/flask-microservices-users/releases/tag/part1">flask-microservices-users</a> repo.</p>
 
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Introduction&amp;url=http%3A%2F%2Ftestdriven.io/part-one-intro&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+            
+              <a class="next btn right-align" href="/part-one-getting-started">Getting Started &raquo;</a>
             
           </div>
 

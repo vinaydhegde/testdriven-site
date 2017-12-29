@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Project Refactor</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,152 +906,276 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Project Refactor</h2>
+
+          
+            <h5>Part 2, Lesson 2</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-two-intro">&laquo; Introduction</a>
+              
+              
+                <a class="next btn right-align" href="/part-two-code-coverage">Code Coverage &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Project Refactor&amp;url=http%3A%2F%2Ftestdriven.io/part-two-project-refactor&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>In this lesson, we&#39;ll break up the base project structure into multiple projects to maintain a clear separation between each service...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>Before we break up the mono project, it&#39;s important to note that you <em>can</em> manage a microservice architecture in a single project (with a single git repo). You could add each individual service to a &quot;services&quot; directory as a separate directory, for example. There are pros and cons to each approach - mono repo vs multiple repo. Do your research.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
-
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p>With that, create two new projects:</p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li><em>flask-microservices-main</em></li>
+<li><em>flask-microservices-client</em></li>
 </ol>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+<p>For each, init a new git repo and add a <em>.gitignore</em> file.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+<p>The <em>main</em> project will house the Docker Compose files, Nginx config, and any admin scripts. Essentially, you&#39;ll manage all services from this project. Meanwhile, we&#39;ll add React to the <em>client</em>.</p>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p><em>Steps:</em></p>
 
 <ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
+<li>Test current structure</li>
+<li>Refactor</li>
+<li>Test new structure</li>
+<li>Update production</li>
 </ol>
 
-<p><br></p>
+<h4 id="test-current-structure"><span style="font-family:'Montserrat', 'sans-serif';">Test Current Structure</span></h4>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>All should pass. With tests in place, we can refactor with confidence.</p>
 
-<p><br><hr><br></p>
+<h4 id="refactor"><span style="font-family:'Montserrat', 'sans-serif';">Refactor</span></h4>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
+<p>Bring down the containers and remove the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose down
+</code></pre></div>
+<p>Then remove the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose rm
+</code></pre></div>
+<p>Do the same for production. Change the active host and point the Docker client at it, and then bring down the containers and remove them along with the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env aws
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+$ docker-compose -f docker-compose-prod.yml down
+$ docker-compose -f docker-compose-prod.yml rm
+</code></pre></div>
+<p>Switch the active host back to dev:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env dev
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Move the following files and folders from <em>flask-microservices-users</em> to the <em>flask-microservices-main</em> project:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>docker-compose-prod.yml
+docker-compose.yml
+nginx/Dockerfile
+nginx/flask.conf
+</code></pre></div>
+<p>Back in the <em>flask-microservices-users</em> project, commit your code and push up the changes.</p>
 
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<p>Then update the <code>build</code> commands for <code>users-db</code> and <code>users-service</code> to point to the <a href="https://docs.docker.com/engine/reference/commandline/build/#git-repositories">git repo</a> within both Docker Compose files:</p>
+
+<ol>
+<li><p><code>users-db</code></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>build: https://github.com/realpython/flask-microservices-users.git#master:project/db
+</code></pre></div>
+<blockquote>
+<p><code>master:project/db</code> uses the <em>Dockerfile</em> found in &quot;project/db&quot; in the <code>master</code> branch.</p>
+</blockquote></li>
+<li><p><code>users-service</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>build: https://github.com/realpython/flask-microservices-users.git
+</code></pre></div></li>
+</ol>
+
+<p>Since this changes the &quot;build context&quot; from the local machine to a git repo, we need to remove the volume from <code>users-service</code>. Once removed, build the images and spin up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d --build
+</code></pre></div>
+<blockquote>
+<p>While this is spinning up think about why we had to remove the volume. What is the &quot;build context&quot;? Turn to Google for help.</p>
+</blockquote>
+
+<h4 id="test-new-structure"><span style="font-family:'Montserrat', 'sans-serif';">Test New Structure</span></h4>
+
+<p>Once up, create and seed the db and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py recreate_db
+$ docker-compose run users-service python manage.py seed_db
+$ docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Grab the IP, from <code>docker-machine ip dev</code>, and make sure the app works in the browser.</p>
+
+<h4 id="update-production"><span style="font-family:'Montserrat', 'sans-serif';">Update Production</span></h4>
+
+<p>First, change the active host and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env aws
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+</code></pre></div>
+<p>Bring up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<p>Just like before, create and seed the db and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Test in the browser as well. Commit your code and push up to GitHub.</p>
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-two-intro">&laquo; Introduction</a>
+            
+            
+              <a class="next btn right-align" href="/part-two-code-coverage">Code Coverage &raquo;</a>
             
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Project Refactor&amp;url=http%3A%2F%2Ftestdriven.io/part-two-project-refactor&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Project Refactor</h2>
 
-          <p><hr><br></p>
+          <p>In this lesson, we&#39;ll break up the base project structure into multiple projects to maintain a clear separation between each service...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>Before we break up the mono project, it&#39;s important to note that you <em>can</em> manage a microservice architecture in a single project (with a single git repo). You could add each individual service to a &quot;services&quot; directory as a separate directory, for example. There are pros and cons to each approach - mono repo vs multiple repo. Do your research.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
-
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p>With that, create two new projects:</p>
 
 <ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
+<li><em>flask-microservices-main</em></li>
+<li><em>flask-microservices-client</em></li>
 </ol>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+<p>For each, init a new git repo and add a <em>.gitignore</em> file.</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+<p>The <em>main</em> project will house the Docker Compose files, Nginx config, and any admin scripts. Essentially, you&#39;ll manage all services from this project. Meanwhile, we&#39;ll add React to the <em>client</em>.</p>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p><em>Steps:</em></p>
 
 <ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
+<li>Test current structure</li>
+<li>Refactor</li>
+<li>Test new structure</li>
+<li>Update production</li>
 </ol>
 
-<p><br></p>
+<h4 id="test-current-structure"><span style="font-family:'Montserrat', 'sans-serif';">Test Current Structure</span></h4>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>Run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>All should pass. With tests in place, we can refactor with confidence.</p>
 
-<p><br><hr><br></p>
+<h4 id="refactor"><span style="font-family:'Montserrat', 'sans-serif';">Refactor</span></h4>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
+<p>Bring down the containers and remove the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose down
+</code></pre></div>
+<p>Then remove the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose rm
+</code></pre></div>
+<p>Do the same for production. Change the active host and point the Docker client at it, and then bring down the containers and remove them along with the images:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env aws
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+$ docker-compose -f docker-compose-prod.yml down
+$ docker-compose -f docker-compose-prod.yml rm
+</code></pre></div>
+<p>Switch the active host back to dev:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env dev
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env dev<span class="k">)</span>
+</code></pre></div>
+<p>Move the following files and folders from <em>flask-microservices-users</em> to the <em>flask-microservices-main</em> project:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>docker-compose-prod.yml
+docker-compose.yml
+nginx/Dockerfile
+nginx/flask.conf
+</code></pre></div>
+<p>Back in the <em>flask-microservices-users</em> project, commit your code and push up the changes.</p>
 
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<p>Then update the <code>build</code> commands for <code>users-db</code> and <code>users-service</code> to point to the <a href="https://docs.docker.com/engine/reference/commandline/build/#git-repositories">git repo</a> within both Docker Compose files:</p>
+
+<ol>
+<li><p><code>users-db</code></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>build: https://github.com/realpython/flask-microservices-users.git#master:project/db
+</code></pre></div>
+<blockquote>
+<p><code>master:project/db</code> uses the <em>Dockerfile</em> found in &quot;project/db&quot; in the <code>master</code> branch.</p>
+</blockquote></li>
+<li><p><code>users-service</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>build: https://github.com/realpython/flask-microservices-users.git
+</code></pre></div></li>
+</ol>
+
+<p>Since this changes the &quot;build context&quot; from the local machine to a git repo, we need to remove the volume from <code>users-service</code>. Once removed, build the images and spin up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d --build
+</code></pre></div>
+<blockquote>
+<p>While this is spinning up think about why we had to remove the volume. What is the &quot;build context&quot;? Turn to Google for help.</p>
+</blockquote>
+
+<h4 id="test-new-structure"><span style="font-family:'Montserrat', 'sans-serif';">Test New Structure</span></h4>
+
+<p>Once up, create and seed the db and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose run users-service python manage.py recreate_db
+$ docker-compose run users-service python manage.py seed_db
+$ docker-compose run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Grab the IP, from <code>docker-machine ip dev</code>, and make sure the app works in the browser.</p>
+
+<h4 id="update-production"><span style="font-family:'Montserrat', 'sans-serif';">Update Production</span></h4>
+
+<p>First, change the active host and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env aws
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+</code></pre></div>
+<p>Bring up the containers:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<p>Just like before, create and seed the db and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Test in the browser as well. Commit your code and push up to GitHub.</p>
 
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Project Refactor&amp;url=http%3A%2F%2Ftestdriven.io/part-two-project-refactor&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-two-intro">&laquo; Introduction</a>
+            
+            
+              <a class="next btn right-align" href="/part-two-code-coverage">Code Coverage &raquo;</a>
             
           </div>
 

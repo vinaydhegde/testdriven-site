@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Deployment</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,152 +906,362 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Deployment</h2>
+
+          
+            <h5>Part 1, Lesson 8</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-one-restful-routes">&laquo; RESTful Routes</a>
+              
+              
+                <a class="next btn right-align" href="/part-one-jinja-templates">Jinja Templates &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-one-aws-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>With the routes up and tested, let&#39;s get this app deployed!</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>Follow the instructions <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html">here</a> to sign up for AWS (if necessary) and create an IAM user (again, if necessary), making sure to add the credentials to an <em>~/.aws/credentials</em> file. Then create the new host:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine create --driver amazonec2 aws
+</code></pre></div>
+<blockquote>
+<p>For more, review the <a href="https://docs.docker.com/machine/examples/aws/">Amazon Web Services (AWS) EC2 example</a> from Docker.</p>
+</blockquote>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Once done, set it as the active host and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env aws
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+</code></pre></div>
+<p>Run the following command to view the currently running Machines:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ls
+</code></pre></div>
+<p>Create a new compose file called <em>docker-compose-prod.yml</em> and add the contents of the other compose file minus the <code>volumes</code>.</p>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<blockquote>
+<p>What would happen if you left the volumes in?</p>
+</blockquote>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p>Spin up the containers, create the database, seed, and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d --build
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Add port 5001 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>.</p>
 
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
+<p>Grab the IP and make sure to test in the browser.</p>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+<h4 id="config"><span style="font-family:'Montserrat', 'sans-serif';">Config</span></h4>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+<p>What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml run users-service env
+</code></pre></div>
+<p>You should see the <code>APP_SETTINGS</code> variable assigned to <code>project.config.DevelopmentConfig</code>.</p>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p>To update this, change the environment variables within <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>environment:
+  - APP_SETTINGS=project.config.ProductionConfig
+  - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
+  - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+</code></pre></div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d
+</code></pre></div>
+<p>Re-create the db and apply the seed again:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+</code></pre></div>
+<p>Ensure the app is still running and check the environment variables again.</p>
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+<h4 id="gunicorn"><span style="font-family:'Montserrat', 'sans-serif';">Gunicorn</span></h4>
 
-<p><br></p>
+<p>To use Gunicorn, first add the dependency to the <em>requirements.txt</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>gunicorn==19.7.1
+</code></pre></div>
+<p>Then update <em>docker-compose-prod.yml</em> by adding a <code>command</code> key to the <code>users-service</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>command: gunicorn -b 0.0.0.0:5000 manage:app
+</code></pre></div>
+<p>This will override the <code>CMD</code> within <em>services/users/Dockerfile</em>, <code>python manage.py runserver -h 0.0.0.0</code>.</p>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<blockquote>
+<p>The <code>--build</code> flag is necessary since we need to install the new dependency.</p>
+</blockquote>
 
-<p><br><hr><br></p>
+<h4 id="nginx"><span style="font-family:'Montserrat', 'sans-serif';">Nginx</span></h4>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
+<p>Next, let&#39;s get Nginx up and running as a reverse proxy to the web server. Create a new folder called &quot;nginx&quot; in the project root, and then add a <em>Dockerfile</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>FROM nginx:1.13.0
 
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+RUN rm /etc/nginx/conf.d/default.conf
+ADD /flask.conf /etc/nginx/conf.d
+</code></pre></div>
+<p>Add a new config file called <em>flask.conf</em> to the &quot;nginx&quot; folder as well:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>server {
+
+    listen 80;
+
+    location / {
+        proxy_pass http://users-service:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}
+</code></pre></div>
+<p>Add an <code>nginx</code> service to the <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>And remove the exposed <code>ports</code> from the users service and only expose port 5000 to other containers:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>expose:
+  - &#39;5000&#39;
+</code></pre></div>
+<p>Build the image and run the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d --build nginx
+</code></pre></div>
+<p>Add port 80 to the Security Group on AWS. Test the site in the browser again.</p>
+
+<p>Let&#39;s update this locally as well.</p>
+
+<p>First, add nginx to the <em>docker-compose.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - <span class="m">80</span>:80
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>Next, we need to update the active host. To check which host is currently active run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine active
+aws
+</code></pre></div>
+<p>Change the active machine to <code>dev</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>docker-machine env dev<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Run the nginx container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d --build nginx
+</code></pre></div>
+<p>Grab the IP and test it out!</p>
+
+<blockquote>
+<p>Did you notice that you can access the site locally with or without the ports - <a href="http://YOUR-IP/users">http://YOUR-IP/users</a> or <a href="http://YOUR-IP:5001/users">http://YOUR-IP:5001/users</a>. Why?</p>
+</blockquote>
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-one-restful-routes">&laquo; RESTful Routes</a>
+            
+            
+              <a class="next btn right-align" href="/part-one-jinja-templates">Jinja Templates &raquo;</a>
             
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-one-aws-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Deployment</h2>
 
-          <p><hr><br></p>
+          <p>With the routes up and tested, let&#39;s get this app deployed!</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>Follow the instructions <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html">here</a> to sign up for AWS (if necessary) and create an IAM user (again, if necessary), making sure to add the credentials to an <em>~/.aws/credentials</em> file. Then create the new host:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine create --driver amazonec2 aws
+</code></pre></div>
+<blockquote>
+<p>For more, review the <a href="https://docs.docker.com/machine/examples/aws/">Amazon Web Services (AWS) EC2 example</a> from Docker.</p>
+</blockquote>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<p>Once done, set it as the active host and point the Docker client at it:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine env aws
+$ <span class="nb">eval</span> <span class="k">$(</span>docker-machine env aws<span class="k">)</span>
+</code></pre></div>
+<p>Run the following command to view the currently running Machines:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine ls
+</code></pre></div>
+<p>Create a new compose file called <em>docker-compose-prod.yml</em> and add the contents of the other compose file minus the <code>volumes</code>.</p>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<blockquote>
+<p>What would happen if you left the volumes in?</p>
+</blockquote>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<p>Spin up the containers, create the database, seed, and run the tests:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d --build
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py <span class="nb">test</span>
+</code></pre></div>
+<p>Add port 5001 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">Security Group</a>.</p>
 
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
+<p>Grab the IP and make sure to test in the browser.</p>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+<h4 id="config"><span style="font-family:'Montserrat', 'sans-serif';">Config</span></h4>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+<p>What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml run users-service env
+</code></pre></div>
+<p>You should see the <code>APP_SETTINGS</code> variable assigned to <code>project.config.DevelopmentConfig</code>.</p>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<p>To update this, change the environment variables within <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>environment:
+  - APP_SETTINGS=project.config.ProductionConfig
+  - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
+  - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+</code></pre></div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d
+</code></pre></div>
+<p>Re-create the db and apply the seed again:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+$ docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+</code></pre></div>
+<p>Ensure the app is still running and check the environment variables again.</p>
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+<h4 id="gunicorn"><span style="font-family:'Montserrat', 'sans-serif';">Gunicorn</span></h4>
 
-<p><br></p>
+<p>To use Gunicorn, first add the dependency to the <em>requirements.txt</em> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>gunicorn==19.7.1
+</code></pre></div>
+<p>Then update <em>docker-compose-prod.yml</em> by adding a <code>command</code> key to the <code>users-service</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>command: gunicorn -b 0.0.0.0:5000 manage:app
+</code></pre></div>
+<p>This will override the <code>CMD</code> within <em>services/users/Dockerfile</em>, <code>python manage.py runserver -h 0.0.0.0</code>.</p>
 
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
+<p>Update:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d --build
+</code></pre></div>
+<blockquote>
+<p>The <code>--build</code> flag is necessary since we need to install the new dependency.</p>
+</blockquote>
 
-<p><br><hr><br></p>
+<h4 id="nginx"><span style="font-family:'Montserrat', 'sans-serif';">Nginx</span></h4>
 
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
+<p>Next, let&#39;s get Nginx up and running as a reverse proxy to the web server. Create a new folder called &quot;nginx&quot; in the project root, and then add a <em>Dockerfile</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>FROM nginx:1.13.0
 
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+RUN rm /etc/nginx/conf.d/default.conf
+ADD /flask.conf /etc/nginx/conf.d
+</code></pre></div>
+<p>Add a new config file called <em>flask.conf</em> to the &quot;nginx&quot; folder as well:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>server {
+
+    listen 80;
+
+    location / {
+        proxy_pass http://users-service:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}
+</code></pre></div>
+<p>Add an <code>nginx</code> service to the <em>docker-compose-prod.yml</em>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - 80:80
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>And remove the exposed <code>ports</code> from the users service and only expose port 5000 to other containers:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>expose:
+  - &#39;5000&#39;
+</code></pre></div>
+<p>Build the image and run the container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose -f docker-compose-prod.yml up -d --build nginx
+</code></pre></div>
+<p>Add port 80 to the Security Group on AWS. Test the site in the browser again.</p>
+
+<p>Let&#39;s update this locally as well.</p>
+
+<p>First, add nginx to the <em>docker-compose.yml</em> file:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>nginx:
+  container_name: nginx
+  build: ./nginx/
+  restart: always
+  ports:
+    - <span class="m">80</span>:80
+  depends_on:
+    users-service:
+      condition: service_started
+  links:
+    - users-service
+</code></pre></div>
+<p>Next, we need to update the active host. To check which host is currently active run:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-machine active
+aws
+</code></pre></div>
+<p>Change the active machine to <code>dev</code>:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span>docker-machine env dev<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Run the nginx container:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ docker-compose up -d --build nginx
+</code></pre></div>
+<p>Grab the IP and test it out!</p>
+
+<blockquote>
+<p>Did you notice that you can access the site locally with or without the ports - <a href="http://YOUR-IP/users">http://YOUR-IP/users</a> or <a href="http://YOUR-IP:5001/users">http://YOUR-IP:5001/users</a>. Why?</p>
+</blockquote>
 
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Deployment&amp;url=http%3A%2F%2Ftestdriven.io/part-one-aws-deployment&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-one-restful-routes">&laquo; RESTful Routes</a>
+            
+            
+              <a class="next btn right-align" href="/part-one-jinja-templates">Jinja Templates &raquo;</a>
             
           </div>
 

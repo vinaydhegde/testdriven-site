@@ -3,7 +3,7 @@
 
   <head>
   
-    <title>Test Driven Development Courses</title>
+    <title>Microservices with Docker, Flask, and React - Update Component</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="shortcut icon" type="image/png" href="/favicon.ico">
@@ -906,152 +906,246 @@
 
         <div class="col m9 hide-on-small-and-down">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Update Component</h2>
+
+          
+            <h5>Part 3, Lesson 10</h5>
+
+            <div class="page-nav">
+              
+                <a class="prev btn left-align" href="/part-three-authorization">&laquo; Authorization</a>
+              
+              
+                <a class="next btn right-align" href="/part-three-update-docker">Update Docker &raquo;</a>
+              
+            </div>
+
+            
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Update Component&amp;url=http%3A%2F%2Ftestdriven.io/part-three-update-component&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
+            <br><br>
 
           
 
 
-          <p><hr><br></p>
+          <p>In this lesson, we&#39;ll refactor the <code>UsersList</code> component to remove the add user form and display a Bootstrap-styled table of users...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>In the terminal, navigate to the <em>flask-microservices-users</em> project, activate a virtual environment, and then run the Flask server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="o">(</span>env<span class="o">)</span>$ python manage.py runserver
+</code></pre></div>
+<p>Then, in a new terminal window, navigate to the <em>flask-microservices-client</em> project, set the environment variable, and run the React app:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://127.0.0.1:5000
+$ npm start
+</code></pre></div>
+<p>Make sure all is well!</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<h4 id="remove-form"><span style="font-family:'Montserrat', 'sans-serif';">Remove Form</span></h4>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>To remove the form, update <em>UsersList.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<span class="kr">const</span> <span class="nx">UsersList</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+      <span class="p">{</span>
+        <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h4</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/strong&gt; - &lt;em&gt;{user.created_at}&lt;/em&gt;&lt;/h4&gt;</span>
+        <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
 
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
+</code></pre></div>
+<p>Update the route in the <code>App</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="p">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">UsersList</span>
+    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Make sure to remove the <code>AddUser</code> import at the top of the file, and then test it out.</p>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+<h4 id="table"><span style="font-family:'Montserrat', 'sans-serif';">Table</span></h4>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+<p>Next, let&#39;s use React-Bootstrap to add a <a href="https://react-bootstrap.github.io/components.html#tables">table</a> in the <code>UsersList</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Table</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<span class="kr">const</span> <span class="nx">UsersList</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Table</span> <span class="nx">striped</span> <span class="nx">bordered</span> <span class="nx">condensed</span> <span class="nx">hover</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">thead</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Created</span> <span class="nb">Date</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
+          <span class="o">&lt;</span><span class="err">/tr&gt;</span>
+        <span class="o">&lt;</span><span class="err">/thead&gt;</span>
+        <span class="o">&lt;</span><span class="nx">tbody</span><span class="o">&gt;</span>
+          <span class="p">{</span>
+            <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+              <span class="k">return</span> <span class="p">(</span>
+                <span class="o">&lt;</span><span class="nx">tr</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">created_at</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                <span class="o">&lt;</span><span class="err">/tr&gt;</span>
+              <span class="p">)</span>
+            <span class="p">})</span>
+          <span class="p">}</span>
+        <span class="o">&lt;</span><span class="err">/tbody&gt;</span>
+      <span class="o">&lt;</span><span class="err">/Table&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
+</code></pre></div>
+<p>That&#39;s it. Short lesson. Commit you code.</p>
 
-<p><br></p>
-
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
-
-<p><br><hr><br></p>
-
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<blockquote>
+<p>You may have noticed that we are not handling errors on the client. We&#39;ll tackle that in the part 4!</p>
+</blockquote>
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-three-authorization">&laquo; Authorization</a>
+            
+            
+              <a class="next btn right-align" href="/part-three-update-docker">Update Docker &raquo;</a>
             
           </div>
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Update Component&amp;url=http%3A%2F%2Ftestdriven.io/part-three-update-component&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
         </div>
 
         <div class="hide-on-med-and-up">
 
-          <h2>Microservices with Docker, Flask, and React</h2>
+          <h2>Update Component</h2>
 
-          <p><hr><br></p>
+          <p>In this lesson, we&#39;ll refactor the <code>UsersList</code> component to remove the add user form and display a Bootstrap-styled table of users...</p>
 
-<p>In this course, you will learn how to quickly spin up a reproducible development environment with <em>Docker</em> to manage a number of <em>microservices</em>. Once the app is up and running locally, you&#39;ll learn how to deploy it to an <em>Amazon EC2</em> instance. Finally, we&#39;ll look at scaling the services on <em>Amazon EC2 Container Service (ECS)</em>.</p>
+<hr>
 
-<p>We&#39;ll also be practicing test-driven development (TDD), writing tests first when it makes sense to do so. The focus will be on server-side unit, functional, and integration tests along with end-to-end tests to ensure the entire system works as expected.</p>
+<p>In the terminal, navigate to the <em>flask-microservices-users</em> project, activate a virtual environment, and then run the Flask server:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="o">(</span>env<span class="o">)</span>$ python manage.py runserver
+</code></pre></div>
+<p>Then, in a new terminal window, navigate to the <em>flask-microservices-client</em> project, set the environment variable, and run the React app:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ <span class="nb">export</span> <span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://127.0.0.1:5000
+$ npm start
+</code></pre></div>
+<p>Make sure all is well!</p>
 
-<div style="text-align:left;">
-  <img src="/assets/img/flask-tdd-logo-part3.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
-</div>
+<h4 id="remove-form"><span style="font-family:'Montserrat', 'sans-serif';">Remove Form</span></h4>
 
-<p><a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<p>To remove the form, update <em>UsersList.jsx</em>:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
-<h4 id="structure"><span style="font-family:'Montserrat', 'sans-serif';">Structure</span></h4>
+<span class="kr">const</span> <span class="nx">UsersList</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+      <span class="p">{</span>
+        <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h4</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;well&quot;</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/strong&gt; - &lt;em&gt;{user.created_at}&lt;/em&gt;&lt;/h4&gt;</span>
+        <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
 
-<ol>
-<li><em>flask-microservices-main</em> - Docker Compose files, Nginx, admin scripts</li>
-<li><em>flask-microservices-users</em> - Flask app for managing users and auth</li>
-<li><em>flask-microservices-client</em> - client-side, React app</li>
-<li><em>flask-microservices-swagger</em> - Swagger API docs</li>
-<li><em>flask-microservices-eval</em> - Flask app for managing user scores and exercises</li>
-</ol>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
+</code></pre></div>
+<p>Update the route in the <code>App</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">&#39;/&#39;</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="p">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">UsersList</span>
+    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
+  <span class="o">/&gt;</span>
+<span class="p">)}</span> <span class="o">/&gt;</span>
+</code></pre></div>
+<p>Make sure to remove the <code>AddUser</code> import at the top of the file, and then test it out.</p>
 
-<h4 id="app"><span style="font-family:'Montserrat', 'sans-serif';">App</span></h4>
+<h4 id="table"><span style="font-family:'Montserrat', 'sans-serif';">Table</span></h4>
 
-<div style="text-align:left;">
-  <img src="/assets/img/testdriven-architecture-part6.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
-</div>
+<p>Next, let&#39;s use React-Bootstrap to add a <a href="https://react-bootstrap.github.io/components.html#tables">table</a> in the <code>UsersList</code> component:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Table</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;react-bootstrap&#39;</span><span class="p">;</span>
 
-<p>Check out the live app, running on multiple EC2 instances -</p>
+<span class="kr">const</span> <span class="nx">UsersList</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
+      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Table</span> <span class="nx">striped</span> <span class="nx">bordered</span> <span class="nx">condensed</span> <span class="nx">hover</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">thead</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Created</span> <span class="nb">Date</span><span class="o">&lt;</span><span class="err">/th&gt;</span>
+          <span class="o">&lt;</span><span class="err">/tr&gt;</span>
+        <span class="o">&lt;</span><span class="err">/thead&gt;</span>
+        <span class="o">&lt;</span><span class="nx">tbody</span><span class="o">&gt;</span>
+          <span class="p">{</span>
+            <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+              <span class="k">return</span> <span class="p">(</span>
+                <span class="o">&lt;</span><span class="nx">tr</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">created_at</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                <span class="o">&lt;</span><span class="err">/tr&gt;</span>
+              <span class="p">)</span>
+            <span class="p">})</span>
+          <span class="p">}</span>
+        <span class="o">&lt;</span><span class="err">/tbody&gt;</span>
+      <span class="o">&lt;</span><span class="err">/Table&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
 
-<ol>
-<li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-<li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
-</ol>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
+</code></pre></div>
+<p>That&#39;s it. Short lesson. Commit you code.</p>
 
-<p><br></p>
-
-<div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
-</div>
-
-<p><br><hr><br></p>
-
-<p><em>Join our mailing list to be notified when version 2 is released.</em></p>
-
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
-</form>
+<blockquote>
+<p>You may have noticed that we are not handling errors on the client. We&#39;ll tackle that in the part 4!</p>
+</blockquote>
 
 
           
+  <br>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Update Component&amp;url=http%3A%2F%2Ftestdriven.io/part-three-update-component&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
           <div class="page-nav">
             
+              <a class="prev btn left-align" href="/part-three-authorization">&laquo; Authorization</a>
+            
+            
+              <a class="next btn right-align" href="/part-three-update-docker">Update Docker &raquo;</a>
             
           </div>
 
