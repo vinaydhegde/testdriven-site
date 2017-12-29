@@ -10,4 +10,4 @@ env:
 
 script:
   - bundle exec jekyll build
-  - bundle exec htmlproofer ./_site --url-ignore "#,/talks,/about" --only-4xx
+  - bundle exec htmlproofer ./docs --only-4xx --url-ignore "#"
