@@ -357,6 +357,6 @@ Run the tests again!
 1. Do they pass?
 1. Are they faster? (0.371s vs 4.322s on my end)
 
-> Need help deciding how many rounds to use in production? Check out [this]((https://security.stackexchange.com/questions/17207/recommended-of-rounds-for-bcrypt)) Stack Exchange article.
+> Need help deciding how many rounds to use in production? Check out [this](https://security.stackexchange.com/questions/17207/recommended-of-rounds-for-bcrypt) Stack Exchange article.
 
 With that, let's get JWT up and running...

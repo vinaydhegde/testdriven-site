@@ -37,7 +37,7 @@ Check out the live app, running on multiple EC2 instances -
 <br>
 
 <div class="center-align">
-  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="/part-one-intro/">Ready to Begin?</a>
+  <a class="waves-effect waves-light red darken-1 center-align btn-large" href="{{ site.url }}/part-one-intro">Ready to Begin?</a>
 </div>
 
 

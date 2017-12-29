@@ -9,7 +9,7 @@ lesson: 4
 share: true
 ---
 
-In this lesson, we'll add continuous integration (CI), via [Travis CI](travis-ci.org), to our projects...
+In this lesson, we'll add continuous integration (CI), via [Travis CI](http://travis-ci.org), to our projects...
 
 ---
 
