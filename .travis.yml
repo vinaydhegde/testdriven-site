@@ -11,3 +11,7 @@ env:
 script:
   - bundle exec jekyll build
   - bundle exec htmlproofer ./docs --only-4xx --url-ignore "#"
+
+branches:
+  only:
+  - backup

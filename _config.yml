@@ -11,3 +11,4 @@ baseurl: ""
 url: "https://testdriven.io"
 twitter: testdrivenio
 destination: docs
+source: src
