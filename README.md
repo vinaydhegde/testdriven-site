@@ -1,6 +1,6 @@
 # testdriven.io
 
-[![Build Status](https://travis-ci.org/realpython/test-driven.svg?branch=backup)](https://travis-ci.org/realpython/test-driven)
+[![Build Status](https://travis-ci.org/mjhea0/test-driven.svg?branch=backup)](https://travis-ci.org/mjhea0/test-driven)
 
 ### Run locally
 
