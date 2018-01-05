@@ -1,6 +1,6 @@
 # testdriven.io
 
-[![Build Status](https://travis-ci.org/testdrivenio/test-driven.svg?branch=backup)](https://travis-ci.org/testdrivenio/test-driven)
+[![Build Status](https://travis-ci.org/testdrivenio/testdriven-site.svg?branch=backup)](https://travis-ci.org/testdrivenio/testdriven-site)
 
 ### Run locally
 
@@ -26,5 +26,5 @@ $ bundle exec jekyll serve
 1. If travis build passes, deploy:
 
   ```sh
-  $ git subtree push --prefix _site origin master
+  $ git push origin master
   ```
