@@ -151,7 +151,7 @@ test('UsersList renders properly', () => {
 
 #### Add table
 
-Next, let's use React-Bootstrap to add a [table](https://react-bootstrap.github.io/components.html#tables) to the `UsersList` component:
+Next, let's use React-Bootstrap to add a [table](https://react-bootstrap.github.io/components/table/) to the `UsersList` component:
 
 ```javascript
 import React from 'react';
