@@ -10,13 +10,21 @@ $ bundle exec jekyll serve
 
 ### Deploy
 
-```sh
-# generate build locally
-$ JEKYLL_ENV=production bundle exec jekyll build
+1. Generate build:
 
-# commit and push to 'backup' branch
-$ git push origin master:backup
+  ```sh
+  # generate build locally
+  $ JEKYLL_ENV=production bundle exec jekyll build
+  ```
 
-# if travis build passes, deploy
-$ git subtree push --prefix _site origin master
-```
+1. Commit your code, and then push to `backup` branch:
+
+  ```sh
+  $ git push origin master:backup
+  ```
+
+1. If travis build passes, deploy:
+
+  ```sh
+  $ git subtree push --prefix _site origin master
+  ```

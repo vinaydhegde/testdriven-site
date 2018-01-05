@@ -17,6 +17,10 @@ main {
   flex: 1 0 auto;
 }
 
+li, h2, h3, h4, h5, .page-nav, .btn, .btn-large {
+  font-family: "Montserrat",sans-serif;
+}
+
 .break {
   padding-top: 30px;
   border-bottom: 2px solid black;
@@ -42,10 +46,6 @@ main {
 
 .nav-logo {
   height: 1.8rem;
-}
-
-li, h2, h5, .page-nav, .btn, .btn-large {
-  font-family: "Montserrat",sans-serif;
 }
 
 table {
