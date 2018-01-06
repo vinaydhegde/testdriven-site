@@ -26,5 +26,5 @@ $ bundle exec jekyll serve
 1. If travis build passes, deploy:
 
   ```sh
-  $ git push origin master
+  $ git subtree push --prefix docs origin master
   ```
