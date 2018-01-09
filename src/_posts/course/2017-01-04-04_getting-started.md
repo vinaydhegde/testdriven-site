@@ -50,7 +50,7 @@ Next, let's configure [Flask Script](https://flask-script.readthedocs.io/en/late
 (env)$ pip install flask-script==2.0.5
 ```
 
-> Since Flask Script is [depreciated](https://github.com/smurfix/flask-script/issues/172), you are more than welcome to use the [Flask CLI](http://flask.pocoo.org/docs/0.12/cli/) in its place. Review the following [article](https://stackoverflow.com/questions/42754341/use-flasks-click-cli-with-the-app-factory-pattern) for more info.
+> Since Flask Script is [deprecated](https://github.com/smurfix/flask-script/issues/172), you are more than welcome to use the [Flask CLI](http://flask.pocoo.org/docs/0.12/cli/) in its place. Review the following [article](https://stackoverflow.com/questions/42754341/use-flasks-click-cli-with-the-app-factory-pattern) for more info.
 
 Add a *manage.py* file to the "users-service" directory:
 
@@ -152,7 +152,7 @@ $ python manage.py runserver
 Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a *requirements.txt* file to the "users-service" directory:
 
 ```
-Flask==0.12.1
+Flask==0.12.2
 Flask-Script==2.0.5
 ```
 
