@@ -115,7 +115,7 @@ In part 7, we'll refactor the *AWS Lambda* function to make it dynamic so it can
 
 *Join our mailing list to be notified about updates and new releases.*
 
-<form action="//RealPython.us5.list-manage.com/subscribe/post?u=9fd10a451eec3ca6b2855ab2c&amp;id=801201b3a9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+<form action="//testdriven.us17.list-manage.com/subscribe/post?u=bea5ac664532063fe8aa8d6a2&amp;id=eddaf58c2a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 <div class="row">
 <div class="input-field col s6">
 <input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
