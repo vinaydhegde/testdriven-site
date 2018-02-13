@@ -9,7 +9,7 @@ share: true
 type: course
 ---
 
-In this lesson, we'll add code coverage via [Coverage.py](http://coverage.readthedocs.io/en/coverage-4.4.1/) to the project...
+In this lesson, we'll add code coverage via [Coverage.py](http://coverage.readthedocs.io) to the project...
 
 ---
 

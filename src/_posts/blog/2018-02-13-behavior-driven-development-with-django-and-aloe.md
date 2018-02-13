@@ -6,7 +6,7 @@ toc: true
 permalink: behavior-driven-development-with-django-and-aloe
 type: blog
 author: Jason Parent
-date: 2018-02-12
+date: 2018-02-13
 ---
 
 Imagine you are a Django developer building a social network for a lean startup. The CEO is pressuring your team for an MVP. The engineers have agreed to build the product using [behavior-driven development](https://en.wikipedia.org/wiki/Behavior-driven_development) (BDD) to deliver fast and efficient results. The product owner gives you the first feature request, and following the practice of all good programming methodologies, you begin the BDD process by writing a test. Next you code a bit of functionality to make your test pass and you consider your design. The last step requires you to analyze the feature itself. Does it belong in your app?
