@@ -53,10 +53,6 @@ Want to build this project as you read the post?
 
 Just looking for the code? Grab it from the [repo](https://github.com/testdrivenio/django-aloe-bdd).
 
-## Brief Overview of BDD
-
-Behavior-driven development is...
-
 ## Your First Feature Request
 
 "Users should be able to log into the app and see a list of their friends."
