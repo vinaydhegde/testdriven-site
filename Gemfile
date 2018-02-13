@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'github-pages'
+gem 'jekyll'
 gem 'html-proofer'
-gem 'redcarpet'
-gem 'pygments.rb'
+gem 'kramdown'
+gem 'rouge'

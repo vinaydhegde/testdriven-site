@@ -1,11 +1,12 @@
 ---
-title: React Authentication - part one
-layout: post
+title: React Auth - part one
+layout: course
 permalink: part-three-react-auth-one
 intro: false
 part: 3
 lesson: 8
 share: true
+type: course
 ---
 
 Moving right along, let's add some methods to handle a user signing up, logging in, and logging out...

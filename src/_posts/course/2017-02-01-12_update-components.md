@@ -1,18 +1,19 @@
 ---
 title: Update Component
-layout: post
+layout: course
 permalink: part-three-update-component
 intro: false
 part: 3
 lesson: 12
 share: true
+type: course
 ---
 
 In this lesson, we'll refactor the `UsersList` and `UserStatus` components...
 
 ---
 
-### Docker Machine
+## Docker Machine
 
 Set `testdriven-dev` as the active Docker Machine:
 
@@ -34,11 +35,11 @@ $ docker-compose -f docker-compose-dev.yml \
   run client npm test -- --verbose
 ```
 
-### UsersList
+## UsersList
 
 Let's remove the add user form and display a Bootstrap-styled table of users...
 
-#### Remove the form
+### Remove the form
 
 To remove the form, update *UsersList.jsx*:
 
@@ -149,7 +150,7 @@ test('UsersList renders properly', () => {
 });
 ```
 
-#### Add table
+### Add table
 
 Next, let's use React-Bootstrap to add a [table](https://react-bootstrap.github.io/components/table/) to the `UsersList` component:
 
@@ -270,7 +271,7 @@ Time:        5.178s, estimated 10s
 Ran all test suites.
 ```
 
-### UserStatus
+## UserStatus
 
 Next, let's add the `active` and `admin` properties to the `UserStatus` component:
 

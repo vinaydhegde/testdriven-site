@@ -1,11 +1,12 @@
 ---
 title: Code Coverage and Quality
-layout: post
+layout: course
 permalink: part-two-code-coverage-and-quality
 intro: false
 part: 2
 lesson: 2
 share: true
+type: course
 ---
 
 In this lesson, we'll add code coverage via [Coverage.py](http://coverage.readthedocs.io/en/coverage-4.4.1/) to the project...
@@ -32,7 +33,7 @@ $ docker-compose -f docker-compose-dev.yml \
   run users-service python manage.py test
 ```
 
-### Code Coverage
+## Code Coverage
 
 [Code coverage](https://en.wikipedia.org/wiki/Code_coverage) is the process of finding areas of your code not exercised by tests. Keep in mind that this does not measure the overall effectiveness of the test suite.
 
@@ -111,9 +112,9 @@ The HTML version can be viewed within the newly created "htmlcov" directory. Now
 
 Add this directory to the *.gitignore* file.
 
-### Code Quality
+## Code Quality
 
-[Liniting](https://stackoverflow.com/a/8503586/1799408) is the process of checking your code for stylistic or programming errors. Although there are a [number](https://stackoverflow.com/a/7925369/1799408) of commonly used linters for Python, we'll use [Flake8](https://gitlab.com/pycqa/flake8) since it combines two other popular linters - [pep8](https://pypi.python.org/pypi/pep8) and [pyflakes](https://pypi.python.org/pypi/pyflakes).
+[Linting](https://stackoverflow.com/a/8503586/1799408) is the process of checking your code for stylistic or programming errors. Although there are a [number](https://stackoverflow.com/a/7925369/1799408) of commonly used linters for Python, we'll use [Flake8](https://gitlab.com/pycqa/flake8) since it combines two other popular linters - [pep8](https://pypi.python.org/pypi/pep8) and [pyflakes](https://pypi.python.org/pypi/pyflakes).
 
 Add flake8 to the *requirements.txt* file in the "users-service" directory:
 

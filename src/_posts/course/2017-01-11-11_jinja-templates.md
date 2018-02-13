@@ -1,11 +1,12 @@
 ---
 title: Jinja Templates
-layout: post
+layout: course
 permalink: part-one-jinja-templates
 intro: false
 part: 1
 lesson: 11
 share: true
+type: course
 ---
 
 Instead of just serving up a JSON API, let's spice it up with server-side templates...

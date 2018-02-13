@@ -1,11 +1,12 @@
 ---
 title: App Overview
-layout: post
+layout: course
 permalink: part-one-app-overview
 intro: false
 part: 1
 lesson: 3
 share: true
+type: course
 ---
 
 What are we building?

@@ -1,18 +1,19 @@
 ---
 title: React Bootstrap
-layout: post
+layout: course
 permalink: part-three-react-bootstrap
 intro: false
 part: 3
 lesson: 7
 share: true
+type: course
 ---
 
 In this lesson, we'll add a Navbar and a form component with React Bootstrap to set the stage for adding in full auth...
 
 ---
 
-### Setup
+## Setup
 
 Add [React Bootstrap](https://github.com/react-bootstrap/react-bootstrap) and [React Router Boostrap](https://github.com/react-bootstrap/react-router-bootstrap) to the *package.json* file:
 
@@ -39,7 +40,7 @@ For each component, we'll roughly follow these steps:
 1. Ensure the unit tests pass
 1. Write a snapshot test
 
-### Navbar
+## Navbar
 
 Create two new files in "src/components":
 
@@ -198,7 +199,7 @@ Here, we used the [MemoryRouter](https://reacttraining.com/react-router/core/api
 
 > Review the official [Testing guide](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/testing.md) for more info.
 
-### Form
+## Form
 
 Instead of using two different components to handle user registration and login, let's create a generic form component and customize it based on the state.
 
@@ -376,11 +377,11 @@ Time:        2.761s, estimated 7s
 Ran all test suites.
 ```
 
-### Refactor
+## Refactor
 
 Before moving on, let's do two quick refactors...
 
-#### Form tests
+### Form tests
 
 This code is not DRY. It may be fine for the two forms we have now, but what if we had 20? Re-write this on your own before reviewing the solution.
 
@@ -459,7 +460,7 @@ Snapshot Summary
 
 If you see that message, immediately revert your code back, take a new snapshot, and then start the refactor over again.
 
-#### Test directory
+### Test directory
 
 Next, it's getting crowded in the "components" directory. Create a new directory within it called "\_\_tests\_\_", and move all of the **.test.js* files into it:
 

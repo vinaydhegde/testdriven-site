@@ -2,540 +2,622 @@
 <html>
 
   <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
   
     <title>Microservices with Docker, Flask, and React - Getting Started</title>
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="shortcut icon" type="image/png" href="/favicon.png">
-  <link
-    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
-  >
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-  >
-  <link
-    rel="stylesheet"
-    href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-  >
-  <link
-    href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic"
-    rel="stylesheet"
-    type="text/css"
-  >
-  <link
-    href="//fonts.googleapis.com/css?family=Lato:900,300"
-    rel="stylesheet"
-    type="text/css"
-  >
-  <link
-    href="https://fonts.googleapis.com/css?family=Montserrat"
-    rel="stylesheet"
-    type="text/css"
-  >
+  <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
+  <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
   <link
     href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
     rel="stylesheet"
     type="text/css"
   >
-  <link href="/assets/css/styles.css?1518143918283921000" rel="stylesheet">
-  <script
-    src="//code.jquery.com/jquery-2.2.4.min.js"
-    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-    crossorigin="anonymous"
-  ></script>
-  <script
-    type="text/javascript"
-    src="/assets/js/main.js"
-  ></script>
-  <script
-    type="text/javascript"
-    src="https://gumroad.com/js/gumroad.js"
-  ></script>
+  <link href="/assets/css/new.css?1518490251505313000" rel="stylesheet">
 </head>
 
 
   <body>
 
-    <nav class="indigo darken-4">
-  <div class="nav-wrapper">
-    <a href="/" class="nav-logo-container left">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
       <img
         class="nav-logo" src="/assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io"
       />
     </a>
-    <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
-      Test Driven Development Courses
-    </a>
-    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
-      TDD Courses
-    </a> -->
-    <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
-    <ul class="right hide-on-med-and-down">
-      <li><a href="/">Course</a></li>
-      <li><a href="/course-contents">Contents</a></li>
-      <li><a href="/testimonials">Testimonials</a></li>
-    </ul>
-    <ul class="side-nav" id="mobile-demo">
-      <li><a href="/">Home</a></li>
-      <li><a href="/">Course</a></li>
-      <li><a href="/course-contents">Contents</a></li>
-      <li><a href="/testimonials">Testimonials</a></li>
-    </ul>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Course</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/course-contents">Contents</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/testimonials">Testimonials</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item">
+        <a class="nav-link" href="https://twitter.com/testdrivenio"><i class="fab fa-twitter"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/testdrivenio"><i class="fab fa-github"></i></a>
+      </li>
+      <li class="nav-item nav-purcahse-btn">
+        <a class="btn btn-outline-warning" href="https://gum.co/flask">Purchase the Course</a>
+      </li>
+  </ul>
   </div>
 </nav>
 
 
-    <br>
-
     <div class="container">
       <div class="row">
 
-        <div class="col m3 hide-on-small-and-down">
-  <br>
-  <div id="toc-block" class="collection hide-on-small-and-down">
+        <div class="col-sm-3 d-none d-md-block">
+  <div id="toc-block" class="collection card">
     <ul class="collapsible collapsible-accordion">
       
         
-          <li>
-            <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
-              Part 1
-            </h5>
-            <div class="collapsible-body">
+          
+            <li>
+              <br>
+              <h5 data-part="1">
+                Part 1
+              </h5>
+              <div class="collapsible-body">
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>1.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-intro">
+                  Introduction
+                </a>
+              </span>
+            </li>
+          </ul>
         
-        <ul>
-          <li class="collection-li">
-            <span>1.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-intro">
-                Introduction
-              </a>
-            </span>
-          </li>
-        </ul>
       
         
-        <ul>
-          <li class="collection-li">
-            <span>2.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-microservices">
-                Microservices
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>2.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-microservices">
+                  Microservices
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>3.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-app-overview">
-                App Overview
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>3.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-app-overview">
+                  App Overview
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>4.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-getting-started">
-                Getting Started
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>4.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-getting-started">
+                  Getting Started
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>5.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-docker-config">
-                Docker Config
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-docker-config">
+                  Docker Config
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>6.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-postgres-setup">
-                Postgres Setup
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>6.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-postgres-setup">
+                  Postgres Setup
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>7.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-test-setup">
-                Test Setup
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>7.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-test-setup">
+                  Test Setup
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>8.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-flask-blueprints">
-                Flask Blueprints
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>8.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-flask-blueprints">
+                  Flask Blueprints
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>9.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-restful-routes">
-                RESTful Routes
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>9.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-restful-routes">
+                  RESTful Routes
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>10.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-deployment">
-                Deployment
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-deployment">
+                  Deployment
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>11.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-jinja-templates">
-                Jinja Templates
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>11.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-jinja-templates">
+                  Jinja Templates
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>12.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-workflow">
-                Workflow
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>12.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-workflow">
+                  Workflow
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-          <li>
-            <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
-              Part 2
-            </h5>
-            <div class="collapsible-body">
+          
+            <li>
+              <br>
+              <h5 data-part="2">
+                Part 2
+              </h5>
+              <div class="collapsible-body">
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>1.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-intro">
+                  Introduction
+                </a>
+              </span>
+            </li>
+          </ul>
         
-        <ul>
-          <li class="collection-li">
-            <span>1.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-intro">
-                Introduction
-              </a>
-            </span>
-          </li>
-        </ul>
       
         
-        <ul>
-          <li class="collection-li">
-            <span>2.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-code-coverage-and-quality">
-                Code Coverage and Quality
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>2.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-code-coverage-and-quality">
+                  Code Coverage and Quality
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>3.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-continuous-integration">
-                Continuous Integration
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>3.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-continuous-integration">
+                  Continuous Integration
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>4.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-react-setup">
-                React Setup
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>4.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-react-setup">
+                  React Setup
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>5.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-testing-react">
-                Testing React
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-testing-react">
+                  Testing React
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>6.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-react-forms">
-                React Forms
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>6.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-react-forms">
+                  React Forms
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>7.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-react-and-docker">
-                React and Docker
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>7.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-react-and-docker">
+                  React and Docker
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>8.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-next-steps">
-                Next Steps
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>8.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-next-steps">
+                  Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-          <li>
-            <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
-              Part 3
-            </h5>
-            <div class="collapsible-body">
+          
+            <li>
+              <br>
+              <h5 data-part="3">
+                Part 3
+              </h5>
+              <div class="collapsible-body">
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>1.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-into">
+                  Introduction
+                </a>
+              </span>
+            </li>
+          </ul>
         
-        <ul>
-          <li class="collection-li">
-            <span>1.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-into">
-                Introduction
-              </a>
-            </span>
-          </li>
-        </ul>
       
         
-        <ul>
-          <li class="collection-li">
-            <span>2.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-flask-migrate">
-                Flask Migrate
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>2.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-flask-migrate">
+                  Flask Migrate
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>3.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-flask-bcrypt">
-                Flask Bcrypt
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>3.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-flask-bcrypt">
+                  Flask Bcrypt
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>4.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-jwt-setup">
-                JWT Setup
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>4.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-jwt-setup">
+                  JWT Setup
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>5.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-auth-routes">
-                Auth Routes
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-auth-routes">
+                  Auth Routes
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>6.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-react-router">
-                React Router
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>6.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-react-router">
+                  React Router
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>7.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-react-bootstrap">
-                React Bootstrap
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>7.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-react-bootstrap">
+                  React Bootstrap
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>8.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-react-auth-one">
-                React Authentication - part one
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>8.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-react-auth-one">
+                  React Auth - part one
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>9.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-mocking-user-interaction">
-                Mocking User Interaction
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>9.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-mocking-user-interaction">
+                  Mocking User Interaction
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>10.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-react-auth-two">
-                React Authentication - part two
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-react-auth-two">
+                  React Auth - part two
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>11.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-authorization">
-                Authorization
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>11.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-authorization">
+                  Authorization
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>12.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-update-component">
-                Update Component
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>12.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-update-component">
+                  Update Component
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>13.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-update-docker">
-                Update Docker
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-update-docker">
+                  Update Docker
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
     </div>
-  </li>
+    <br>
+    </li>
     </ul>
   </div>
 </div>
 
 
-        <div class="col m9 hide-on-small-and-down">
+        <div class="col-md-9">
 
-          <h2>Getting Started</h2>
+          <h1>Getting Started</h1>
 
           
+
             <h5>Part 1, Lesson 4</h5>
 
             <div class="page-nav">
+              <br>
               
-                <a class="prev btn left-align" href="https://testdriven.io/part-one-app-overview">&laquo; App Overview</a>
+                <a class="btn btn-outline-success" href="http://localhost:4000/part-one-app-overview">&laquo; App Overview</a>
               
               
-                <a class="next btn right-align" href="https://testdriven.io/part-one-docker-config">Docker Config &raquo;</a>
+                <a class="btn btn-outline-success" href="http://localhost:4000/part-one-docker-config">Docker Config &raquo;</a>
               
             </div>
 
             
   <br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Getting Started&amp;url=https%3A%2F%2Ftestdriven.io/part-one-getting-started&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Getting Started&amp;url=http%3A%2F%2Flocalhost%3A4000/part-one-getting-started&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
@@ -543,45 +625,52 @@
 
           
 
-          <p>In this lesson, we&#39;ll set up the base project structure and define the first service...</p>
+          <p>In this lesson, we’ll set up the base project structure and define the first service…</p>
 
-<hr>
+<hr />
 
 <p>Create a new project and install Flask:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ mkdir testdriven-app <span class="o">&amp;&amp;</span> <span class="nb">cd</span> testdriven-app
-$ mkdir users-service <span class="o">&amp;&amp;</span> <span class="nb">cd</span> users-service
-$ mkdir project
-$ python3.6 -m venv env
-$ <span class="nb">source</span> env/bin/activate
-<span class="o">(</span>env<span class="o">)</span>$ pip install <span class="nv">flask</span><span class="o">==</span><span class="m">0</span>.12.2
-</code></pre></div>
-<p>Add an <em>__init__.py</em> file to the &quot;project&quot; directory and configure the first route:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># users-service/project/__init__.py</span>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">mkdir </span>testdriven-app <span class="o">&amp;&amp;</span> <span class="nb">cd </span>testdriven-app
+<span class="nv">$ </span><span class="nb">mkdir </span>users-service <span class="o">&amp;&amp;</span> <span class="nb">cd </span>users-service
+<span class="nv">$ </span><span class="nb">mkdir </span>project
+<span class="nv">$ </span>python3.6 <span class="nt">-m</span> venv <span class="nb">env</span>
+<span class="nv">$ </span><span class="nb">source env</span>/bin/activate
+<span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>pip <span class="nb">install </span><span class="nv">flask</span><span class="o">==</span>0.12.2
+</code></pre></div></div>
+
+<p>Add an <em>__init__.py</em> file to the “project” directory and configure the first route:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/__init__.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
 
 
-<span class="c1"># instantiate the app</span>
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="c"># instantiate the app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 
-<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/users/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">'/users/ping'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'GET'</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
-        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;pong!&#39;</span>
+        <span class="s">'status'</span><span class="p">:</span> <span class="s">'success'</span><span class="p">,</span>
+        <span class="s">'message'</span><span class="p">:</span> <span class="s">'pong!'</span>
     <span class="p">})</span>
-</code></pre></div>
-<p>Next, let&#39;s configure <a href="https://flask-script.readthedocs.io/en/latest/">Flask Script</a> to run and manage the app from the command line:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="o">(</span>env<span class="o">)</span>$ pip install flask-script<span class="o">==</span><span class="m">2</span>.0.5
-</code></pre></div>
+</code></pre></div></div>
+
+<p>Next, let’s configure <a href="https://flask-script.readthedocs.io/en/latest/">Flask Script</a> to run and manage the app from the command line:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>pip <span class="nb">install </span>flask-script<span class="o">==</span>2.0.5
+</code></pre></div></div>
+
 <blockquote>
-<p>Since Flask Script is <a href="https://github.com/smurfix/flask-script/issues/172">deprecated</a>, you are more than welcome to use the <a href="http://flask.pocoo.org/docs/0.12/cli/">Flask CLI</a> in its place. Review the following <a href="https://stackoverflow.com/questions/42754341/use-flasks-click-cli-with-the-app-factory-pattern">article</a> for more info.</p>
+  <p>Since Flask Script is <a href="https://github.com/smurfix/flask-script/issues/172">deprecated</a>, you are more than welcome to use the <a href="http://flask.pocoo.org/docs/0.12/cli/">Flask CLI</a> in its place. Review the following <a href="https://stackoverflow.com/questions/42754341/use-flasks-click-cli-with-the-app-factory-pattern">article</a> for more info.</p>
 </blockquote>
 
-<p>Add a <em>manage.py</em> file to the &quot;users-service&quot; directory:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># users-service/manage.py</span>
+<p>Add a <em>manage.py</em> file to the “users-service” directory:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/manage.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
@@ -592,300 +681,163 @@ $ <span class="nb">source</span> env/bin/activate
 <span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
     <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</code></pre></div>
-<p>Here, we created a new <code>Manager</code> instance to handle all of the manager commands from the command line.</p>
+</code></pre></div></div>
+
+<p>Here, we created a new <code class="highlighter-rouge">Manager</code> instance to handle all of the manager commands from the command line.</p>
 
 <p>Run the server:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="o">(</span>env<span class="o">)</span>$ python manage.py runserver
-</code></pre></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py runserver
+</code></pre></div></div>
+
 <p>Navigate to <a href="http://localhost:5000/users/ping">http://localhost:5000/users/ping</a> in your browser. You should see:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;pong!&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Kill the server and add a new file called <em>config.py</em> to the &quot;project&quot; directory:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># users-service/project/config.py</span>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pong!"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Kill the server and add a new file called <em>config.py</em> to the “project” directory:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/config.py</span>
 
 
 <span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Base configuration&quot;&quot;&quot;</span>
+    <span class="s">"""Base configuration"""</span>
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
 
 
 <span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Development configuration&quot;&quot;&quot;</span>
+    <span class="s">"""Development configuration"""</span>
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
 
 
 <span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Testing configuration&quot;&quot;&quot;</span>
+    <span class="s">"""Testing configuration"""</span>
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
 
 
 <span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Production configuration&quot;&quot;&quot;</span>
+    <span class="s">"""Production configuration"""</span>
     <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
-</code></pre></div>
+</code></pre></div></div>
+
 <p>Update <em>__init__.py</em> to pull in the dev config on init:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># users-service/project/__init__.py</span>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/__init__.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
 
 
-<span class="c1"># instantiate the app</span>
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="c"># instantiate the app</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
-<span class="c1"># set config</span>
-<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s1">&#39;project.config.DevelopmentConfig&#39;</span><span class="p">)</span>
+<span class="c"># set config</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">'project.config.DevelopmentConfig'</span><span class="p">)</span>
 
 
-<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/users/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">'/users/ping'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'GET'</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
-        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;pong!&#39;</span>
+        <span class="s">'status'</span><span class="p">:</span> <span class="s">'success'</span><span class="p">,</span>
+        <span class="s">'message'</span><span class="p">:</span> <span class="s">'pong!'</span>
     <span class="p">})</span>
-</code></pre></div>
+</code></pre></div></div>
+
 <p>Run the app again. This time, <a href="http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode">debug mode</a> should be on:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ python manage.py runserver
- * Running on http://127.0.0.1:5000/ <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: <span class="m">107</span>-952-069
-</code></pre></div>
-<p>Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a <em>requirements.txt</em> file to the &quot;users-service&quot; directory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Flask==0.12.2
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python manage.py runserver
+ <span class="k">*</span> Running on http://127.0.0.1:5000/ <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
+ <span class="k">*</span> Restarting with <span class="nb">stat</span>
+ <span class="k">*</span> Debugger is active!
+ <span class="k">*</span> Debugger PIN: 107-952-069
+</code></pre></div></div>
+
+<p>Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a <em>requirements.txt</em> file to the “users-service” directory:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Flask==0.12.2
 Flask-Script==2.0.5
-</code></pre></div>
+</code></pre></div></div>
+
 <p>Finally, add a <em>.gitignore</em>, to the project root:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>__pycache__
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>__pycache__
 env
-</code></pre></div>
-<p>Init a git repo and commit your code to GitHub.</p>
+</code></pre></div></div>
 
-
-          <div class="page-nav">
-            
-              <a class="prev btn left-align" href="https://testdriven.io/part-one-app-overview">&laquo; App Overview</a>
-            
-            
-              <a class="next btn right-align" href="https://testdriven.io/part-one-docker-config">Docker Config &raquo;</a>
-            
-          </div>
-
-          
-  <br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Getting Started&amp;url=https%3A%2F%2Ftestdriven.io/part-one-getting-started&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-
-        </div>
-
-        <div class="hide-on-med-and-up">
-
-          <h2>Getting Started</h2>
-
-          <p>In this lesson, we&#39;ll set up the base project structure and define the first service...</p>
-
-<hr>
-
-<p>Create a new project and install Flask:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ mkdir testdriven-app <span class="o">&amp;&amp;</span> <span class="nb">cd</span> testdriven-app
-$ mkdir users-service <span class="o">&amp;&amp;</span> <span class="nb">cd</span> users-service
-$ mkdir project
-$ python3.6 -m venv env
-$ <span class="nb">source</span> env/bin/activate
-<span class="o">(</span>env<span class="o">)</span>$ pip install <span class="nv">flask</span><span class="o">==</span><span class="m">0</span>.12.2
-</code></pre></div>
-<p>Add an <em>__init__.py</em> file to the &quot;project&quot; directory and configure the first route:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># users-service/project/__init__.py</span>
-
-
-<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
-
-
-<span class="c1"># instantiate the app</span>
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-
-<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/users/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
-        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;pong!&#39;</span>
-    <span class="p">})</span>
-</code></pre></div>
-<p>Next, let&#39;s configure <a href="https://flask-script.readthedocs.io/en/latest/">Flask Script</a> to run and manage the app from the command line:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="o">(</span>env<span class="o">)</span>$ pip install flask-script<span class="o">==</span><span class="m">2</span>.0.5
-</code></pre></div>
-<blockquote>
-<p>Since Flask Script is <a href="https://github.com/smurfix/flask-script/issues/172">deprecated</a>, you are more than welcome to use the <a href="http://flask.pocoo.org/docs/0.12/cli/">Flask CLI</a> in its place. Review the following <a href="https://stackoverflow.com/questions/42754341/use-flasks-click-cli-with-the-app-factory-pattern">article</a> for more info.</p>
-</blockquote>
-
-<p>Add a <em>manage.py</em> file to the &quot;users-service&quot; directory:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># users-service/manage.py</span>
-
-
-<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
-
-<span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span>
-
-
-<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-</code></pre></div>
-<p>Here, we created a new <code>Manager</code> instance to handle all of the manager commands from the command line.</p>
-
-<p>Run the server:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span><span class="o">(</span>env<span class="o">)</span>$ python manage.py runserver
-</code></pre></div>
-<p>Navigate to <a href="http://localhost:5000/users/ping">http://localhost:5000/users/ping</a> in your browser. You should see:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;pong!&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Kill the server and add a new file called <em>config.py</em> to the &quot;project&quot; directory:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># users-service/project/config.py</span>
-
-
-<span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Base configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
-
-
-<span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Development configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
-
-
-<span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Testing configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
-
-
-<span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Production configuration&quot;&quot;&quot;</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
-</code></pre></div>
-<p>Update <em>__init__.py</em> to pull in the dev config on init:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="c1"># users-service/project/__init__.py</span>
-
-
-<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
-
-
-<span class="c1"># instantiate the app</span>
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-<span class="c1"># set config</span>
-<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s1">&#39;project.config.DevelopmentConfig&#39;</span><span class="p">)</span>
-
-
-<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/users/ping&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">ping_pong</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span>
-        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;message&#39;</span><span class="p">:</span> <span class="s1">&#39;pong!&#39;</span>
-    <span class="p">})</span>
-</code></pre></div>
-<p>Run the app again. This time, <a href="http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode">debug mode</a> should be on:</p>
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span></span>$ python manage.py runserver
- * Running on http://127.0.0.1:5000/ <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: <span class="m">107</span>-952-069
-</code></pre></div>
-<p>Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a <em>requirements.txt</em> file to the &quot;users-service&quot; directory:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Flask==0.12.2
-Flask-Script==2.0.5
-</code></pre></div>
-<p>Finally, add a <em>.gitignore</em>, to the project root:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>__pycache__
-env
-</code></pre></div>
 <p>Init a git repo and commit your code to GitHub.</p>
 
 
           
+
+            
   <br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Getting Started&amp;url=https%3A%2F%2Ftestdriven.io/part-one-getting-started&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Getting Started&amp;url=http%3A%2F%2Flocalhost%3A4000/part-one-getting-started&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
-          <div class="page-nav">
-            
-              <a class="prev btn left-align" href="https://testdriven.io/part-one-app-overview">&laquo; App Overview</a>
-            
-            
-              <a class="next btn right-align" href="https://testdriven.io/part-one-docker-config">Docker Config &raquo;</a>
-            
-          </div>
+            <div class="page-nav">
+              <br>
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/part-one-app-overview">&laquo; App Overview</a>
+              
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/part-one-docker-config">Docker Config &raquo;</a>
+              
+            </div>
+
+          
 
         </div>
 
       </div>
     </div>
 
-     <footer class="page-footer white">
-  <div class="container footer-container center-align">
-    <ul>
-      <li>
-        <span>&copy; Copyright 2018</span>
-        <a href="http://testdriven.io">TestDriven.io</a>
-      </li>
-      <li>
-        <br>
-        <a
-          class="twitter-follow-button"
-          href="https://twitter.com/testdrivenio"
-          data-show-count="false">
-          Follow @testdrivenio
-        </a>
-      </li>
-      <li>
-        <small>
-          <span>Developed by </span>
-          <a href="http://mherman.org/">Michael Herman</a>
-        </small>
-      </li>
-      <li>
-        <small>
-          <span>Questions? </span>
-          <a href="mailto:michael@mherman.org">michael@mherman.org</a>
-        </small>
-      </li>
-    </ul>
+     <footer class="footer text-center">
+  <div class="container">
+    <hr>
+    <small>
+      <p>
+      <span>&copy; Copyright 2018</span>
+      <a href="http://testdriven.io">TestDriven.io</a>.
+      <br>
+      <span>Developed by </span>
+      <a href="http://mherman.org/">Michael Herman</a>.
+      <br>
+      <span>Questions? </span>
+      <a href="mailto:michael@mherman.org">michael@mherman.org</a>
+      <p>
+    </small>
   </div>
 </footer>
 
 
-    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script
+  src="//code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"
+></script>
+<script
+  src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"
+></script>
+<script
+  type="text/javascript"
+  src="/assets/js/main.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://gumroad.com/js/gumroad.js"
+></script>
+
 
     
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-100160465-1', 'auto');
-    ga('send', 'pageview');
-
-  </script>
-
 
 
   </body>

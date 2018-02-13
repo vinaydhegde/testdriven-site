@@ -1,11 +1,12 @@
 ---
 title: Testing React
-layout: post
+layout: course
 permalink: part-two-testing-react
 intro: false
 part: 2
 lesson: 5
 share: true
+type: course
 ---
 
 Let's look at testing React components...
@@ -51,7 +52,7 @@ No tests found related to files changed since last commit.
 
 By default, the tests run in [watch](http://facebook.github.io/jest/docs/en/cli.html#watch) mode, so the tests will re-run every time you save a file.
 
-### Testing Components
+## Testing Components
 
 Create a new file in "components" called *UsersList.test.js*:
 
@@ -91,7 +92,7 @@ In this test, we use the [shallow](http://airbnb.io/enzyme/docs/api/shallow.html
 
 Run the test to ensure it passes.
 
-### Snapshot Testing
+## Snapshot Testing
 
 Once the test is green, we'll then add a [Snapshot](http://facebook.github.io/jest/docs/en/snapshot-testing.html) test to ensure the UI does not change.
 
@@ -128,7 +129,7 @@ Try it out - press `u`. The tests will run again and the snapshot test should pa
 
 Once done, revert the changes we just made in the component, update the tests, ensure they pass, add the `__snapshots__` folder to the *.gitignore* file, and then commit your code.
 
-### Test Coverage
+## Test Coverage
 
 Curious about test coverage?
 
@@ -136,13 +137,13 @@ Curious about test coverage?
 $ react-scripts test --coverage
 ```
 
-### Testing Interactions
+## Testing Interactions
 
 Enzyme can also be used to test user interactions in terms of events. We can [simulate](http://airbnb.io/enzyme/docs/api/ReactWrapper/simulate.html) such actions and events and then test that the actual results are the same as the expected results. We'll look at this in a future lesson.
 
 > It's worth noting that we'll focus much of our React testing on unit testing the individual components. We'll let the end-to-end tests handle testing user interaction as well as the interaction between the client and server.  
 
-### `requestAnimationFrame` polyfill error
+## `requestAnimationFrame` polyfill error
 
 Do you get this error when your tests run?
 
@@ -166,4 +167,4 @@ window.requestAnimationFrame = () => {
 module.exports = react;
 ```
 
-Review the comment on [GitHub](https://github.com/facebook/react/issues/9102#issuecomment-283873039) for more info.
+Review this comment on [GitHub](https://github.com/facebook/react/issues/9102#issuecomment-283873039) for more info.

@@ -1,7 +1,5 @@
 $(function() {
 
-  $('.button-collapse').sideNav();
-
   var currentLocation = window.location.href;
   setActivePart(currentLocation);
 

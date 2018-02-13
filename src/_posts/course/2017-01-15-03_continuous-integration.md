@@ -1,11 +1,12 @@
 ---
 title: Continuous Integration
-layout: post
+layout: course
 permalink: part-two-continuous-integration
 intro: false
 part: 2
 lesson: 3
 share: true
+type: course
 ---
 
 Next, we'll add continuous integration (CI), via [Travis CI](https://travis-ci.org/), to our projects...

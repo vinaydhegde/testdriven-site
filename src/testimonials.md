@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: course
 title: Testimonials
 permalink: testimonials/
 ---

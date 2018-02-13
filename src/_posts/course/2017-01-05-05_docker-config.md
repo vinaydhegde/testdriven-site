@@ -1,11 +1,12 @@
 ---
 title: Docker Config
-layout: post
+layout: course
 permalink: part-one-docker-config
 intro: false
 part: 1
 lesson: 5
 share: true
+type: course
 ---
 
 Let's containerize the Flask app...

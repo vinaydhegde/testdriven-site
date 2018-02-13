@@ -1,18 +1,19 @@
 ---
-title: React Authentication - part two
-layout: post
+title: React Auth - part two
+layout: course
 permalink: part-three-react-auth-two
 intro: false
 part: 3
 lesson: 10
 share: true
+type: course
 ---
 
 Moving right along, let's add some methods to handle a user signing up, logging in, and logging out...
 
 ---
 
-### User Status
+## User Status
 
 For the `/status` link, we need to add a new component that displays the response from a call to `/auth/status` from the users service. *Remember*: You need to be authenticated to hit this end-point successfully. So, we will need to add the token to the header prior to sending the AJAX request.
 
@@ -99,7 +100,7 @@ render() {
 
 Test it out.
 
-### Update Navbar
+## Update Navbar
 
 Finally, let's make the following changes to the `Navbar`:
 

@@ -1,11 +1,12 @@
 ---
 title: React Router
-layout: post
+layout: course
 permalink: part-three-react-router
 intro: false
 part: 3
 lesson: 6
 share: true
+type: course
 ---
 
 In this lesson, we'll wire up routing in our React App to manage navigation between different components so the end user has unique pages to interact with...
@@ -18,7 +19,7 @@ At this point, you should already be quite familiar with the concept of routing 
 
 > For more on this, review the excellent [Deep dive into client-side routing](http://krasimirtsonev.com/blog/article/deep-dive-into-client-side-routing-navigo-pushstate-hash) article.
 
-### Check Your Understanding
+## Check Your Understanding
 
 > This part is optional but highly recommended.
 
@@ -28,7 +29,7 @@ Put your skills to test!
 1. Add two components - `Home` and `Contact`. These should be functional components that just display an `<h2>` element with the name of the component.
 1. Follow the official [Quick Start](https://reacttraining.com/react-router/web/guides/quick-start) guide to add [react-router-dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom) to your app.
 
-### Quick Refactor
+## Quick Refactor
 
 Before adding the router, let's move the `App` component out of *index.js* to clean things up. Add an *App.jsx* file to the "src" directory, and then update both files...
 
@@ -146,7 +147,7 @@ test('App renders without crashing', () => {
 
 Make sure the tests still pass!
 
-#### Router Setup
+### Router Setup
 
 Add [react-router-dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom) to the `dependencies` within *services/client/package.json* file:
 
@@ -191,7 +192,7 @@ ReactDOM.render((
 
 Now, let's add a basic `/about route`...
 
-### New Component
+## New Component
 
 We'll start by adding a new `About` component, starting with a test of course:
 

@@ -1,18 +1,19 @@
 ---
 title: React and Docker
-layout: post
+layout: course
 permalink: part-two-react-and-docker
 intro: false
 part: 2
 lesson: 7
 share: true
+type: course
 ---
 
 Let's containerize the React app...
 
 ---
 
-### Refactor
+## Refactor
 
 Before we start, let's refactor the project structure.
 
@@ -132,7 +133,7 @@ $ docker-compose -f docker-compose-dev.yml \
   run users-service python manage.py test
 ```
 
-### Local Development
+## Local Development
 
 Add *Dockerfile-dev* to the root of the "client" directory, making sure to review the code comments:
 
@@ -282,7 +283,7 @@ Make sure to change the state back before moving on.
 > 1. Try [enabling](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#troubleshooting) a polling mechanism via [chokidar](https://github.com/paulmillr/chokidar) by adding the following environment variable key/pair to the *docker-compose-dev.yml* file - `CHOKIDAR_USEPOLLING=true`. Review [Dockerizing a React App](http://mherman.org/blog/2017/12/07/dockerizing-a-react-app) for more info.
 > 2. Try [reseting](https://stackoverflow.com/questions/30550742/how-do-i-undo-the-command-eval-docker-machine-env-blog/33251637#33251637) the Docker environment back to localhost. Rebuild the images, spin up the containers, and test auto-reload again.
 
-### Create React App Build
+## Create React App Build
 
 Before updating the production environment, let's create a [build](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment) with Create React App locally, outside of Docker, which will generate static files.
 
@@ -309,7 +310,7 @@ $ python3 -m http.server
 
 This will serve up the app on [http://localhost:8000/](http://localhost:8000/). Test it out in the browser to make sure it works. Once done, kill the server and navigate back to the project root.
 
-### Production
+## Production
 
 Add *Dockerfile-prod* to the root of the "client" directory:
 
@@ -444,7 +445,7 @@ $ docker-compose -f docker-compose-prod.yml \
   run client env
 ```
 
-### Travis
+## Travis
 
 One more thing: Add the `REACT_APP_USERS_SERVICE_URL` environment variable to the *.travis.yml* file, within the `before_script`:
 

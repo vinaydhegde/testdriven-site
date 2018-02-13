@@ -1,11 +1,12 @@
 ---
 title: Flask Blueprints
-layout: post
+layout: course
 permalink: part-one-flask-blueprints
 intro: false
 part: 1
 lesson: 8
 share: true
+type: course
 ---
 
 With tests in place, let's refactor the app, adding in Blueprints...

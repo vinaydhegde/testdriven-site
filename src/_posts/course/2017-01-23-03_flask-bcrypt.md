@@ -1,18 +1,19 @@
 ---
 title: Flask Bcrypt
-layout: post
+layout: course
 permalink: part-three-flask-bcrypt
 intro: false
 part: 3
 lesson: 3
 share: true
+type: course
 ---
 
 In this lesson, we'll add support for password hashing...
 
 ---
 
-### Flask Bcrypt Setup
+## Flask Bcrypt Setup
 
 To manage password hashing, we'll use the [Flask-Bcrypt](https://flask-bcrypt.readthedocs.io/en/latest/) extension. Add it to the *requirements.txt* file like so:
 
@@ -242,7 +243,7 @@ def test_add_user(self):
     self.assertTrue(user.password)
 ```
 
-### Log Rounds
+## Log Rounds
 
 Finally, did you notice that the tests are running *much* slower than before? This is due to the `BCRYPT_LOG_ROUNDS` setting for Flask Bcrypt. Since we have not defined a value yet in the app config, Flask Bcrypt uses the [default value of 12](https://github.com/maxcountryman/flask-bcrypt/blob/master/flask_bcrypt.py#L153), which is unnecessarily high for a test environment.
 

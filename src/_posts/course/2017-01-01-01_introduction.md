@@ -1,18 +1,19 @@
 ---
 title: Introduction
-layout: post
+layout: course
 permalink: part-one-intro
 intro: true
 part: 1
 lesson: 1
 share: true
+type: course
 ---
 
 In this first part, you'll learn how to quickly spin up a reproducible development environment with *Docker* to create a *RESTful API* powered by *Python*, *Postgres*, and the *Flask* web framework. After the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance.
 
 ![flask tdd logo](/assets/img/course/01_flask-tdd-logo.png)
 
-### Prerequisites
+## Prerequisites
 
 This is not a beginner course. It's designed for the advanced-beginner - someone with at least six-months of web development experience. Before beginning, you should have some familiarity with the following topics. Refer to the resources for more info:
 
@@ -23,7 +24,7 @@ This is not a beginner course. It's designed for the advanced-beginner - someone
 | Docker Machine | [Docker Machine Overview](https://docs.docker.com/machine/overview/) |
 | Flask | [Flaskr TDD](https://github.com/mjhea0/flaskr-tdd)
 
-### Objectives
+## Objectives
 
 By the end of this part, you will be able to...
 
@@ -36,7 +37,7 @@ By the end of this part, you will be able to...
 1. Work with Python and Flask running inside a Docker Container
 1. Install Flask, Ngnix, and Gunicorn on an Amazon EC2 instance
 
-### App
+## App
 
 Check out the live apps, running on EC2 -
 
@@ -58,7 +59,7 @@ Essentially, the app is running in three containers - Flask, Postgres, and Nginx
 
 Finished code for part 1: [https://github.com/realpython/testdriven-app/releases/tag/part1](https://github.com/realpython/testdriven-app/releases/tag/part1)
 
-### Dependencies
+## Dependencies
 
 You will use the following dependencies in part 1:
 

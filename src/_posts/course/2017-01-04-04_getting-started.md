@@ -1,11 +1,12 @@
 ---
 title: Getting Started
-layout: post
+layout: course
 permalink: part-one-getting-started
 intro: false
 part: 1
 lesson: 4
 share: true
+type: course
 ---
 
 In this lesson, we'll set up the base project structure and define the first service...

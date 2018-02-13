@@ -1,11 +1,12 @@
 ---
 title: RESTful Routes
-layout: post
+layout: course
 permalink: part-one-restful-routes
 intro: false
 part: 1
 lesson: 9
 share: true
+type: course
 ---
 
 Next, let's set up three new routes, following RESTful best practices, with TDD:
@@ -25,7 +26,7 @@ For each, we'll-
 
 Let' start with the POST route...
 
-### POST
+## POST
 
 Add the test to the `TestUserService()` class in *project/tests/test_users.py*:
 
@@ -187,7 +188,7 @@ from sqlalchemy import exc
 
 Ensure the tests pass, and then move on to the next route...
 
-### GET single user
+## GET single user
 
 Start with a test:
 
@@ -288,7 +289,7 @@ def get_single_user(user_id):
         return jsonify(response_object), 404
 ```
 
-### GET all users
+## GET all users
 
 Again, let's start with a test. Since we'll have to add a few users first, let's add a quick helper function to the top of the *project/tests/test_users.py* file, just above the `TestUserService()` class.
 

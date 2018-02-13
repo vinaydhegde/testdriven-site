@@ -1,11 +1,12 @@
 ---
 title: Flask Migrate
-layout: post
+layout: course
 permalink: part-three-flask-migrate
 intro: false
 part: 3
 lesson: 2
 share: true
+type: course
 ---
 
 In this lesson, we'll utilize Flask Migrate to handle database migrations...
@@ -35,7 +36,7 @@ $ docker-compose -f docker-compose-dev.yml \
     run client npm test
 ```
 
-### Model
+## Model
 
 Let's make a few changes to the schema in *services/users/project/api/models.py*:
 
@@ -127,7 +128,7 @@ Error:
 AssertionError: IntegrityError not raised by do
 ```
 
-### Flask Migrate Setup
+## Flask Migrate Setup
 
 Since we need to make a schema change, add [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) to the *requirements.txt* file:
 
@@ -236,7 +237,7 @@ $ docker-compose -f docker-compose-dev.yml \
 
 Run the tests again. They should pass!
 
-### Refactor
+## Refactor
 
 Now is a good time to do some refactoring...
 

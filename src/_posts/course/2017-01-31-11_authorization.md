@@ -1,11 +1,12 @@
 ---
 title: Authorization
-layout: post
+layout: course
 permalink: part-three-authorization
 intro: false
 part: 3
 lesson: 11
 share: true
+type: course
 ---
 
 With authentication done we can now turn our attention to authorization...
@@ -19,7 +20,7 @@ First, some definitions:
 
 > Review [Authentication vs. Authorization on Wikipedia](https://en.wikipedia.org/wiki/Authentication#Authorization) for more info.
 
-### Docker Machine
+## Docker Machine
 
 Set `testdriven-dev` as the active Docker Machine:
 
@@ -41,7 +42,7 @@ $ docker-compose -f docker-compose-dev.yml \
   run client npm test -- --verbose
 ```
 
-### Routes
+## Routes
 
 | Endpoint        | HTTP Method | Authenticated?  | Active?   | Admin? |
 |-----------------|-------------|-----------------|-----------|--------|
@@ -56,7 +57,7 @@ $ docker-compose -f docker-compose-dev.yml \
 
 Users must be active to view authenticated routes, and users must be an admin to POST to the `/users` endpoint.
 
-### Active
+## Active
 
 Start with a test. Add the following to *services/users/project/tests/test_auth.py*:
 
@@ -337,7 +338,7 @@ Ran 40 tests in 6.864s
 OK
 ```
 
-### Admin
+## Admin
 
 Finally, in order to POST to the `/users` endpoint, you must be an admin. Turn to the models. Do we have an admin property? No. Let's add one. Start by adding an additional assert to the `test_add_user` test in *services/users/project/tests/test_user_model.py*:
 
@@ -505,7 +506,7 @@ Ran 41 tests in 6.440s
 OK
 ```
 
-### `to_json`
+## `to_json`
 
 Before moving on, we should update the `to_json` method in *services/users/project/api/models.py* since we updated the model. This will affect the data sent back in these routes:
 

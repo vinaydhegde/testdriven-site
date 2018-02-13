@@ -2,540 +2,622 @@
 <html>
 
   <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
   
     <title>Microservices with Docker, Flask, and React - React Forms</title>
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="shortcut icon" type="image/png" href="/favicon.png">
-  <link
-    rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
-  >
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-  >
-  <link
-    rel="stylesheet"
-    href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-  >
-  <link
-    href="//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic"
-    rel="stylesheet"
-    type="text/css"
-  >
-  <link
-    href="//fonts.googleapis.com/css?family=Lato:900,300"
-    rel="stylesheet"
-    type="text/css"
-  >
-  <link
-    href="https://fonts.googleapis.com/css?family=Montserrat"
-    rel="stylesheet"
-    type="text/css"
-  >
+  <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
+  <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
   <link
     href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css"
     rel="stylesheet"
     type="text/css"
   >
-  <link href="/assets/css/styles.css?1518143918283921000" rel="stylesheet">
-  <script
-    src="//code.jquery.com/jquery-2.2.4.min.js"
-    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-    crossorigin="anonymous"
-  ></script>
-  <script
-    type="text/javascript"
-    src="/assets/js/main.js"
-  ></script>
-  <script
-    type="text/javascript"
-    src="https://gumroad.com/js/gumroad.js"
-  ></script>
+  <link href="/assets/css/new.css?1518490251505313000" rel="stylesheet">
 </head>
 
 
   <body>
 
-    <nav class="indigo darken-4">
-  <div class="nav-wrapper">
-    <a href="/" class="nav-logo-container left">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
       <img
         class="nav-logo" src="/assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io"
       />
     </a>
-    <a href="/" class="brand-logo main-brand-logo center show-on-large hide-on-med-and-down">
-      Test Driven Development Courses
-    </a>
-    <!-- <a href="/" class="brand-logo main-brand-logo hide-on-large-only">
-      TDD Courses
-    </a> -->
-    <a href="#" data-activates="mobile-demo" class="right button-collapse"><i class="material-icons">menu</i></a>
-    <ul class="right hide-on-med-and-down">
-      <li><a href="/">Course</a></li>
-      <li><a href="/course-contents">Contents</a></li>
-      <li><a href="/testimonials">Testimonials</a></li>
-    </ul>
-    <ul class="side-nav" id="mobile-demo">
-      <li><a href="/">Home</a></li>
-      <li><a href="/">Course</a></li>
-      <li><a href="/course-contents">Contents</a></li>
-      <li><a href="/testimonials">Testimonials</a></li>
-    </ul>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Course</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/course-contents">Contents</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/testimonials">Testimonials</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item">
+        <a class="nav-link" href="https://twitter.com/testdrivenio"><i class="fab fa-twitter"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/testdrivenio"><i class="fab fa-github"></i></a>
+      </li>
+      <li class="nav-item nav-purcahse-btn">
+        <a class="btn btn-outline-warning" href="https://gum.co/flask">Purchase the Course</a>
+      </li>
+  </ul>
   </div>
 </nav>
 
 
-    <br>
-
     <div class="container">
       <div class="row">
 
-        <div class="col m3 hide-on-small-and-down">
-  <br>
-  <div id="toc-block" class="collection hide-on-small-and-down">
+        <div class="col-sm-3 d-none d-md-block">
+  <div id="toc-block" class="collection card">
     <ul class="collapsible collapsible-accordion">
       
         
-          <li>
-            <h5 data-part="1" class="collapsible-header  waves-effect waves-teal">
-              Part 1
-            </h5>
-            <div class="collapsible-body">
+          
+            <li>
+              <br>
+              <h5 data-part="1">
+                Part 1
+              </h5>
+              <div class="collapsible-body">
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>1.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-intro">
+                  Introduction
+                </a>
+              </span>
+            </li>
+          </ul>
         
-        <ul>
-          <li class="collection-li">
-            <span>1.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-intro">
-                Introduction
-              </a>
-            </span>
-          </li>
-        </ul>
       
         
-        <ul>
-          <li class="collection-li">
-            <span>2.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-microservices">
-                Microservices
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>2.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-microservices">
+                  Microservices
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>3.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-app-overview">
-                App Overview
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>3.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-app-overview">
+                  App Overview
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>4.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-getting-started">
-                Getting Started
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>4.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-getting-started">
+                  Getting Started
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>5.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-docker-config">
-                Docker Config
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-docker-config">
+                  Docker Config
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>6.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-postgres-setup">
-                Postgres Setup
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>6.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-postgres-setup">
+                  Postgres Setup
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>7.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-test-setup">
-                Test Setup
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>7.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-test-setup">
+                  Test Setup
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>8.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-flask-blueprints">
-                Flask Blueprints
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>8.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-flask-blueprints">
+                  Flask Blueprints
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>9.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-restful-routes">
-                RESTful Routes
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>9.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-restful-routes">
+                  RESTful Routes
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>10.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-deployment">
-                Deployment
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-deployment">
+                  Deployment
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>11.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-jinja-templates">
-                Jinja Templates
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>11.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-jinja-templates">
+                  Jinja Templates
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>12.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-one-workflow">
-                Workflow
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>12.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-one-workflow">
+                  Workflow
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-          <li>
-            <h5 data-part="2" class="collapsible-header  waves-effect waves-teal">
-              Part 2
-            </h5>
-            <div class="collapsible-body">
+          
+            <li>
+              <br>
+              <h5 data-part="2">
+                Part 2
+              </h5>
+              <div class="collapsible-body">
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>1.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-intro">
+                  Introduction
+                </a>
+              </span>
+            </li>
+          </ul>
         
-        <ul>
-          <li class="collection-li">
-            <span>1.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-intro">
-                Introduction
-              </a>
-            </span>
-          </li>
-        </ul>
       
         
-        <ul>
-          <li class="collection-li">
-            <span>2.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-code-coverage-and-quality">
-                Code Coverage and Quality
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>2.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-code-coverage-and-quality">
+                  Code Coverage and Quality
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>3.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-continuous-integration">
-                Continuous Integration
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>3.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-continuous-integration">
+                  Continuous Integration
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>4.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-react-setup">
-                React Setup
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>4.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-react-setup">
+                  React Setup
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>5.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-testing-react">
-                Testing React
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-testing-react">
+                  Testing React
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>6.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-react-forms">
-                React Forms
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>6.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-react-forms">
+                  React Forms
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>7.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-react-and-docker">
-                React and Docker
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>7.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-react-and-docker">
+                  React and Docker
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>8.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-two-next-steps">
-                Next Steps
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>8.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-two-next-steps">
+                  Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-          <li>
-            <h5 data-part="3" class="collapsible-header  waves-effect waves-teal">
-              Part 3
-            </h5>
-            <div class="collapsible-body">
+          
+            <li>
+              <br>
+              <h5 data-part="3">
+                Part 3
+              </h5>
+              <div class="collapsible-body">
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>1.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-into">
+                  Introduction
+                </a>
+              </span>
+            </li>
+          </ul>
         
-        <ul>
-          <li class="collection-li">
-            <span>1.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-into">
-                Introduction
-              </a>
-            </span>
-          </li>
-        </ul>
       
         
-        <ul>
-          <li class="collection-li">
-            <span>2.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-flask-migrate">
-                Flask Migrate
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>2.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-flask-migrate">
+                  Flask Migrate
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>3.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-flask-bcrypt">
-                Flask Bcrypt
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>3.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-flask-bcrypt">
+                  Flask Bcrypt
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>4.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-jwt-setup">
-                JWT Setup
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>4.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-jwt-setup">
+                  JWT Setup
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>5.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-auth-routes">
-                Auth Routes
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-auth-routes">
+                  Auth Routes
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>6.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-react-router">
-                React Router
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>6.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-react-router">
+                  React Router
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>7.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-react-bootstrap">
-                React Bootstrap
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>7.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-react-bootstrap">
+                  React Bootstrap
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>8.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-react-auth-one">
-                React Authentication - part one
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>8.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-react-auth-one">
+                  React Auth - part one
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>9.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-mocking-user-interaction">
-                Mocking User Interaction
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>9.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-mocking-user-interaction">
+                  Mocking User Interaction
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>10.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-react-auth-two">
-                React Authentication - part two
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-react-auth-two">
+                  React Auth - part two
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>11.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-authorization">
-                Authorization
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>11.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-authorization">
+                  Authorization
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>12.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-update-component">
-                Update Component
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>12.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-update-component">
+                  Update Component
+                </a>
+              </span>
+            </li>
+          </ul>
+        
       
         
-        <ul>
-          <li class="collection-li">
-            <span>13.&nbsp;</span>
-            <span>
-              <a class="collection-item" href="https://testdriven.io/part-three-update-docker">
-                Update Docker
-              </a>
-            </span>
-          </li>
-        </ul>
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="http://localhost:4000/part-three-update-docker">
+                  Update Docker
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
     </div>
-  </li>
+    <br>
+    </li>
     </ul>
   </div>
 </div>
 
 
-        <div class="col m9 hide-on-small-and-down">
+        <div class="col-md-9">
 
-          <h2>React Forms</h2>
+          <h1>React Forms</h1>
 
           
+
             <h5>Part 2, Lesson 6</h5>
 
             <div class="page-nav">
+              <br>
               
-                <a class="prev btn left-align" href="https://testdriven.io/part-two-testing-react">&laquo; Testing React</a>
+                <a class="btn btn-outline-success" href="http://localhost:4000/part-two-testing-react">&laquo; Testing React</a>
               
               
-                <a class="next btn right-align" href="https://testdriven.io/part-two-react-and-docker">React and Docker &raquo;</a>
+                <a class="btn btn-outline-success" href="http://localhost:4000/part-two-react-and-docker">React and Docker &raquo;</a>
               
             </div>
 
             
   <br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Forms&amp;url=https%3A%2F%2Ftestdriven.io/part-two-react-forms&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Forms&amp;url=http%3A%2F%2Flocalhost%3A4000/part-two-react-forms&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
@@ -543,101 +625,111 @@
 
           
 
-          <p>In this lesson, we&#39;ll create a functional component for adding a new user....</p>
+          <p>In this lesson, we’ll create a functional component for adding a new user….</p>
 
-<hr>
+<hr />
 
-<p>Add two new files to the &quot;client/src/components&quot; directory:</p>
+<p>Add two new files to the “client/src/components” directory:</p>
 
 <ol>
-<li><em>AddUser.jsx</em></li>
-<li><em>AddUser.test.js</em></li>
+  <li><em>AddUser.jsx</em></li>
+  <li><em>AddUser.test.js</em></li>
 </ol>
 
 <p>Start with the test:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">shallow</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;enzyme&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">renderer</span> <span class="nx">from</span> <span class="s1">&#39;react-test-renderer&#39;</span><span class="p">;</span>
 
-<span class="kr">import</span> <span class="nx">AddUser</span> <span class="nx">from</span> <span class="s1">&#39;./AddUser&#39;</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">shallow</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'enzyme'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">renderer</span> <span class="k">from</span> <span class="s1">'react-test-renderer'</span><span class="p">;</span>
 
-<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;AddUser renders properly&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">AddUser</span><span class="o">/&gt;</span><span class="p">);</span>
-  <span class="kr">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">type</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">);</span>
+<span class="k">import</span> <span class="nx">AddUser</span> <span class="k">from</span> <span class="s1">'./AddUser'</span><span class="p">;</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">'AddUser renders properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">AddUser</span><span class="o">/&gt;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'form'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'input'</span><span class="p">).</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'input'</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'username'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'input'</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'email'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'input'</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">type</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">);</span>
 <span class="p">});</span>
-</code></pre></div>
-<p>Here, we&#39;re asserting that a form, with three inputs, is present. Run the tests to ensure they fail, and then add the component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+</code></pre></div></div>
 
-<span class="kr">const</span> <span class="nx">AddUser</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+<p>Here, we’re asserting that a form, with three inputs, is present. Run the tests to ensure they fail, and then add the component:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">AddUser</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
     <span class="o">&lt;</span><span class="nx">form</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"form-group"</span><span class="o">&gt;</span>
         <span class="o">&lt;</span><span class="nx">input</span>
-          <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-          <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-          <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-          <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+          <span class="nx">name</span><span class="o">=</span><span class="s2">"username"</span>
+          <span class="nx">className</span><span class="o">=</span><span class="s2">"form-control input-lg"</span>
+          <span class="nx">type</span><span class="o">=</span><span class="s2">"text"</span>
+          <span class="nx">placeholder</span><span class="o">=</span><span class="s2">"Enter a username"</span>
           <span class="nx">required</span>
         <span class="o">/&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"form-group"</span><span class="o">&gt;</span>
         <span class="o">&lt;</span><span class="nx">input</span>
-          <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-          <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-          <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-          <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+          <span class="nx">name</span><span class="o">=</span><span class="s2">"email"</span>
+          <span class="nx">className</span><span class="o">=</span><span class="s2">"form-control input-lg"</span>
+          <span class="nx">type</span><span class="o">=</span><span class="s2">"email"</span>
+          <span class="nx">placeholder</span><span class="o">=</span><span class="s2">"Enter an email address"</span>
           <span class="nx">required</span>
         <span class="o">/&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="nx">input</span>
-        <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
-        <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
-        <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
+      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="nx">input</span>
+        <span class="nx">type</span><span class="o">=</span><span class="s2">"submit"</span>
+        <span class="nx">className</span><span class="o">=</span><span class="s2">"btn btn-primary btn-lg btn-block"</span>
+        <span class="nx">value</span><span class="o">=</span><span class="s2">"Submit"</span>
       <span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="err">/form&gt;</span>
-  <span class="p">)</span>
+    <span class="o">&lt;</span><span class="sr">/form</span><span class="err">&gt;
+</span>  <span class="p">)</span>
 <span class="p">};</span>
 
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">AddUser</span><span class="p">;</span>
-</code></pre></div>
+<span class="k">export</span> <span class="k">default</span> <span class="nx">AddUser</span><span class="p">;</span>
+</code></pre></div></div>
+
 <p>Import the component in <em>index.js</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">AddUser</span> <span class="nx">from</span> <span class="s1">&#39;./components/AddUser&#39;</span><span class="p">;</span>
-</code></pre></div>
-<p>Then update the <code>render</code> method:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">AddUser</span> <span class="k">from</span> <span class="s1">'./components/AddUser'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Then update the <code class="highlighter-rouge">render</code> method:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"row"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"col-md-6"</span><span class="o">&gt;</span>
           <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-          <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
+          <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
+</span>          <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
           <span class="o">&lt;</span><span class="nx">AddUser</span><span class="o">/&gt;</span>
           <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="o">&lt;</span><span class="err">/div&gt;</span>
-  <span class="p">)</span>
+          <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">)</span>
 <span class="p">};</span>
-</code></pre></div>
-<p>Ensure the <code>testdriven-dev</code> machine is up and running and the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable is properly assigned to the IP associated with the <code>testdriven-dev</code> machine. Run <code>npm start</code> to test. If all went well, you should see the form along with the users.</p>
+</code></pre></div></div>
+
+<p>Ensure the <code class="highlighter-rouge">testdriven-dev</code> machine is up and running and the <code class="highlighter-rouge">REACT_APP_USERS_SERVICE_URL</code> environment variable is properly assigned to the IP associated with the <code class="highlighter-rouge">testdriven-dev</code> machine. Run <code class="highlighter-rouge">npm start</code> to test. If all went well, you should see the form along with the users.</p>
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/02_react_forms1.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react forms">
+  <img src="/assets/img/course/02_react_forms1.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react forms" />
 </div>
 
-<p>With that, let&#39;s add a snapshot test to <em>AddUser.test.js</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;AddUser renders a snapshot properly&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">tree</span> <span class="o">=</span> <span class="nx">renderer</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">AddUser</span><span class="o">/&gt;</span><span class="p">).</span><span class="nx">toJSON</span><span class="p">();</span>
+<p>With that, let’s add a snapshot test to <em>AddUser.test.js</em>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'AddUser renders a snapshot properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">tree</span> <span class="o">=</span> <span class="nx">renderer</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">AddUser</span><span class="o">/&gt;</span><span class="p">).</span><span class="nx">toJSON</span><span class="p">();</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">tree</span><span class="p">).</span><span class="nx">toMatchSnapshot</span><span class="p">();</span>
 <span class="p">});</span>
-</code></pre></div>
+</code></pre></div></div>
+
 <p>Ensure it passes before moving on.</p>
 
 <p>Now, since this is a single page application, we want to prevent the normal browser behavior when a form is submitted to avoid a page refresh.</p>
@@ -645,575 +737,293 @@
 <p><em>Steps</em>:</p>
 
 <ol>
-<li>Handle form submit event</li>
-<li>Obtain user input</li>
-<li>Send AJAX request</li>
-<li>Update the page</li>
+  <li>Handle form submit event</li>
+  <li>Obtain user input</li>
+  <li>Send AJAX request</li>
+  <li>Update the page</li>
 </ol>
 
-<h3 id="handle-form-submit-event">Handle form submit event</h3>
+<h2 id="handle-form-submit-event">Handle form submit event</h2>
 
-<p>To handle the submit event, simply update the <code>form</code> element in <em>AddUser.jsx</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()}</span><span class="o">&gt;</span>
-</code></pre></div>
+<p>To handle the submit event, simply update the <code class="highlighter-rouge">form</code> element in <em>AddUser.jsx</em>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()}</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
 <p>Enter a dummy username and email address, and then try submitting the form. Nothing should happen, which is exactly what we want - we prevented the normal browser behavior.</p>
 
-<p>Next, add the following method to the <code>App</code> component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+<p>Next, add the following method to the <code class="highlighter-rouge">App</code> component:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;sanity check!&#39;</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'sanity check!'</span><span class="p">);</span>
 <span class="p">};</span>
-</code></pre></div>
-<p>Since <code>AddUser</code> is a functional component, we need to pass this method down to it via props. Update the <code>AddUser</code> element like so:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">AddUser</span> <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">}</span><span class="o">/&gt;</span>
-</code></pre></div>
+</code></pre></div></div>
+
+<p>Since <code class="highlighter-rouge">AddUser</code> is a functional component, we need to pass this method down to it via props. Update the <code class="highlighter-rouge">AddUser</code> element like so:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">AddUser</span> <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span></code></pre></div></div>
+
 <p>Then, update the constructor:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kr">super</span><span class="p">();</span>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">super</span><span class="p">();</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">users</span><span class="o">:</span> <span class="p">[]</span>
+    <span class="na">users</span><span class="p">:</span> <span class="p">[]</span>
   <span class="p">};</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="p">};</span>
-</code></pre></div>
-<p>Update the <code>form</code> element again as well:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
-</code></pre></div>
-<p>Here, we bound the context of <code>this</code> manually via <code>bind()</code>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</code></pre></div>
-<p>Without it, the context of <code>this</code> inside the method will not have the correct context. Want to test this out? Simply add <code>console.log(this)</code> to <code>addUser()</code> and then submit the form. What&#39;s the context? Remove the <code>bind</code> and test it again. What&#39;s the context now?</p>
+</code></pre></div></div>
+
+<p>Update the <code class="highlighter-rouge">form</code> element again as well:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>Here, we bound the context of <code class="highlighter-rouge">this</code> manually via <code class="highlighter-rouge">bind()</code>:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Without it, the context of <code class="highlighter-rouge">this</code> inside the method will not have the correct context. Want to test this out? Simply add <code class="highlighter-rouge">console.log(this)</code> to <code class="highlighter-rouge">addUser()</code> and then submit the form. What’s the context? Remove the <code class="highlighter-rouge">bind</code> and test it again. What’s the context now?</p>
 
 <blockquote>
-<p>For more on this, review <a href="https://reactjs.org/docs/handling-events.html">Handling Events</a> from the official React docs.</p>
+  <p>For more on this, review <a href="https://reactjs.org/docs/handling-events.html">Handling Events</a> from the official React docs.</p>
 </blockquote>
 
-<p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit.</p>
+<p>Test it out in the browser. You should see <code class="highlighter-rouge">sanity check!</code> in the JavaScript console on form submit.</p>
 
-<h3 id="obtain-user-input">Obtain user input</h3>
+<h2 id="obtain-user-input">Obtain user input</h2>
 
-<p>We&#39;ll use <a href="https://reactjs.org/docs/forms.html#controlled-components">controlled components</a> to obtain the user submitted input. Start by adding two new properties to the state object in the <code>App</code> component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
-  <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-  <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+<p>We’ll use <a href="https://reactjs.org/docs/forms.html#controlled-components">controlled components</a> to obtain the user submitted input. Start by adding two new properties to the state object in the <code class="highlighter-rouge">App</code> component:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">users</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="na">email</span><span class="p">:</span> <span class="s1">''</span>
 <span class="p">};</span>
-</code></pre></div>
+</code></pre></div></div>
+
 <p>Then, pass them through to the component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">AddUser</span>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">AddUser</span>
   <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
   <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
   <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">}</span>
-<span class="err">/&gt;</span>
-</code></pre></div>
-<p>These are accessible now via the <code>props</code> object, which can be used as the current value of the input like so:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+<span class="sr">/</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p>These are accessible now via the <code class="highlighter-rouge">props</code> object, which can be used as the current value of the input like so:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"form-group"</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="nx">input</span>
-    <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-    <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-    <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+    <span class="nx">name</span><span class="o">=</span><span class="s2">"username"</span>
+    <span class="nx">className</span><span class="o">=</span><span class="s2">"form-control input-lg"</span>
+    <span class="nx">type</span><span class="o">=</span><span class="s2">"text"</span>
+    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">"Enter a username"</span>
     <span class="nx">required</span>
     <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-  <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+  <span class="sr">/</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"form-group"</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="nx">input</span>
-    <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-    <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-    <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+    <span class="nx">name</span><span class="o">=</span><span class="s2">"email"</span>
+    <span class="nx">className</span><span class="o">=</span><span class="s2">"form-control input-lg"</span>
+    <span class="nx">type</span><span class="o">=</span><span class="s2">"email"</span>
+    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">"Enter an email address"</span>
     <span class="nx">required</span>
     <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-  <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-</code></pre></div>
-<p>So, this defines the value of the inputs from the parent component. Test out the form now. What happens if you try to add a username? You shouldn&#39;t see anything being typed since the value is being &quot;pushed&quot; down from the parent.</p>
+  <span class="sr">/</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p>So, this defines the value of the inputs from the parent component. Test out the form now. What happens if you try to add a username? You shouldn’t see anything being typed since the value is being “pushed” down from the parent.</p>
 
 <blockquote>
-<p>What do you think will happen if the initial state of those values was set as <code>test</code> rather than an empty string? Try it.</p>
+  <p>What do you think will happen if the initial state of those values was set as <code class="highlighter-rouge">test</code> rather than an empty string? Try it.</p>
 </blockquote>
 
 <p>How do we update the state in the parent component so that it gets updated when the user enters text into the input boxes?</p>
 
-<p>First, add a <code>handleChange</code> method to the <code>App</code> component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">handleChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+<p>First, add a <code class="highlighter-rouge">handleChange</code> method to the <code class="highlighter-rouge">App</code> component:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
   <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="p">};</span>
-</code></pre></div>
+</code></pre></div></div>
+
 <p>Add the bind to the constructor:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</code></pre></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</code></pre></div></div>
+
 <p>Then, pass the method down to the component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">AddUser</span>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">AddUser</span>
   <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
   <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
   <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span>
   <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">}</span>
-<span class="err">/&gt;</span>
-</code></pre></div>
+<span class="sr">/</span><span class="err">&gt;
+</span></code></pre></div></div>
+
 <p>Add it to the form inputs:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"form-group"</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="nx">input</span>
-    <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-    <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-    <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
+    <span class="nx">name</span><span class="o">=</span><span class="s2">"username"</span>
+    <span class="nx">className</span><span class="o">=</span><span class="s2">"form-control input-lg"</span>
+    <span class="nx">type</span><span class="o">=</span><span class="s2">"text"</span>
+    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">"Enter a username"</span>
     <span class="nx">required</span>
     <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
     <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span>
-  <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
+  <span class="sr">/</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"form-group"</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="nx">input</span>
-    <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-    <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-    <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
+    <span class="nx">name</span><span class="o">=</span><span class="s2">"email"</span>
+    <span class="nx">className</span><span class="o">=</span><span class="s2">"form-control input-lg"</span>
+    <span class="nx">type</span><span class="o">=</span><span class="s2">"email"</span>
+    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">"Enter an email address"</span>
     <span class="nx">required</span>
     <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
     <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span>
-  <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-</code></pre></div>
-<p>Test the form out now. It should be working. If curious, you can see the value of the state by logging it to the console in the <code>addUser</code> method:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="sr">/</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p>Test the form out now. It should be working. If curious, you can see the value of the state by logging it to the console in the <code class="highlighter-rouge">addUser</code> method:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;sanity check!&#39;</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'sanity check!'</span><span class="p">);</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">);</span>
 <span class="p">};</span>
-</code></pre></div>
+</code></pre></div></div>
+
 <div style="text-align:left;">
-  <img src="/assets/img/course/02_react_forms2.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react forms">
+  <img src="/assets/img/course/02_react_forms2.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react forms" />
 </div>
 
-<p>Now that we have the values, let&#39;s send the AJAX request so the data can be added to the database and then update the DOM...</p>
+<p>Now that we have the values, let’s send the AJAX request so the data can be added to the database and then update the DOM…</p>
 
-<h3 id="send-ajax-request">Send AJAX request</h3>
+<h2 id="send-ajax-request">Send AJAX request</h2>
 
 <p>Turn back to users service. What do we need to send in the JSON payload to add a user - username and email, right?</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">))</span>
-</code></pre></div>
-<p>Let&#39;s use Axios to send the POST request:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Let’s use Axios to send the POST request:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
-    <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
+  <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">username</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+    <span class="na">email</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
   <span class="p">};</span>
-  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="si">}</span><span class="sb">/users`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">})</span>
-  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="s2">/users`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">})</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre></div></div>
+
 <p>Test it out. It should work as long as the email address is unique.</p>
 
 <blockquote>
-<p>If you have problems, analyze the response object from the &quot;<a href="https://developers.google.com/web/tools/chrome-devtools/#network">Network</a>&quot; tab in Developer Tools. You can also fire up the users service outside of Docker and debug using the Flask debugger or with <code>print</code> statements.</p>
+  <p>If you have problems, analyze the response object from the “<a href="https://developers.google.com/web/tools/chrome-devtools/#network">Network</a>” tab in Developer Tools. You can also fire up the users service outside of Docker and debug using the Flask debugger or with <code class="highlighter-rouge">print</code> statements.</p>
 </blockquote>
 
-<h3 id="update-the-page">Update the page</h3>
+<h2 id="update-the-page">Update the page</h2>
 
-<p>Finally, let&#39;s update the list of users on a successful form submit and then clear the form:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+<p>Finally, let’s update the list of users on a successful form submit and then clear the form:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
-    <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
+  <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">username</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
+    <span class="na">email</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
   <span class="p">};</span>
-  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="si">}</span><span class="sb">/users`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="s2">/users`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span> <span class="na">email</span><span class="p">:</span> <span class="s1">''</span> <span class="p">});</span>
   <span class="p">})</span>
-  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
 <span class="p">}</span>
-</code></pre></div>
-<p>That&#39;s it. Test it out. Then, run the tests. Update the snapshot test (by pressing <code>u</code> on the keyboard). Review and then commit your code.</p>
+</code></pre></div></div>
 
-
-          <div class="page-nav">
-            
-              <a class="prev btn left-align" href="https://testdriven.io/part-two-testing-react">&laquo; Testing React</a>
-            
-            
-              <a class="next btn right-align" href="https://testdriven.io/part-two-react-and-docker">React and Docker &raquo;</a>
-            
-          </div>
-
-          
-  <br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Forms&amp;url=https%3A%2F%2Ftestdriven.io/part-two-react-forms&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-
-        </div>
-
-        <div class="hide-on-med-and-up">
-
-          <h2>React Forms</h2>
-
-          <p>In this lesson, we&#39;ll create a functional component for adding a new user....</p>
-
-<hr>
-
-<p>Add two new files to the &quot;client/src/components&quot; directory:</p>
-
-<ol>
-<li><em>AddUser.jsx</em></li>
-<li><em>AddUser.test.js</em></li>
-</ol>
-
-<p>Start with the test:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">shallow</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;enzyme&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="nx">renderer</span> <span class="nx">from</span> <span class="s1">&#39;react-test-renderer&#39;</span><span class="p">;</span>
-
-<span class="kr">import</span> <span class="nx">AddUser</span> <span class="nx">from</span> <span class="s1">&#39;./AddUser&#39;</span><span class="p">;</span>
-
-<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;AddUser renders properly&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">AddUser</span><span class="o">/&gt;</span><span class="p">);</span>
-  <span class="kr">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">name</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">type</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">);</span>
-<span class="p">});</span>
-</code></pre></div>
-<p>Here, we&#39;re asserting that a form, with three inputs, is present. Run the tests to ensure they fail, and then add the component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
-
-<span class="kr">const</span> <span class="nx">AddUser</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">form</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">input</span>
-          <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-          <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-          <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-          <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
-          <span class="nx">required</span>
-        <span class="o">/&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">input</span>
-          <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-          <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-          <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-          <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
-          <span class="nx">required</span>
-        <span class="o">/&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="nx">input</span>
-        <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span>
-        <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;btn btn-primary btn-lg btn-block&quot;</span>
-        <span class="nx">value</span><span class="o">=</span><span class="s2">&quot;Submit&quot;</span>
-      <span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="err">/form&gt;</span>
-  <span class="p">)</span>
-<span class="p">};</span>
-
-<span class="kr">export</span> <span class="k">default</span> <span class="nx">AddUser</span><span class="p">;</span>
-</code></pre></div>
-<p>Import the component in <em>index.js</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kr">import</span> <span class="nx">AddUser</span> <span class="nx">from</span> <span class="s1">&#39;./components/AddUser&#39;</span><span class="p">;</span>
-</code></pre></div>
-<p>Then update the <code>render</code> method:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;col-md-6&quot;</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="err">/h1&gt;</span>
-          <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">AddUser</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="o">&lt;</span><span class="err">/div&gt;</span>
-  <span class="p">)</span>
-<span class="p">};</span>
-</code></pre></div>
-<p>Ensure the <code>testdriven-dev</code> machine is up and running and the <code>REACT_APP_USERS_SERVICE_URL</code> environment variable is properly assigned to the IP associated with the <code>testdriven-dev</code> machine. Run <code>npm start</code> to test. If all went well, you should see the form along with the users.</p>
-
-<div style="text-align:left;">
-  <img src="/assets/img/course/02_react_forms1.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react forms">
-</div>
-
-<p>With that, let&#39;s add a snapshot test to <em>AddUser.test.js</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;AddUser renders a snapshot properly&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">tree</span> <span class="o">=</span> <span class="nx">renderer</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">AddUser</span><span class="o">/&gt;</span><span class="p">).</span><span class="nx">toJSON</span><span class="p">();</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">tree</span><span class="p">).</span><span class="nx">toMatchSnapshot</span><span class="p">();</span>
-<span class="p">});</span>
-</code></pre></div>
-<p>Ensure it passes before moving on.</p>
-
-<p>Now, since this is a single page application, we want to prevent the normal browser behavior when a form is submitted to avoid a page refresh.</p>
-
-<p><em>Steps</em>:</p>
-
-<ol>
-<li>Handle form submit event</li>
-<li>Obtain user input</li>
-<li>Send AJAX request</li>
-<li>Update the page</li>
-</ol>
-
-<h3 id="handle-form-submit-event">Handle form submit event</h3>
-
-<p>To handle the submit event, simply update the <code>form</code> element in <em>AddUser.jsx</em>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()}</span><span class="o">&gt;</span>
-</code></pre></div>
-<p>Enter a dummy username and email address, and then try submitting the form. Nothing should happen, which is exactly what we want - we prevented the normal browser behavior.</p>
-
-<p>Next, add the following method to the <code>App</code> component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;sanity check!&#39;</span><span class="p">);</span>
-<span class="p">};</span>
-</code></pre></div>
-<p>Since <code>AddUser</code> is a functional component, we need to pass this method down to it via props. Update the <code>AddUser</code> element like so:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">AddUser</span> <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">}</span><span class="o">/&gt;</span>
-</code></pre></div>
-<p>Then, update the constructor:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kr">super</span><span class="p">();</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">users</span><span class="o">:</span> <span class="p">[]</span>
-  <span class="p">};</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-<span class="p">};</span>
-</code></pre></div>
-<p>Update the <code>form</code> element again as well:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
-</code></pre></div>
-<p>Here, we bound the context of <code>this</code> manually via <code>bind()</code>:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</code></pre></div>
-<p>Without it, the context of <code>this</code> inside the method will not have the correct context. Want to test this out? Simply add <code>console.log(this)</code> to <code>addUser()</code> and then submit the form. What&#39;s the context? Remove the <code>bind</code> and test it again. What&#39;s the context now?</p>
-
-<blockquote>
-<p>For more on this, review <a href="https://reactjs.org/docs/handling-events.html">Handling Events</a> from the official React docs.</p>
-</blockquote>
-
-<p>Test it out in the browser. You should see <code>sanity check!</code> in the JavaScript console on form submit.</p>
-
-<h3 id="obtain-user-input">Obtain user input</h3>
-
-<p>We&#39;ll use <a href="https://reactjs.org/docs/forms.html#controlled-components">controlled components</a> to obtain the user submitted input. Start by adding two new properties to the state object in the <code>App</code> component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="nx">users</span><span class="o">:</span> <span class="p">[],</span>
-  <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-  <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
-<span class="p">};</span>
-</code></pre></div>
-<p>Then, pass them through to the component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">AddUser</span>
-  <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-  <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">}</span>
-<span class="err">/&gt;</span>
-</code></pre></div>
-<p>These are accessible now via the <code>props</code> object, which can be used as the current value of the input like so:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="nx">input</span>
-    <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-    <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-    <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
-    <span class="nx">required</span>
-    <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-  <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="nx">input</span>
-    <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-    <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-    <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
-    <span class="nx">required</span>
-    <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-  <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-</code></pre></div>
-<p>So, this defines the value of the inputs from the parent component. Test out the form now. What happens if you try to add a username? You shouldn&#39;t see anything being typed since the value is being &quot;pushed&quot; down from the parent.</p>
-
-<blockquote>
-<p>What do you think will happen if the initial state of those values was set as <code>test</code> rather than an empty string? Try it.</p>
-</blockquote>
-
-<p>How do we update the state in the parent component so that it gets updated when the user enters text into the input boxes?</p>
-
-<p>First, add a <code>handleChange</code> method to the <code>App</code> component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">handleChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
-  <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
-<span class="p">};</span>
-</code></pre></div>
-<p>Add the bind to the constructor:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-</code></pre></div>
-<p>Then, pass the method down to the component:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">AddUser</span>
-  <span class="nx">username</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-  <span class="nx">email</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-  <span class="nx">handleChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span>
-  <span class="nx">addUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span><span class="p">}</span>
-<span class="err">/&gt;</span>
-</code></pre></div>
-<p>Add it to the form inputs:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="nx">input</span>
-    <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
-    <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-    <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
-    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a username&quot;</span>
-    <span class="nx">required</span>
-    <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-    <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span>
-  <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-group&quot;</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="nx">input</span>
-    <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-    <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;form-control input-lg&quot;</span>
-    <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;email&quot;</span>
-    <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter an email address&quot;</span>
-    <span class="nx">required</span>
-    <span class="nx">value</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span>
-    <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">handleChange</span><span class="p">}</span>
-  <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-</code></pre></div>
-<p>Test the form out now. It should be working. If curious, you can see the value of the state by logging it to the console in the <code>addUser</code> method:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;sanity check!&#39;</span><span class="p">);</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">);</span>
-<span class="p">};</span>
-</code></pre></div>
-<div style="text-align:left;">
-  <img src="/assets/img/course/02_react_forms2.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react forms">
-</div>
-
-<p>Now that we have the values, let&#39;s send the AJAX request so the data can be added to the database and then update the DOM...</p>
-
-<h3 id="send-ajax-request">Send AJAX request</h3>
-
-<p>Turn back to users service. What do we need to send in the JSON payload to add a user - username and email, right?</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">))</span>
-</code></pre></div>
-<p>Let&#39;s use Axios to send the POST request:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
-    <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
-  <span class="p">};</span>
-  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="si">}</span><span class="sb">/users`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">})</span>
-  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Test it out. It should work as long as the email address is unique.</p>
-
-<blockquote>
-<p>If you have problems, analyze the response object from the &quot;<a href="https://developers.google.com/web/tools/chrome-devtools/#network">Network</a>&quot; tab in Developer Tools. You can also fire up the users service outside of Docker and debug using the Flask debugger or with <code>print</code> statements.</p>
-</blockquote>
-
-<h3 id="update-the-page">Update the page</h3>
-
-<p>Finally, let&#39;s update the list of users on a successful form submit and then clear the form:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">addUser</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-  <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">username</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span>
-    <span class="nx">email</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span>
-  <span class="p">};</span>
-  <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="si">}</span><span class="sb">/users`</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="p">});</span>
-  <span class="p">})</span>
-  <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>That&#39;s it. Test it out. Then, run the tests. Update the snapshot test (by pressing <code>u</code> on the keyboard). Review and then commit your code.</p>
+<p>That’s it. Test it out. Then, run the tests. Update the snapshot test (by pressing <code class="highlighter-rouge">u</code> on the keyboard). Review and then commit your code.</p>
 
 
           
+
+            
   <br>
-  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Forms&amp;url=https%3A%2F%2Ftestdriven.io/part-two-react-forms&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - React Forms&amp;url=http%3A%2F%2Flocalhost%3A4000/part-two-react-forms&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 
-          <div class="page-nav">
-            
-              <a class="prev btn left-align" href="https://testdriven.io/part-two-testing-react">&laquo; Testing React</a>
-            
-            
-              <a class="next btn right-align" href="https://testdriven.io/part-two-react-and-docker">React and Docker &raquo;</a>
-            
-          </div>
+            <div class="page-nav">
+              <br>
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/part-two-testing-react">&laquo; Testing React</a>
+              
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/part-two-react-and-docker">React and Docker &raquo;</a>
+              
+            </div>
+
+          
 
         </div>
 
       </div>
     </div>
 
-     <footer class="page-footer white">
-  <div class="container footer-container center-align">
-    <ul>
-      <li>
-        <span>&copy; Copyright 2018</span>
-        <a href="http://testdriven.io">TestDriven.io</a>
-      </li>
-      <li>
-        <br>
-        <a
-          class="twitter-follow-button"
-          href="https://twitter.com/testdrivenio"
-          data-show-count="false">
-          Follow @testdrivenio
-        </a>
-      </li>
-      <li>
-        <small>
-          <span>Developed by </span>
-          <a href="http://mherman.org/">Michael Herman</a>
-        </small>
-      </li>
-      <li>
-        <small>
-          <span>Questions? </span>
-          <a href="mailto:michael@mherman.org">michael@mherman.org</a>
-        </small>
-      </li>
-    </ul>
+     <footer class="footer text-center">
+  <div class="container">
+    <hr>
+    <small>
+      <p>
+      <span>&copy; Copyright 2018</span>
+      <a href="http://testdriven.io">TestDriven.io</a>.
+      <br>
+      <span>Developed by </span>
+      <a href="http://mherman.org/">Michael Herman</a>.
+      <br>
+      <span>Questions? </span>
+      <a href="mailto:michael@mherman.org">michael@mherman.org</a>
+      <p>
+    </small>
   </div>
 </footer>
 
 
-    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script
+  src="//code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"
+></script>
+<script
+  src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"
+></script>
+<script
+  type="text/javascript"
+  src="/assets/js/main.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://gumroad.com/js/gumroad.js"
+></script>
+
 
     
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-100160465-1', 'auto');
-    ga('send', 'pageview');
-
-  </script>
-
 
 
   </body>

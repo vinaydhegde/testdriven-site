@@ -1,11 +1,12 @@
 ---
 title: Update Docker
-layout: post
+layout: course
 permalink: part-three-update-docker
 intro: false
 part: 3
 lesson: 13
 share: true
+type: course
 ---
 
 In this last lesson, we'll update Docker on AWS...

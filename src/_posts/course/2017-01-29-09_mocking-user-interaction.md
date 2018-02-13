@@ -1,11 +1,12 @@
 ---
 title: Mocking User Interaction
-layout: post
+layout: course
 permalink: part-three-mocking-user-interaction
 intro: false
 part: 3
 lesson: 9
 share: true
+type: course
 ---
 
 Let's look at how to test user interactions with Enzyme...
@@ -27,7 +28,7 @@ So, given the `Form` component, for the register route, what are the inputs:
 
 What happens when a user submits the registration form correctly? What does the component render? Does the component behave differently based on the provided inputs? What would change if the value of `formType` was `Login`?
 
-### Refactor
+## Refactor
 
 Let's start by refactoring the current tests in *services/client/src/components/\_\_tests\_\_/Form.test.js*:
 
@@ -145,11 +146,11 @@ Ran all test suites.
 
 Next, let's look at how to test a user interaction...
 
-### Testing Interactions
+## Testing Interactions
 
 Before we start, brainstorm on your on for a bit on what happens during a form submit, paying particular attention to the component's inputs and outputs...
 
-#### Form Submit
+### Form Submit
 
 Add a new `describe` block to *services/client/src/components/\_\_tests\_\_/Form.test.js*:
 
@@ -178,7 +179,7 @@ describe('When not authenticated', () => {
 
 Here, we used `jest.fn()` to [mock](http://facebook.github.io/jest/docs/en/mock-function-api.html#mockfnmockimplementationfn) the `handleUserFormSubmit` method and then asserted that the function was called on the [simulated](http://airbnb.io/enzyme/docs/api/ShallowWrapper/simulate.html) form submit.
 
-#### Form Values
+### Form Values
 
 Let's take it one step further and assert that the form values are being handled correctly. Update the `it` block like so:
 
@@ -193,7 +194,7 @@ it(`${testValues.formType} Form submits the form properly`, () => {
 });
 ```
 
-#### OnChange
+### OnChange
 
 How about the `onChange`?
 
@@ -213,7 +214,7 @@ it(`${testValues.formType} Form submits the form properly`, () => {
 });
 ```
 
-#### Refactor
+### Refactor
 
 Finally, update the tests to incorporate the previous `it` block into the original describe `block`:
 

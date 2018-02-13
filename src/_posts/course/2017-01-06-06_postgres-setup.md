@@ -1,11 +1,12 @@
 ---
 title: Postgres Setup
-layout: post
+layout: course
 permalink: part-one-postgres-setup
 intro: false
 part: 1
 lesson: 6
 share: true
+type: course
 ---
 
 In this lesson, we'll configure Postgres, get it up and running in another container, and link it to the `users-service` container...

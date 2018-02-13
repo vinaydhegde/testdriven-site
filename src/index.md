@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: course
 title: Microservices with Docker, Flask, and React
 ---
 
@@ -17,8 +17,10 @@ We'll also be practicing test-driven development (TDD), writing tests first when
   <img src="/assets/img/course/03_flask-tdd-logo.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
 
+<br>
+
 <div>
-  <p><a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Purchase Now!</a></p>
+  <a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a>
   <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 through 3</a></p>
 </div>
 
@@ -26,11 +28,13 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 
 <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via={{ site.twitter }}" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<br><hr><br>
+<br>
 
-#### What will you build?
+---
 
-##### Services
+## What will you build?
+
+### Services
 
 1. *users* - Flask app for managing users and auth
 1. *client* - client-side, React app
@@ -39,11 +43,13 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 1. *scores* - Flask app for managing user scores
 1. *exercises* - Flask app for managing exercises
 
-##### App
+### App
 
 <div style="text-align:left;">
   <img src="/assets/img/course/07_testdriven.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
+
+<br>
 
 Check out the live app, running on multiple EC2 instances -
 
@@ -53,52 +59,56 @@ Check out the live app, running on multiple EC2 instances -
 <br>
 
 <div>
-  <p><a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Purchase Now!</a></p>
+  <a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a>
   <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 through 3</a></p>
 </div>
 
-<br><hr><br>
+<br>
 
-#### What will you learn?
+---
 
-##### Part 1
+
+## What will you learn?
+
+
+### Part 1
 
 In this first part, you'll learn how to quickly spin up a reproducible development environment with *Docker* to create a *RESTful API* powered by *Python*, *Postgres*, and the *Flask* web framework. After the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance.
 
 **Tools and Technologies**: Python, Flask, Flask-Script, Flask-SQLAlchemy, Flask-Testing, Gunicorn, Nginx, Docker, Docker Compose, Docker Machine, Postgres, Flask Blueprints, Jinja Templates
 
-##### Part 2
+### Part 2
 
 In part 2, we'll add *code coverage* and *continuous integration* testing to ensure that each service can be run and tested independently from the whole. Finally, we'll add *ReactJS* along with *Jest*, a JavaScript test runner, and *Enzyme*, a testing library made specifically for React, to the client-side.
 
 **Tools and Technologies**: Code Coverage with Coverage.py, Node, NPM, Create React App, Axios, Flask-CORS, React forms
 
-##### Part 3
+### Part 3
 
 In part 3, we'll add *database migrations* along with *password hashing* in order to implement *token-based authentication* to the users service with JSON Web Tokens (JWTs). We'll then turn our attention to the client and add *React Router* to the React app to enable client-side routing along with client-side authentication.
 
 **Tools and Technologies**: Flask-Migrate, Flask-Bcrypt, PyJWT, react-router-dom, React Bootstrap, React Router Bootstrap, React Authentication and Authorization
 
-##### Part 4
+### Part 4
 
 In part 4, we'll add an *end-to-end* (e2e) testing solution, *form validation* to the React app, a *Swagger* service to document the API, and deal with some tech debt. We'll also set up a staging environment to test on before the app goes into production.
 
 **Tools and Technologies**: TestCafe, Swagger UI
 
-##### Part 5
+### Part 5
 
 In part 5, we'll dive into *container orchestration* with Amazon ECS as we move our staging and production environments to a more scaleable infrastructure. We'll also add Amazon EC2 Container Registry along with Amazon's Elastic Load Balancing for *load balancing* and Amazon's Relational Database Service for *data persistence*.
 
 
 **Tools and Technologies**: Docker Hub, AWS, EC2, EC2 Container Registry (ECR), EC2 Container Service (ECS), Elastic Load Balancing (ELB), Application Load Balancer (ALB), Relational Database Service (RDS)
 
-##### Part 6
+### Part 6
 
 In part 6, we'll focus our attention on adding a new *Flask* service, with two RESTful-resources, to evaluate user-submitted code. Along the way, we'll tie in *AWS Lambda* and *API Gateway* and spend a bit of time refactoring *React* and the *end-to-end* test suite. Finally, we'll update the staging and production environments on ECS.
 
 **Tools and Technologies**: AWS Lambda and API Gateway
 
-##### Part 7
+### Part 7
 
 In part 7, we'll refactor the *AWS Lambda* function to make it dynamic so it can be used with more than one exercise, introduce *type checking* on the client-side with *React PropTypes*, and update a number of components. We'll also introduce another new *Flask* service to manage scores. Again, we'll update the staging and production environments on ECS.
 
@@ -107,27 +117,21 @@ In part 7, we'll refactor the *AWS Lambda* function to make it dynamic so it can
 <br>
 
 <div>
-  <p><a class="waves-effect waves-light red darken-1 center-align btn-large" href="https://gum.co/flask">Purchase Now!</a></p>
+  <a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a>
   <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 through 3</a></p>
 </div>
 
-<br><hr><br>
+<br>
 
-*Join our mailing list to be notified about updates and new releases.*
+---
+
+<p>Join our mailing list to be notified about updates and new releases.</p>
 
 <form action="//testdriven.us17.list-manage.com/subscribe/post?u=bea5ac664532063fe8aa8d6a2&amp;id=eddaf58c2a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-<div class="row">
-<div class="input-field col s6">
-<input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL">
-</div>
-</div>
-<div class="row">
-<div class="col s6">
-&nbsp;<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-<i class="material-icons right">send</i>
-</button>
-</div>
-</div>
+    <div class="form-group">
+      <input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL" class="form-control col-sm-3">
+    </div>
+    <div>
+      &nbsp;<button class="btn btn-success" type="submit" name="action">Submit</button>
+    </div>
 </form>
-
-<br>
