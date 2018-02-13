@@ -6,6 +6,7 @@ toc: true
 permalink: behavior-driven-development-with-django-and-aloe
 type: blog
 author: Jason Parent
+description: This article details the Behavior-Driven Development (BDD) cycle with Django and Aloe.
 date: 2018-02-13
 ---
 
@@ -52,6 +53,14 @@ Want to build this project as you read the post?
     >
 
 Just looking for the code? Grab it from the [repo](https://github.com/testdrivenio/django-aloe-bdd).
+
+## Brief Overview of BDD
+
+Behavior-driven development is a way of testing your code that challenges you to constantly revisit your design. When you write a test, you answer the question _Does my code do what I expect it to do?_ through assertions. Failing tests expose the mistakes in your code. With BDD, you analyze a feature: _Is the user experience what I expect it to be?_ There is nothing as concrete as a failing test to expose a bad feature, but the consequences of delivering a bad experience are tangible.
+
+Execute BDD as part of your test development cycle. Draw the functional boundaries of a feature with tests. Create code that colors in the details. Step back and consider your design. And then do it all over again until the picture is complete.
+
+> Review the following [post](https://pythonhosted.org/behave/philosophy.html) for a more in-depth explanation of BDD.
 
 ## Your First Feature Request
 
