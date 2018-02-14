@@ -7,6 +7,7 @@ permalink: behavior-driven-development-with-django-and-aloe
 type: blog
 author: Jason Parent
 description: This article details the Behavior-Driven Development (BDD) cycle with Django and Aloe.
+keywords: "django, python, bdd, tdd, testing, behavior-driven development, drf, djangorestframework, django rest framework"
 date: 2018-02-13
 ---
 

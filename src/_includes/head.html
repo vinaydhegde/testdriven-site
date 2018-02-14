@@ -3,11 +3,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <!-- description -->
   {% if page.description %}
-    <meta name="description" content="{{ page.description }}">
+    <meta name="description" content="{{page.description}}">
   {% endif %}
+  <!-- keywords -->
   {% if page.keywords %}
-    <meta name="keywords" content="{{ keywords }}">
+    <meta name="keywords" content="{{page.keywords}}">
   {% endif %}
   <!-- title -->
   {% if page.type == 'blog' %}
