@@ -7,7 +7,7 @@ permalink: blog/
 <hr><br>
 
 <div class="blog-list">
-  {% for post in site.posts reversed %}
+  {% for post in site.posts %}
     <ul>
       {% if post.type == 'blog' %}
         <li>
@@ -16,6 +16,7 @@ permalink: blog/
           <p>{{ post.excerpt }}</p>
           <p><a class="btn btn-outline-success btn-sm" href="{{ site.url }}{{ post.url }}">Read Article</a></p>
         </li>
+        <br>
       {% endif %}
     </ul>
   {% endfor %}
