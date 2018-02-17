@@ -1,5 +1,6 @@
 ---
-layout: course
+layout: main
+type: main
 title: Microservices with Docker, Flask, and React
 ---
 
