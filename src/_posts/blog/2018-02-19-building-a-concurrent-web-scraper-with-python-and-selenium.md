@@ -511,7 +511,7 @@ Elapsed run time: 62.95027780532837 seconds
 
 > Check out the completed script [here](https://github.com/calebpollman/web-scraping-parallel-processing/blob/master/script_parallel.py).
 
-# Configure Headless ChromeDriver
+## Configure Headless ChromeDriver
 
 To speed things up even further we can run Chrome in headless mode by simply updating `get_driver()` in *scrapers/scraper.py*:
 
@@ -533,7 +533,7 @@ Run:
 Elapsed run time: 58.14033889770508 seconds
 ```
 
-# Conclusion
+## Conclusion
 
 With a small amount of variation from the original code, we were able to configure parallel processing in the script and set up ChromeDriver to run a headless browser to take the script's run time from around 355 seconds to just over 58 seconds. In this specific scenario that's 89.3% faster, which is a huge improvement.
 
