@@ -7,10 +7,10 @@ permalink: building-a-concurrent-web-scraper-with-python-and-selenium
 type: blog
 author: Caleb Pollman
 description: This post looks at how to speed up a Python web scraper with multiprocessing..
-keywords: "web scraping, python, multiprocessing, scraping, crawling, web crawling, selenium, concurrency"
+keywords: "web scraping, python, multiprocessing, scraping, crawling, web crawling, selenium, concurrency, webdriver"
 image: /assets/img/blog/web_scraper_python_selenium.png
-image_alt: python and django
-date: 2018-02-16
+image_alt: python and selenium
+date: 2018-02-19
 ---
 
 This is a quick post that looks at how to speed up a simple, Python-based web scraping and crawling script with parallel processing via the multiprocessing library. We'll also break down the script itself and show how to test the parsing functionality.
@@ -34,7 +34,7 @@ Clone down the repo if you'd like to follow along. From the command line run the
 ```sh
 $ git clone git@github.com:calebpollman/web-scraping-parallel-processing.git
 $ cd web-scraping-parallel-processing
-$ python3 -m venv env
+$ python3.6 -m venv env
 $ source env/bin/activate
 (env)$ pip install -r requirements.txt
 ```
@@ -90,7 +90,11 @@ if __name__ == '__main__':
     current_page = 1
     output_timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     output_filename = f'output_{output_timestamp}.csv'
-    browser = get_driver() # <--- here
+
+    ########
+    # here #
+    ########
+    browser = get_driver()
     # scrape and crawl
     while current_page <= 20:
         print(f'Scraping page #{current_page}...')
@@ -114,7 +118,11 @@ if __name__ == '__main__':
     output_filename = f'output_{output_timestamp}.csv'
     browser = get_driver()
     # scrape and crawl
-    while current_page <= 20: # <--- here
+
+    ########
+    # here #
+    ########
+    while current_page <= 20:
         print(f'Scraping page #{current_page}...')
         run_process(current_page, output_filename, browser)
         current_page = current_page + 1
@@ -142,7 +150,11 @@ In `run_process()`, the browser instance and a page number are passed to `connec
 
 ```python
 def run_process(page_number, filename, browser):
-    if connect_to_base(browser, page_number): # <--- here
+
+    ########
+    # here #
+    ########
+    if connect_to_base(browser, page_number):
         sleep(2)
         html = browser.page_source
         output_list = parse_html(html)
@@ -180,7 +192,11 @@ To emulate a human user, `sleep(2)` is called after the browser has connected to
 ```python
 def run_process(page_number, filename, browser):
     if connect_to_base(browser, page_number):
-        sleep(2) # <--- here
+
+        ########
+        # here #
+        ########
+        sleep(2)
         html = browser.page_source
         output_list = parse_html(html)
         write_to_file(output_list, filename)
@@ -194,8 +210,16 @@ Once the page has loaded and `sleep(2)` has executed, the browser grabs the HTML
 def run_process(page_number, filename, browser):
     if connect_to_base(browser, page_number):
         sleep(2)
-        html = browser.page_source # <--- here
-        output_list = parse_html(html) # <--- here
+
+        ########
+        # here #
+        ########
+        html = browser.page_source
+
+        ########
+        # here #
+        ########
+        output_list = parse_html(html)
         write_to_file(output_list, filename)
     else:
         print('Error connecting to hackernews')
@@ -261,7 +285,11 @@ def run_process(page_number, filename, browser):
         sleep(2)
         html = browser.page_source
         output_list = parse_html(html)
-        write_to_file(output_list, filename) # <--- here
+
+        ########
+        # here #
+        ########
+        write_to_file(output_list, filename)
     else:
         print('Error connecting to hackernews')
 ```
@@ -291,7 +319,11 @@ if __name__ == '__main__':
     while current_page <= 20:
         print(f'Scraping page #{current_page}...')
         run_process(current_page, output_filename, browser)
-        current_page = current_page + 1 # <--- here
+
+        ########
+        # here #
+        ########
+        current_page = current_page + 1
     # exit
     browser.quit()
     end_time = time()
