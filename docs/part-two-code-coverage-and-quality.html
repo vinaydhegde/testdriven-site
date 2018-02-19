@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -633,7 +693,7 @@
 
           
 
-          <p>In this lesson, we’ll add code coverage via <a href="http://coverage.readthedocs.io">Coverage.py</a> to the project…</p>
+          <p>In this lesson, we’ll add code coverage via <a href="http://coverage.readthedocs.io/">Coverage.py</a> to the project…</p>
 
 <hr />
 
@@ -651,16 +711,16 @@
 <p>Ensure the app is working in the browser, and then run the tests:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 </code></pre></div></div>
 
 <h2 id="code-coverage">Code Coverage</h2>
 
 <p><a href="https://en.wikipedia.org/wiki/Code_coverage">Code coverage</a> is the process of finding areas of your code not exercised by tests. Keep in mind that this does not measure the overall effectiveness of the test suite.</p>
 
-<p>Add Coverage.py to the <em>requirements.txt</em> file in the “users-service” directory:</p>
+<p>Add Coverage.py to the <em>requirements.txt</em> file in the “users” directory:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coverage==4.4.1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>coverage==4.4.2
 </code></pre></div></div>
 
 <p>Next, we need to configure the coverage reports in <em>manage.py</em>. Start by adding the configuration right after the imports:</p>
@@ -669,15 +729,16 @@
     <span class="n">branch</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
     <span class="n">include</span><span class="o">=</span><span class="s">'project/*'</span><span class="p">,</span>
     <span class="n">omit</span><span class="o">=</span><span class="p">[</span>
-        <span class="s">'project/tests/*'</span>
+        <span class="s">'project/tests/*'</span><span class="p">,</span>
+        <span class="s">'project/config.py'</span><span class="p">,</span>
     <span class="p">]</span>
 <span class="p">)</span>
 <span class="n">COV</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Then add the new manager command:</p>
+<p>Then add the new CLI command:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@manager.command</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@cli.command</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">cov</span><span class="p">():</span>
     <span class="s">"""Runs the unit tests with coverage."""</span>
     <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">'project/tests'</span><span class="p">)</span>
@@ -706,7 +767,7 @@
 <p>Run the tests with coverage:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py cov
+  run <span class="nb">users </span>python manage.py cov
 </code></pre></div></div>
 
 <p>You should see something like:</p>
@@ -714,25 +775,24 @@
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coverage Summary:
 Name                    Stmts   Miss Branch BrPart  Cover
 <span class="nt">---------------------------------------------------------</span>
-project/__init__.py        12      5      0      0    58%
+project/__init__.py        13      5      0      0    62%
 project/api/models.py      12      9      0      0    25%
-project/api/users.py       48      0     10      0   100%
-project/config.py          16      0      0      0   100%
+project/api/users.py       48     10     10      0    83%
 <span class="nt">---------------------------------------------------------</span>
-TOTAL                      88     14     10      0    86%
+TOTAL                      73     24     10      0    71%
 </code></pre></div></div>
 
 <p>The HTML version can be viewed within the newly created “htmlcov” directory. Now you can quickly see which parts of the code are, and are not, covered by a test.</p>
 
-<p>Add this directory to the <em>.gitignore</em> file.</p>
+<p>Add this directory to the <em>.gitignore</em> and <em>.dockerignore</em> files.</p>
 
 <h2 id="code-quality">Code Quality</h2>
 
 <p><a href="https://stackoverflow.com/a/8503586/1799408">Linting</a> is the process of checking your code for stylistic or programming errors. Although there are a <a href="https://stackoverflow.com/a/7925369/1799408">number</a> of commonly used linters for Python, we’ll use <a href="https://gitlab.com/pycqa/flake8">Flake8</a> since it combines two other popular linters - <a href="https://pypi.python.org/pypi/pep8">pep8</a> and <a href="https://pypi.python.org/pypi/pyflakes">pyflakes</a>.</p>
 
-<p>Add flake8 to the <em>requirements.txt</em> file in the “users-service” directory:</p>
+<p>Add flake8 to the <em>requirements.txt</em> file in the “users” directory:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flake8===3.4.1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flake8===3.5.0
 </code></pre></div></div>
 
 <p>Update the containers:</p>
@@ -743,13 +803,12 @@ TOTAL                      88     14     10      0    86%
 <p>Run flake8:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service flake8 project
+  run <span class="nb">users </span>flake8 project
 </code></pre></div></div>
 
 <p>Were any errors found?</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>project/__init__.py:7:1: F401 <span class="s1">'flask.jsonify'</span> imported but unused
-project/tests/test_users.py:60:80: E501 line too long <span class="o">(</span>85 <span class="o">&gt;</span> 79 characters<span class="o">)</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>project/__init__.py:6:1: F401 <span class="s1">'flask.jsonify'</span> imported but unused
 </code></pre></div></div>
 
 <p>Correct any issues before moving on. Commit your code, and push it to GitHub.</p>

@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -609,7 +669,7 @@
 
           
 
-            <h5>Part 2, Lesson 5</h5>
+            <h5>Part 2, Lesson 6</h5>
 
             <div class="page-nav">
               <br>
@@ -637,21 +697,16 @@
 
 <hr />
 
-<p>Create React App uses <a href="https://facebook.github.io/jest/">Jest</a>, a JavaScript test runner, by <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#running-tests">default</a>, so we can start writing test specs. You will need to install the <a href="https://www.npmjs.com/package/jest-cli">jest-cli</a> - in the “client” folder - to run the actual tests, though:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>jest-cli@20.0.4 <span class="nt">--save-dev</span>
-</code></pre></div></div>
-
-<p>Along with Jest, we’ll use <a href="https://github.com/airbnb/enzyme">Enzyme</a>, a fantastic utility library made specifically for testing React components.</p>
+<p>Create React App uses <a href="https://facebook.github.io/jest/">Jest</a>, a JavaScript test runner, by <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#running-tests">default</a>, so we can start writing test specs without having to install a runner. Along with Jest, we’ll use <a href="https://github.com/airbnb/enzyme">Enzyme</a>, a fantastic utility library made specifically for testing React components.</p>
 
 <p>Install it as well enzyme-adapter-react-16:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">--save-dev</span> enzyme@3.1.0 enzyme-adapter-react-16@1.0.2
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">--save-dev</span> enzyme@3.3.0 enzyme-adapter-react-16@1.1.1
 </code></pre></div></div>
 
-<p>To configure the Enzyme to use the React 16 adapter, add a new file to “src” called <em>setupTests.js</em>:</p>
+<p>To configure Enzyme to use the React 16 <a href="http://airbnb.io/enzyme/#installation">adapter</a>, add a new file to “src” called <em>setupTests.js</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">configure</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'enzyme'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">configure</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'enzyme'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">Adapter</span> <span class="k">from</span> <span class="s1">'enzyme-adapter-react-16'</span><span class="p">;</span>
 
 <span class="nx">configure</span><span class="p">({</span> <span class="na">adapter</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Adapter</span><span class="p">()</span> <span class="p">});</span>
@@ -675,9 +730,9 @@
 
 <h2 id="testing-components">Testing Components</h2>
 
-<p>Create a new file in “components” called <em>UsersList.test.js</em>:</p>
+<p>Add a new directory called “__tests__” within the “components” directory. Then, create a new file called <em>UsersList.test.jsx</em> in “__tests__”:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">shallow</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'enzyme'</span><span class="p">;</span>
 
 <span class="k">import</span> <span class="nx">UsersList</span> <span class="k">from</span> <span class="s1">'../UsersList'</span><span class="p">;</span>
@@ -685,7 +740,7 @@
 <span class="kd">const</span> <span class="nx">users</span> <span class="o">=</span> <span class="p">[</span>
   <span class="p">{</span>
     <span class="s1">'active'</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="s1">'email'</span><span class="p">:</span> <span class="s1">'michael@realpython.com'</span><span class="p">,</span>
+    <span class="s1">'email'</span><span class="p">:</span> <span class="s1">'hermanmu@gmail.com'</span><span class="p">,</span>
     <span class="s1">'id'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">'username'</span><span class="p">:</span> <span class="s1">'michael'</span>
   <span class="p">},</span>
@@ -695,45 +750,151 @@
     <span class="s1">'id'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
     <span class="s1">'username'</span><span class="p">:</span> <span class="s1">'michaelherman'</span>
   <span class="p">}</span>
-<span class="p">]</span>
+<span class="p">];</span>
 
 <span class="nx">test</span><span class="p">(</span><span class="s1">'UsersList renders properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="nx">users</span><span class="p">}</span><span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
-</span>  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h4'</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(&lt;</span><span class="nc">UsersList</span> <span class="na">users=</span><span class="si">{</span><span class="nx">users</span><span class="si">}</span><span class="p">/&gt;);</span>
+  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h4'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">className</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'well'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'michael'</span><span class="p">);</span>
 <span class="p">});</span>
 </code></pre></div></div>
 
-<p>In this test, we use the <a href="http://airbnb.io/enzyme/docs/api/shallow.html">shallow</a> helper method to create the <code class="highlighter-rouge">UsersList</code> component and then we can retrieve the output and make assertions on it. It’s important to note that with “<a href="https://reactjs.org/docs/shallow-renderer.html">shallow rendering</a>”, we can test the component in complete isolation, which helps to ensure child components do not indirectly affect assertions.</p>
+<p>In this test, we used the <a href="http://airbnb.io/enzyme/docs/api/shallow.html">shallow</a> helper method to create the <code class="highlighter-rouge">UsersList</code> component and then we retrieved the output and made assertions against it. It’s important to note that with “<a href="https://reactjs.org/docs/shallow-renderer.html">shallow rendering</a>”, we can test the component in complete isolation, which helps to ensure child components do not indirectly affect assertions.</p>
 
 <blockquote>
-  <p>For more on shallow rendering, along with the other methods of rendering components for testing (<code class="highlighter-rouge">mount</code> and <code class="highlighter-rouge">render</code>) see <a href="https://stackoverflow.com/a/38747914/1799408">this</a> Stack Overflow article.</p>
+  <p>For more on shallow rendering, along with the other methods of rendering components for testing, <code class="highlighter-rouge">mount</code> and <code class="highlighter-rouge">render</code>, see <a href="https://stackoverflow.com/a/38747914/1799408">this</a> Stack Overflow article.</p>
 </blockquote>
 
 <p>Run the test to ensure it passes.</p>
 
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly <span class="o">(</span>4ms<span class="o">)</span>
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.118s, estimated 1s
+Ran all <span class="nb">test </span>suites related to changed files
+</code></pre></div></div>
+
 <h2 id="snapshot-testing">Snapshot Testing</h2>
 
-<p>Once the test is green, we’ll then add a <a href="http://facebook.github.io/jest/docs/en/snapshot-testing.html">Snapshot</a> test to ensure the UI does not change.</p>
+<p>Next, add a <a href="http://facebook.github.io/jest/docs/en/snapshot-testing.html">Snapshot</a> test to ensure the UI does not change:</p>
 
-<p>Add the following test to <em>UsersList.test.js</em>:</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'UsersList renders a snapshot properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">tree</span> <span class="o">=</span> <span class="nx">renderer</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="nx">users</span><span class="p">}</span><span class="sr">/&gt;</span><span class="se">)</span><span class="sr">.toJSON</span><span class="se">()</span><span class="err">;
-</span>  <span class="nx">expect</span><span class="p">(</span><span class="nx">tree</span><span class="p">).</span><span class="nx">toMatchSnapshot</span><span class="p">();</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'UsersList renders a snapshot properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">tree</span> <span class="o">=</span> <span class="nx">renderer</span><span class="p">.</span><span class="nx">create</span><span class="p">(&lt;</span><span class="nc">UsersList</span> <span class="na">users=</span><span class="si">{</span><span class="nx">users</span><span class="si">}</span><span class="p">/&gt;).</span><span class="nx">toJSON</span><span class="p">();</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">tree</span><span class="p">).</span><span class="nx">toMatchSnapshot</span><span class="p">();</span>
 <span class="p">});</span>
 </code></pre></div></div>
 
 <p>Add the import to the top:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">renderer</span> <span class="k">from</span> <span class="s1">'react-test-renderer'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">renderer</span> <span class="k">from</span> <span class="s1">'react-test-renderer'</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>Run the tests. So, on the first test run, a snapshot is saved of the component output (to the “__snapshots__” folder). Then, during subsequent test runs, the new output is compared to the saved output. The test fails if they differ.</p>
+<p>Run the tests:</p>
 
-<p>With the tests in watch mode, change <code class="highlighter-rouge">{user.username}</code> to <code class="highlighter-rouge">{user.email}</code> in the <code class="highlighter-rouge">UsersList</code> component. Save the changes to trigger a new test run. You should see both tests failing, which is exactly what we want. Now, if this change is intentional, you need to <a href="http://facebook.github.io/jest/docs/en/snapshot-testing.html#updating-snapshots">update the snapshot</a>. To do so, you just need to press the <code class="highlighter-rouge">u</code> key:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly <span class="o">(</span>3ms<span class="o">)</span>
+ ✓ UsersList renders a snapshot properly <span class="o">(</span>9ms<span class="o">)</span>
+
+Snapshot Summary
+› 1 snapshot written <span class="k">in </span>1 <span class="nb">test </span>suite.
+
+Test Suites: 1 passed, 1 total
+Tests:       2 passed, 2 total
+Snapshots:   1 added, 1 total
+Time:        0.468s, estimated 2s
+Ran all <span class="nb">test </span>suites related to changed files.
+</code></pre></div></div>
+
+<p>On the first test run, a snapshot of the component output is saved to the “__snapshots__” folder:</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Jest Snapshot v1, https://goo.gl/fbAQLP</span>
+
+<span class="nx">exports</span><span class="p">[</span><span class="s2">`UsersList renders a snapshot properly 1`</span><span class="p">]</span> <span class="o">=</span> <span class="s2">`
+&lt;div&gt;
+  &lt;h4
+    className="card card-body bg-light"
+  &gt;
+    michael
+  &lt;/h4&gt;
+  &lt;h4
+    className="card card-body bg-light"
+  &gt;
+    michaelherman
+  &lt;/h4&gt;
+&lt;/div&gt;
+`</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>During subsequent test runs, the new output will be compared to the saved output. The test will fail if they differ.</p>
+
+<p>Let’s run a quick sanity check!</p>
+
+<p>With the tests in watch mode, change <code class="highlighter-rouge">{user.username}</code> to <code class="highlighter-rouge">{user.email}</code> in the <code class="highlighter-rouge">UsersList</code> component. Save the changes to trigger a new test run. You should see both tests failing, which is exactly what we want:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAIL  src/components/__tests__/UsersList.test.jsx
+ ● UsersList renders properly
+
+   expect<span class="o">(</span>received<span class="o">)</span>.toBe<span class="o">(</span>expected<span class="o">)</span>
+
+   Expected value to be <span class="o">(</span>using <span class="o">===)</span>:
+     <span class="s2">"michael"</span>
+   Received:
+     <span class="s2">"hermanmu@gmail.com"</span>
+
+     at Object.&lt;anonymous&gt;.test <span class="o">(</span>src/components/__tests__/UsersList.test.jsx:27:41<span class="o">)</span>
+         at new Promise <span class="o">(</span>&lt;anonymous&gt;<span class="o">)</span>
+     at Promise.resolve.then.el <span class="o">(</span>node_modules/p-map/index.js:46:16<span class="o">)</span>
+         at &lt;anonymous&gt;
+
+ ● UsersList renders a snapshot properly
+
+   expect<span class="o">(</span>value<span class="o">)</span>.toMatchSnapshot<span class="o">()</span>
+
+   Received value does not match stored snapshot 1.
+
+   - Snapshot
+   + Received
+
+    &lt;div&gt;
+      &lt;h4
+        <span class="nv">className</span><span class="o">=</span><span class="s2">"card card-body bg-light"</span>
+      <span class="o">&gt;</span>
+   -    michael
+   +    hermanmu@gmail.com
+      &lt;/h4&gt;
+      &lt;h4
+        <span class="nv">className</span><span class="o">=</span><span class="s2">"card card-body bg-light"</span>
+      <span class="o">&gt;</span>
+   -    michaelherman
+   +    michael@mherman.org
+      &lt;/h4&gt;
+    &lt;/div&gt;
+
+     at Object.&lt;anonymous&gt;.test <span class="o">(</span>src/components/__tests__/UsersList.test.jsx:32:16<span class="o">)</span>
+         at new Promise <span class="o">(</span>&lt;anonymous&gt;<span class="o">)</span>
+     at Promise.resolve.then.el <span class="o">(</span>node_modules/p-map/index.js:46:16<span class="o">)</span>
+         at &lt;anonymous&gt;
+
+ ✕ UsersList renders properly <span class="o">(</span>5ms<span class="o">)</span>
+ ✕ UsersList renders a snapshot properly <span class="o">(</span>4ms<span class="o">)</span>
+
+Snapshot Summary
+› 1 snapshot <span class="nb">test </span>failed <span class="k">in </span>1 <span class="nb">test </span>suite.
+Inspect your code changes or press <span class="sb">`</span>u<span class="sb">`</span> to update them.
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 2 total
+Snapshots:   1 failed, 1 total
+Time:        0.544s, estimated 1s
+Ran all <span class="nb">test </span>suites related to changed files.
+</code></pre></div></div>
+
+<p>Now, if this change is intentional, you need to <a href="http://facebook.github.io/jest/docs/en/snapshot-testing.html#updating-snapshots">update the snapshot</a>. To do so, just need to press the <code class="highlighter-rouge">u</code> key:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Watch Usage
  › Press a to run all tests.
@@ -744,7 +905,35 @@
  › Press Enter to trigger a <span class="nb">test </span>run.
 </code></pre></div></div>
 
-<p>Try it out - press <code class="highlighter-rouge">u</code>. The tests will run again and the snapshot test should pass.</p>
+<p>Try it out - press <code class="highlighter-rouge">u</code>. The tests will run again and the snapshot test should pass:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FAIL  src/components/__tests__/UsersList.test.jsx
+ ● UsersList renders properly
+
+   expect<span class="o">(</span>received<span class="o">)</span>.toBe<span class="o">(</span>expected<span class="o">)</span>
+
+   Expected value to be <span class="o">(</span>using <span class="o">===)</span>:
+     <span class="s2">"michael"</span>
+   Received:
+     <span class="s2">"hermanmu@gmail.com"</span>
+
+     at Object.&lt;anonymous&gt;.test <span class="o">(</span>src/components/__tests__/UsersList.test.jsx:27:41<span class="o">)</span>
+         at new Promise <span class="o">(</span>&lt;anonymous&gt;<span class="o">)</span>
+     at Promise.resolve.then.el <span class="o">(</span>node_modules/p-map/index.js:46:16<span class="o">)</span>
+         at &lt;anonymous&gt;
+
+ ✕ UsersList renders properly <span class="o">(</span>7ms<span class="o">)</span>
+ ✓ UsersList renders a snapshot properly <span class="o">(</span>3ms<span class="o">)</span>
+
+Snapshot Summary
+› 1 snapshot updated <span class="k">in </span>1 <span class="nb">test </span>suite.
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 passed, 2 total
+Snapshots:   1 updated, 1 total
+Time:        0.126s, estimated 1s
+Ran all <span class="nb">test </span>suites related to changed files.
+</code></pre></div></div>
 
 <p>Once done, revert the changes we just made in the component, update the tests, ensure they pass, add the <code class="highlighter-rouge">__snapshots__</code> folder to the <em>.gitignore</em> file, and then commit your code.</p>
 
@@ -755,9 +944,35 @@
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>react-scripts <span class="nb">test</span> <span class="nt">--coverage</span>
 </code></pre></div></div>
 
+<blockquote>
+  <p>You may need to globally install React Scripts - <code class="highlighter-rouge">npm install react-scripts@1.1.0 --global</code>.</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly <span class="o">(</span>10ms<span class="o">)</span>
+ ✓ UsersList renders a snapshot properly <span class="o">(</span>8ms<span class="o">)</span>
+
+Test Suites: 1 passed, 1 total
+Tests:       2 passed, 2 total
+Snapshots:   1 passed, 1 total
+Time:        1.071s
+Ran all <span class="nb">test </span>suites.
+<span class="nt">---------------------------</span>|----------|----------|----------|----------|----------------|
+File                       |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+<span class="nt">---------------------------</span>|----------|----------|----------|----------|----------------|
+All files                  |     7.14 |        0 |     8.33 |     12.9 |                |
+src                       |     1.89 |        0 |        0 |     3.57 |                |
+ index.js                 |        0 |        0 |        0 |        0 |... 19,20,23,38 |
+ registerServiceWorker.js |        0 |        0 |        0 |        0 |... 137,138,139 |
+ setupTests.js            |      100 |      100 |      100 |      100 |                |
+src/components            |      100 |      100 |      100 |      100 |                |
+ UsersList.jsx            |      100 |      100 |      100 |      100 |                |
+<span class="nt">---------------------------</span>|----------|----------|----------|----------|----------------|
+</code></pre></div></div>
+
 <h2 id="testing-interactions">Testing Interactions</h2>
 
-<p>Enzyme can also be used to test user interactions in terms of events. We can <a href="http://airbnb.io/enzyme/docs/api/ReactWrapper/simulate.html">simulate</a> such actions and events and then test that the actual results are the same as the expected results. We’ll look at this in a future lesson.</p>
+<p>Enzyme can also be used to test user interactions. We can <a href="http://airbnb.io/enzyme/docs/api/ReactWrapper/simulate.html">simulate</a> actions and events and then test that the actual results are the same as the expected results. We’ll look at this in a future lesson.</p>
 
 <blockquote>
   <p>It’s worth noting that we’ll focus much of our React testing on unit testing the individual components. We’ll let the end-to-end tests handle testing user interaction as well as the interaction between the client and server.</p>
@@ -768,12 +983,14 @@
 <p>Do you get this error when your tests run?</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>console.error node_modules/fbjs/lib/warning.js:33
-    Warning: React depends on requestAnimationFrame. Make sure that you load a polyfill <span class="k">in </span>older browsers. http://fb.me/react-polyfills
+    Warning: React depends on requestAnimationFrame.
+    Make sure that you load a polyfill <span class="k">in </span>older browsers.
+    http://fb.me/react-polyfills
 </code></pre></div></div>
 
 <p>If so, add a new folder to “services/client/src/components” called “__mocks__”, and then add a file to that folder called <em>react.js</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">react</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">react</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'react'</span><span class="p">);</span>
 <span class="c1">// Resolution for requestAnimationFrame not supported in jest error :</span>
 <span class="c1">// https://github.com/facebook/react/issues/9102#issuecomment-283873039</span>
 <span class="nb">global</span><span class="p">.</span><span class="nb">window</span> <span class="o">=</span> <span class="nb">global</span><span class="p">;</span>

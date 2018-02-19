@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -688,20 +748,20 @@
             <span class="s">'/users'</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
                 <span class="s">'username'</span><span class="p">:</span> <span class="s">'michael'</span><span class="p">,</span>
-                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@realpython.com'</span>
+                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@mherman.org'</span>
             <span class="p">}),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael@realpython.com was added!'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'message'</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael@mherman.org was added!'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'message'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'success'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'status'</span><span class="p">])</span>
 </code></pre></div></div>
 
 <p>Run the test to ensure it fails:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 </code></pre></div></div>
 
 <p>Then add the route handler to <em>project/api/users.py</em></p>
@@ -730,7 +790,7 @@
 
 <p>Run the tests. They all should pass:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 5 tests <span class="k">in </span>0.201s
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 5 tests <span class="k">in </span>0.092s
 
 OK
 </code></pre></div></div>
@@ -759,11 +819,13 @@ OK
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'fail'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'status'</span><span class="p">])</span>
 
 <span class="k">def</span> <span class="nf">test_add_user_invalid_json_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="s">"""Ensure error is thrown if the JSON object does not have a username key."""</span>
+    <span class="s">"""
+    Ensure error is thrown if the JSON object does not have a username key.
+    """</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">'/users'</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@realpython.com'</span><span class="p">}),</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@mherman.org'</span><span class="p">}),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -771,14 +833,14 @@ OK
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'Invalid payload.'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'message'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'fail'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'status'</span><span class="p">])</span>
 
-<span class="k">def</span> <span class="nf">test_add_user_duplicate_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">test_add_user_duplicate_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="s">"""Ensure error is thrown if the email already exists."""</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
             <span class="s">'/users'</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
                 <span class="s">'username'</span><span class="p">:</span> <span class="s">'michael'</span><span class="p">,</span>
-                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@realpython.com'</span>
+                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@mherman.org'</span>
             <span class="p">}),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
         <span class="p">)</span>
@@ -786,7 +848,7 @@ OK
             <span class="s">'/users'</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
                 <span class="s">'username'</span><span class="p">:</span> <span class="s">'michael'</span><span class="p">,</span>
-                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@realpython.com'</span>
+                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@mherman.org'</span>
             <span class="p">}),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
         <span class="p">)</span>
@@ -839,7 +901,7 @@ OK
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_single_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="s">"""Ensure get single user behaves correctly."""</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'michael'</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">'michael@realpython.com'</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'michael'</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">'michael@mherman.org'</span><span class="p">)</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
@@ -847,7 +909,7 @@ OK
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'username'</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael@realpython.com'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael@mherman.org'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'success'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'status'</span><span class="p">])</span>
 </code></pre></div></div>
 
@@ -946,13 +1008,13 @@ OK
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_single_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="s">"""Ensure get single user behaves correctly."""</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="s">'michael@realpython.com'</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="s">'michael@mherman.org'</span><span class="p">)</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="s">'/users/{user.id}'</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'username'</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael@realpython.com'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael@mherman.org'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'success'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'status'</span><span class="p">])</span>
 </code></pre></div></div>
 
@@ -960,8 +1022,8 @@ OK
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_all_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="s">"""Ensure get all users behaves correctly."""</span>
-    <span class="n">add_user</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="s">'michael@realpython.com'</span><span class="p">)</span>
-    <span class="n">add_user</span><span class="p">(</span><span class="s">'fletcher'</span><span class="p">,</span> <span class="s">'fletcher@realpython.com'</span><span class="p">)</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="s">'michael@mherman.org'</span><span class="p">)</span>
+    <span class="n">add_user</span><span class="p">(</span><span class="s">'fletcher'</span><span class="p">,</span> <span class="s">'fletcher@notreal.com'</span><span class="p">)</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/users'</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -969,10 +1031,10 @@ OK
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'username'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
-            <span class="s">'michael@realpython.com'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
+            <span class="s">'michael@mherman.org'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'fletcher'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">'username'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
-            <span class="s">'fletcher@realpython.com'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
+            <span class="s">'fletcher@notreal.com'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'success'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'status'</span><span class="p">])</span>
 </code></pre></div></div>
 
@@ -1015,10 +1077,10 @@ OK
 
 <p>Add a seed command to the <em>manage.py</em> file to populate the database with some initial data:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@manager.command</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@cli.command</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">seed_db</span><span class="p">():</span>
     <span class="s">"""Seeds the database."""</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'michael'</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">"michael@realpython.com"</span><span class="p">))</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'michael'</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">"hermanmu@gmail.com"</span><span class="p">))</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'michaelherman'</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s">"michael@mherman.org"</span><span class="p">))</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre></div></div>
@@ -1026,10 +1088,14 @@ OK
 <p>Try it out:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py seed_db
+  run <span class="nb">users </span>python manage.py seed_db
 </code></pre></div></div>
 
 <p>Make sure you can view the users in the JSON response <a href="http://DOCKER_MACHINE_IP:5001/users">http://DOCKER_MACHINE_IP:5001/users</a>.</p>
+
+<blockquote>
+  <p>Think about how you could trim down some of the tests with shared setup code. Try not to sacrifice readability if you do decide to refactor.</p>
+</blockquote>
 
 
           

@@ -9,7 +9,7 @@ share: true
 type: course
 ---
 
-In this lesson, we'll configure Postgres, get it up and running in another container, and link it to the `users-service` container...
+In this lesson, we'll configure Postgres, get it up and running in another container, and link it to the `users` container...
 
 ---
 
@@ -17,13 +17,13 @@ Add [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/) and psycopg2 to the *
 
 ```
 Flask-SQLAlchemy==2.3.2
-psycopg2==2.7.3.1
+psycopg2==2.7.3.2
 ```
 
 Update *config.py*:
 
 ```python
-# users-service/project/config.py
+# services/users/project/config.py
 
 
 import os
@@ -31,34 +31,30 @@ import os
 
 class BaseConfig:
     """Base configuration"""
-    DEBUG = False
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration"""
-    DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 
 
 class TestingConfig(BaseConfig):
     """Testing configuration"""
-    DEBUG = True
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')
 
 
 class ProductionConfig(BaseConfig):
     """Production configuration"""
-    DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 ```
 
 Update *\_\_init\_\_.py*, to create a new instance of SQLAlchemy and define the database model:
 
 ```python
-# users-service/project/__init__.py
+# services/users/project/__init__.py
 
 
 import os
@@ -76,6 +72,7 @@ app.config.from_object(app_settings)
 
 # instantiate the db
 db = SQLAlchemy(app)
+
 
 # model
 class User(db.Model):
@@ -116,25 +113,27 @@ FROM postgres
 ADD create.sql /docker-entrypoint-initdb.d
 ```
 
-Here, we extend the official Postgres image by adding a SQL file to the "docker-entrypoint-initdb.d" directory in the container, which will execute on init.
+Here, we extend the [official Postgres image](https://hub.docker.com/_/postgres/) by adding a SQL file to the "docker-entrypoint-initdb.d" directory in the container, which will execute on init.
 
 Update *docker-compose.yml-dev*:
 
-```
-version: '3.3'
+```yaml
+version: '3.4'
 
 services:
 
-  users-service:
-    container_name: users-service
+  users:
+    container_name: users
     build:
-      context: ./users-service
+      context: ./services/users
       dockerfile: Dockerfile-dev
     volumes:
-      - './users-service:/usr/src/app'
+      - './services/users:/usr/src/app'
     ports:
       - 5001:5000
     environment:
+      - FLASK_APP=project/__init__.py
+      - FLASK_DEBUG=1
       - APP_SETTINGS=project.config.DevelopmentConfig
       - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
@@ -146,7 +145,7 @@ services:
   users-db:
     container_name: users-db
     build:
-      context: ./users-service/project/db
+      context: ./services/users/project/db
       dockerfile: Dockerfile
     ports:
       - 5435:5432
@@ -155,7 +154,7 @@ services:
       - POSTGRES_PASSWORD=postgres
 ```
 
-Once spun up, Postgres will be available on port `5435` on the host machine and on port `5432` for services running in other containers. Since the `users-service` is dependent not only on the container being up and running but also the actual Postgres instance also being up and healthy, let's add an *entrypoint.sh* file to "users-service":
+Once spun up, Postgres will be available on port `5435` on the host machine and on port `5432` for services running in other containers. Since the `users` service is dependent not only on the container being up and running but also the actual Postgres instance also being up and healthy, let's add an *entrypoint.sh* file to "users":
 
 ```sh
 #!/bin/sh
@@ -168,13 +167,13 @@ done
 
 echo "PostgreSQL started"
 
-python manage.py runserver -h 0.0.0.0
+python manage.py run -h 0.0.0.0
 ```
 
 Update *Dockerfile-dev*:
 
-```sh
-FROM python:3.6.3
+```
+FROM python:3.6.4
 
 # install environment dependencies
 RUN apt-get update -yqq \
@@ -187,19 +186,25 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # add requirements
-ADD ./requirements.txt /usr/src/app/requirements.txt
+COPY ./requirements.txt /usr/src/app/requirements.txt
 
 # install requirements
 RUN pip install -r requirements.txt
 
 # add entrypoint.sh
-ADD ./entrypoint.sh /usr/src/app/entrypoint.sh
+COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 
 # add app
-ADD . /usr/src/app
+COPY . /usr/src/app
 
 # run server
 CMD ["./entrypoint.sh"]
+```
+
+Update the file permissions:
+
+```sh
+$ chmod +x services/users/entrypoint.sh
 ```
 
 Sanity check:
@@ -220,33 +225,33 @@ Ensure [http://DOCKER_MACHINE_IP:5001/users/ping](http://DOCKER_MACHINE_IP:5001/
 Update *manage.py*:
 
 ```python
-# users-service/manage.py
+# services/users/manage.py
 
 
-from flask_script import Manager
+from flask.cli import FlaskGroup
 
 from project import app, db
 
 
-manager = Manager(app)
+cli = FlaskGroup(app)
 
 
-@manager.command
+@cli.command()
 def recreate_db():
-    """Recreates a database."""
     db.drop_all()
     db.create_all()
     db.session.commit()
 
 
 if __name__ == '__main__':
-    manager.run()
+    cli()
 ```
 
-This registers a new command, `recreate_db`,  to the manager so that we can run it from the command line. Apply the model to the dev database:
+This registers a new command, `recreate_db`,  to the CLI so that we can run it from the command line. Apply the model to the dev database:
 
-```
-$ docker-compose -f docker-compose-dev.yml run users-service python manage.py recreate_db
+```sh
+$ docker-compose -f docker-compose-dev.yml \
+  run users python manage.py recreate_db
 ```
 
 Did this work? Let's hop into psql...

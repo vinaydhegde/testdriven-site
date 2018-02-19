@@ -9,7 +9,7 @@ share: true
 type: course
 ---
 
-In this lesson, we'll wire up routing in our React App to manage navigation between different components so the end user has unique pages to interact with...
+In this lesson, we'll wire up routing in the React app to manage navigation between different components so the end user has unique pages to interact with...
 
 ---
 
@@ -35,7 +35,7 @@ Before adding the router, let's move the `App` component out of *index.js* to cl
 
 *App.jsx*:
 
-```javascript
+```jsx
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -108,7 +108,7 @@ export default App;
 
 *index.js*:
 
-```javascript
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -133,12 +133,13 @@ $ docker-compose -f docker-compose-dev.yml \
   run client npm test
 ```
 
-Finally, let's add a new test to ensure the overall app renders. Create a new file called *App.test.js* within the "services/client/src" directory:
+Finally, let's add a new test to ensure the overall app renders. Create a new file called *App.test.jsx* within the "services/client/src/components/\_\_tests\_\_/" directory:
 
-```javascript
+```jsx
 import React from 'react';
 import { shallow } from 'enzyme';
-import App from './App';
+
+import App from '../../App';
 
 test('App renders without crashing', () => {
   const wrapper = shallow(<App/>);
@@ -147,17 +148,29 @@ test('App renders without crashing', () => {
 
 Make sure the tests still pass!
 
+```sh
+PASS  src/components/__tests__/UsersList.test.jsx
+PASS  src/components/__tests__/App.test.jsx
+PASS  src/components/__tests__/AddUser.test.jsx
+
+Test Suites: 3 passed, 3 total
+Tests:       5 passed, 5 total
+Snapshots:   2 passed, 2 total
+Time:        1.415s, estimated 8s
+Ran all test suites.
+```
+
 ### Router Setup
 
 Add [react-router-dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom) to the `dependencies` within *services/client/package.json* file:
 
 ```sh
 "dependencies": {
-  "axios": "^0.16.2",
-  "react": "^16.0.0",
-  "react-dom": "^16.0.0",
+  "axios": "^0.17.1",
+  "react": "^16.2.0",
+  "react-dom": "^16.2.0",
   "react-router-dom": "^4.2.2",
-  "react-scripts": "1.0.14"
+  "react-scripts": "1.1.0"
 },
 ```
 
@@ -176,7 +189,7 @@ $ docker-compose -f docker-compose-dev.yml up -d --build
 
 Add the router to *index.js*:
 
-```javascript
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -196,12 +209,12 @@ Now, let's add a basic `/about route`...
 
 We'll start by adding a new `About` component, starting with a test of course:
 
-```javascript
+```jsx
 import React from 'react';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import About from './About';
+import About from '../About';
 
 test('About renders properly', () => {
   const wrapper = shallow(<About/>);
@@ -211,18 +224,18 @@ test('About renders properly', () => {
 });
 ```
 
-Add the test to a new file in "services/client/src/components" called *About.test.js. And then run the tests to ensure they fail:
+Add the test to a new file in "services/client/src/components/\_\_tests\_\_" called *About.test.jsx*. And then run the tests to ensure they fail:
 
 ```sh
-FAIL  src/components/About.test.js
- ● About renders properly
+FAIL  src/components/__tests__/About.test.jsx
+ ● Test suite failed to run
 
-   TypeError: element.type is not a function
+   Cannot find module '../About' from 'About.test.jsx'
 ```
 
 Add a new component to use for the route to new file called *About.jsx* within "components":
 
-```javascript
+```jsx
 import React from 'react';
 
 const About = () => (
@@ -238,15 +251,16 @@ export default About;
 
 To get a quick sanity check, import the component into *App.jsx*:
 
-```javascript
+```jsx
 import About from './components/About';
 ```
 
 Then add the component to the `render` method, just below the `UsersList` component:
 
-```javascript
+```jsx
 ...
 <UsersList users={this.state.users}/>
+<br/>
 <About/>
 ...
 ```
@@ -259,7 +273,7 @@ Make sure you can view the new component in the browser:
 
 Now, to render the `About` component in a different route, update the `render` method again:
 
-```javascript
+```jsx
 render() {
   return (
     <div className="container">
@@ -297,15 +311,15 @@ Here, we used the `<Switch>` component to group `<Route>`s and then defined two 
 
 Don't forget the import:
 
-```javascript
-import { Route, Switch } from 'react-router-dom'
+```jsx
+import { Route, Switch } from 'react-router-dom';
 ```
 
-Save, and then test each route in the browser. Once done, return to the termial and make sure the tests pass.
+Save, and then test each route in the browser. Once done, return to the terminal and make sure the tests pass.
 
-Now, let's add a quick snapshot test to *About.test.js*:
+Now, let's add a quick snapshot test to *About.test.jsx*:
 
-```javascript
+```jsx
 test('About renders a snapshot properly', () => {
   const tree = renderer.create(<About/>).toJSON();
   expect(tree).toMatchSnapshot();

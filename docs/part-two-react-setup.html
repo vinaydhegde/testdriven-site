@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -609,12 +669,12 @@
 
           
 
-            <h5>Part 2, Lesson 4</h5>
+            <h5>Part 2, Lesson 5</h5>
 
             <div class="page-nav">
               <br>
               
-                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-continuous-integration">&laquo; Continuous Integration</a>
+                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-flask-debug-toolbar">&laquo; Flask Debug Toolbar</a>
               
               
                 <a class="btn btn-outline-success" href="https://testdriven.io/part-two-testing-react">Testing React &raquo;</a>
@@ -644,9 +704,9 @@
 <p>Make sure you have <a href="https://nodejs.org/en/">Node</a> and <a href="https://www.npmjs.com/">NPM</a> installed before continuing:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>node <span class="nt">-v</span>
-v8.7.0
+v9.4.0
 <span class="nv">$ </span>npm <span class="nt">-v</span>
-5.4.2
+5.6.0
 </code></pre></div></div>
 
 <h2 id="project-setup">Project Setup</h2>
@@ -654,15 +714,15 @@ v8.7.0
 <p>We’ll use the amazing <a href="https://github.com/facebookincubator/create-react-app">Create React App</a> CLI to generate a boilerplate that’s all set up and ready to go.</p>
 
 <blockquote>
-  <p>Again, it’s important to understand what’s happening under the hood with Webpack and babel. For more, check out the <a href="https://github.com/mjhea0/react-intro">Intro to React</a> tutorial.</p>
+  <p>Again, it’s important to understand what’s happening under the hood with Webpack and Babel. For more, check out the <a href="https://github.com/mjhea0/react-intro">Intro to React</a> tutorial.</p>
 </blockquote>
 
 <p>Start by installing Create React App globally:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>create-react-app@1.4.2 <span class="nt">--global</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>create-react-app@1.5.1 <span class="nt">--global</span>
 </code></pre></div></div>
 
-<p>Add a new directory to the project root called “client” and create the boilerplate:</p>
+<p>Add a new directory to “services” called “client”, and then <code class="highlighter-rouge">cd</code> into the newly created directory and create the boilerplate:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>create-react-app <span class="nb">.</span>
 </code></pre></div></div>
@@ -676,7 +736,7 @@ v8.7.0
 
 <p>Ensure all is well, and then kill the server.</p>
 
-<p>Next, to simplify the development process, let’s tell npm not to create a <a href="https://docs.npmjs.com/files/package-lock.json">package-lock.json</a> file for this project:</p>
+<p>Next, to simplify the development process, remove the <a href="https://docs.npmjs.com/files/package-lock.json">package-lock.json</a> file. Let’s also tell npm not to create one, during future module installations, for this project:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'package-lock=false'</span> <span class="o">&gt;&gt;</span> .npmrc
 </code></pre></div></div>
@@ -691,25 +751,25 @@ v8.7.0
 
 <p>First, to simplify the structure, remove the <em>App.css</em>, <em>App.js</em>, <em>App.test.js</em>, and <em>index.css</em> from the “src” folder, and then update <em>index.js</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">ReactDOM</span> <span class="k">from</span> <span class="s1">'react-dom'</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">App</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"row"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"col-md-4"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
-</span>          <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>  <span class="p">)</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"container"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"row"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"col-md-4"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+          <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>All Users<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
 <span class="p">};</span>
 
 <span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span><span class="p">,</span>
+  <span class="p">&lt;</span><span class="nc">App</span> <span class="p">/&gt;,</span>
   <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">)</span>
 <span class="p">);</span>
 </code></pre></div></div>
@@ -717,9 +777,9 @@ v8.7.0
 <p>What’s happening?</p>
 
 <ol>
-  <li>After importing the <code class="highlighter-rouge">React</code> and <code class="highlighter-rouge">ReactDom</code> classes, we created a functional component called <code class="highlighter-rouge">App</code>, which returns <a href="https://facebook.github.io/jsx/">JSX</a>.</li>
+  <li>After importing the <code class="highlighter-rouge">React</code> and <code class="highlighter-rouge">ReactDom</code> classes, we created a functional component called <code class="highlighter-rouge">App</code>, which returns <a href="https://reactjs.org/docs/introducing-jsx.html">JSX</a>.</li>
   <li>
-    <p>We then use the <code class="highlighter-rouge">render</code> method from <code class="highlighter-rouge">ReactDOM</code> to mount the App to the DOM into the HTML element with an ID of <code class="highlighter-rouge">root</code>.</p>
+    <p>We then used the <code class="highlighter-rouge">render</code> method from <code class="highlighter-rouge">ReactDOM</code> to mount the App to the DOM into the HTML element with an ID of <code class="highlighter-rouge">root</code>.</p>
 
     <blockquote>
       <p>Take note of <code class="highlighter-rouge">&lt;div id="root"&gt;&lt;/div&gt;</code> within the <em>index.html</em> file in the “public” folder.</p>
@@ -727,19 +787,24 @@ v8.7.0
   </li>
 </ol>
 
-<p>Add Bootstrap to <em>index.html</em> in the <code class="highlighter-rouge">head</code>:</p>
+<p>Add Bootstrap to <em>index.html</em> (found in the “public” folder) in the <code class="highlighter-rouge">head</code>:</p>
 
 <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;link</span>
-  <span class="na">href=</span><span class="s">"//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"</span>
+  <span class="na">href=</span><span class="s">"//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"</span>
   <span class="na">rel=</span><span class="s">"stylesheet"</span>
 <span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>Start the server again to see the changes in the browser:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm start
 </code></pre></div></div>
 
 <h2 id="class-based-component">Class-based Component</h2>
 
 <p>Update <em>index.js</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">ReactDOM</span> <span class="k">from</span> <span class="s1">'react-dom'</span><span class="p">;</span>
 
 <span class="kd">class</span> <span class="nx">App</span> <span class="kd">extends</span> <span class="nx">Component</span> <span class="p">{</span>
@@ -748,21 +813,21 @@ v8.7.0
   <span class="p">}</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"row"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"col-md-4"</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
-</span>            <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="p">)</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"container"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"row"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"col-md-4"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>All Users<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">)</span>
   <span class="p">}</span>
 <span class="p">};</span>
 
 <span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span><span class="p">,</span>
+  <span class="p">&lt;</span><span class="nc">App</span> <span class="p">/&gt;,</span>
   <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">)</span>
 <span class="p">);</span>
 </code></pre></div></div>
@@ -774,13 +839,13 @@ v8.7.0
   <li>When ran, <code class="highlighter-rouge">super()</code> calls the constructor of <code class="highlighter-rouge">Component</code>, which <code class="highlighter-rouge">App</code> extends from.</li>
 </ol>
 
-<p>You may have already noticed, but the output is the exact same as before, despite using a class-based component. We’ll look at the differences between the two shortly!</p>
+<p>You may have already noticed, but the output, in the browser, is the exact same as before, despite using a class-based component. We’ll look at the differences between the two shortly!</p>
 
 <h2 id="ajax">AJAX</h2>
 
 <p>To connect the client to the server, add a <code class="highlighter-rouge">getUsers()</code> method to the <code class="highlighter-rouge">App</code> class, which uses <a href="https://github.com/mzabriskie/axios">Axios</a> to manage the AJAX call:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="s2">/users`</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span> <span class="p">})</span>
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
@@ -789,17 +854,17 @@ v8.7.0
 
 <p>Install Axios:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>axios@0.16.2 <span class="nt">--save</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>axios@0.17.1 <span class="nt">--save</span>
 </code></pre></div></div>
 
 <p>Add the import:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">axios</span> <span class="k">from</span> <span class="s1">'axios'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">axios</span> <span class="k">from</span> <span class="s1">'axios'</span><span class="p">;</span>
 </code></pre></div></div>
 
 <p>You should now have:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">ReactDOM</span> <span class="k">from</span> <span class="s1">'react-dom'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">axios</span> <span class="k">from</span> <span class="s1">'axios'</span><span class="p">;</span>
 
@@ -814,21 +879,21 @@ v8.7.0
   <span class="p">}</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"row"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"col-md-4"</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
-</span>            <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="p">)</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"container"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"row"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"col-md-4"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>All Users<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">)</span>
   <span class="p">}</span>
 <span class="p">};</span>
 
 <span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span><span class="p">,</span>
+  <span class="p">&lt;</span><span class="nc">App</span> <span class="p">/&gt;,</span>
   <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">)</span>
 <span class="p">);</span>
 </code></pre></div></div>
@@ -847,10 +912,10 @@ v8.7.0
 <p>Ensure the app is working in the browser, and then run the tests:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 </code></pre></div></div>
 
-<p>Now, turning back to React, we need to add the <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">environment variable</a> <code class="highlighter-rouge">process.env.REACT_APP_USERS_SERVICE_URL</code>. Kill the Create React App server, and then run:</p>
+<p>Now, turning back to React, we need to add the <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables">environment variable</a>,  <code class="highlighter-rouge">process.env.REACT_APP_USERS_SERVICE_URL</code>. Kill the Create React App server, and then run:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_DEV_IP
 </code></pre></div></div>
@@ -861,7 +926,7 @@ v8.7.0
 
 <p>We still need to call the <code class="highlighter-rouge">getUsers()</code> method, which we can do, for now, in the <code class="highlighter-rouge">constructor()</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">super</span><span class="p">();</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
 <span class="p">};</span>
@@ -874,16 +939,16 @@ No 'Access-Control-Allow-Origin' header is present on the requested resource.
 Origin 'http://localhost:3000' is therefore not allowed access.
 </code></pre></div></div>
 
-<p>In short, we’re making a <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-origin</a> AJAX request (from <code class="highlighter-rouge">http://localhost:3000</code> to <code class="highlighter-rouge">http://192.168.99.100</code>), which is a violation of the browsers “same origin policy”. Fortunately, we can use the <a href="https://flask-cors.readthedocs.io/en/latest/">Flask-CORS</a> extension to handle this.</p>
+<p>In short, we’re making a <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-origin</a> AJAX request (from <code class="highlighter-rouge">http://localhost:3000</code> to <code class="highlighter-rouge">http://192.168.99.100</code>), which is a violation of the browser’s “same origin policy”. Fortunately, we can use the <a href="https://flask-cors.readthedocs.io/en/latest/">Flask-CORS</a> extension to handle this.</p>
 
-<p>Within the “users-service” directory, add Flask-CORS to the <em>requirements.txt</em> file:</p>
+<p>Within the “users” directory, add Flask-CORS to the <em>requirements.txt</em> file:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flask-cors==3.0.3
 </code></pre></div></div>
 
-<p>To keep things simple, let’s allow cross origin requests on all routes, from any domain. Simply update <code class="highlighter-rouge">create_app()</code> in <em>users-service/project/__init__.py</em> like so:</p>
+<p>To keep things simple, let’s allow cross origin requests on all routes, from any domain. Simply update <code class="highlighter-rouge">create_app()</code> in <em>services/users/project/__init__.py</em> like so:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">create_app</span><span class="p">():</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">script_info</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
     <span class="c"># instantiate the app</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
@@ -897,11 +962,14 @@ Origin 'http://localhost:3000' is therefore not allowed access.
 
     <span class="c"># set up extensions</span>
     <span class="n">db</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="n">toolbar</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
     <span class="c"># register blueprints</span>
     <span class="kn">from</span> <span class="nn">project.api.users</span> <span class="kn">import</span> <span class="n">users_blueprint</span>
     <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">users_blueprint</span><span class="p">)</span>
 
+    <span class="c"># shell context for flask cli</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">shell_context_processor</span><span class="p">({</span><span class="s">'app'</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span> <span class="s">'db'</span><span class="p">:</span> <span class="n">db</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">app</span>
 </code></pre></div></div>
 
@@ -918,17 +986,21 @@ Origin 'http://localhost:3000' is therefore not allowed access.
 <p>Then, update and seed the database:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py recreate_db
+  run <span class="nb">users </span>python manage.py recreate_db
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py seed_db
+  run <span class="nb">users </span>python manage.py seed_db
 </code></pre></div></div>
 
-<p>fire back up both servers, open the JavaScript Console again, and this time you should see the results of <code class="highlighter-rouge">console.log(res);</code>.</p>
+<p>Fire back up both servers, open the JavaScript Console again, and this time you should see the results of <code class="highlighter-rouge">console.log(res);</code>:</p>
+
+<div style="text-align:left;">
+  <img src="/assets/img/course/01_react_ajax_request.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react ajax request" />
+</div>
 
 <p>Let’s parse the JSON object:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="s2">/users`</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span> <span class="p">})</span>
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">})</span>
@@ -940,7 +1012,7 @@ Origin 'http://localhost:3000' is therefore not allowed access.
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"michael@realpython.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hermanmu@gmail.com"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"michael"</span><span class="w">
   </span><span class="p">},</span><span class="w">
@@ -955,28 +1027,28 @@ Origin 'http://localhost:3000' is therefore not allowed access.
 
 <p>Before we move on, we need to do a quick refactor. Remember how we called the <code class="highlighter-rouge">getUsers()</code> method in the constructor?</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">super</span><span class="p">();</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
 <span class="p">};</span>
 </code></pre></div></div>
 
-<p>Well, the <code class="highlighter-rouge">constructor()</code> fires <em>before</em> the component is mounted to the DOM. What would happen if the AJAX request took longer than expected and the component was mounted before it was complete? This introduces a <a href="https://en.wikipedia.org/wiki/Race_condition">race condition</a>. Fortunately, React makes it fairly simple to correct this via Lifecycle Methods.</p>
+<p>Well, the <code class="highlighter-rouge">constructor()</code> fires <em>before</em> the component is mounted to the DOM. What would happen if the AJAX request took longer than expected and the component mounted before the request completed? This introduces a <a href="https://en.wikipedia.org/wiki/Race_condition">race condition</a>. Fortunately, React makes it fairly simple to correct this via Lifecycle Methods.</p>
 
 <h2 id="component-lifecycle-methods">Component Lifecycle Methods</h2>
 
 <p>Class-based components have several functions available to them that execute at certain times during the life of the component. These are called Lifecycle Methods. Take a quick look at the <a href="https://reactjs.org/docs/react-component.html#the-component-lifecycle">official documentation</a> to learn about each method and when each is called.</p>
 
-<p>The AJAX calls <a href="https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/">should be made</a> in the <code class="highlighter-rouge">componentDidMount()</code> method:</p>
+<p>The AJAX call <a href="https://daveceddia.com/where-fetch-data-componentwillmount-vs-componentdidmount/">should be made</a> in the <code class="highlighter-rouge">componentDidMount()</code> method:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">getUsers</span><span class="p">();</span>
 <span class="p">};</span>
 </code></pre></div></div>
 
 <p>Update the component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">App</span> <span class="kd">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">App</span> <span class="kd">extends</span> <span class="nx">Component</span> <span class="p">{</span>
   <span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">super</span><span class="p">();</span>
   <span class="p">};</span>
@@ -990,34 +1062,29 @@ Origin 'http://localhost:3000' is therefore not allowed access.
   <span class="p">};</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"row"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"col-md-4"</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
-</span>            <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="p">)</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"container"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"row"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"col-md-4"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>All Users<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">)</span>
   <span class="p">}</span>
 <span class="p">};</span>
-
-<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">App</span> <span class="o">/&gt;</span><span class="p">,</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">)</span>
-<span class="p">);</span>
 </code></pre></div></div>
 
 <p>Make sure everything still works as it did before.</p>
 
 <h2 id="state">State</h2>
 
-<p>To add the <a href="https://en.wikipedia.org/wiki/State_(computer_science)">state</a> - i.e., the users - to the component we need to use <code class="highlighter-rouge">setState()</code>, which is an asynchronous function use to update state.</p>
+<p>To add the [state](https://en.wikipedia.org/wiki/State_(computer_science%29) - i.e., the users - to the component we need to use <code class="highlighter-rouge">setState()</code>, which is an asynchronous function used to update state.</p>
 
 <p>Update <code class="highlighter-rouge">getUsers()</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">getUsers</span><span class="p">()</span> <span class="p">{</span>
   <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REACT_APP_USERS_SERVICE_URL</span><span class="p">}</span><span class="s2">/users`</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="na">users</span><span class="p">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">users</span> <span class="p">});</span> <span class="p">})</span>
   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
@@ -1026,7 +1093,7 @@ Origin 'http://localhost:3000' is therefore not allowed access.
 
 <p>Add state to the constructor:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">super</span><span class="p">();</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
     <span class="na">users</span><span class="p">:</span> <span class="p">[]</span>
@@ -1042,30 +1109,30 @@ Origin 'http://localhost:3000' is therefore not allowed access.
 
 <p>Finally, update the <code class="highlighter-rouge">render()</code> method to display the data returned from the AJAX call to the end user:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"row"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"col-md-6"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
-</span>          <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="p">{</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"container"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"row"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"col-md-6"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+          <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>All Users<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+          <span class="si">{</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
               <span class="k">return</span> <span class="p">(</span>
-                <span class="o">&lt;</span><span class="nx">h4</span>
-                  <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
-                  <span class="nx">className</span><span class="o">=</span><span class="s2">"well"</span>
-                <span class="o">&gt;</span><span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="p">}</span>
-                <span class="o">&lt;</span><span class="sr">/h4</span><span class="err">&gt;
-</span>              <span class="p">)</span>
+                <span class="p">&lt;</span><span class="nt">h4</span>
+                  <span class="na">key=</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span>
+                  <span class="na">className=</span><span class="s2">"card card-body bg-light"</span>
+                <span class="p">&gt;</span><span class="si">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">username</span> <span class="si">}</span>
+                <span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+              <span class="p">)</span>
             <span class="p">})</span>
-          <span class="p">}</span>
-        <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>  <span class="p">)</span>
-<span class="p">}</span>
+          <span class="si">}</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
+<span class="p">};</span>
 </code></pre></div></div>
 
 <p>What’s happening?</p>
@@ -1079,24 +1146,24 @@ Origin 'http://localhost:3000' is therefore not allowed access.
 
 <p>Let’s create a new component for the users list. Add a new folder called “components” to “src”. Add a new file to that folder called <em>UsersList.jsx</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">UsersList</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-      <span class="p">{</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="si">{</span>
         <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
           <span class="k">return</span> <span class="p">(</span>
-            <span class="o">&lt;</span><span class="nx">h4</span>
-              <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">"well"</span>
-            <span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-            <span class="o">&lt;</span><span class="sr">/h4</span><span class="err">&gt;
-</span>          <span class="p">)</span>
+            <span class="p">&lt;</span><span class="nt">h4</span>
+              <span class="na">key=</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span>
+              <span class="na">className=</span><span class="s2">"card card-body bg-light"</span>
+            <span class="p">&gt;</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="si">}</span>
+            <span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+          <span class="p">)</span>
         <span class="p">})</span>
-      <span class="p">}</span>
-    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>  <span class="p">)</span>
+      <span class="si">}</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
 <span class="p">};</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
@@ -1119,24 +1186,24 @@ Origin 'http://localhost:3000' is therefore not allowed access.
 
 <p>Now we need to pass state from the parent to the child component via <code class="highlighter-rouge">props</code>. First, add the import to <em>index.js</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">UsersList</span> <span class="k">from</span> <span class="s1">'./components/UsersList'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">UsersList</span> <span class="k">from</span> <span class="s1">'./components/UsersList'</span><span class="p">;</span>
 </code></pre></div></div>
 
 <p>Then, update the <code class="highlighter-rouge">render()</code> method:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"container"</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"row"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"col-md-6"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-          <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
-</span>          <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-            <span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>  <span class="p">)</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"container"</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"row"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">className=</span><span class="s2">"col-md-6"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+          <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>All Users<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nc">UsersList</span> <span class="na">users=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="si">}</span><span class="p">/&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
@@ -1156,7 +1223,7 @@ Origin 'http://localhost:3000' is therefore not allowed access.
             <div class="page-nav">
               <br>
               
-                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-continuous-integration">&laquo; Continuous Integration</a>
+                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-flask-debug-toolbar">&laquo; Flask Debug Toolbar</a>
               
               
                 <a class="btn btn-outline-success" href="https://testdriven.io/part-two-testing-react">Testing React &raquo;</a>

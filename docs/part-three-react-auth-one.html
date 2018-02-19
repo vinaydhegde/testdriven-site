@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -647,19 +707,19 @@
 </ol>
 
 <blockquote>
-  <p>These steps should look familiar since we already went through this process in the <a href="https://testdriven.io/part-two-react-forms">React Forms</a> lesson. Put your skills to the test and implement the code on your own before going through this lesson.</p>
+  <p>These steps should look familiar since we already went through this process in the <a href="../02/07_react-forms.md">React Forms</a> lesson. Put your skills to the test and implement the code on your own before going through this lesson.</p>
 </blockquote>
 
-<h3 id="handle-form-submit-event">Handle form submit event</h3>
+<h2 id="handle-form-submit-event">Handle form submit event</h2>
 
 <p>Turn to <em>Form.jsx</em>. Which method gets fired on the form submit?</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">form</span> <span class="nx">onSubmit</span><span class="o">=</span><span class="p">{(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">props</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)}</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
 <p>Add the method to the <code class="highlighter-rouge">App</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'sanity check!'</span><span class="p">);</span>
 <span class="p">};</span>
@@ -667,56 +727,60 @@
 
 <p>Bind the method in the constructor:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 </code></pre></div></div>
 
 <p>And then pass it down via the <code class="highlighter-rouge">props</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/register'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">Form</span>
-    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">'Register'</span><span class="p">}</span>
-    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
-    <span class="nx">handleUserFormSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">}</span>
-  <span class="sr">/</span><span class="err">&gt;
-</span><span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/register'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="p">&lt;</span><span class="nc">Form</span>
+    <span class="na">formType=</span><span class="si">{</span><span class="s1">'Register'</span><span class="si">}</span>
+    <span class="na">formData=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="si">}</span>
+    <span class="na">handleUserFormSubmit=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="si">}</span>
+  <span class="p">/&gt;</span>
+<span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
 </span><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/login'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">Form</span>
-    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">'Login'</span><span class="p">}</span>
-    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
-    <span class="nx">handleUserFormSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">}</span>
-  <span class="sr">/</span><span class="err">&gt;
-</span><span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
+  <span class="p">&lt;</span><span class="nc">Form</span>
+    <span class="na">formType=</span><span class="si">{</span><span class="s1">'Login'</span><span class="si">}</span>
+    <span class="na">formData=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="si">}</span>
+    <span class="na">handleUserFormSubmit=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="si">}</span>
+  <span class="p">/&gt;</span>
+<span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
 </span></code></pre></div></div>
 
 <p>To test, remove the <code class="highlighter-rouge">required</code> attribute on each of the form <code class="highlighter-rouge">input</code>s in <em>services/client/src/components/Form.jsx</em>. Then, you should see <code class="highlighter-rouge">sanity check!</code> in the JavaScript console on form submit for both forms in the browser.</p>
 
+<div style="text-align:left;">
+  <img src="/assets/img/course/03_react_form_submit_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
+</div>
+
 <p>Remove <code class="highlighter-rouge">console.log('sanity check!')</code> and add the <code class="highlighter-rouge">required</code> attributes back when done.</p>
 
-<h3 id="obtain-user-input">Obtain user input</h3>
+<h2 id="obtain-user-input">Obtain user input</h2>
 
 <p>Next, to get the user inputs, add the following method to the <code class="highlighter-rouge">App</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleFormChange</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">;</span>
   <span class="nx">obj</span><span class="p">[</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
 <span class="p">};</span>
 </code></pre></div></div>
 
-<p>Again, bind it in the constructor, and then pass it down on the <code class="highlighter-rouge">props</code>:</p>
+<p>Again, bind it in the constructor, and then pass it down to the components via the <code class="highlighter-rouge">props</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleFormChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleFormChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
 </code></pre></div></div>
 
 <p>Add a <code class="highlighter-rouge">console.log()</code> to the method - <code class="highlighter-rouge">console.log(this.state.formData);</code> - to ensure it works when you test it in the browser. Remove it once done.</p>
 
 <p>What’s next? AJAX!</p>
 
-<h3 id="send-ajax-request">Send AJAX request</h3>
+<h2 id="send-ajax-request">Send AJAX request</h2>
 
-<p>Update the <code class="highlighter-rouge">handleUserFormSubmit</code> method to send the data to the user service on a successful form submit:</p>
+<p>Update the <code class="highlighter-rouge">handleUserFormSubmit</code> method to send the data to the <code class="highlighter-rouge">user</code> service on a successful form submit:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">handleUserFormSubmit</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
   <span class="kd">const</span> <span class="nx">formType</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">).</span><span class="nx">reverse</span><span class="p">()[</span><span class="mi">0</span><span class="p">];</span>
   <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
@@ -735,10 +799,10 @@
 <span class="p">};</span>
 </code></pre></div></div>
 
-<p>Add a new <code class="highlighter-rouge">location</code> block to the Nginx config to handle requests to <code class="highlighter-rouge">/auth</code>:</p>
+<p>Add a new <code class="highlighter-rouge">location</code> block to both Nginx config files to handle requests to <code class="highlighter-rouge">/auth</code>:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>location /auth {
-  proxy_pass        http://users-service:5000;
+  proxy_pass        http://users:5000;
   proxy_redirect    default;
   proxy_set_header  Host $host;
   proxy_set_header  X-Real-IP $remote_addr;
@@ -766,9 +830,13 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
+<div style="text-align:left;">
+  <img src="/assets/img/course/03_react_form_ajax_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
+</div>
+
 <p>Test logging in as well. Again, you should see the very same object in the console.</p>
 
-<h3 id="update-the-page">Update the page</h3>
+<h2 id="update-the-page">Update the page</h2>
 
 <p>After a user register or logs in, we need to:</p>
 
@@ -779,9 +847,9 @@
   <li>Redirect the user to <code class="highlighter-rouge">/</code></li>
 </ol>
 
-<p>First, to clear the form, update the <code class="highlighter-rouge">.then</code> within <code class="highlighter-rouge">handleUserFormSubmit()</code>:</p>
+<p>First, to clear the form, update the <code class="highlighter-rouge">.then</code> block within <code class="highlighter-rouge">handleUserFormSubmit()</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
     <span class="na">formData</span><span class="p">:</span> <span class="p">{</span><span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span> <span class="na">email</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="s1">''</span> <span class="p">},</span>
     <span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
@@ -798,20 +866,20 @@
 
 <p>Next, let’s save the auth token in LocalStorage so that we can use it for subsequent API calls that require a user to be authenticated. To do this, add the following code to the <code class="highlighter-rouge">.then</code>, just below the <code class="highlighter-rouge">setState</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">'authToken'</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">);</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">'authToken'</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">auth_token</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p>Try logging in again. After a successful login, open the “Application” tab in <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>. Click the arrow before <a href="https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage">LocalStorage</a> and select <code class="highlighter-rouge">http://localhost:3000</code>. You should see a key of <code class="highlighter-rouge">authToken</code> with a value of the actual token in the pane.</p>
+<p>Try logging in again. After a successful login, open the “Application” tab in <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>. Click the arrow pointing toward <a href="https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage">LocalStorage</a> and select the IP (which should be the IP associated with the Docker Machine). You should see a key of <code class="highlighter-rouge">authToken</code> with a value of the actual token in the pane.</p>
 
 <div style="text-align:left;">
   <img src="/assets/img/course/03_react_auth_login.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
 </div>
 
-<p>Instead of always checking LocalStorage for the auth token, let’s add a boolean to the state so we can quickly tell if there is a user authenticated.</p>
+<p>Instead of always checking LocalStorage for the auth token, let’s add a boolean to the state so we can quickly tell if a user is authenticated.</p>
 
 <p>Add an <code class="highlighter-rouge">isAuthenticated</code> property to the state:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">users</span><span class="p">:</span> <span class="p">[],</span>
   <span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
   <span class="na">email</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
@@ -827,7 +895,7 @@
 
 <p>Now, we can update the state in the <code class="highlighter-rouge">.then</code> within <code class="highlighter-rouge">handleUserFormSubmit()</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
   <span class="na">formData</span><span class="p">:</span> <span class="p">{</span><span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span> <span class="na">email</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="s1">''</span> <span class="p">},</span>
   <span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
   <span class="na">email</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
@@ -837,43 +905,43 @@
 
 <p>Finally, to redirect the user after a successful log in or registration, pass <code class="highlighter-rouge">isAuthenticated</code> through to the <code class="highlighter-rouge">Form</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/register'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">Form</span>
-    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">'Register'</span><span class="p">}</span>
-    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
-    <span class="nx">handleUserFormSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">}</span>
-    <span class="nx">handleFormChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
-    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-  <span class="sr">/</span><span class="err">&gt;
-</span><span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/register'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="p">&lt;</span><span class="nc">Form</span>
+    <span class="na">formType=</span><span class="si">{</span><span class="s1">'Register'</span><span class="si">}</span>
+    <span class="na">formData=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="si">}</span>
+    <span class="na">handleUserFormSubmit=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="si">}</span>
+    <span class="na">handleFormChange=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="si">}</span>
+    <span class="na">isAuthenticated=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="si">}</span>
+  <span class="p">/&gt;</span>
+<span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
 </span><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/login'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">Form</span>
-    <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="s1">'Login'</span><span class="p">}</span>
-    <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
-    <span class="nx">handleUserFormSubmit</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">}</span>
-    <span class="nx">handleFormChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="p">}</span>
-    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-  <span class="sr">/</span><span class="err">&gt;
-</span><span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
+  <span class="p">&lt;</span><span class="nc">Form</span>
+    <span class="na">formType=</span><span class="si">{</span><span class="s1">'Login'</span><span class="si">}</span>
+    <span class="na">formData=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">formData</span><span class="si">}</span>
+    <span class="na">handleUserFormSubmit=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="si">}</span>
+    <span class="na">handleFormChange=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleFormChange</span><span class="si">}</span>
+    <span class="na">isAuthenticated=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="si">}</span>
+  <span class="p">/&gt;</span>
+<span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
 </span></code></pre></div></div>
 
 <p>Then, within <em>Form.jsx</em> add the following conditional right before the <code class="highlighter-rouge">return</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">'/'</span> <span class="o">/&gt;</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">&lt;</span><span class="nc">Redirect</span> <span class="na">to=</span><span class="s1">'/'</span> <span class="p">/&gt;;</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
 <p>Add the import:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-router-dom'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-router-dom'</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>To test, log in and then make sure that you are redirected to <code class="highlighter-rouge">/</code>. Also, once logged in, you should be redirected if you try to go to the <code class="highlighter-rouge">/register</code> or <code class="highlighter-rouge">/login</code> links. Before moving on, try registering a new user. Did you notice that even though the redirect works, the users list is not updating?</p>
+<p>To test, log in and then make sure that you are redirected to <code class="highlighter-rouge">/</code>. Also, once logged in, you should be redirected if you try to go to the <code class="highlighter-rouge">/register</code> or <code class="highlighter-rouge">/login</code> links. Before moving on, try registering a new user. Did you notice that even though the redirect works, the user list is not updating?</p>
 
 <p>To update that, fire <code class="highlighter-rouge">this.getUsers()</code> in the <code class="highlighter-rouge">.then</code> within <code class="highlighter-rouge">handleUserFormSubmit()</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
     <span class="na">formData</span><span class="p">:</span> <span class="p">{</span><span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span> <span class="na">email</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="s1">''</span><span class="p">},</span>
     <span class="na">username</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
@@ -887,11 +955,11 @@
 
 <p>Test it out again.</p>
 
-<h3 id="logout">Logout</h3>
+<h2 id="logout">Logout</h2>
 
-<p>How about logging out? Add a new file called <em>Logout.test.js</em> to the  “services/client/src/components/__tests__” directory:</p>
+<p>How about logging out? Add a new file called <em>Logout.test.jsx</em> to the  “services/client/src/components/__tests__” directory:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">shallow</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'enzyme'</span><span class="p">;</span>
 
 <span class="k">import</span> <span class="nx">Logout</span> <span class="k">from</span> <span class="s1">'../Logout'</span><span class="p">;</span>
@@ -899,8 +967,8 @@
 <span class="kd">const</span> <span class="nx">logoutUser</span> <span class="o">=</span> <span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">();</span>
 
 <span class="nx">test</span><span class="p">(</span><span class="s1">'Logout renders properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Logout</span> <span class="nx">logoutUser</span><span class="o">=</span><span class="p">{</span><span class="nx">logoutUser</span><span class="p">}</span><span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
-</span>  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'p'</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(&lt;</span><span class="nc">Logout</span> <span class="na">logoutUser=</span><span class="si">{</span><span class="nx">logoutUser</span><span class="si">}</span><span class="p">/&gt;);</span>
+  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'p'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">toContain</span><span class="p">(</span><span class="s1">'You are now logged out.'</span><span class="p">);</span>
 <span class="p">});</span>
@@ -908,7 +976,7 @@
 
 <p>Here, we’re using <code class="highlighter-rouge">jest.fn()</code> to <a href="http://facebook.github.io/jest/docs/en/mock-function-api.html#mockfnmockimplementationfn">mock</a> the  <code class="highlighter-rouge">logoutUser</code> function. Ensure the tests fail, and then add a new component to the “components” folder called <em>Logout.jsx</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">Link</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-router-dom'</span><span class="p">;</span>
 
 <span class="kd">class</span> <span class="nx">Logout</span> <span class="kd">extends</span> <span class="nx">Component</span> <span class="p">{</span>
@@ -917,19 +985,19 @@
   <span class="p">};</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">You</span> <span class="nx">are</span> <span class="nx">now</span> <span class="nx">logged</span> <span class="nx">out</span><span class="p">.</span> <span class="nx">Click</span> <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/login"</span><span class="o">&gt;</span><span class="nx">here</span><span class="o">&lt;</span><span class="sr">/Link&gt; to log back in.&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="p">)</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>You are now logged out. Click <span class="p">&lt;</span><span class="nc">Link</span> <span class="na">to=</span><span class="s2">"/login"</span><span class="p">&gt;</span>here<span class="p">&lt;/</span><span class="nc">Link</span><span class="p">&gt;</span> to log back in.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">)</span>
   <span class="p">};</span>
 <span class="p">};</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="nx">Logout</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>Then, add a <code class="highlighter-rouge">logoutUser</code> method to the <code class="highlighter-rouge">App</code> component to remove the token from LocalStorage and update the state.</p>
+<p>Then, add a <code class="highlighter-rouge">logoutUser</code> method to the <code class="highlighter-rouge">App</code> component to remove the token from LocalStorage and update the state:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">logoutUser</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">logoutUser</span><span class="p">()</span> <span class="p">{</span>
   <span class="nb">window</span><span class="p">.</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="na">isAuthenticated</span><span class="p">:</span> <span class="kc">false</span> <span class="p">});</span>
 <span class="p">};</span>
@@ -937,17 +1005,17 @@
 
 <p>Bind the method:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 </code></pre></div></div>
 
 <p>Import the component into <em>App.jsx</em>, and then add the new route:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/logout'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">Logout</span>
-    <span class="nx">logoutUser</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span><span class="p">}</span>
-    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-  <span class="sr">/</span><span class="err">&gt;
-</span><span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/logout'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="p">&lt;</span><span class="nc">Logout</span>
+    <span class="na">logoutUser=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">logoutUser</span><span class="si">}</span>
+    <span class="na">isAuthenticated=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="si">}</span>
+  <span class="p">/&gt;</span>
+<span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
 </span></code></pre></div></div>
 
 <p>To test:</p>
@@ -961,9 +1029,9 @@
 
 <p>Once you’re done manually testing in the browser, ensure the unit tests pass. Then, add a snapshot test:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'Logout renders a snapshot properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'Logout renders a snapshot properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">tree</span> <span class="o">=</span> <span class="nx">renderer</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">Router</span><span class="o">&gt;&lt;</span><span class="nx">Logout</span> <span class="nx">logoutUser</span><span class="o">=</span><span class="p">{</span><span class="nx">logoutUser</span><span class="p">}</span><span class="sr">/&gt;&lt;/</span><span class="nx">Router</span><span class="o">&gt;</span>
+    <span class="p">&lt;</span><span class="nc">Router</span><span class="p">&gt;&lt;</span><span class="nc">Logout</span> <span class="na">logoutUser=</span><span class="si">{</span><span class="nx">logoutUser</span><span class="si">}</span><span class="p">/&gt;&lt;/</span><span class="nc">Router</span><span class="p">&gt;</span>
   <span class="p">).</span><span class="nx">toJSON</span><span class="p">();</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">tree</span><span class="p">).</span><span class="nx">toMatchSnapshot</span><span class="p">();</span>
 <span class="p">});</span>
@@ -973,8 +1041,25 @@
 
 <p>Don’t forget the imports:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">renderer</span> <span class="k">from</span> <span class="s1">'react-test-renderer'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">renderer</span> <span class="k">from</span> <span class="s1">'react-test-renderer'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">MemoryRouter</span> <span class="k">as</span> <span class="nx">Router</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-router-dom'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Ensure the tests pass:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/NavBar.test.jsx
+PASS  src/components/__tests__/App.test.jsx
+PASS  src/components/__tests__/Logout.test.jsx
+PASS  src/components/__tests__/UsersList.test.jsx
+PASS  src/components/__tests__/About.test.jsx
+PASS  src/components/__tests__/Form.test.jsx
+PASS  src/components/__tests__/AddUser.test.jsx
+
+Test Suites: 7 passed, 7 total
+Tests:       15 passed, 15 total
+Snapshots:   7 passed, 7 total
+Time:        3.847s, estimated 5s
+Ran all <span class="nb">test </span>suites.
 </code></pre></div></div>
 
 <p>Commit your code.</p>

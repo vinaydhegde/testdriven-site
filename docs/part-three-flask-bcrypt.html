@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -644,27 +704,33 @@
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flask-bcrypt==0.7.1
 </code></pre></div></div>
 
+<blockquote>
+  <p>Feel free to swap out Flask-Bcrypt for Werkzeug’s <a href="http://werkzeug.pocoo.org/docs/0.14/utils/#module-werkzeug.security">password hashing helpers</a> if that’s what your prefer. Review <a href="https://www.reddit.com/r/flask/comments/54ptgs/what_is_the_difference_between_flaskbcrypt_and/">this</a> thread for more info on the differences.</p>
+</blockquote>
+
 <p>Next, wire it up to the app in <em>services/users/project/__init__.py</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users/project/__init__.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/__init__.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">flask_cors</span> <span class="kn">import</span> <span class="n">CORS</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
 <span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
+<span class="kn">from</span> <span class="nn">flask_debugtoolbar</span> <span class="kn">import</span> <span class="n">DebugToolbarExtension</span>
+<span class="kn">from</span> <span class="nn">flask_cors</span> <span class="kn">import</span> <span class="n">CORS</span>
 <span class="kn">from</span> <span class="nn">flask_migrate</span> <span class="kn">import</span> <span class="n">Migrate</span>
 <span class="kn">from</span> <span class="nn">flask_bcrypt</span> <span class="kn">import</span> <span class="n">Bcrypt</span>
 
 
 <span class="c"># instantiate the extensions</span>
 <span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">()</span>
+<span class="n">toolbar</span> <span class="o">=</span> <span class="n">DebugToolbarExtension</span><span class="p">()</span>
 <span class="n">migrate</span> <span class="o">=</span> <span class="n">Migrate</span><span class="p">()</span>
 <span class="n">bcrypt</span> <span class="o">=</span> <span class="n">Bcrypt</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">create_app</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">script_info</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
     <span class="c"># instantiate the app</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
@@ -678,21 +744,24 @@
 
     <span class="c"># set up extensions</span>
     <span class="n">db</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="n">toolbar</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
     <span class="n">migrate</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
-    <span class="n">migrate</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+    <span class="n">bcrypt</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
     <span class="c"># register blueprints</span>
     <span class="kn">from</span> <span class="nn">project.api.users</span> <span class="kn">import</span> <span class="n">users_blueprint</span>
     <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">users_blueprint</span><span class="p">)</span>
 
+    <span class="c"># shell context for flask cli</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">shell_context_processor</span><span class="p">({</span><span class="s">'app'</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span> <span class="s">'db'</span><span class="p">:</span> <span class="n">db</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">app</span>
 </code></pre></div></div>
 
 <p>Before we update the model, add the following test to <em>test_user_model.py</em>:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_passwords_are_random</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="n">user_one</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'justatest'</span><span class="p">,</span> <span class="s">'test@test.com'</span><span class="p">,</span> <span class="s">'test'</span><span class="p">)</span>
-    <span class="n">user_two</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'justatest2'</span><span class="p">,</span> <span class="s">'test@test2.com'</span><span class="p">,</span> <span class="s">'test'</span><span class="p">)</span>
+    <span class="n">user_one</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'justatest'</span><span class="p">,</span> <span class="s">'test@test.com'</span><span class="p">,</span> <span class="s">'greaterthaneight'</span><span class="p">)</span>
+    <span class="n">user_two</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'justatest2'</span><span class="p">,</span> <span class="s">'test@test2.com'</span><span class="p">,</span> <span class="s">'greaterthaneight'</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">user_one</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="n">user_two</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
 </code></pre></div></div>
 
@@ -707,6 +776,32 @@
 
 <p>Make sure to pass in an argument for all instances of <code class="highlighter-rouge">add_user()</code> and <code class="highlighter-rouge">User()</code> as well as in the payload for POST requests to <code class="highlighter-rouge">/users</code> and <code class="highlighter-rouge">/</code> in both <em>test_user_model.py</em> and <em>test_users.py</em>. Do this now.</p>
 
+<p>Examples:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+    <span class="s">'/users'</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
+        <span class="s">'username'</span><span class="p">:</span> <span class="s">'michael'</span><span class="p">,</span>
+        <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@mherman.org'</span><span class="p">,</span>
+        <span class="s">'password'</span><span class="p">:</span> <span class="s">'greaterthaneight'</span>
+    <span class="p">}),</span>
+    <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="o">...</span>
+
+<span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'justatest'</span><span class="p">,</span> <span class="s">'test@test.com'</span><span class="p">,</span> <span class="s">'greaterthaneight'</span><span class="p">)</span>
+
+<span class="o">...</span>
+
+<span class="n">duplicate_user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+    <span class="n">username</span><span class="o">=</span><span class="s">'justatest'</span><span class="p">,</span>
+    <span class="n">email</span><span class="o">=</span><span class="s">'test@test2.com'</span><span class="p">,</span>
+    <span class="n">password</span><span class="o">=</span><span class="s">'greaterthaneight'</span>
+<span class="p">)</span>
+
+</code></pre></div></div>
+
 <p>Update the containers:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml up <span class="nt">-d</span> <span class="nt">--build</span>
@@ -715,7 +810,7 @@
 <p>Run the tests:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 </code></pre></div></div>
 
 <p>You should see a number of failures:</p>
@@ -752,13 +847,42 @@
 <p>Apply the migrations:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db migrate
+  run <span class="nb">users </span>python manage.py db migrate
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db upgrade
+  run <span class="nb">users </span>python manage.py db upgrade
 </code></pre></div></div>
 
-<p>Update <code class="highlighter-rouge">add_user()</code> in <em>services/users/project/api/users.py</em>:</p>
+<p>Did you get this error?</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqlalchemy.exc.IntegrityError: <span class="o">(</span>psycopg2.IntegrityError<span class="o">)</span> column <span class="s2">"password"</span>
+contains null values
+<span class="o">[</span>SQL: <span class="s1">'ALTER TABLE users ADD COLUMN password VARCHAR(255) NOT NULL'</span><span class="o">]</span>
+<span class="o">(</span>Background on this error at: http://sqlalche.me/e/gkpj<span class="o">)</span>
+</code></pre></div></div>
+
+<p>If so, you can either-</p>
+
+<ol>
+  <li>Remove all users in psql - <code class="highlighter-rouge">delete from users;</code></li>
+  <li>
+    <p>Update the actual migration file to create the new field without adding the non-nullable constraint, modify the data, and then add the constraint:</p>
+
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> def upgrade<span class="o">()</span>:
+     <span class="c"># ### commands auto generated by Alembic - please adjust! ###</span>
+     op.add_column<span class="o">(</span><span class="s1">'users'</span>, sa.Column<span class="o">(</span><span class="s1">'password'</span>, sa.String<span class="o">(</span><span class="nv">length</span><span class="o">=</span>255<span class="o">)))</span>
+     op.execute<span class="o">(</span><span class="s1">'UPDATE users SET password=email'</span><span class="o">)</span>
+     op.alter_column<span class="o">(</span><span class="s1">'users'</span>, <span class="s1">'password'</span>, <span class="nv">nullable</span><span class="o">=</span>False<span class="o">)</span>
+     <span class="c"># ### end Alembic commands ###</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<blockquote>
+  <p>Since we’re operating in development mode at this point, it really does not matter which one you go with. Take a minute to think through how you’d handle this on a live database, though.</p>
+</blockquote>
+
+<p>Moving on, update <code class="highlighter-rouge">add_user()</code> in <em>services/users/project/api/users.py</em>:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@users_blueprint.route</span><span class="p">(</span><span class="s">'/users'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'POST'</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">add_user</span><span class="p">():</span>
@@ -803,7 +927,13 @@
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">'index.html'</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>The tests should pass. Turning to the API, what if we don’t pass a password into the payload? Write a test!</p>
+<p>The tests should now pass:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 20 tests <span class="k">in </span>6.121s
+</code></pre></div></div>
+
+<p>Turning back to the API, what if we don’t pass a password into the payload? Write a test!</p>
 
 <p><em>test_users.py</em>:</p>
 
@@ -817,7 +947,7 @@
             <span class="s">'/users'</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
                 <span class="n">username</span><span class="o">=</span><span class="s">'michael'</span><span class="p">,</span>
-                <span class="n">email</span><span class="o">=</span><span class="s">'michael@realpython.com'</span><span class="p">)),</span>
+                <span class="n">email</span><span class="o">=</span><span class="s">'michael@reallynotreal.com'</span><span class="p">)),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -863,12 +993,12 @@ ValueError: Password must be non-empty.
 
     <span class="k">def</span> <span class="nf">test_app_is_development</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'my_precious'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SQLALCHEMY_DATABASE_URI'</span><span class="p">]</span> <span class="o">==</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_URL'</span><span class="p">)</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG_TB_ENABLED'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'BCRYPT_LOG_ROUNDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
 
 
@@ -879,13 +1009,13 @@ ValueError: Password must be non-empty.
 
     <span class="k">def</span> <span class="nf">test_app_is_testing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'my_precious'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TESTING'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'PRESERVE_CONTEXT_ON_EXCEPTION'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SQLALCHEMY_DATABASE_URI'</span><span class="p">]</span> <span class="o">==</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_TEST_URL'</span><span class="p">)</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG_TB_ENABLED'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'BCRYPT_LOG_ROUNDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
 
 
@@ -896,14 +1026,14 @@ ValueError: Password must be non-empty.
 
     <span class="k">def</span> <span class="nf">test_app_is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'my_precious'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TESTING'</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG_TB_ENABLED'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'BCRYPT_LOG_ROUNDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Make sure the tests fail, then update <em>services/users/project/config.py</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users/project/config.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/config.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -973,7 +1103,7 @@ ValueError: Password must be non-empty.
   <p>Need help deciding how many rounds to use in production? Check out <a href="https://security.stackexchange.com/questions/17207/recommended-of-rounds-for-bcrypt">this</a> Stack Exchange article.</p>
 </blockquote>
 
-<p>Commit, then push your code to GitHub. Make sure the Travis build passes. With that, let’s get JWT up and running…</p>
+<p>Commit, then push your code to GitHub. Make sure the Travis build passes. With that, let’s get JWTs up and running…</p>
 
 
           

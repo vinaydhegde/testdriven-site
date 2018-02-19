@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -633,19 +693,19 @@
 
           
 
-          <p>In this lesson, we’ll configure Postgres, get it up and running in another container, and link it to the <code class="highlighter-rouge">users-service</code> container…</p>
+          <p>In this lesson, we’ll configure Postgres, get it up and running in another container, and link it to the <code class="highlighter-rouge">users</code> container…</p>
 
 <hr />
 
 <p>Add <a href="http://flask-sqlalchemy.pocoo.org/">Flask-SQLAlchemy</a> and psycopg2 to the <em>requirements.txt</em> file:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Flask-SQLAlchemy==2.3.2
-psycopg2==2.7.3.1
+psycopg2==2.7.3.2
 </code></pre></div></div>
 
 <p>Update <em>config.py</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/config.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/config.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -653,33 +713,29 @@ psycopg2==2.7.3.1
 
 <span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
     <span class="s">"""Base configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="bp">False</span>
 
 
 <span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Development configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_URL'</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Testing configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_TEST_URL'</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Production configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_URL'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Update <em>__init__.py</em>, to create a new instance of SQLAlchemy and define the database model:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/__init__.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/__init__.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -697,6 +753,7 @@ psycopg2==2.7.3.1
 
 <span class="c"># instantiate the db</span>
 <span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+
 
 <span class="c"># model</span>
 <span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -735,45 +792,47 @@ psycopg2==2.7.3.1
 ADD create.sql /docker-entrypoint-initdb.d
 </code></pre></div></div>
 
-<p>Here, we extend the official Postgres image by adding a SQL file to the “docker-entrypoint-initdb.d” directory in the container, which will execute on init.</p>
+<p>Here, we extend the <a href="https://hub.docker.com/_/postgres/">official Postgres image</a> by adding a SQL file to the “docker-entrypoint-initdb.d” directory in the container, which will execute on init.</p>
 
 <p>Update <em>docker-compose.yml-dev</em>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: '3.3'
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.4'</span>
 
-services:
+<span class="na">services</span><span class="pi">:</span>
 
-  users-service:
-    container_name: users-service
-    build:
-      context: ./users-service
-      dockerfile: Dockerfile-dev
-    volumes:
-      - './users-service:/usr/src/app'
-    ports:
-      - 5001:5000
-    environment:
-      - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-    depends_on:
-      - users-db
-    links:
-      - users-db
+  <span class="na">users</span><span class="pi">:</span>
+    <span class="na">container_name</span><span class="pi">:</span> <span class="s">users</span>
+    <span class="na">build</span><span class="pi">:</span>
+      <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users</span>
+      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-dev</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s1">'</span><span class="s">./services/users:/usr/src/app'</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">5001:5000</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">FLASK_APP=project/__init__.py</span>
+      <span class="pi">-</span> <span class="s">FLASK_DEBUG=1</span>
+      <span class="pi">-</span> <span class="s">APP_SETTINGS=project.config.DevelopmentConfig</span>
+      <span class="pi">-</span> <span class="s">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
+      <span class="pi">-</span> <span class="s">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">users-db</span>
+    <span class="na">links</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">users-db</span>
 
-  users-db:
-    container_name: users-db
-    build:
-      context: ./users-service/project/db
-      dockerfile: Dockerfile
-    ports:
-      - 5435:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+  <span class="na">users-db</span><span class="pi">:</span>
+    <span class="na">container_name</span><span class="pi">:</span> <span class="s">users-db</span>
+    <span class="na">build</span><span class="pi">:</span>
+      <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users/project/db</span>
+      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">5435:5432</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">POSTGRES_USER=postgres</span>
+      <span class="pi">-</span> <span class="s">POSTGRES_PASSWORD=postgres</span>
 </code></pre></div></div>
 
-<p>Once spun up, Postgres will be available on port <code class="highlighter-rouge">5435</code> on the host machine and on port <code class="highlighter-rouge">5432</code> for services running in other containers. Since the <code class="highlighter-rouge">users-service</code> is dependent not only on the container being up and running but also the actual Postgres instance also being up and healthy, let’s add an <em>entrypoint.sh</em> file to “users-service”:</p>
+<p>Once spun up, Postgres will be available on port <code class="highlighter-rouge">5435</code> on the host machine and on port <code class="highlighter-rouge">5432</code> for services running in other containers. Since the <code class="highlighter-rouge">users</code> service is dependent not only on the container being up and running but also the actual Postgres instance also being up and healthy, let’s add an <em>entrypoint.sh</em> file to “users”:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
 
@@ -785,37 +844,42 @@ services:
 
 </span><span class="nb">echo</span> <span class="s2">"PostgreSQL started"</span>
 
-python manage.py runserver <span class="nt">-h</span> 0.0.0.0
+python manage.py run <span class="nt">-h</span> 0.0.0.0
 </code></pre></div></div>
 
 <p>Update <em>Dockerfile-dev</em>:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM python:3.6.3
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM python:3.6.4
 
-<span class="c"># install environment dependencies</span>
-RUN apt-get update <span class="nt">-yqq</span> <span class="se">\</span>
-  <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-yqq</span> <span class="nt">--no-install-recommends</span> <span class="se">\</span>
-    netcat <span class="se">\</span>
-  <span class="o">&amp;&amp;</span> apt-get <span class="nt">-q</span> clean
+# install environment dependencies
+RUN apt-get update -yqq \
+  &amp;&amp; apt-get install -yqq --no-install-recommends \
+    netcat \
+  &amp;&amp; apt-get -q clean
 
-<span class="c"># set working directory</span>
-RUN <span class="nb">mkdir</span> <span class="nt">-p</span> /usr/src/app
+# set working directory
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-<span class="c"># add requirements</span>
-ADD ./requirements.txt /usr/src/app/requirements.txt
+# add requirements
+COPY ./requirements.txt /usr/src/app/requirements.txt
 
-<span class="c"># install requirements</span>
-RUN pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+# install requirements
+RUN pip install -r requirements.txt
 
-<span class="c"># add entrypoint.sh</span>
-ADD ./entrypoint.sh /usr/src/app/entrypoint.sh
+# add entrypoint.sh
+COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 
-<span class="c"># add app</span>
-ADD <span class="nb">.</span> /usr/src/app
+# add app
+COPY . /usr/src/app
 
-<span class="c"># run server</span>
-CMD <span class="o">[</span><span class="s2">"./entrypoint.sh"</span><span class="o">]</span>
+# run server
+CMD ["./entrypoint.sh"]
+</code></pre></div></div>
+
+<p>Update the file permissions:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">chmod</span> +x services/users/entrypoint.sh
 </code></pre></div></div>
 
 <p>Sanity check:</p>
@@ -833,32 +897,32 @@ CMD <span class="o">[</span><span class="s2">"./entrypoint.sh"</span><span class
 
 <p>Update <em>manage.py</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/manage.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/manage.py</span>
 
 
-<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+<span class="kn">from</span> <span class="nn">flask.cli</span> <span class="kn">import</span> <span class="n">FlaskGroup</span>
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span><span class="p">,</span> <span class="n">db</span>
 
 
-<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">cli</span> <span class="o">=</span> <span class="n">FlaskGroup</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
 
-<span class="nd">@manager.command</span>
+<span class="nd">@cli.command</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
-    <span class="s">"""Recreates a database."""</span>
     <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
     <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">cli</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>This registers a new command, <code class="highlighter-rouge">recreate_db</code>,  to the manager so that we can run it from the command line. Apply the model to the dev database:</p>
+<p>This registers a new command, <code class="highlighter-rouge">recreate_db</code>,  to the CLI so that we can run it from the command line. Apply the model to the dev database:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker-compose -f docker-compose-dev.yml run users-service python manage.py recreate_db
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
+  run <span class="nb">users </span>python manage.py recreate_db
 </code></pre></div></div>
 
 <p>Did this work? Let’s hop into psql…</p>

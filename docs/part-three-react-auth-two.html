@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -633,7 +693,7 @@
 
           
 
-          <p>Moving right along, let’s add some methods to handle a user signing up, logging in, and logging out…</p>
+          <p>Moving on, let’s finish up user auth…</p>
 
 <hr />
 
@@ -643,7 +703,7 @@
 
 <p>First, add a new component called <em>UserStatus.jsx</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">axios</span> <span class="k">from</span> <span class="s1">'axios'</span><span class="p">;</span>
 
 <span class="kd">class</span> <span class="nx">UserStatus</span> <span class="kd">extends</span> <span class="nx">Component</span> <span class="p">{</span>
@@ -673,10 +733,10 @@
   <span class="p">};</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">test</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="p">)</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>test<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">)</span>
   <span class="p">};</span>
 <span class="p">};</span>
 
@@ -687,14 +747,14 @@
 
 <p>Import the component into <em>App.jsx</em>, and then add a new route:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/status'</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">UserStatus</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/status'</span> <span class="nx">component</span><span class="o">=</span><span class="p">{</span><span class="nx">UserStatus</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
 </span></code></pre></div></div>
 
-<p>Test this out first when you’re not logged in. You should see a 401 error in the JavaScript console. Try again when you are logged in. You should see an object with the keys <code class="highlighter-rouge">active</code>, <code class="highlighter-rouge">email</code>, <code class="highlighter-rouge">id</code>, and <code class="highlighter-rouge">username</code>.</p>
+<p>Test this out first when you’re not logged in. You should see a 401 error in the JavaScript console. Try again when you are logged in. You should see an object with the keys <code class="highlighter-rouge">active</code>, <code class="highlighter-rouge">email</code>, <code class="highlighter-rouge">id</code>, and <code class="highlighter-rouge">username</code> in the console.</p>
 
 <p>To add the values to the component, update the <code class="highlighter-rouge">.then</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
     <span class="na">email</span><span class="p">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span>
     <span class="na">id</span><span class="p">:</span> <span class="nx">res</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
@@ -705,16 +765,16 @@
 
 <p>Also, update the <code class="highlighter-rouge">render()</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">ul</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.id}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Email</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.email}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Username</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.username}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="sr">/ul</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>  <span class="p">)</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>User ID:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Email:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Username:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
 <span class="p">};</span>
 </code></pre></div></div>
 
@@ -731,53 +791,53 @@
 
 <p>Update the <code class="highlighter-rouge">NavBar</code> component like so to show/hide based on the value of <code class="highlighter-rouge">isAuthenticated</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">NavBar</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">Navbar</span> <span class="nx">inverse</span> <span class="nx">collapseOnSelect</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">Navbar</span><span class="p">.</span><span class="nx">Header</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">Navbar</span><span class="p">.</span><span class="nx">Brand</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/Navbar.Brand</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="nx">Navbar</span><span class="p">.</span><span class="nx">Toggle</span> <span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="sr">/Navbar.Header</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="nx">Navbar</span><span class="p">.</span><span class="nx">Collapse</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">Nav</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">NavItem</span> <span class="nx">eventKey</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Home</span><span class="o">&lt;</span><span class="sr">/NavItem</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/LinkContainer</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/about"</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">NavItem</span> <span class="nx">eventKey</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">About</span><span class="o">&lt;</span><span class="sr">/NavItem</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/LinkContainer</span><span class="err">&gt;
-</span>        <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
-          <span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/status"</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">NavItem</span> <span class="nx">eventKey</span><span class="o">=</span><span class="p">{</span><span class="mi">3</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">Status</span><span class="o">&lt;</span><span class="sr">/NavItem</span><span class="err">&gt;
-</span>          <span class="o">&lt;</span><span class="sr">/LinkContainer</span><span class="err">&gt;
-</span>        <span class="p">}</span>
-      <span class="o">&lt;</span><span class="sr">/Nav</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="nx">Nav</span> <span class="nx">pullRight</span><span class="o">&gt;</span>
-        <span class="p">{</span><span class="o">!</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
-          <span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/register"</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">NavItem</span> <span class="nx">eventKey</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Register</span><span class="o">&lt;</span><span class="sr">/NavItem</span><span class="err">&gt;
-</span>          <span class="o">&lt;</span><span class="sr">/LinkContainer</span><span class="err">&gt;
-</span>        <span class="p">}</span>
-        <span class="p">{</span><span class="o">!</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
-          <span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/login"</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">NavItem</span> <span class="nx">eventKey</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Log</span> <span class="nx">In</span><span class="o">&lt;</span><span class="sr">/NavItem</span><span class="err">&gt;
-</span>          <span class="o">&lt;</span><span class="sr">/LinkContainer</span><span class="err">&gt;
-</span>        <span class="p">}</span>
-        <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
-          <span class="o">&lt;</span><span class="nx">LinkContainer</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/logout"</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">NavItem</span> <span class="nx">eventKey</span><span class="o">=</span><span class="p">{</span><span class="mi">3</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Log</span> <span class="nx">Out</span><span class="o">&lt;</span><span class="sr">/NavItem</span><span class="err">&gt;
-</span>          <span class="o">&lt;</span><span class="sr">/LinkContainer</span><span class="err">&gt;
-</span>        <span class="p">}</span>
-      <span class="o">&lt;</span><span class="sr">/Nav</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="sr">/Navbar.Collapse</span><span class="err">&gt;
-</span>  <span class="o">&lt;</span><span class="sr">/Navbar</span><span class="err">&gt;
-</span><span class="p">)</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">NavBar</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="p">&lt;</span><span class="nc">Navbar</span> <span class="nt">inverse</span> <span class="nt">collapseOnSelect</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nc">Navbar</span><span class="p">.</span><span class="nc">Header</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nc">Navbar</span><span class="p">.</span><span class="nc">Brand</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">title</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nc">Navbar</span><span class="p">.</span><span class="nc">Brand</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nc">Navbar</span><span class="p">.</span><span class="nc">Toggle</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;/</span><span class="nc">Navbar</span><span class="p">.</span><span class="nc">Header</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nc">Navbar</span><span class="p">.</span><span class="nc">Collapse</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nc">Nav</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nc">LinkContainer</span> <span class="na">to=</span><span class="s2">"/"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nc">NavItem</span> <span class="na">eventKey=</span><span class="si">{</span><span class="mi">1</span><span class="si">}</span><span class="p">&gt;</span>Home<span class="p">&lt;/</span><span class="nc">NavItem</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nc">LinkContainer</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nc">LinkContainer</span> <span class="na">to=</span><span class="s2">"/about"</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nc">NavItem</span> <span class="na">eventKey=</span><span class="si">{</span><span class="mi">2</span><span class="si">}</span><span class="p">&gt;</span>About<span class="p">&lt;/</span><span class="nc">NavItem</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nc">LinkContainer</span><span class="p">&gt;</span>
+        <span class="si">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+          <span class="p">&lt;</span><span class="nc">LinkContainer</span> <span class="na">to=</span><span class="s2">"/status"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nc">NavItem</span> <span class="na">eventKey=</span><span class="si">{</span><span class="mi">3</span><span class="si">}</span><span class="p">&gt;</span>User Status<span class="p">&lt;/</span><span class="nc">NavItem</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nc">LinkContainer</span><span class="p">&gt;</span>
+        <span class="si">}</span>
+      <span class="p">&lt;/</span><span class="nc">Nav</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nc">Nav</span> <span class="nt">pullRight</span><span class="p">&gt;</span>
+        <span class="si">{</span><span class="o">!</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+          <span class="p">&lt;</span><span class="nc">LinkContainer</span> <span class="na">to=</span><span class="s2">"/register"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nc">NavItem</span> <span class="na">eventKey=</span><span class="si">{</span><span class="mi">1</span><span class="si">}</span><span class="p">&gt;</span>Register<span class="p">&lt;/</span><span class="nc">NavItem</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nc">LinkContainer</span><span class="p">&gt;</span>
+        <span class="si">}</span>
+        <span class="si">{</span><span class="o">!</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+          <span class="p">&lt;</span><span class="nc">LinkContainer</span> <span class="na">to=</span><span class="s2">"/login"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nc">NavItem</span> <span class="na">eventKey=</span><span class="si">{</span><span class="mi">2</span><span class="si">}</span><span class="p">&gt;</span>Log In<span class="p">&lt;/</span><span class="nc">NavItem</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nc">LinkContainer</span><span class="p">&gt;</span>
+        <span class="si">}</span>
+        <span class="si">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span> <span class="o">&amp;&amp;</span>
+          <span class="p">&lt;</span><span class="nc">LinkContainer</span> <span class="na">to=</span><span class="s2">"/logout"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nc">NavItem</span> <span class="na">eventKey=</span><span class="si">{</span><span class="mi">3</span><span class="si">}</span><span class="p">&gt;</span>Log Out<span class="p">&lt;/</span><span class="nc">NavItem</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nc">LinkContainer</span><span class="p">&gt;</span>
+        <span class="si">}</span>
+      <span class="p">&lt;/</span><span class="nc">Nav</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nc">Navbar</span><span class="p">.</span><span class="nc">Collapse</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nc">Navbar</span><span class="p">&gt;</span>
+<span class="p">)</span>
 </code></pre></div></div>
 
 <p>Make sure to pass <code class="highlighter-rouge">isAuthenticated</code> down on the <code class="highlighter-rouge">props</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">NavBar</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">NavBar</span>
   <span class="nx">title</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">title</span><span class="p">}</span>
   <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
 <span class="sr">/</span><span class="err">&gt;
@@ -785,34 +845,36 @@
 
 <p>This merely hides the links. An unauthenticated user could still access the route via entering the URL into the URL bar. To restrict access, update the <code class="highlighter-rouge">render()</code> in <em>UserStatus.jsx</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">You</span> <span class="nx">must</span> <span class="nx">be</span> <span class="nx">logged</span> <span class="k">in</span> <span class="nx">to</span> <span class="nx">view</span> <span class="k">this</span><span class="p">.</span> <span class="nx">Click</span> <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/login"</span><span class="o">&gt;</span><span class="nx">here</span><span class="o">&lt;</span><span class="sr">/Link&gt; to log back in.&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>You must be logged in to view this. Click <span class="p">&lt;</span><span class="nc">Link</span> <span class="na">to=</span><span class="s2">"/login"</span><span class="p">&gt;</span>here<span class="p">&lt;/</span><span class="nc">Link</span><span class="p">&gt;</span> to log back in.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">)</span>
   <span class="p">};</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">ul</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.id}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Email</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.email}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">Username</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.username}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="sr">/ul</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>  <span class="p">)</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>User ID:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Email:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Username:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
 <span class="p">};</span>
 </code></pre></div></div>
 
 <p>Add the import:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Link</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-router-dom'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Link</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-router-dom'</span><span class="p">;</span>
 </code></pre></div></div>
 
 <p>Then update the route in the <code class="highlighter-rouge">App</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/status'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">UserStatus</span>
-    <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">}</span>
-  <span class="sr">/</span><span class="err">&gt;
-</span><span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/status'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="p">&lt;</span><span class="nc">UserStatus</span>
+    <span class="na">isAuthenticated=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="si">}</span>
+  <span class="p">/&gt;</span>
+<span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
 </span></code></pre></div></div>
 
 <p>Open the JavaScript console, and then try this out. Did you notice that the AJAX request still fires when you were unauthenticated?</p>
@@ -823,7 +885,7 @@
 
 <p>To fix, add a conditional to the <code class="highlighter-rouge">componentDidMount()</code> in the <code class="highlighter-rouge">UserStatus</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">getUserStatus</span><span class="p">();</span>
   <span class="p">}</span>

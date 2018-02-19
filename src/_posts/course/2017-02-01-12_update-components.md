@@ -26,10 +26,10 @@ Ensure the app is working in the browser, and then run the tests:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py test
+  run users python manage.py test
 
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service flake8 project
+  run users flake8 project
 
 $ docker-compose -f docker-compose-dev.yml \
   run client npm test -- --verbose
@@ -43,7 +43,7 @@ Let's remove the add user form and display a Bootstrap-styled table of users...
 
 To remove the form, update *UsersList.jsx*:
 
-```javascript
+```jsx
 import React from 'react';
 
 const UsersList = (props) => {
@@ -71,7 +71,7 @@ export default UsersList;
 
 Update the route in the `App` component:
 
-```javascript
+```jsx
 <Route exact path='/' render={() => (
   <UsersList
     users={this.state.users}
@@ -139,7 +139,7 @@ Watch Usage
 
 All tests should now pass. Before moving on, since `<h1>All Users</h1>` is now part of the `UsersList` component, let's update the unit test:
 
-```javascript
+```jsx
 test('UsersList renders properly', () => {
   const wrapper = shallow(<UsersList users={users}/>);
   const element = wrapper.find('h4');
@@ -150,11 +150,11 @@ test('UsersList renders properly', () => {
 });
 ```
 
-### Add table
+### Add a table
 
 Next, let's use React-Bootstrap to add a [table](https://react-bootstrap.github.io/components/table/) to the `UsersList` component:
 
-```javascript
+```jsx
 import React from 'react';
 import { Table } from 'react-bootstrap';
 
@@ -204,7 +204,7 @@ The rendered component should now look like:
 
 Update the test:
 
-```javascript
+```jsx
 test('UsersList renders properly', () => {
   const wrapper = shallow(<UsersList users={users}/>);
   expect(wrapper.find('h1').get(0).props.children).toBe('All Users');
@@ -230,7 +230,7 @@ test('UsersList renders properly', () => {
   const td = wrapper.find('tbody > tr > td');
   expect(td.length).toBe(10);
   expect(td.get(0).props.children).toBe(1);
-  expect(td.get(1).props.children).toBe('michael@realpython.com');
+  expect(td.get(1).props.children).toBe('hermanmu@gmail.com');
   expect(td.get(2).props.children).toBe('michael');
   expect(td.get(3).props.children).toBe('true');
   expect(td.get(4).props.children).toBe('false');
@@ -239,12 +239,12 @@ test('UsersList renders properly', () => {
 
 Make sure to update the fixture as well:
 
-```javascript
+```jsx
 const users = [
   {
     'active': true,
     'admin': false,
-    'email': 'michael@realpython.com',
+    'email': 'hermanmu@gmail.com',
     'id': 1,
     'username': 'michael'
   },
@@ -275,7 +275,7 @@ Ran all test suites.
 
 Next, let's add the `active` and `admin` properties to the `UserStatus` component:
 
-```javascript
+```jsx
 class UserStatus extends Component {
   constructor (props) {
     super(props);
@@ -337,10 +337,45 @@ class UserStatus extends Component {
 That's it. Short lesson. Make sure the tests still pass.
 
 ```sh
+PASS  src/components/__tests__/NavBar.test.jsx
+ ✓ NavBar renders properly (5ms)
+ ✓ NavBar renders a snapshot properly (13ms)
+
+PASS  src/components/__tests__/App.test.jsx
+ ✓ App renders without crashing (6ms)
+
+PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly (12ms)
+ ✓ UsersList renders a snapshot properly (3ms)
+
+PASS  src/components/__tests__/Form.test.jsx
+ When not authenticated
+   ✓ Register Form renders properly (4ms)
+   ✓ Register Form submits the form properly (2ms)
+   ✓ Register Form renders a snapshot properly (2ms)
+   ✓ Login Form renders properly (2ms)
+   ✓ Login Form submits the form properly (1ms)
+   ✓ Login Form renders a snapshot properly (1ms)
+ When authenticated
+   ✓ Register redirects properly
+   ✓ Login redirects properly (1ms)
+
+PASS  src/components/__tests__/AddUser.test.jsx
+ ✓ AddUser renders properly (5ms)
+ ✓ AddUser renders a snapshot properly (2ms)
+
+PASS  src/components/__tests__/Logout.test.jsx
+ ✓ Logout renders properly (4ms)
+ ✓ Logout renders a snapshot properly (11ms)
+
+PASS  src/components/__tests__/About.test.jsx
+ ✓ About renders properly (2ms)
+ ✓ About renders a snapshot properly (1ms)
+
 Test Suites: 7 passed, 7 total
 Tests:       19 passed, 19 total
 Snapshots:   7 passed, 7 total
-Time:        9.111s
+Time:        4.163s
 Ran all test suites.
 ```
 

@@ -20,19 +20,19 @@ With the `Form` component set up, we can now configure the methods to:
 1. Send AJAX request
 1. Update the page
 
-> These steps should look familiar since we already went through this process in the [React Forms]({{site.url}}/part-two-react-forms) lesson. Put your skills to the test and implement the code on your own before going through this lesson.
+> These steps should look familiar since we already went through this process in the [React Forms](../02/07_react-forms.md) lesson. Put your skills to the test and implement the code on your own before going through this lesson.
 
-### Handle form submit event
+## Handle form submit event
 
 Turn to *Form.jsx*. Which method gets fired on the form submit?
 
-```javascript
+```jsx
 <form onSubmit={(event) => props.handleUserFormSubmit(event)}>
 ```
 
 Add the method to the `App` component:
 
-```javascript
+```jsx
 handleUserFormSubmit(event) {
   event.preventDefault();
   console.log('sanity check!');
@@ -41,13 +41,13 @@ handleUserFormSubmit(event) {
 
 Bind the method in the constructor:
 
-```javascript
+```jsx
 this.handleUserFormSubmit = this.handleUserFormSubmit.bind(this);
 ```
 
 And then pass it down via the `props`:
 
-```javascript
+```jsx
 <Route exact path='/register' render={() => (
   <Form
     formType={'Register'}
@@ -66,13 +66,17 @@ And then pass it down via the `props`:
 
 To test, remove the `required` attribute on each of the form `input`s in *services/client/src/components/Form.jsx*. Then, you should see `sanity check!` in the JavaScript console on form submit for both forms in the browser.
 
+<div style="text-align:left;">
+  <img src="/assets/img/course/03_react_form_submit_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
+</div>
+
 Remove `console.log('sanity check!')` and add the `required` attributes back when done.
 
-### Obtain user input
+## Obtain user input
 
 Next, to get the user inputs, add the following method to the `App` component:
 
-```javascript
+```jsx
 handleFormChange(event) {
   const obj = this.state.formData;
   obj[event.target.name] = event.target.value;
@@ -80,9 +84,9 @@ handleFormChange(event) {
 };
 ```
 
-Again, bind it in the constructor, and then pass it down on the `props`:
+Again, bind it in the constructor, and then pass it down to the components via the `props`:
 
-```javascript
+```jsx
 handleFormChange={this.handleFormChange}
 ```
 
@@ -90,11 +94,11 @@ Add a `console.log()` to the method - `console.log(this.state.formData);` - to e
 
 What's next? AJAX!
 
-### Send AJAX request
+## Send AJAX request
 
-Update the `handleUserFormSubmit` method to send the data to the user service on a successful form submit:
+Update the `handleUserFormSubmit` method to send the data to the `user` service on a successful form submit:
 
-```javascript
+```jsx
 handleUserFormSubmit(event) {
   event.preventDefault();
   const formType = window.location.href.split('/').reverse()[0];
@@ -114,11 +118,11 @@ handleUserFormSubmit(event) {
 };
 ```
 
-Add a new `location` block to the Nginx config to handle requests to `/auth`:
+Add a new `location` block to both Nginx config files to handle requests to `/auth`:
 
 ```
 location /auth {
-  proxy_pass        http://users-service:5000;
+  proxy_pass        http://users:5000;
   proxy_redirect    default;
   proxy_set_header  Host $host;
   proxy_set_header  X-Real-IP $remote_addr;
@@ -149,9 +153,13 @@ Test the user registration out. If you have everything set up correctly, you sho
 }
 ```
 
+<div style="text-align:left;">
+  <img src="/assets/img/course/03_react_form_ajax_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
+</div>
+
 Test logging in as well. Again, you should see the very same object in the console.
 
-### Update the page
+## Update the page
 
 After a user register or logs in, we need to:
 
@@ -160,9 +168,9 @@ After a user register or logs in, we need to:
 1. Update the state to indicate that the user is authenticated
 1. Redirect the user to `/`
 
-First, to clear the form, update the `.then` within `handleUserFormSubmit()`:
+First, to clear the form, update the `.then` block within `handleUserFormSubmit()`:
 
-```javascript
+```jsx
 .then((res) => {
   this.setState({
     formData: {username: '', email: '', password: '' },
@@ -178,21 +186,21 @@ Try this out. After you register or log in, the field inputs should be cleared s
 
 Next, let's save the auth token in LocalStorage so that we can use it for subsequent API calls that require a user to be authenticated. To do this, add the following code to the `.then`, just below the `setState`:
 
-```javascript
+```jsx
 window.localStorage.setItem('authToken', res.data.auth_token);
 ```
 
-Try logging in again. After a successful login, open the "Application" tab in [Chrome DevTools](https://developer.chrome.com/devtools). Click the arrow before [LocalStorage](https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage) and select `http://localhost:3000`. You should see a key of `authToken` with a value of the actual token in the pane.
+Try logging in again. After a successful login, open the "Application" tab in [Chrome DevTools](https://developer.chrome.com/devtools). Click the arrow pointing toward [LocalStorage](https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage) and select the IP (which should be the IP associated with the Docker Machine). You should see a key of `authToken` with a value of the actual token in the pane.
 
 <div style="text-align:left;">
   <img src="/assets/img/course/03_react_auth_login.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
 </div>
 
-Instead of always checking LocalStorage for the auth token, let's add a boolean to the state so we can quickly tell if there is a user authenticated.
+Instead of always checking LocalStorage for the auth token, let's add a boolean to the state so we can quickly tell if a user is authenticated.
 
 Add an `isAuthenticated` property to the state:
 
-```javascript
+```jsx
 this.state = {
   users: [],
   username: '',
@@ -209,7 +217,7 @@ this.state = {
 
 Now, we can update the state in the `.then` within `handleUserFormSubmit()`:
 
-```javascript
+```jsx
 this.setState({
   formData: {username: '', email: '', password: '' },
   username: '',
@@ -220,7 +228,7 @@ this.setState({
 
 Finally, to redirect the user after a successful log in or registration, pass `isAuthenticated` through to the `Form` component:
 
-```javascript
+```jsx
 <Route exact path='/register' render={() => (
   <Form
     formType={'Register'}
@@ -243,7 +251,7 @@ Finally, to redirect the user after a successful log in or registration, pass `i
 
 Then, within *Form.jsx* add the following conditional right before the `return`:
 
-```javascript
+```jsx
 if (props.isAuthenticated) {
   return <Redirect to='/' />;
 }
@@ -251,15 +259,15 @@ if (props.isAuthenticated) {
 
 Add the import:
 
-```javascript
+```jsx
 import { Redirect } from 'react-router-dom';
 ```
 
-To test, log in and then make sure that you are redirected to `/`. Also, once logged in, you should be redirected if you try to go to the `/register` or `/login` links. Before moving on, try registering a new user. Did you notice that even though the redirect works, the users list is not updating?
+To test, log in and then make sure that you are redirected to `/`. Also, once logged in, you should be redirected if you try to go to the `/register` or `/login` links. Before moving on, try registering a new user. Did you notice that even though the redirect works, the user list is not updating?
 
 To update that, fire `this.getUsers()` in the `.then` within `handleUserFormSubmit()`:
 
-```javascript
+```jsx
 .then((res) => {
   this.setState({
     formData: {username: '', email: '', password: ''},
@@ -274,11 +282,11 @@ To update that, fire `this.getUsers()` in the `.then` within `handleUserFormSubm
 
 Test it out again.
 
-### Logout
+## Logout
 
-How about logging out? Add a new file called *Logout.test.js* to the  "services/client/src/components/\_\_tests\_\_" directory:
+How about logging out? Add a new file called *Logout.test.jsx* to the  "services/client/src/components/\_\_tests\_\_" directory:
 
-```javascript
+```jsx
 import React from 'react';
 import { shallow } from 'enzyme';
 
@@ -296,7 +304,7 @@ test('Logout renders properly', () => {
 
 Here, we're using `jest.fn()` to [mock](http://facebook.github.io/jest/docs/en/mock-function-api.html#mockfnmockimplementationfn) the  `logoutUser` function. Ensure the tests fail, and then add a new component to the "components" folder called *Logout.jsx*:
 
-```javascript
+```jsx
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -316,9 +324,9 @@ class Logout extends Component {
 export default Logout;
 ```
 
-Then, add a `logoutUser` method to the `App` component to remove the token from LocalStorage and update the state.
+Then, add a `logoutUser` method to the `App` component to remove the token from LocalStorage and update the state:
 
-```javascript
+```jsx
 logoutUser() {
   window.localStorage.clear();
   this.setState({ isAuthenticated: false });
@@ -327,13 +335,13 @@ logoutUser() {
 
 Bind the method:
 
-```javascript
+```jsx
 this.logoutUser = this.logoutUser.bind(this);
 ```
 
 Import the component into *App.jsx*, and then add the new route:
 
-```javascript
+```jsx
 <Route exact path='/logout' render={() => (
   <Logout
     logoutUser={this.logoutUser}
@@ -351,7 +359,7 @@ To test:
 
 Once you're done manually testing in the browser, ensure the unit tests pass. Then, add a snapshot test:
 
-```javascript
+```jsx
 test('Logout renders a snapshot properly', () => {
   const tree = renderer.create(
     <Router><Logout logoutUser={logoutUser}/></Router>
@@ -364,9 +372,27 @@ We need to provide the `<Router>` context (via the [MemoryRouter](https://reactt
 
 Don't forget the imports:
 
-```javascript
+```jsx
 import renderer from 'react-test-renderer';
 import { MemoryRouter as Router } from 'react-router-dom';
+```
+
+Ensure the tests pass:
+
+```sh
+PASS  src/components/__tests__/NavBar.test.jsx
+PASS  src/components/__tests__/App.test.jsx
+PASS  src/components/__tests__/Logout.test.jsx
+PASS  src/components/__tests__/UsersList.test.jsx
+PASS  src/components/__tests__/About.test.jsx
+PASS  src/components/__tests__/Form.test.jsx
+PASS  src/components/__tests__/AddUser.test.jsx
+
+Test Suites: 7 passed, 7 total
+Tests:       15 passed, 15 total
+Snapshots:   7 passed, 7 total
+Time:        3.847s, estimated 5s
+Ran all test suites.
 ```
 
 Commit your code.

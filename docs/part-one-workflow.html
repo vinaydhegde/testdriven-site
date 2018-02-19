@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -617,7 +677,7 @@
                 <a class="btn btn-outline-success" href="https://testdriven.io/part-one-jinja-templates">&laquo; Jinja Templates</a>
               
               
-                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-intro">Introduction &raquo;</a>
+                <a class="btn btn-outline-success" href="https://testdriven.io/part-one-structure">Structure &raquo;</a>
               
             </div>
 
@@ -704,6 +764,25 @@ testdriven-prod    <span class="k">*</span>        amazonec2    Running   tcp://
 testdriven-dev     -        virtualbox   Running   tcp://192.168.99.100:2376           v17.09.0-ce  
 </code></pre></div></div>
 
+<h3 id="cant-download-python-packages">Can’t Download Python Packages?</h3>
+
+<p>Are you running into this error when trying to <code class="highlighter-rouge">pip install</code> inside a Docker Machine?</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Retrying (Retry(total=4, connect=None, read=None, redirect=None))
+after connection broken by 'NewConnectionError(
+  '&lt;pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x7f0f88deec18&gt;:
+Failed to establish a new connection: [Errno -2] Name or service not known',)':
+/simple/flask/
+</code></pre></div></div>
+
+<p>Restart the Machine and then start over:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-machine restart testdriven-dev
+<span class="nv">$ </span>docker-machine <span class="nb">env </span>testdriven-dev
+<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine <span class="nb">env </span>testdriven-dev<span class="k">)</span>
+<span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml up <span class="nt">-d</span> <span class="nt">--build</span>
+</code></pre></div></div>
+
 <h3 id="common-commands">Common Commands</h3>
 
 <p>Build the images:</p>
@@ -719,19 +798,19 @@ testdriven-dev     -        virtualbox   Running   tcp://192.168.99.100:2376    
 <p>Create the database:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py recreate_db
+  run <span class="nb">users </span>python manage.py recreate_db
 </code></pre></div></div>
 
 <p>Seed the database:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py seed_db
+  run <span class="nb">users </span>python manage.py seed_db
 </code></pre></div></div>
 
 <p>Run the tests:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 </code></pre></div></div>
 
 <h3 id="other-commands">Other commands</h3>
@@ -786,7 +865,7 @@ testdriven-dev     -        virtualbox   Running   tcp://192.168.99.100:2376    
                 <a class="btn btn-outline-success" href="https://testdriven.io/part-one-jinja-templates">&laquo; Jinja Templates</a>
               
               
-                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-intro">Introduction &raquo;</a>
+                <a class="btn btn-outline-success" href="https://testdriven.io/part-one-structure">Structure &raquo;</a>
               
             </div>
 

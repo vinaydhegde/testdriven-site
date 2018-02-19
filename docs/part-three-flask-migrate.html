@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -651,7 +711,7 @@
 <p>Ensure the app is working in the browser, and then run the tests:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
     run client npm <span class="nb">test</span>
@@ -673,8 +733,9 @@
 
 <p>Don’t make any changes just yet. Let’s start with some tests. Add a new file to “services/users/project/tests” called <em>test_user_model.py</em>. This file will hold tests related to our database model:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users/project/tests/test_user_model.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/tests/test_user_model.py</span>
 
+<span class="kn">import</span> <span class="nn">unittest</span>
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
 <span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
@@ -724,11 +785,25 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">IntegrityError</span><span class="p">,</span> <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'justatest'</span><span class="p">,</span> <span class="s">'test@test.com'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">))</span>
+      <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+          <span class="n">username</span><span class="o">=</span><span class="s">'justatest'</span><span class="p">,</span>
+          <span class="n">email</span><span class="o">=</span><span class="s">'test@test.com'</span><span class="p">,</span>
+      <span class="p">)</span>
+      <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+      <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Notice how we didn’t invoke <code class="highlighter-rouge">db.session.commit</code> the second time, when adding a user. Instead, we passed it to <code class="highlighter-rouge">assertRaises()</code> and let it invoke it and assert the exception was raised.</p>
+<p>Notice how we didn’t invoke <code class="highlighter-rouge">db.session.commit</code> the second time, when adding a user. Instead, we passed <code class="highlighter-rouge">db.session.commit</code> to <code class="highlighter-rouge">assertRaises()</code> and let <code class="highlighter-rouge">assertRaises()</code> invoke it and assert that the exception was raised.</p>
+
+<p>It’s worth nothing that you could use <code class="highlighter-rouge">assertRaises</code> as a context manager instead:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="n">IntegrityError</span><span class="p">):</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div></div>
 
 <p>Add the import:</p>
 
@@ -743,7 +818,9 @@ test_add_user_duplicate_username <span class="o">(</span>test_user_model.TestUse
 
 <p>Error:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AssertionError: IntegrityError not raised by <span class="k">do</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NameError: name <span class="s1">'add_user'</span> is not defined
+AssertionError: IntegrityError not raised by <span class="k">do
+</span>AssertionError: IntegrityError not raised by <span class="k">do</span>
 </code></pre></div></div>
 
 <h2 id="flask-migrate-setup">Flask Migrate Setup</h2>
@@ -755,24 +832,25 @@ test_add_user_duplicate_username <span class="o">(</span>test_user_model.TestUse
 
 <p>In <em>services/users/project/__init__.py</em>, add the import, create a new instance, and update <code class="highlighter-rouge">create_app()</code>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users/project/__init__.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/__init__.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">flask_cors</span> <span class="kn">import</span> <span class="n">CORS</span>
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
 <span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
+<span class="kn">from</span> <span class="nn">flask_debugtoolbar</span> <span class="kn">import</span> <span class="n">DebugToolbarExtension</span>
+<span class="kn">from</span> <span class="nn">flask_cors</span> <span class="kn">import</span> <span class="n">CORS</span>
 <span class="kn">from</span> <span class="nn">flask_migrate</span> <span class="kn">import</span> <span class="n">Migrate</span>
 
 
-<span class="c"># instantiate the db</span>
+<span class="c"># instantiate the extensions</span>
 <span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">()</span>
-<span class="c"># instantiate flask migrate</span>
+<span class="n">toolbar</span> <span class="o">=</span> <span class="n">DebugToolbarExtension</span><span class="p">()</span>
 <span class="n">migrate</span> <span class="o">=</span> <span class="n">Migrate</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">create_app</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">script_info</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
     <span class="c"># instantiate the app</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
@@ -786,26 +864,29 @@ test_add_user_duplicate_username <span class="o">(</span>test_user_model.TestUse
 
     <span class="c"># set up extensions</span>
     <span class="n">db</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="n">toolbar</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
     <span class="n">migrate</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
 
     <span class="c"># register blueprints</span>
     <span class="kn">from</span> <span class="nn">project.api.users</span> <span class="kn">import</span> <span class="n">users_blueprint</span>
     <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">users_blueprint</span><span class="p">)</span>
 
+    <span class="c"># shell context for flask cli</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">shell_context_processor</span><span class="p">({</span><span class="s">'app'</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span> <span class="s">'db'</span><span class="p">:</span> <span class="n">db</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">app</span>
 </code></pre></div></div>
 
-<p>Then, add a new manager command to <em>services/users/manage.py</em>, just below <code class="highlighter-rouge">manager = Manager(app)</code>:</p>
+<p>Before we create the migrations, update the <em>.dockerignore</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">manager</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="s">'db'</span><span class="p">,</span> <span class="n">MigrateCommand</span><span class="p">)</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>env
+htmlcov
+.dockerignore
+Dockerfile-dev
+Dockerfile-prod
+migrations
 </code></pre></div></div>
 
-<p>Add the import as well:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">flask_migrate</span> <span class="kn">import</span> <span class="n">MigrateCommand</span>
-</code></pre></div></div>
-
-<p>Update the containers:</p>
+<p>Then, update the containers:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml up <span class="nt">-d</span> <span class="nt">--build</span>
 </code></pre></div></div>
@@ -813,13 +894,13 @@ test_add_user_duplicate_username <span class="o">(</span>test_user_model.TestUse
 <p>Generate the migrations folder, add the initial migration, and then apply it to the database:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db init
+  run <span class="nb">users </span>python manage.py db init
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db migrate
+  run <span class="nb">users </span>python manage.py db migrate
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db upgrade
+  run <span class="nb">users </span>python manage.py db upgrade
 </code></pre></div></div>
 
 <blockquote>
@@ -839,29 +920,49 @@ test_add_user_duplicate_username <span class="o">(</span>test_user_model.TestUse
 <p>Again, run:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db migrate
+  run <span class="nb">users </span>python manage.py db migrate
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db upgrade
+  run <span class="nb">users </span>python manage.py db upgrade
 </code></pre></div></div>
 
 <blockquote>
-  <p>Keep in mind that if you have any duplicate usernames and/or emails already in your database, you will get an error when trying to apply the migration to the database. You can either update the data or drop the db and start over.</p>
+  <p>Keep in mind that if you have any duplicate usernames and/or emails already in your database, you will get an error when trying to apply the migration to the database. You can either update the data or drop the database and start over.</p>
 </blockquote>
 
-<p>Run the tests again. They should pass!</p>
+<p>Hop into psql to ensure the table was updated:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker <span class="nb">exec</span> <span class="nt">-ti</span> users-db psql <span class="nt">-U</span> postgres <span class="nt">-W</span>
+</code></pre></div></div>
+
+<p>Then:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># \c users_dev</span>
+<span class="c"># \d+ users</span>
+</code></pre></div></div>
+
+<p>You should see the unique constraints:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Indexes:
+    <span class="s2">"users_pkey"</span> PRIMARY KEY, btree <span class="o">(</span><span class="nb">id</span><span class="o">)</span>
+    <span class="s2">"users_email_key"</span> UNIQUE CONSTRAINT, btree <span class="o">(</span>email<span class="o">)</span>
+    <span class="s2">"users_username_key"</span> UNIQUE CONSTRAINT, btree <span class="o">(</span>username<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Run the tests again. You should now just have a single error:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NameError: name <span class="s1">'add_user'</span> is not defined
+</code></pre></div></div>
 
 <h2 id="refactor">Refactor</h2>
 
 <p>Now is a good time to do some refactoring…</p>
 
-<p>First, in <em>services/users/project/tests/test_users.pyy</em>, rename <code class="highlighter-rouge">test_add_user_duplicate_user</code> to <code class="highlighter-rouge">test_add_user_duplicate_email</code>.</p>
-
-<p>Also, did you notice that we added a new user a number of times in the <em>test_user_model.py</em> tests? Let’s abstract out the <code class="highlighter-rouge">add_user</code> helper function from <em>test_users.py</em> to a utility file so we can use it in both test files.</p>
+<p>Did you notice that we added a new user a number of times in the <em>test_user_model.py</em> tests? Let’s abstract out the <code class="highlighter-rouge">add_user</code> helper function from <em>test_users.py</em> to a utility file so we can use it in both test files.</p>
 
 <p>Add a new file called <em>utils.py</em> to “tests”:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users/project/tests/utils.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/tests/utils.py</span>
 
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
@@ -882,8 +983,9 @@ test_add_user_duplicate_username <span class="o">(</span>test_user_model.TestUse
 
 <p>Refactor <em>test_user_model.py</em> like so:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users/project/tests/test_user_model.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/tests/test_user_model.py</span>
 
+<span class="kn">import</span> <span class="nn">unittest</span>
 
 <span class="kn">from</span> <span class="nn">sqlalchemy.exc</span> <span class="kn">import</span> <span class="n">IntegrityError</span>
 
@@ -923,12 +1025,22 @@ test_add_user_duplicate_username <span class="o">(</span>test_user_model.TestUse
     <span class="k">def</span> <span class="nf">test_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">user</span> <span class="o">=</span> <span class="n">add_user</span><span class="p">(</span><span class="s">'justatest'</span><span class="p">,</span> <span class="s">'test@test.com'</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">to_json</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Run the tests again to ensure nothing broke from the refactor. What about flake8?</p>
+<p>Run the tests again to ensure nothing broke from the refactor:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 19 tests <span class="k">in </span>0.512s
+</code></pre></div></div>
+
+<p>What about flake8?</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service flake8 project
+  run <span class="nb">users </span>flake8 project
 </code></pre></div></div>
 
 <p>Correct any issues, and then commit and push your code to GitHub. Make sure the Travis build passes.</p>

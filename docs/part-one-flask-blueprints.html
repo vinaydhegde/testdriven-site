@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519048893368881000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519055104074245000" rel="stylesheet">
 </head>
 
 
@@ -264,6 +264,21 @@
       
         
           
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>13.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-one-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
             <li>
               <br>
               <h5 data-part="2">
@@ -321,6 +336,21 @@
               <span class="badge badge-light">&bull;</span>
               <!-- <span>4.&nbsp;</span> -->
               <span>
+                <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                  Flask Debug Toolbar
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>5.&nbsp;</span> -->
+              <span>
                 <a href="https://testdriven.io/part-two-react-setup">
                   React Setup
                 </a>
@@ -334,7 +364,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>5.&nbsp;</span> -->
+              <!-- <span>6.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-testing-react">
                   Testing React
@@ -349,7 +379,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>6.&nbsp;</span> -->
+              <!-- <span>7.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-forms">
                   React Forms
@@ -364,7 +394,7 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>7.&nbsp;</span> -->
+              <!-- <span>8.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-react-and-docker">
                   React and Docker
@@ -379,10 +409,25 @@
           <ul>
             <li>
               <span class="badge badge-light">&bull;</span>
-              <!-- <span>8.&nbsp;</span> -->
+              <!-- <span>9.&nbsp;</span> -->
               <span>
                 <a href="https://testdriven.io/part-two-next-steps">
                   Next Steps
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>10.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-two-structure">
+                  Structure
                 </a>
               </span>
             </li>
@@ -592,6 +637,21 @@
         
       
         
+          
+          <ul>
+            <li>
+              <span class="badge badge-light">&bull;</span>
+              <!-- <span>14.&nbsp;</span> -->
+              <span>
+                <a href="https://testdriven.io/part-three-structure">
+                  Structure
+                </a>
+              </span>
+            </li>
+          </ul>
+        
+      
+        
       
         
       
@@ -643,7 +703,7 @@
 
 <p>Create a new directory in “project” called “api”, and add an <em>__init__.py</em> file along with <em>users.py</em> and <em>models.py</em>. Then within <em>users.py</em> add the following:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/api/users.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/api/users.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span>
@@ -662,9 +722,9 @@
 
 <p>Here, we created a new instance of the <code class="highlighter-rouge">Blueprint</code> class and bound the <code class="highlighter-rouge">ping_pong()</code> function to it.</p>
 
-<p>The, add the following code to <em>models.py</em>:</p>
+<p>Then, add the following code to <em>models.py</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/api/models.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/api/models.py</span>
 
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">db</span>
@@ -684,10 +744,11 @@
 
 <p>Update <em>project/__init__.py</em>, removing the route and model and adding the <a href="http://flask.pocoo.org/docs/0.12/patterns/appfactories/">Application Factory</a> pattern:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/__init__.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/__init__.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
+
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
 <span class="kn">from</span> <span class="nn">flask_sqlalchemy</span> <span class="kn">import</span> <span class="n">SQLAlchemy</span>
 
@@ -696,7 +757,7 @@
 <span class="n">db</span> <span class="o">=</span> <span class="n">SQLAlchemy</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">create_app</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">script_info</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
     <span class="c"># instantiate the app</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
@@ -712,29 +773,39 @@
     <span class="kn">from</span> <span class="nn">project.api.users</span> <span class="kn">import</span> <span class="n">users_blueprint</span>
     <span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">users_blueprint</span><span class="p">)</span>
 
+    <span class="c"># shell context for flask cli</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">shell_context_processor</span><span class="p">({</span><span class="s">'app'</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span> <span class="s">'db'</span><span class="p">:</span> <span class="n">db</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">app</span>
 </code></pre></div></div>
 
+<p>Take note of the <code class="highlighter-rouge">shell_context_processor</code>. <a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.shell_context_processor">This</a> is used to register the <code class="highlighter-rouge">app</code> and <code class="highlighter-rouge">db</code> to the shell. Now we can work with the application context and the database without having to import them directly into the shell.</p>
+
 <p>Update <em>manage.py</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/manage.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/manage.py</span>
 
 
 <span class="kn">import</span> <span class="nn">unittest</span>
 
-<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+<span class="kn">from</span> <span class="nn">flask.cli</span> <span class="kn">import</span> <span class="n">FlaskGroup</span>
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">create_app</span><span class="p">,</span> <span class="n">db</span>
 <span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
 
-
 <span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
-<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">cli</span> <span class="o">=</span> <span class="n">FlaskGroup</span><span class="p">(</span><span class="n">create_app</span><span class="o">=</span><span class="n">create_app</span><span class="p">)</span>
 
 
-<span class="nd">@manager.command</span>
+<span class="nd">@cli.command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+
+<span class="nd">@cli.command</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="s">"""Runs the unit tests without test coverage."""</span>
+    <span class="s">""" Runs the tests without code coverage"""</span>
     <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">'project/tests'</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">'test*.py'</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
@@ -742,16 +813,8 @@
     <span class="k">return</span> <span class="mi">1</span>
 
 
-<span class="nd">@manager.command</span>
-<span class="k">def</span> <span class="nf">recreate_db</span><span class="p">():</span>
-    <span class="s">"""Recreates a database."""</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
-    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-
-
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">cli</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p>Update the imports at the top of <em>project/tests/base.py</em> and <em>project/tests/test_config.py</em>:</p>
@@ -763,15 +826,24 @@
 
 <p>(import <code class="highlighter-rouge">db</code> as well in <em>base.py</em>)</p>
 
+<p>Finally, remove the <code class="highlighter-rouge">FLASK_APP</code> environment variable from <em>docker-compose-dev.yml</em>:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">environment</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">FLASK_DEBUG=1</span>
+  <span class="pi">-</span> <span class="s">APP_SETTINGS=project.config.DevelopmentConfig</span>
+  <span class="pi">-</span> <span class="s">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
+  <span class="pi">-</span> <span class="s">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+</code></pre></div></div>
+
 <p>Test!</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml up <span class="nt">-d</span>
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py recreate_db
+  run <span class="nb">users </span>python manage.py recreate_db
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 </code></pre></div></div>
 
 <p>Correct any errors and move on…</p>

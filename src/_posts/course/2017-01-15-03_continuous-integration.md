@@ -13,7 +13,7 @@ Next, we'll add continuous integration (CI), via [Travis CI](https://travis-ci.o
 
 ---
 
-Follow steps 1 and 2 of the [Getting Started guide](https://docs.travis-ci.com/user/getting-started/#To-get-started-with-Travis-CI) guid to enable Travis in the project.
+Follow steps 1 and 2 of the [Getting Started guide](https://docs.travis-ci.com/user/getting-started/#To-get-started-with-Travis-CI) to enable Travis in the project.
 
 To trigger a build, add a *.travis.yml* to the project root:
 
@@ -24,7 +24,7 @@ services:
   - docker
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.14.0
+  DOCKER_COMPOSE_VERSION: 1.18.0
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
@@ -36,14 +36,14 @@ before_script:
   - docker-compose -f docker-compose-dev.yml up --build -d
 
 script:
-  - docker-compose -f docker-compose-dev.yml run users-service python manage.py test
-  - docker-compose -f docker-compose-dev.yml run users-service flake8 project
+  - docker-compose -f docker-compose-dev.yml run users python manage.py test
+  - docker-compose -f docker-compose-dev.yml run users flake8 project
 
 after_script:
   - docker-compose -f docker-compose-dev.yml down
 ```
 
-Commit your changes, and then push to GitHub. This *should* trigger a new build, which *should* pass. Once done, be sure to add a *README.md* file to the project root, adding the Travis status badge:
+Commit your changes, and then push to GitHub. This *should* trigger a new build, which *should* pass. Once done, add a *README.md* file to the project root, adding the Travis status badge:
 
 ```
 # Microservices with Docker, Flask, and React

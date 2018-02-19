@@ -13,7 +13,7 @@ Instead of just serving up a JSON API, let's spice it up with server-side templa
 
 ---
 
-Add a new route handler to *users-service/project/api/users.py*:
+Add a new route handler to *services/users/project/api/users.py*:
 
 ```python
 @users_blueprint.route('/', methods=['GET'])
@@ -25,6 +25,12 @@ Update the Blueprint config as well:
 
 ```python
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
+```
+
+Be sure to update the imports:
+
+```python
+from flask import Blueprint, jsonify, request, render_template
 ```
 
 Then add a "templates" folder to "project/api", and add an *index.html* file to that folder:
@@ -42,7 +48,7 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- styles -->
     <link
-      href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       rel="stylesheet"
     >
     {% block css %}{% endblock %}
@@ -56,12 +62,18 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
           <hr><br>
           <form action="/" method="POST">
             <div class="form-group">
-              <input name="username" class="form-control input-lg" type="text" placeholder="Enter a username" required>
+              <input
+                name="username" class="form-control input-lg"
+                type="text" placeholder="Enter a username" required>
             </div>
             <div class="form-group">
-              <input name="email" class="form-control input-lg" type="email" placeholder="Enter an email address" required>
+              <input
+                name="email" class="form-control input-lg"
+                type="email" placeholder="Enter an email address" required>
             </div>
-            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit">
+            <input
+              type="submit" class="btn btn-primary btn-lg btn-block"
+              value="Submit">
           </form>
           <br>
           <hr>
@@ -85,7 +97,7 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
     ></script>
     <script
       type="text/javascript"
-      src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+      src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     >
     </script>
     {% block js %}{% endblock %}
@@ -93,12 +105,6 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
 </html>
 ```
 {% endraw %}
-
-Be sure to update the imports:
-
-```python
-from flask import Blueprint, jsonify, request, render_template
-```
 
 Ready to test? Simply open your browser and navigate to the IP associated with the `testdriven-dev` machine.
 
@@ -122,7 +128,7 @@ Do they pass?
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py test
+  run users python manage.py test
 ```
 
 Let's update the route handler to grab all users from the database and send them to the template, starting with a test:
@@ -131,8 +137,8 @@ Let's update the route handler to grab all users from the database and send them
 def test_main_with_users(self):
     """Ensure the main route behaves correctly when users have been
     added to the database."""
-    add_user('michael', 'michael@realpython.com')
-    add_user('fletcher', 'fletcher@realpython.com')
+    add_user('michael', 'michael@mherman.org')
+    add_user('fletcher', 'fletcher@notreal.com')
     with self.client:
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
@@ -153,7 +159,7 @@ def index():
 
 The test should now pass!
 
-How about the form? Users should be able to add a new user and submit the form, which will then add the user to the database. Again, start with a test:
+How about a form? Users should be able to add a new user and submit the form, which will then add the user to the database. Again, start with a test:
 
 ```python
 def test_main_add_user(self):
@@ -161,7 +167,7 @@ def test_main_add_user(self):
     with self.client:
         response = self.client.post(
             '/',
-            data=dict(username='michael', email='michael@realpython.com'),
+            data=dict(username='michael', email='michael@sonotreal.com'),
             follow_redirects=True
         )
         self.assertEqual(response.status_code, 200)
