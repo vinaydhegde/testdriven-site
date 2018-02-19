@@ -20,7 +20,7 @@ With the `Form` component set up, we can now configure the methods to:
 1. Send AJAX request
 1. Update the page
 
-> These steps should look familiar since we already went through this process in the [React Forms](../02/07_react-forms.md) lesson. Put your skills to the test and implement the code on your own before going through this lesson.
+> These steps should look familiar since we already went through this process in the [React Forms](/part-two-react-forms) lesson. Put your skills to the test and implement the code on your own before going through this lesson.
 
 ## Handle form submit event
 
