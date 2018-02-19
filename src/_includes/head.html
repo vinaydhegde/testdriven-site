@@ -19,6 +19,9 @@
   {% if page.type == 'blog' %}
     <title>{{page.title}} - {{site.short-title}}</title>
     <meta property="og:title" content="{{page.title}}" />
+  {% elsif page.type == 'author' %}
+      <title>{{page.title}} - {{site.short-title}}</title>
+      <meta property="og:title" content="{{page.title}}" />
   {% elsif page.type == 'course' %}
     <title>Microservices with Docker, Flask, and React - {{page.title}}</title>
     <meta property="og:title" content="Microservices with Docker, Flask, and React - {{page.title}}" />
