@@ -141,6 +141,34 @@ blog
   padding-left: 0;
 }
 
+/*
+blog-toc
+ */
+
+.blog-toc-container {
+  margin-top: -70px; /* added to prevent toc from being hidden by navbar*/
+  padding-top: 70px; /* added to prevent toc from being hidden by navbar*/
+  position: sticky;
+  top: 0;
+ }
+
+.blog-toc-subcontainer {
+  padding: 1rem;
+}
+
+.blog-toc {
+  margin: 0;
+  padding: 0;
+}
+
+.toc-item {
+  list-style: none;
+}
+
+/*
+syntax highlighting
+ */
+
 .highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f8f8f8; }
 .highlight .c { color: #408080; font-style: italic } /* Comment */
