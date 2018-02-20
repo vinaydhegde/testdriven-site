@@ -9,13 +9,11 @@
   const headerList = document.getElementsByTagName('h2');
   let tocContainer = document.getElementById('blog-toc');
   for (el in headerList) {
-    if (headerList[el].innerHTML) {
+    if (headerList[el].innerHTML && headerList[el].innerHTML !== 'Contents') {
       // added to anchor target to push target below navbar
-      headerList[el].setAttribute('style', 'padding-top: 60px; margin-top: -60px;')
+      headerList[el].setAttribute('style', 'padding-top: 60px; margin-top: -60px;');
       // create li
       let listElement = document.createElement('li');
-      // add class to li
-      listElement.className = 'toc-item';
       // create anchor
       let anchorElement = document.createElement('a');
       // set text and href values
@@ -23,7 +21,7 @@
       anchorElement.href = "#" + headerList[el].id;
       // append anchor to li, append li to ul
       listElement.appendChild(anchorElement);
-      tocContainer.appendChild(listElement)
+      tocContainer.appendChild(listElement);
     }
   }  
 </script>

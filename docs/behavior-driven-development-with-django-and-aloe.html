@@ -8,7 +8,7 @@
   <link rel="shortcut icon" type="image/png" href="/favicon.png">
   <!-- og -->
   
-    <meta property="og:image" content="http://localhost:4000/assets/img/blog/bdd_django_aloe.png" />
+    <meta property="og:image" content="https://testdriven.io/assets/img/blog/bdd_django_aloe.png" />
   
   <!-- description -->
   
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519073799526829000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519143833686840000" rel="stylesheet">
 </head>
 
 
@@ -93,7 +93,7 @@
             <p>Posted by <span class="badge badge-secondary">Jason Parent</span> on <span class="badge badge-secondary">Feb 13, 2018</span><br>
   
     <br>
-    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Behavior-Driven Development with Django and Aloe&amp;url=http%3A%2F%2Flocalhost%3A4000/behavior-driven-development-with-django-and-aloe&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Behavior-Driven Development with Django and Aloe&amp;url=https%3A%2F%2Ftestdriven.io/behavior-driven-development-with-django-and-aloe&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   
 
 </p>
@@ -103,7 +103,7 @@
 
 <p>We can’t answer that question for you, but we can teach you when to ask it. <strong>In the following tutorial, we walk you through the BDD development cycle by programming an example feature using Django and <a href="https://aloe.readthedocs.io/">Aloe</a></strong>. Follow along to learn how you can use the BDD process to help catch and fix poor designs quickly while programming a stable app.</p>
 
-<h2 id="Contents">Contents</h2>
+<h2 class="no_toc">Contents</h2>
 
 <ul class="no_toc" id="markdown-toc">
   <li><a href="#objectives" id="markdown-toc-objectives">Objectives</a></li>
@@ -825,7 +825,7 @@ Scenario: A user can reject a friendship request
           
   
     <br>
-    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Behavior-Driven Development with Django and Aloe&amp;url=http%3A%2F%2Flocalhost%3A4000/behavior-driven-development-with-django-and-aloe&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Behavior-Driven Development with Django and Aloe&amp;url=https%3A%2F%2Ftestdriven.io/behavior-driven-development-with-django-and-aloe&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   
 
 
@@ -840,7 +840,7 @@ Scenario: A user can reject a friendship request
       <div class="text-center">
         <hr>
         <p><a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a></p>
-        <p><a href="http://localhost:4000/part-one-intro">Or, preview parts 1 - 3</a></p>
+        <p><a href="https://testdriven.io/part-one-intro">Or, preview parts 1 - 3</a></p>
       </div>
     </div>
   </div>
@@ -855,13 +855,11 @@ Scenario: A user can reject a friendship request
   const headerList = document.getElementsByTagName('h2');
   let tocContainer = document.getElementById('blog-toc');
   for (el in headerList) {
-    if (headerList[el].innerHTML) {
+    if (headerList[el].innerHTML && headerList[el].innerHTML !== 'Contents') {
       // added to anchor target to push target below navbar
-      headerList[el].setAttribute('style', 'padding-top: 60px; margin-top: -60px;')
+      headerList[el].setAttribute('style', 'padding-top: 60px; margin-top: -60px;');
       // create li
       let listElement = document.createElement('li');
-      // add class to li
-      listElement.className = 'toc-item';
       // create anchor
       let anchorElement = document.createElement('a');
       // set text and href values
@@ -869,7 +867,7 @@ Scenario: A user can reject a friendship request
       anchorElement.href = "#" + headerList[el].id;
       // append anchor to li, append li to ul
       listElement.appendChild(anchorElement);
-      tocContainer.appendChild(listElement)
+      tocContainer.appendChild(listElement);
     }
   }  
 </script>
