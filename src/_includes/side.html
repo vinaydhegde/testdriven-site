@@ -1,32 +1,36 @@
 <div class="col-sm-3 d-none d-md-block">
-  <div id="toc-block" class="collection card">
-    <ul class="collapsible collapsible-accordion">
-      {% for post in site.posts reversed %}
-        {% if post.type == 'course' %}
-          {% if post.intro %}
-            <li>
-              <br>
-              <h5 data-part="{{post.part}}">
-                Part {{post.part}}
-              </h5>
-              <div class="collapsible-body">
+    <div id="toc-block" class="collection card">
+      <ul class="collapsible collapsible-accordion">
+        <br>
+        {% assign break_flag = false %}
+        {% for post in site.posts reversed %}
+          {% if post_part and post_part != post.part %}
+            {% assign break_flag = false %}
           {% endif %}
-          <ul>
+          {% if post.type == 'course' and break_flag == false %}
+            {% assign post_part = post.part %}
             <li>
-              <span class="badge badge-light">&bull;</span>
-              <!-- <span>{{ post.lesson }}.&nbsp;</span> -->
-              <span>
-                <a href="{{site.url}}{{ post.url }}">
-                  {{ post.title }}
-                </a>
-              </span>
-            </li>
-          </ul>
-        {% endif %}
-      {% endfor %}
+              <h5 data-part="{{post.part}}" data-toggle="collapse" href="#collapse{{post.part}}">
+                Part {{post_part}}
+              </h5>
+              <ul class="collapse" id="collapse{{post.part}}" style="padding:0">  
+                {% for post in site.posts reversed %}
+                  {% if post.type == 'course' and post.part == post_part %}
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="{{site.url}}{{ post.url }}">
+                            {{post.title}}
+                          </a>
+                        </span>
+                      </li>
+                  {% endif %}
+                {% endfor %}  
+              </ul>
+            {% endif %}
+            {% assign break_flag = true %}
+          {% endfor %}
+        </li>
+      </ul>
     </div>
-    <br>
-    </li>
-    </ul>
   </div>
-</div>
