@@ -38,13 +38,13 @@ def test_add_user(self):
             '/users',
             data=json.dumps({
                 'username': 'michael',
-                'email': 'michael@realpython.com'
+                'email': 'michael@mherman.org'
             }),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 201)
-        self.assertIn('michael@realpython.com was added!', data['message'])
+        self.assertIn('michael@mherman.org was added!', data['message'])
         self.assertIn('success', data['status'])
 ```
 
@@ -52,7 +52,7 @@ Run the test to ensure it fails:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py test
+  run users python manage.py test
 ```
 
 Then add the route handler to *project/api/users.py*
@@ -84,7 +84,7 @@ from project import db
 Run the tests. They all should pass:
 
 ```sh
-Ran 5 tests in 0.201s
+Ran 5 tests in 0.092s
 
 OK
 ```
@@ -112,11 +112,13 @@ def test_add_user_invalid_json(self):
         self.assertIn('fail', data['status'])
 
 def test_add_user_invalid_json_keys(self):
-    """Ensure error is thrown if the JSON object does not have a username key."""
+    """
+    Ensure error is thrown if the JSON object does not have a username key.
+    """
     with self.client:
         response = self.client.post(
             '/users',
-            data=json.dumps({'email': 'michael@realpython.com'}),
+            data=json.dumps({'email': 'michael@mherman.org'}),
             content_type='application/json',
         )
         data = json.loads(response.data.decode())
@@ -124,14 +126,14 @@ def test_add_user_invalid_json_keys(self):
         self.assertIn('Invalid payload.', data['message'])
         self.assertIn('fail', data['status'])
 
-def test_add_user_duplicate_user(self):
+def test_add_user_duplicate_email(self):
     """Ensure error is thrown if the email already exists."""
     with self.client:
         self.client.post(
             '/users',
             data=json.dumps({
                 'username': 'michael',
-                'email': 'michael@realpython.com'
+                'email': 'michael@mherman.org'
             }),
             content_type='application/json',
         )
@@ -139,7 +141,7 @@ def test_add_user_duplicate_user(self):
             '/users',
             data=json.dumps({
                 'username': 'michael',
-                'email': 'michael@realpython.com'
+                'email': 'michael@mherman.org'
             }),
             content_type='application/json',
         )
@@ -195,7 +197,7 @@ Start with a test:
 ```python
 def test_single_user(self):
     """Ensure get single user behaves correctly."""
-    user = User(username='michael', email='michael@realpython.com')
+    user = User(username='michael', email='michael@mherman.org')
     db.session.add(user)
     db.session.commit()
     with self.client:
@@ -203,7 +205,7 @@ def test_single_user(self):
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
         self.assertIn('michael', data['data']['username'])
-        self.assertIn('michael@realpython.com', data['data']['email'])
+        self.assertIn('michael@mherman.org', data['data']['email'])
         self.assertIn('success', data['status'])
 ```
 
@@ -306,13 +308,13 @@ Now, refactor the *test_single_user()* test, like so:
 ```python
 def test_single_user(self):
     """Ensure get single user behaves correctly."""
-    user = add_user('michael', 'michael@realpython.com')
+    user = add_user('michael', 'michael@mherman.org')
     with self.client:
         response = self.client.get(f'/users/{user.id}')
         data = json.loads(response.data.decode())
         self.assertEqual(response.status_code, 200)
         self.assertIn('michael', data['data']['username'])
-        self.assertIn('michael@realpython.com', data['data']['email'])
+        self.assertIn('michael@mherman.org', data['data']['email'])
         self.assertIn('success', data['status'])
 ```
 
@@ -321,8 +323,8 @@ With that, let's add the new test:
 ```python
 def test_all_users(self):
     """Ensure get all users behaves correctly."""
-    add_user('michael', 'michael@realpython.com')
-    add_user('fletcher', 'fletcher@realpython.com')
+    add_user('michael', 'michael@mherman.org')
+    add_user('fletcher', 'fletcher@notreal.com')
     with self.client:
         response = self.client.get('/users')
         data = json.loads(response.data.decode())
@@ -330,10 +332,10 @@ def test_all_users(self):
         self.assertEqual(len(data['data']['users']), 2)
         self.assertIn('michael', data['data']['users'][0]['username'])
         self.assertIn(
-            'michael@realpython.com', data['data']['users'][0]['email'])
+            'michael@mherman.org', data['data']['users'][0]['email'])
         self.assertIn('fletcher', data['data']['users'][1]['username'])
         self.assertIn(
-            'fletcher@realpython.com', data['data']['users'][1]['email'])
+            'fletcher@notreal.com', data['data']['users'][1]['email'])
         self.assertIn('success', data['status'])
 ```
 
@@ -380,10 +382,10 @@ Before moving on, let's test the route in the browser - [http://DOCKER_MACHINE_I
 Add a seed command to the *manage.py* file to populate the database with some initial data:
 
 ```python
-@manager.command
+@cli.command()
 def seed_db():
     """Seeds the database."""
-    db.session.add(User(username='michael', email="michael@realpython.com"))
+    db.session.add(User(username='michael', email="hermanmu@gmail.com"))
     db.session.add(User(username='michaelherman', email="michael@mherman.org"))
     db.session.commit()
 ```
@@ -392,7 +394,10 @@ Try it out:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py seed_db
+  run users python manage.py seed_db
 ```
 
 Make sure you can view the users in the JSON response [http://DOCKER_MACHINE_IP:5001/users](http://DOCKER_MACHINE_IP:5001/users).
+
+
+> Think about how you could trim down some of the tests with shared setup code. Try not to sacrifice readability if you do decide to refactor.

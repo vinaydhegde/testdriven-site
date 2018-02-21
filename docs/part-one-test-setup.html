@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -802,14 +878,14 @@
   <li><em>test_users.py</em></li>
 </ol>
 
-<h2 id="__init__py"><em>__init__.py</em></h2>
+<h5 id="__init__py"><em>__init__.py</em></h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/tests/__init__.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/tests/__init__.py</span>
 </code></pre></div></div>
 
-<h2 id="basepy"><em>base.py</em></h2>
+<h5 id="basepy"><em>base.py</em></h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/tests/base.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/tests/base.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask_testing</span> <span class="kn">import</span> <span class="n">TestCase</span>
@@ -831,9 +907,9 @@
         <span class="n">db</span><span class="o">.</span><span class="n">drop_all</span><span class="p">()</span>
 </code></pre></div></div>
 
-<h2 id="test_configpy"><em>test_config.py</em>:</h2>
+<h5 id="test_configpy"><em>test_config.py</em>:</h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/tests/test_config.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/tests/test_config.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -852,7 +928,6 @@
 
     <span class="k">def</span> <span class="nf">test_app_is_development</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'my_precious'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SQLALCHEMY_DATABASE_URI'</span><span class="p">]</span> <span class="o">==</span>
@@ -867,7 +942,6 @@
 
     <span class="k">def</span> <span class="nf">test_app_is_testing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'my_precious'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TESTING'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'PRESERVE_CONTEXT_ON_EXCEPTION'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
@@ -883,7 +957,6 @@
 
     <span class="k">def</span> <span class="nf">test_app_is_production</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'my_precious'</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TESTING'</span><span class="p">])</span>
 
 
@@ -891,9 +964,9 @@
     <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 </code></pre></div></div>
 
-<h2 id="test_userspy"><em>test_users.py</em></h2>
+<h5 id="test_userspy"><em>test_users.py</em></h5>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/tests/test_users.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/tests/test_users.py</span>
 
 
 <span class="kn">import</span> <span class="nn">json</span>
@@ -925,9 +998,9 @@
 
 <p>Add a new command to <em>manage.py</em>, to discover and run the tests:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@manager.command</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@cli.command</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="s">"""Runs the tests without code coverage."""</span>
+    <span class="s">""" Runs the tests without code coverage"""</span>
     <span class="n">tests</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">discover</span><span class="p">(</span><span class="s">'project/tests'</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">'test*.py'</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">wasSuccessful</span><span class="p">():</span>
@@ -948,7 +1021,7 @@
 <p>With the containers up and running, run the tests:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 </code></pre></div></div>
 
 <p>You should see the following error:</p>
@@ -960,7 +1033,6 @@
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
     <span class="s">"""Base configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s">'my_precious'</span>
@@ -969,7 +1041,7 @@
 <p>Then re-test!</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
-Ran 4 tests <span class="k">in </span>0.118s
+Ran 4 tests <span class="k">in </span>0.071s
 
 OK
 </code></pre></div></div>

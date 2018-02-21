@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -789,8 +865,8 @@
 
           
 
-          <p>Microservice architecture provides a means of breaking apart large applications into smaller services that interact and communicate with each another. Communication between the services usually happens over a network connection through HTTP calls. <a href="https://en.wikipedia.org/wiki/WebSocket">Web sockets</a>, <a href="https://en.wikipedia.org/wiki/Message_queue">message queues</a> and <a href="https://en.wikipedia.org/wiki/Remote_procedure_call">remote procedure calls</a> (RPC) can
-also be used to connect standalone components.</p>
+          <p>Microservice architecture provides a means of breaking apart large applications into smaller services that interact and communicate with each another. Communication between the services usually happens over a network connection through HTTP calls (request/response). <a href="https://en.wikipedia.org/wiki/WebSocket">Web sockets</a>, <a href="https://en.wikipedia.org/wiki/Message_queue">message queues</a> and <a href="https://en.wikipedia.org/wiki/Remote_procedure_call">remote procedure calls</a> (RPC) can
+also be used to connect standalone components (pub/sub).</p>
 
 <p>Each individual service focuses on a single task, generally separated by business unit, and is governed by its RESTful contact.</p>
 
@@ -798,35 +874,41 @@ also be used to connect standalone components.</p>
 
 <h2 id="pros">Pros</h2>
 
-<h3 id="1-separation-of-concerns">(1) Separation of Concerns</h3>
+<h3 id="separation-of-concerns">Separation of Concerns</h3>
 
-<p>With a clear separation between services, developers are free to focus on their own areas of expertise, like languages, frameworks, dependencies, and tools.</p>
+<p>With a clear separation between services, developers are free to focus on their own areas of expertise, like languages, frameworks, dependencies, tools, and build pipelines.</p>
 
-<p>For example, a front-end JavaScript engineer could develop the client-facing views without ever having to understand the underlying code in the back-end API. He or she is free to use the languages and frameworks of choice, only having to communicate with the back-end via AJAX requests to consume the RESTful API.</p>
+<p>For example, a front-end JavaScript engineer could develop the client-facing views without ever having to understand the underlying code in the back-end API. He or she is free to use the languages and frameworks of choice, only having to communicate with the back-end via AJAX requests to consume the RESTful API. Put another way, developers can treat a service like a black box since services communicate via APIs. The actual implementation and complexity are hidden.</p>
+
+<p>That said, it’s a good idea to create some organization-wide standards to help ensure each team can work and function together - like code quality and style checking, code reviews, API design.</p>
 
 <p>Clear separation means that errors are mostly localized to the service that the developer is working on. So, you can assign a junior developer to a less critical service so that way if she or he brings down that service, the remainder of the application is not affected.</p>
 
-<p>Less coupling also makes scaling easier since each service can be deployed separately.</p>
+<p>Less coupling also makes scaling easier since each service can be deployed separately. It also helps to eliminate one team having to wait on another team to finish up work that another team may be dependent on.</p>
 
-<h3 id="2-smaller-code-bases">(2) Smaller Code Bases</h3>
+<h3 id="smaller-code-bases">Smaller Code Bases</h3>
 
-<p>Smaller code bases tend to be easier to understand since you do not have to grasp the entire system. This, along with the necessity for solid API design, means that applications in a microservice stack are generally easier to work on, test, refactor, and scale.</p>
+<p>Smaller code bases tend to be easier to understand since you do not have to grasp the entire system. This, along with the necessity for solid API design, means that applications in a microservice stack are generally faster to develop and easier to test, refactor, and scale.</p>
+
+<h3 id="accelerated-feedback-loops">Accelerated Feedback Loops</h3>
+
+<p>With microservices, developers often own the entire lifecycle of the app, from inception to delivery. Instead of aligning teams with a particular set of technologies - like client ui, server-side, etc. - teams are more product-focused, responsible for delivering the application to the customers themselves. Because of this, they have much more visibility into how the application is being used in the real-world. This speeds up the feedback loop, making it easier to fix bugs and iterate.</p>
 
 <h2 id="cons">Cons</h2>
 
-<h3 id="1-design-complexity">(1) Design Complexity</h3>
+<h3 id="design-complexity">Design Complexity</h3>
 
 <p>Deciding to split off a piece of your application into a microservice is no easy task. It’s often much easier to refactor it into a separate module within the overall monolith rather than splitting it out.</p>
 
 <p>Once you split out a service there is no going back.</p>
 
-<h3 id="2-network-complexity">(2) Network Complexity</h3>
+<h3 id="network-complexity">Network Complexity</h3>
 
 <p>With a monolith, generally everything happens in a single process so you don’t have to make very many calls to other services. As you break out pieces of your application into microservices, you’ll find that you’ll now have to make a network call when before you could just call a function.</p>
 
 <p>This can cause problems especially if multiple services need to communicate with one another, resulting in ping-pong-like affect in terms of network requests. You will also have to account for a service going down altogether.</p>
 
-<h3 id="3-data-persistence">(3) Data Persistence</h3>
+<h3 id="data-persistence">Data Persistence</h3>
 
 <p>Most applications have some sort of stateful layer, like databases or task queues. Microservice stacks also need to keep track of where services are deployed and the total number of deployed instances, so that when a new instance of a particular service is stood up, traffic can be re-routed appropriately. This is often referred to as <a href="https://en.wikipedia.org/wiki/Service_discovery">service discovery</a>.</p>
 
@@ -834,7 +916,7 @@ also be used to connect standalone components.</p>
 
 <p>Isolating a particular service’s state so that it is not shared or duplicated is incredible difficult. You’ll often have to deal with various sources of truth, which will have to be reconciled frequently. Again, this comes down to design.</p>
 
-<h3 id="4-integration-tests">(4) Integration Tests</h3>
+<h3 id="integration-tests">Integration Tests</h3>
 
 <p>Often, when developing applications with a microservice architecture, you cannot fully test out all services until you deploy to a staging or production server. This takes much too long to get feedback. Fortunately, Docker helps to speed up this process by making it easier to link together small, independent services locally.</p>
 

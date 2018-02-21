@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -773,6 +849,8 @@
                 <a class="btn btn-outline-success" href="https://testdriven.io/part-three-update-component">&laquo; Update Component</a>
               
               
+                <a class="btn btn-outline-success" href="https://testdriven.io/part-three-structure">Structure &raquo;</a>
+              
             </div>
 
             
@@ -797,23 +875,24 @@
 <span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine <span class="nb">env </span>testdriven-prod<span class="k">)</span>
 </code></pre></div></div>
 
-<p>We need to add the <code class="highlighter-rouge">SECRET_KEY</code> environment variable to the <code class="highlighter-rouge">users-service</code> in <em>docker-compose-prod.yml</em>:</p>
+<p>We need to add the <code class="highlighter-rouge">SECRET_KEY</code> environment variable for the <code class="highlighter-rouge">users</code> in <em>docker-compose-prod.yml</em>:</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">users-service</span><span class="pi">:</span>
-  <span class="na">container_name</span><span class="pi">:</span> <span class="s">users-service</span>
-  <span class="na">build</span><span class="pi">:</span> <span class="s">https://github.com/realpython/flask-microservices-users.git</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">users</span><span class="pi">:</span>
+  <span class="na">container_name</span><span class="pi">:</span> <span class="s">users</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users</span>
+    <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-prod</span>
   <span class="na">expose</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s1">'</span><span class="s">5000'</span>
   <span class="na">environment</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">APP_SETTINGS=project.config.ProductionConfig</span>
-    <span class="pi">-</span> <span class="s">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod</span>
+    <span class="pi">-</span> <span class="s">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
     <span class="pi">-</span> <span class="s">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
     <span class="pi">-</span> <span class="s">SECRET_KEY=${SECRET_KEY}</span>
   <span class="na">depends_on</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">users-db</span>
   <span class="na">links</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">users-db</span>
-  <span class="na">command</span><span class="pi">:</span> <span class="s">gunicorn -b 0.0.0.0:5000 manage:app</span>
 </code></pre></div></div>
 
 <p>Since this key should truly be random, we’ll set the key locally and pull it into the container at the build time.</p>
@@ -836,40 +915,7 @@
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">REACT_APP_USERS_SERVICE_URL</span><span class="o">=</span>http://DOCKER_MACHINE_AWS_IP
 </code></pre></div></div>
 
-<p>Then, update <em>services/client/Dockerfile-prod</em>, to install react-scripts:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM node:latest
-
-# set working directory
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
-
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-# add environment variables
-ARG REACT_APP_USERS_SERVICE_URL
-ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
-ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
-
-# install and cache app dependencies
-ADD package.json /usr/src/app/package.json
-RUN npm install --silent
-RUN npm install pushstate-server -g --silent
-RUN npm install react-scripts@1.0.15 -g --silent
-
-# add app
-ADD . /usr/src/app
-
-# build react app
-RUN npm run build
-
-# start app
-CMD ["pushstate-server", "build", "3000"]
-</code></pre></div></div>
-
-<p>Update the containers:</p>
+<p>Then, update the containers:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml up <span class="nt">-d</span> <span class="nt">--build</span>
 </code></pre></div></div>
@@ -877,25 +923,82 @@ CMD ["pushstate-server", "build", "3000"]
 <p>Re-create and seed the database:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service python manage.py recreate_db
+  run <span class="nb">users </span>python manage.py recreate_db
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service python manage.py seed_db
+  run <span class="nb">users </span>python manage.py seed_db
 </code></pre></div></div>
 
-<p>And run the tests:</p>
+<p>Manually test it in the browser. Try navigating to an individual route from the URL bar:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+<ol>
+  <li>http://DOCKER_MACHINE_AWS_IP/login</li>
+  <li>http://DOCKER_MACHINE_AWS_IP/about</li>
+</ol>
 
-<span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service flake8 project
+<p>You should see a 404. Why? Essentially, the Docker Nginx image is overriding the behavior of React Router.</p>
 
-<span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run client npm <span class="nb">test</span> <span class="nt">--</span> <span class="nt">--verbose</span>
+<p>To fix, update <em>services/client/Dockerfile-prod</em>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build environment
+FROM node:9.4 as builder
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+ARG REACT_APP_USERS_SERVICE_URL
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
+COPY package.json /usr/src/app/package.json
+RUN npm install --silent
+RUN npm install react-scripts@1.1.0 -g --silent
+COPY . /usr/src/app
+RUN npm run build
+
+# production environment
+FROM nginx:1.13.5-alpine
+RUN rm -rf /etc/nginx/conf.d
+COPY conf /etc/nginx
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 </code></pre></div></div>
 
-<p>Test it in the browser one last time. Commit and push your code.</p>
+<p>Take note of the two new lines:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RUN rm -rf /etc/nginx/conf.d
+COPY conf /etc/nginx
+</code></pre></div></div>
+
+<p>Here, we removed the default Nginx configuration and replaced it with our own. Add a new folder to “services/client” called “conf”, add a new folder in “conf” called “conf.d”, and then add a new file to “conf.d” called <em>default.conf</em>:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└── conf
+    └── conf.d
+        └── default.conf
+</code></pre></div></div>
+
+<p>Finally, update <em>default.conf</em>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+  listen 80;
+  location / {
+    root   /usr/share/nginx/html;
+    index  index.html index.htm;
+    try_files $uri $uri/ /index.html;
+  }
+  error_page   500 502 503 504  /50x.html;
+  location = /50x.html {
+    root   /usr/share/nginx/html;
+  }
+}
+</code></pre></div></div>
+
+<p>Update the containers:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml up <span class="nt">-d</span> <span class="nt">--build</span>
+</code></pre></div></div>
+
+<p>Manually test in the browser again. Commit and push your code once done.</p>
 
 
           
@@ -913,6 +1016,8 @@ CMD ["pushstate-server", "build", "3000"]
               
                 <a class="btn btn-outline-success" href="https://testdriven.io/part-three-update-component">&laquo; Update Component</a>
               
+              
+                <a class="btn btn-outline-success" href="https://testdriven.io/part-three-structure">Structure &raquo;</a>
               
             </div>
 

@@ -19,13 +19,13 @@ Add [React Bootstrap](https://github.com/react-bootstrap/react-bootstrap) and [R
 
 ```
 "dependencies": {
-  "axios": "^0.16.2",
-  "react": "^16.0.0",
-  "react-bootstrap": "^0.31.5",
-  "react-dom": "^16.0.0",
+  "axios": "^0.17.1",
+  "react": "^16.2.0",
+  "react-bootstrap": "^0.32.1",
+  "react-dom": "^16.2.0",
   "react-router-bootstrap": "^0.24.4",
   "react-router-dom": "^4.2.2",
-  "react-scripts": "1.0.14"
+  "react-scripts": "1.1.0"
 },
 ```
 
@@ -42,19 +42,19 @@ For each component, we'll roughly follow these steps:
 
 ## Navbar
 
-Create two new files in "src/components":
+Create two new files:
 
-1. *NavBar.test.js*
-1. *NavBar.jsx*
+1. *services/client/src/components/\_\_tests\_\_/NavBar.test.jsx*
+1. *services/client/src/components/NavBar.jsx*
 
 Start with some tests:
 
-```javascript
+```jsx
 import React from 'react';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import NavBar from './NavBar';
+import NavBar from '../NavBar';
 
 const title = 'Hello, World!';
 
@@ -68,7 +68,7 @@ test('NavBar renders properly', () => {
 
 Ensure it fails, and then add the component:
 
-```javascript
+```jsx
 import React from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -113,24 +113,24 @@ export default NavBar;
 
 Add the import to *App.jsx*:
 
-```javascript
+```jsx
 import NavBar from './components/NavBar';
 ```
 
 Add a title to `state`:
 
-```javascript
+```jsx
 this.state = {
   users: [],
   username: '',
   email: '',
   title: 'TestDriven.io'
-}
+};
 ```
 
 And update `render()`:
 
-```javascript
+```jsx
 render() {
   return (
     <div>
@@ -166,7 +166,41 @@ render() {
 };
 ```
 
-Update the container:
+Update the Bootstrap stylesheet in *services/client/public/index.html*:
+
+```html
+<link
+  rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+>
+```
+
+Then, update the `className` in the `UsersList` component:
+
+```jsx
+import React from 'react';
+
+const UsersList = (props) => {
+  return (
+    <div>
+      {
+        props.users.map((user) => {
+          return (
+            <h4
+              key={user.id}
+              className="well"
+            >{user.username}
+            </h4>
+          )
+        })
+      }
+    </div>
+  )
+};
+
+export default UsersList;
+```
+
+Be sure to make the change in the test as well, and then update the container:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml up -d --build
@@ -178,9 +212,21 @@ Test it out in the browser.
   <img src="/assets/img/course/03_react_bootstrap_navbar.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react bootstrap navbar">
 </div>
 
+> Run into this issue?
+>
+```sh
+Cannot find module 'react-bootstrap' from 'NavBar.jsx'
+```
+Enter the bash shell in the container and manually install the dependencies:
+```sh
+$ docker-compose -f docker-compose-dev.yml run client bash
+# npm install
+added 11 packages in 21.307s
+```
+
 Ensure the tests pass. Then, add a snapshot test:
 
-```javascript
+```jsx
 test('NavBar renders a snapshot properly', () => {
   const tree = renderer.create(
     <Router location="/"><NavBar title={title}/></Router>
@@ -191,7 +237,7 @@ test('NavBar renders a snapshot properly', () => {
 
 Add the import:
 
-```javascript
+```jsx
 import { MemoryRouter as Router } from 'react-router-dom';
 ```
 
@@ -205,17 +251,17 @@ Instead of using two different components to handle user registration and login,
 
 Add the files:
 
-1. *Form.test.js*
+1. *Form.test.jsx*
 1. *Form.jsx*
 
 Test:
 
-```javascript
+```jsx
 import React from 'react';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import Form from './Form';
+import Form from '../Form';
 
 const formData = {
   username: '',
@@ -250,7 +296,7 @@ test('Login Form renders properly', () => {
 
 Component:
 
-```javascript
+```jsx
 import React from 'react';
 
 const Form = (props) => {
@@ -311,7 +357,7 @@ Did you notice the [inline if](https://facebook.github.io/react/docs/conditional
 
 Import the component into *App.jsx*, and then update the state in the constructor:
 
-```javascript
+```jsx
 this.state = {
   users: [],
   username: '',
@@ -327,7 +373,7 @@ this.state = {
 
 Add the component to the `<Switch>`, within the `render`:
 
-```javascript
+```jsx
 <Route exact path='/register' render={() => (
   <Form
     formType={'Register'}
@@ -346,7 +392,7 @@ Make sure the routes work in the browser, but don't try to submit the forms just
 
 Add the snapshot tests:
 
-```javascript
+```jsx
 test('Register Form renders a snapshot properly', () => {
   const component = <Form formType={'Register'} formData={formData} />;
   const tree = renderer.create(component).toJSON();
@@ -363,12 +409,12 @@ test('Login Form renders a snapshot properly', () => {
 Make sure the tests pass!
 
 ```sh
-PASS  src/components/Form.test.js
-PASS  src/components/NavBar.test.js
-PASS  src/App.test.js
-PASS  src/components/About.test.js
-PASS  src/components/UsersList.test.js
-PASS  src/components/AddUser.test.js
+PASS  src/components/__tests__/Form.test.jsx
+PASS  src/components/__tests__/NavBar.test.jsx
+PASS  src/components/__tests__/App.test.jsx
+PASS  src/components/__tests__/UsersList.test.jsx
+PASS  src/components/__tests__/AddUser.test.jsx
+PASS  src/components/__tests__/About.test.jsx
 
 Test Suites: 6 passed, 6 total
 Tests:       13 passed, 13 total
@@ -385,12 +431,12 @@ Before moving on, let's do two quick refactors...
 
 This code is not DRY. It may be fine for the two forms we have now, but what if we had 20? Re-write this on your own before reviewing the solution.
 
-```javascript
+```jsx
 import React from 'react';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 
-import Form from './Form';
+import Form from '../Form';
 
 const testData = [
   {
@@ -427,23 +473,23 @@ testData.forEach((el) => {
     const tree = renderer.create(component).toJSON();
     expect(tree).toMatchSnapshot();
   });
-})
+});
 ```
 
 Run the tests again.
 
 ```sh
-PASS  src/components/Form.test.js
-PASS  src/components/NavBar.test.js
-PASS  src/App.test.js
-PASS  src/components/About.test.js
-PASS  src/components/UsersList.test.js
-PASS  src/components/AddUser.test.js
+PASS  src/components/__tests__/NavBar.test.jsx
+PASS  src/components/__tests__/App.test.jsx
+PASS  src/components/__tests__/Form.test.jsx
+PASS  src/components/__tests__/AddUser.test.jsx
+PASS  src/components/__tests__/UsersList.test.jsx
+PASS  src/components/__tests__/About.test.jsx
 
 Test Suites: 6 passed, 6 total
 Tests:       13 passed, 13 total
 Snapshots:   6 passed, 6 total
-Time:        3.118s, estimated 7s
+Time:        4.426s, estimated 5s
 Ran all test suites.
 ```
 
@@ -460,15 +506,4 @@ Snapshot Summary
 
 If you see that message, immediately revert your code back, take a new snapshot, and then start the refactor over again.
 
-### Test directory
-
-Next, it's getting crowded in the "components" directory. Create a new directory within it called "\_\_tests\_\_", and move all of the **.test.js* files into it:
-
-1. *About.test.js*
-1. *AddUser.test.js*
-1. *Form.test.js*
-1. *NavBar.test.js*
-1. *UsersList.test.js*
-1. *App.test.js*
-
-Update the imports. Ensure the tests still pass. Commit your code. Push to GitHub.
+Commit your code. Push to GitHub.

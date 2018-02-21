@@ -9,7 +9,7 @@ share: true
 type: course
 ---
 
-In this lesson, we'll add code coverage via [Coverage.py](http://coverage.readthedocs.io) to the project...
+In this lesson, we'll add code coverage via [Coverage.py](http://coverage.readthedocs.io/) to the project...
 
 ---
 
@@ -30,17 +30,17 @@ Ensure the app is working in the browser, and then run the tests:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py test
+  run users python manage.py test
 ```
 
 ## Code Coverage
 
 [Code coverage](https://en.wikipedia.org/wiki/Code_coverage) is the process of finding areas of your code not exercised by tests. Keep in mind that this does not measure the overall effectiveness of the test suite.
 
-Add Coverage.py to the *requirements.txt* file in the "users-service" directory:
+Add Coverage.py to the *requirements.txt* file in the "users" directory:
 
 ```
-coverage==4.4.1
+coverage==4.4.2
 ```
 
 Next, we need to configure the coverage reports in *manage.py*. Start by adding the configuration right after the imports:
@@ -50,16 +50,17 @@ COV = coverage.coverage(
     branch=True,
     include='project/*',
     omit=[
-        'project/tests/*'
+        'project/tests/*',
+        'project/config.py',
     ]
 )
 COV.start()
 ```
 
-Then add the new manager command:
+Then add the new CLI command:
 
 ```python
-@manager.command
+@cli.command()
 def cov():
     """Runs the unit tests with coverage."""
     tests = unittest.TestLoader().discover('project/tests')
@@ -91,7 +92,7 @@ Run the tests with coverage:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py cov
+  run users python manage.py cov
 ```
 
 You should see something like:
@@ -100,26 +101,25 @@ You should see something like:
 Coverage Summary:
 Name                    Stmts   Miss Branch BrPart  Cover
 ---------------------------------------------------------
-project/__init__.py        12      5      0      0    58%
+project/__init__.py        13      5      0      0    62%
 project/api/models.py      12      9      0      0    25%
-project/api/users.py       48      0     10      0   100%
-project/config.py          16      0      0      0   100%
+project/api/users.py       48     10     10      0    83%
 ---------------------------------------------------------
-TOTAL                      88     14     10      0    86%
+TOTAL                      73     24     10      0    71%
 ```
 
 The HTML version can be viewed within the newly created "htmlcov" directory. Now you can quickly see which parts of the code are, and are not, covered by a test.
 
-Add this directory to the *.gitignore* file.
+Add this directory to the *.gitignore* and *.dockerignore* files.
 
 ## Code Quality
 
 [Linting](https://stackoverflow.com/a/8503586/1799408) is the process of checking your code for stylistic or programming errors. Although there are a [number](https://stackoverflow.com/a/7925369/1799408) of commonly used linters for Python, we'll use [Flake8](https://gitlab.com/pycqa/flake8) since it combines two other popular linters - [pep8](https://pypi.python.org/pypi/pep8) and [pyflakes](https://pypi.python.org/pypi/pyflakes).
 
-Add flake8 to the *requirements.txt* file in the "users-service" directory:
+Add flake8 to the *requirements.txt* file in the "users" directory:
 
 ```
-flake8===3.4.1
+flake8===3.5.0
 ```
 
 Update the containers:
@@ -132,14 +132,13 @@ Run flake8:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service flake8 project
+  run users flake8 project
 ```
 
 Were any errors found?
 
 ```sh
-project/__init__.py:7:1: F401 'flask.jsonify' imported but unused
-project/tests/test_users.py:60:80: E501 line too long (85 > 79 characters)
+project/__init__.py:6:1: F401 'flask.jsonify' imported but unused
 ```
 
 Correct any issues before moving on. Commit your code, and push it to GitHub.

@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -793,7 +869,7 @@
 
 <hr />
 
-<p>When testing components, especially users interactions, pay close attention to both the inputs and outputs:</p>
+<p>When testing components, especially user interactions, pay close attention to both the inputs and outputs:</p>
 
 <ol>
   <li>Inputs - props, state, user interactions</li>
@@ -814,16 +890,16 @@
 
 <h2 id="refactor">Refactor</h2>
 
-<p>Let’s start by refactoring the current tests in <em>services/client/src/components/__tests__/Form.test.js</em>:</p>
+<p>Let’s start by refactoring the current tests in <em>services/client/src/components/__tests__/Form.test.jsx</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'When not authenticated'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'When not authenticated'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="nx">testData</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">el</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Form</span>
-      <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span>
-      <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
-      <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span>
-    <span class="sr">/&gt;</span><span class="err">;
-</span>    <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form renders properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="p">&lt;</span><span class="nc">Form</span>
+      <span class="na">formType=</span><span class="si">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="si">}</span>
+      <span class="na">formData=</span><span class="si">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formData</span><span class="si">}</span>
+      <span class="na">isAuthenticated=</span><span class="si">{</span><span class="kc">false</span><span class="si">}</span>
+    <span class="p">/&gt;;</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form renders properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="nx">component</span><span class="p">);</span>
       <span class="kd">const</span> <span class="nx">h1</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h1'</span><span class="p">);</span>
       <span class="nx">expect</span><span class="p">(</span><span class="nx">h1</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
@@ -849,40 +925,40 @@
 
 <p>You should see something similar to:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/App.test.js
- ✓ App renders without crashing <span class="o">(</span>8ms<span class="o">)</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/NavBar.test.jsx
+ ✓ NavBar renders properly <span class="o">(</span>4ms<span class="o">)</span>
+ ✓ NavBar renders a snapshot properly <span class="o">(</span>9ms<span class="o">)</span>
 
-PASS  src/components/__tests__/NavBar.test.js
- ✓ NavBar renders properly <span class="o">(</span>8ms<span class="o">)</span>
- ✓ NavBar renders a snapshot properly <span class="o">(</span>14ms<span class="o">)</span>
+PASS  src/components/__tests__/App.test.jsx
+ ✓ App renders without crashing <span class="o">(</span>5ms<span class="o">)</span>
 
-PASS  src/components/__tests__/UsersList.test.js
- ✓ UsersList renders properly <span class="o">(</span>4ms<span class="o">)</span>
- ✓ UsersList renders a snapshot properly <span class="o">(</span>11ms<span class="o">)</span>
+PASS  src/components/__tests__/AddUser.test.jsx
+ ✓ AddUser renders properly <span class="o">(</span>13ms<span class="o">)</span>
+ ✓ AddUser renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
 
-PASS  src/components/__tests__/Form.test.js
+PASS  src/components/__tests__/Logout.test.jsx
+ ✓ Logout renders properly <span class="o">(</span>3ms<span class="o">)</span>
+ ✓ Logout renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
+
+PASS  src/components/__tests__/Form.test.jsx
  When not authenticated
-   ✓ Register Form renders properly <span class="o">(</span>11ms<span class="o">)</span>
-   ✓ Register Form renders a snapshot properly <span class="o">(</span>3ms<span class="o">)</span>
+   ✓ Register Form renders properly <span class="o">(</span>7ms<span class="o">)</span>
+   ✓ Register Form renders a snapshot properly <span class="o">(</span>7ms<span class="o">)</span>
    ✓ Login Form renders properly <span class="o">(</span>2ms<span class="o">)</span>
-   ✓ Login Form renders a snapshot properly <span class="o">(</span>1ms<span class="o">)</span>
+   ✓ Login Form renders a snapshot properly <span class="o">(</span>5ms<span class="o">)</span>
 
-PASS  src/components/__tests__/Logout.test.js
- ✓ Logout renders properly <span class="o">(</span>4ms<span class="o">)</span>
- ✓ Logout renders a snapshot properly <span class="o">(</span>4ms<span class="o">)</span>
+PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly <span class="o">(</span>3ms<span class="o">)</span>
+ ✓ UsersList renders a snapshot properly <span class="o">(</span>1ms<span class="o">)</span>
 
-PASS  src/components/__tests__/AddUser.test.js
- ✓ AddUser renders properly <span class="o">(</span>5ms<span class="o">)</span>
- ✓ AddUser renders a snapshot properly <span class="o">(</span>3ms<span class="o">)</span>
-
-PASS  src/components/__tests__/About.test.js
- ✓ About renders properly <span class="o">(</span>3ms<span class="o">)</span>
+PASS  src/components/__tests__/About.test.jsx
+ ✓ About renders properly <span class="o">(</span>2ms<span class="o">)</span>
  ✓ About renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
 
 Test Suites: 7 passed, 7 total
 Tests:       15 passed, 15 total
 Snapshots:   7 passed, 7 total
-Time:        3.662s, estimated 4s
+Time:        3.415s, estimated 4s
 Ran all <span class="nb">test </span>suites.
 </code></pre></div></div>
 
@@ -890,21 +966,21 @@ Ran all <span class="nb">test </span>suites.
 
 <p>Need a hint?</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="s1">'/'</span> <span class="o">/&gt;</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">&lt;</span><span class="nc">Redirect</span> <span class="na">to=</span><span class="s1">'/'</span> <span class="p">/&gt;;</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
 <p>Add a another set of test cases:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'When authenticated'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'When authenticated'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="nx">testData</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">el</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Form</span>
-      <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span>
-      <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
-      <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
-    <span class="sr">/&gt;</span><span class="err">;
-</span>    <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> redirects properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="p">&lt;</span><span class="nc">Form</span>
+      <span class="na">formType=</span><span class="si">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="si">}</span>
+      <span class="na">formData=</span><span class="si">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formData</span><span class="si">}</span>
+      <span class="na">isAuthenticated=</span><span class="si">{</span><span class="kc">true</span><span class="si">}</span>
+    <span class="p">/&gt;;</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> redirects properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="nx">component</span><span class="p">);</span>
       <span class="nx">expect</span><span class="p">(</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'Redirect'</span><span class="p">)).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
     <span class="p">});</span>
@@ -912,12 +988,12 @@ Ran all <span class="nb">test </span>suites.
 <span class="p">});</span>
 </code></pre></div></div>
 
-<p>For this test case, we’re just asserting that the <code class="highlighter-rouge">Render</code> component is rendered. Ensure the tests pass.</p>
+<p>For this test case, we’re just asserting that the <code class="highlighter-rouge">render</code> component is rendered. Ensure the tests pass.</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Test Suites: 7 passed, 7 total
 Tests:       17 passed, 17 total
 Snapshots:   7 passed, 7 total
-Time:        8.226s
+Time:        3.483s, estimated 4s
 Ran all <span class="nb">test </span>suites.
 </code></pre></div></div>
 
@@ -925,13 +1001,13 @@ Ran all <span class="nb">test </span>suites.
 
 <h2 id="testing-interactions">Testing Interactions</h2>
 
-<p>Before we start, brainstorm on your on for a bit on what happens during a form submit, paying particular attention to the component’s inputs and outputs…</p>
+<p>Before we start, brainstorm on your own for a bit on what happens during a form submit, paying particular attention to the component’s inputs and outputs…</p>
 
 <h3 id="form-submit">Form Submit</h3>
 
-<p>Add a new <code class="highlighter-rouge">describe</code> block to <em>services/client/src/components/__tests__/Form.test.js</em>:</p>
+<p>Add a new <code class="highlighter-rouge">describe</code> block to <em>services/client/src/components/__tests__/Form.test.jsx</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'When not authenticated'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'When not authenticated'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">testValues</span> <span class="o">=</span> <span class="p">{</span>
     <span class="na">formType</span><span class="p">:</span> <span class="s1">'Register'</span><span class="p">,</span>
     <span class="na">formData</span><span class="p">:</span> <span class="p">{</span>
@@ -943,8 +1019,8 @@ Ran all <span class="nb">test </span>suites.
     <span class="na">handleFormChange</span><span class="p">:</span> <span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">(),</span>
     <span class="na">isAuthenticated</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
   <span class="p">};</span>
-  <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Form</span> <span class="p">{...</span><span class="nx">testValues</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="err">;
-</span>  <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form submits the form properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="p">&lt;</span><span class="nc">Form</span> <span class="err">{</span><span class="p">...</span><span class="nt">testValues</span><span class="err">}</span> <span class="p">/&gt;;</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form submits the form properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="nx">component</span><span class="p">);</span>
     <span class="nx">expect</span><span class="p">(</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">).</span><span class="nx">toHaveBeenCalledTimes</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
     <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'form'</span><span class="p">).</span><span class="nx">simulate</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">)</span>
@@ -959,7 +1035,7 @@ Ran all <span class="nb">test </span>suites.
 
 <p>Let’s take it one step further and assert that the form values are being handled correctly. Update the <code class="highlighter-rouge">it</code> block like so:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form submits the form properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form submits the form properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="nx">component</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">).</span><span class="nx">toHaveBeenCalledTimes</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
   <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'form'</span><span class="p">).</span><span class="nx">simulate</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="nx">testValues</span><span class="p">.</span><span class="nx">formData</span><span class="p">)</span>
@@ -973,7 +1049,7 @@ Ran all <span class="nb">test </span>suites.
 
 <p>How about the <code class="highlighter-rouge">onChange</code>?</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form submits the form properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form submits the form properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="nx">component</span><span class="p">);</span>
   <span class="kd">const</span> <span class="nx">input</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'input[type="text"]'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">testValues</span><span class="p">.</span><span class="nx">handleUserFormSubmit</span><span class="p">).</span><span class="nx">toHaveBeenCalledTimes</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
@@ -991,7 +1067,7 @@ Ran all <span class="nb">test </span>suites.
 
 <p>Finally, update the tests to incorporate the previous <code class="highlighter-rouge">it</code> block into the original describe <code class="highlighter-rouge">block</code>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">shallow</span><span class="p">,</span> <span class="nx">simulate</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'enzyme'</span><span class="p">;</span>
 <span class="k">import</span> <span class="nx">renderer</span> <span class="k">from</span> <span class="s1">'react-test-renderer'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">MemoryRouter</span><span class="p">,</span> <span class="nx">Switch</span><span class="p">,</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-router-dom'</span><span class="p">;</span>
@@ -1024,8 +1100,8 @@ Ran all <span class="nb">test </span>suites.
 
 <span class="nx">describe</span><span class="p">(</span><span class="s1">'When not authenticated'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="nx">testData</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">el</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Form</span> <span class="p">{...</span><span class="nx">el</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="err">;
-</span>    <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form renders properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="p">&lt;</span><span class="nc">Form</span> <span class="err">{</span><span class="p">...</span><span class="nt">el</span><span class="err">}</span> <span class="p">/&gt;;</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> Form renders properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="nx">component</span><span class="p">);</span>
       <span class="kd">const</span> <span class="nx">h1</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h1'</span><span class="p">);</span>
       <span class="nx">expect</span><span class="p">(</span><span class="nx">h1</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
@@ -1056,12 +1132,12 @@ Ran all <span class="nb">test </span>suites.
 
 <span class="nx">describe</span><span class="p">(</span><span class="s1">'When authenticated'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="nx">testData</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">el</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Form</span>
-      <span class="nx">formType</span><span class="o">=</span><span class="p">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span>
-      <span class="nx">formData</span><span class="o">=</span><span class="p">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formData</span><span class="p">}</span>
-      <span class="nx">isAuthenticated</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span>
-    <span class="sr">/&gt;</span><span class="err">;
-</span>    <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> redirects properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">component</span> <span class="o">=</span> <span class="p">&lt;</span><span class="nc">Form</span>
+      <span class="na">formType=</span><span class="si">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="si">}</span>
+      <span class="na">formData=</span><span class="si">{</span><span class="nx">el</span><span class="p">.</span><span class="nx">formData</span><span class="si">}</span>
+      <span class="na">isAuthenticated=</span><span class="si">{</span><span class="kc">true</span><span class="si">}</span>
+    <span class="p">/&gt;;</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">el</span><span class="p">.</span><span class="nx">formType</span><span class="p">}</span><span class="s2"> redirects properly`</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="nx">component</span><span class="p">);</span>
       <span class="nx">expect</span><span class="p">(</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'Redirect'</span><span class="p">)).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
     <span class="p">});</span>
@@ -1071,45 +1147,45 @@ Ran all <span class="nb">test </span>suites.
 
 <p>Insure the tests pass before moving on:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/NavBar.test.js
- ✓ NavBar renders properly <span class="o">(</span>5ms<span class="o">)</span>
- ✓ NavBar renders a snapshot properly <span class="o">(</span>17ms<span class="o">)</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/NavBar.test.jsx
+ ✓ NavBar renders properly <span class="o">(</span>4ms<span class="o">)</span>
+ ✓ NavBar renders a snapshot properly <span class="o">(</span>9ms<span class="o">)</span>
 
-PASS  src/components/__tests__/App.test.js
- ✓ App renders without crashing <span class="o">(</span>8ms<span class="o">)</span>
+PASS  src/components/__tests__/App.test.jsx
+ ✓ App renders without crashing <span class="o">(</span>5ms<span class="o">)</span>
 
-PASS  src/components/__tests__/Form.test.js
+PASS  src/components/__tests__/AddUser.test.jsx
+ ✓ AddUser renders properly <span class="o">(</span>5ms<span class="o">)</span>
+ ✓ AddUser renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
+
+PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly <span class="o">(</span>4ms<span class="o">)</span>
+ ✓ UsersList renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
+
+PASS  src/components/__tests__/About.test.jsx
+ ✓ About renders properly <span class="o">(</span>2ms<span class="o">)</span>
+ ✓ About renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
+
+PASS  src/components/__tests__/Form.test.jsx
  When not authenticated
-   ✓ Register Form renders properly <span class="o">(</span>5ms<span class="o">)</span>
+   ✓ Register Form renders properly <span class="o">(</span>3ms<span class="o">)</span>
    ✓ Register Form submits the form properly <span class="o">(</span>2ms<span class="o">)</span>
-   ✓ Register Form renders a snapshot properly <span class="o">(</span>5ms<span class="o">)</span>
-   ✓ Login Form renders properly <span class="o">(</span>1ms<span class="o">)</span>
-   ✓ Login Form submits the form properly <span class="o">(</span>2ms<span class="o">)</span>
-   ✓ Login Form renders a snapshot properly <span class="o">(</span>3ms<span class="o">)</span>
+   ✓ Register Form renders a snapshot properly <span class="o">(</span>1ms<span class="o">)</span>
+   ✓ Login Form renders properly <span class="o">(</span>4ms<span class="o">)</span>
+   ✓ Login Form submits the form properly <span class="o">(</span>4ms<span class="o">)</span>
+   ✓ Login Form renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
  When authenticated
-   ✓ Register redirects properly <span class="o">(</span>2ms<span class="o">)</span>
+   ✓ Register redirects properly <span class="o">(</span>1ms<span class="o">)</span>
    ✓ Login redirects properly <span class="o">(</span>1ms<span class="o">)</span>
 
-PASS  src/components/__tests__/Logout.test.js
+PASS  src/components/__tests__/Logout.test.jsx
  ✓ Logout renders properly <span class="o">(</span>3ms<span class="o">)</span>
- ✓ Logout renders a snapshot properly <span class="o">(</span>18ms<span class="o">)</span>
-
-PASS  src/components/__tests__/AddUser.test.js
- ✓ AddUser renders properly <span class="o">(</span>14ms<span class="o">)</span>
- ✓ AddUser renders a snapshot properly <span class="o">(</span>5ms<span class="o">)</span>
-
-PASS  src/components/__tests__/About.test.js
- ✓ About renders properly <span class="o">(</span>3ms<span class="o">)</span>
- ✓ About renders a snapshot properly <span class="o">(</span>3ms<span class="o">)</span>
-
-PASS  src/components/__tests__/UsersList.test.js
- ✓ UsersList renders properly <span class="o">(</span>3ms<span class="o">)</span>
- ✓ UsersList renders a snapshot properly <span class="o">(</span>4ms<span class="o">)</span>
+ ✓ Logout renders a snapshot properly <span class="o">(</span>5ms<span class="o">)</span>
 
 Test Suites: 7 passed, 7 total
 Tests:       19 passed, 19 total
 Snapshots:   7 passed, 7 total
-Time:        4.003s, estimated 10s
+Time:        3.553s, estimated 4s
 Ran all <span class="nb">test </span>suites.
 </code></pre></div></div>
 

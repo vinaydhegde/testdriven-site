@@ -13,7 +13,7 @@ Let's look at how to test user interactions with Enzyme...
 
 ---
 
-When testing components, especially users interactions, pay close attention to both the inputs and outputs:
+When testing components, especially user interactions, pay close attention to both the inputs and outputs:
 
 1. Inputs - props, state, user interactions
 1. Output - what the component renders
@@ -30,9 +30,9 @@ What happens when a user submits the registration form correctly? What does the 
 
 ## Refactor
 
-Let's start by refactoring the current tests in *services/client/src/components/\_\_tests\_\_/Form.test.js*:
+Let's start by refactoring the current tests in *services/client/src/components/\_\_tests\_\_/Form.test.jsx*:
 
-```javascript
+```jsx
 describe('When not authenticated', () => {
   testData.forEach((el) => {
     const component = <Form
@@ -69,40 +69,40 @@ You should see something similar to:
 
 
 ```sh
-PASS  src/components/__tests__/App.test.js
- ✓ App renders without crashing (8ms)
+PASS  src/components/__tests__/NavBar.test.jsx
+ ✓ NavBar renders properly (4ms)
+ ✓ NavBar renders a snapshot properly (9ms)
 
-PASS  src/components/__tests__/NavBar.test.js
- ✓ NavBar renders properly (8ms)
- ✓ NavBar renders a snapshot properly (14ms)
+PASS  src/components/__tests__/App.test.jsx
+ ✓ App renders without crashing (5ms)
 
-PASS  src/components/__tests__/UsersList.test.js
- ✓ UsersList renders properly (4ms)
- ✓ UsersList renders a snapshot properly (11ms)
+PASS  src/components/__tests__/AddUser.test.jsx
+ ✓ AddUser renders properly (13ms)
+ ✓ AddUser renders a snapshot properly (2ms)
 
-PASS  src/components/__tests__/Form.test.js
+PASS  src/components/__tests__/Logout.test.jsx
+ ✓ Logout renders properly (3ms)
+ ✓ Logout renders a snapshot properly (2ms)
+
+PASS  src/components/__tests__/Form.test.jsx
  When not authenticated
-   ✓ Register Form renders properly (11ms)
-   ✓ Register Form renders a snapshot properly (3ms)
+   ✓ Register Form renders properly (7ms)
+   ✓ Register Form renders a snapshot properly (7ms)
    ✓ Login Form renders properly (2ms)
-   ✓ Login Form renders a snapshot properly (1ms)
+   ✓ Login Form renders a snapshot properly (5ms)
 
-PASS  src/components/__tests__/Logout.test.js
- ✓ Logout renders properly (4ms)
- ✓ Logout renders a snapshot properly (4ms)
+PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly (3ms)
+ ✓ UsersList renders a snapshot properly (1ms)
 
-PASS  src/components/__tests__/AddUser.test.js
- ✓ AddUser renders properly (5ms)
- ✓ AddUser renders a snapshot properly (3ms)
-
-PASS  src/components/__tests__/About.test.js
- ✓ About renders properly (3ms)
+PASS  src/components/__tests__/About.test.jsx
+ ✓ About renders properly (2ms)
  ✓ About renders a snapshot properly (2ms)
 
 Test Suites: 7 passed, 7 total
 Tests:       15 passed, 15 total
 Snapshots:   7 passed, 7 total
-Time:        3.662s, estimated 4s
+Time:        3.415s, estimated 4s
 Ran all test suites.
 ```
 
@@ -110,7 +110,7 @@ Now, turn back to the component. What will happen if `isAuthenticated` is `true`
 
 Need a hint?
 
-```javascript
+```jsx
 if (props.isAuthenticated) {
   return <Redirect to='/' />;
 }
@@ -118,7 +118,7 @@ if (props.isAuthenticated) {
 
 Add a another set of test cases:
 
-```javascript
+```jsx
 describe('When authenticated', () => {
   testData.forEach((el) => {
     const component = <Form
@@ -134,13 +134,13 @@ describe('When authenticated', () => {
 });
 ```
 
-For this test case, we're just asserting that the `Render` component is rendered. Ensure the tests pass.
+For this test case, we're just asserting that the `render` component is rendered. Ensure the tests pass.
 
 ```sh
 Test Suites: 7 passed, 7 total
 Tests:       17 passed, 17 total
 Snapshots:   7 passed, 7 total
-Time:        8.226s
+Time:        3.483s, estimated 4s
 Ran all test suites.
 ```
 
@@ -148,13 +148,13 @@ Next, let's look at how to test a user interaction...
 
 ## Testing Interactions
 
-Before we start, brainstorm on your on for a bit on what happens during a form submit, paying particular attention to the component's inputs and outputs...
+Before we start, brainstorm on your own for a bit on what happens during a form submit, paying particular attention to the component's inputs and outputs...
 
 ### Form Submit
 
-Add a new `describe` block to *services/client/src/components/\_\_tests\_\_/Form.test.js*:
+Add a new `describe` block to *services/client/src/components/\_\_tests\_\_/Form.test.jsx*:
 
-```javascript
+```jsx
 describe('When not authenticated', () => {
   const testValues = {
     formType: 'Register',
@@ -183,7 +183,7 @@ Here, we used `jest.fn()` to [mock](http://facebook.github.io/jest/docs/en/mock-
 
 Let's take it one step further and assert that the form values are being handled correctly. Update the `it` block like so:
 
-```javascript
+```jsx
 it(`${testValues.formType} Form submits the form properly`, () => {
   const wrapper = shallow(component);
   expect(testValues.handleUserFormSubmit).toHaveBeenCalledTimes(0);
@@ -199,7 +199,7 @@ it(`${testValues.formType} Form submits the form properly`, () => {
 How about the `onChange`?
 
 
-```javascript
+```jsx
 it(`${testValues.formType} Form submits the form properly`, () => {
   const wrapper = shallow(component);
   const input = wrapper.find('input[type="text"]');
@@ -218,7 +218,7 @@ it(`${testValues.formType} Form submits the form properly`, () => {
 
 Finally, update the tests to incorporate the previous `it` block into the original describe `block`:
 
-```javascript
+```jsx
 import React from 'react';
 import { shallow, simulate } from 'enzyme';
 import renderer from 'react-test-renderer';
@@ -300,45 +300,45 @@ describe('When authenticated', () => {
 Insure the tests pass before moving on:
 
 ```sh
-PASS  src/components/__tests__/NavBar.test.js
- ✓ NavBar renders properly (5ms)
- ✓ NavBar renders a snapshot properly (17ms)
+PASS  src/components/__tests__/NavBar.test.jsx
+ ✓ NavBar renders properly (4ms)
+ ✓ NavBar renders a snapshot properly (9ms)
 
-PASS  src/components/__tests__/App.test.js
- ✓ App renders without crashing (8ms)
+PASS  src/components/__tests__/App.test.jsx
+ ✓ App renders without crashing (5ms)
 
-PASS  src/components/__tests__/Form.test.js
+PASS  src/components/__tests__/AddUser.test.jsx
+ ✓ AddUser renders properly (5ms)
+ ✓ AddUser renders a snapshot properly (2ms)
+
+PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly (4ms)
+ ✓ UsersList renders a snapshot properly (2ms)
+
+PASS  src/components/__tests__/About.test.jsx
+ ✓ About renders properly (2ms)
+ ✓ About renders a snapshot properly (2ms)
+
+PASS  src/components/__tests__/Form.test.jsx
  When not authenticated
-   ✓ Register Form renders properly (5ms)
+   ✓ Register Form renders properly (3ms)
    ✓ Register Form submits the form properly (2ms)
-   ✓ Register Form renders a snapshot properly (5ms)
-   ✓ Login Form renders properly (1ms)
-   ✓ Login Form submits the form properly (2ms)
-   ✓ Login Form renders a snapshot properly (3ms)
+   ✓ Register Form renders a snapshot properly (1ms)
+   ✓ Login Form renders properly (4ms)
+   ✓ Login Form submits the form properly (4ms)
+   ✓ Login Form renders a snapshot properly (2ms)
  When authenticated
-   ✓ Register redirects properly (2ms)
+   ✓ Register redirects properly (1ms)
    ✓ Login redirects properly (1ms)
 
-PASS  src/components/__tests__/Logout.test.js
+PASS  src/components/__tests__/Logout.test.jsx
  ✓ Logout renders properly (3ms)
- ✓ Logout renders a snapshot properly (18ms)
-
-PASS  src/components/__tests__/AddUser.test.js
- ✓ AddUser renders properly (14ms)
- ✓ AddUser renders a snapshot properly (5ms)
-
-PASS  src/components/__tests__/About.test.js
- ✓ About renders properly (3ms)
- ✓ About renders a snapshot properly (3ms)
-
-PASS  src/components/__tests__/UsersList.test.js
- ✓ UsersList renders properly (3ms)
- ✓ UsersList renders a snapshot properly (4ms)
+ ✓ Logout renders a snapshot properly (5ms)
 
 Test Suites: 7 passed, 7 total
 Tests:       19 passed, 19 total
 Snapshots:   7 passed, 7 total
-Time:        4.003s, estimated 10s
+Time:        3.553s, estimated 4s
 Ran all test suites.
 ```
 

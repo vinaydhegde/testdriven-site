@@ -4,7 +4,7 @@ layout: course
 permalink: part-two-react-and-docker
 intro: false
 part: 2
-lesson: 7
+lesson: 8
 share: true
 type: course
 ---
@@ -13,132 +13,13 @@ Let's containerize the React app...
 
 ---
 
-## Refactor
-
-Before we start, let's refactor the project structure.
-
-Add a new folder to the project root called "services", and then add the "client", "nginx", and "users-service" directory to that folder. Then, rename the "users-service" directory to just "users".
-
-Update *docker-compose-dev.yml*:
-
-```yaml
-version: '3.3'
-
-services:
-
-  users-service:
-    container_name: users-service
-    build:
-      context: ./services/users
-      dockerfile: Dockerfile-dev
-    volumes:
-      - './services/users:/usr/src/app'
-    ports:
-      - 5001:5000
-    environment:
-      - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-    depends_on:
-      - users-db
-    links:
-      - users-db
-
-  users-db:
-    container_name: users-db
-    build:
-      context: ./services/users/project/db
-      dockerfile: Dockerfile
-    ports:
-      - 5435:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-
-  nginx:
-    container_name: nginx
-    build: ./services/nginx
-    restart: always
-    ports:
-      - 80:80
-    depends_on:
-      - users-service
-    links:
-      - users-service
-```
-
-Update *docker-compose-prod.yml* as well:
-
-```yaml
-version: '3.3'
-
-services:
-
-  users-service:
-    container_name: users-service
-    build:
-      context: ./services/users
-      dockerfile: Dockerfile-prod
-    expose:
-      - '5000'
-    environment:
-      - APP_SETTINGS=project.config.ProductionConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
-      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-    depends_on:
-      - users-db
-    links:
-      - users-db
-
-  users-db:
-    container_name: users-db
-    build:
-      context: ./services/users/project/db
-      dockerfile: Dockerfile
-    ports:
-      - 5435:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-
-  nginx:
-    container_name: nginx
-    build: ./services/nginx
-    restart: always
-    ports:
-      - 80:80
-    depends_on:
-      - users-service
-    links:
-      - users-service
-```
-
-Set `testdriven-dev` as the active Docker Machine:
-
-```sh
-$ docker-machine env testdriven-dev
-$ eval $(docker-machine env testdriven-dev)
-```
-
-Update the containers:
-
-```sh
-$ docker-compose -f docker-compose-dev.yml up -d
-```
-
-Ensure the app is working in the browser, and then run the tests:
-
-```sh
-$ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py test
-```
-
 ## Local Development
 
 Add *Dockerfile-dev* to the root of the "client" directory, making sure to review the code comments:
 
 ```
-FROM node:latest
+# base image
+FROM node:9.4
 
 # set working directory
 RUN mkdir /usr/src/app
@@ -148,9 +29,9 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
-ADD package.json /usr/src/app/package.json
+COPY package.json /usr/src/app/package.json
 RUN npm install --silent
-RUN npm install react-scripts@1.0.15 -g --silent
+RUN npm install react-scripts@1.1.0 -g --silent
 
 # start app
 CMD ["npm", "start"]
@@ -158,9 +39,22 @@ CMD ["npm", "start"]
 
 > Silencing the NPM output via `--silent` is a personal choice. It’s often frowned upon, though, since it can swallow errors. Keep this in mind so you don’t waste time debugging.
 
-Then, add the new service to the *docker-compose-dev.yml* file like so:
+Add a *.dockerignore*:
 
 ```
+node_modules
+coverage
+build
+env
+htmlcov
+.dockerignore
+Dockerfile-dev
+Dockerfile-prod
+```
+
+Then, add the new service to the *docker-compose-dev.yml* file like so:
+
+```yaml
 client:
   container_name: client
   build:
@@ -168,15 +62,16 @@ client:
     dockerfile: Dockerfile-dev
   volumes:
     - './services/client:/usr/src/app'
+    - '/usr/src/app/node_modules'
   ports:
     - '3007:3000'
   environment:
     - NODE_ENV=development
     - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
   depends_on:
-    - users-service
+    - users
   links:
-    - users-service
+    - users
 ```
 
 In the terminal, make sure `testdriven-dev` is the active machine and then add the valid environment variable:
@@ -194,7 +89,8 @@ $ docker-compose -f docker-compose-dev.yml up --build -d client
 Run the client-side tests:
 
 ```sh
-$ docker-compose -f docker-compose-dev.yml run client npm test
+$ docker-compose -f docker-compose-dev.yml \
+  run client npm test
 ```
 
 Navigate to [http://DOCKER_MACHINE_DEV_IP:3007/](http://DOCKER_MACHINE_DEV_IP:3007/) in your browser to test the app.
@@ -218,7 +114,7 @@ server {
   }
 
   location /users {
-    proxy_pass        http://users-service:5000;
+    proxy_pass        http://users:5000;
     proxy_redirect    default;
     proxy_set_header  Host $host;
     proxy_set_header  X-Real-IP $remote_addr;
@@ -236,7 +132,7 @@ What's happening?
 
 Also, `client` needs to spin up before `nginx`, so update *docker-compose-dev.yml*:
 
-```
+```yaml
 nginx:
   container_name: nginx
   build: ./services/nginx
@@ -244,10 +140,8 @@ nginx:
   ports:
     - 80:80
   depends_on:
-    - users-service
+    - users
     - client
-  links:
-    - users-service
 ```
 
 Update the containers (via `docker-compose -f docker-compose-dev.yml up -d --build`) and then test the app out in the browser:
@@ -263,7 +157,7 @@ $ docker-compose -f docker-compose-dev.yml logs -f
 
 Clear the terminal screen, and then change the state object in the `App` component:
 
-```javascript
+```jsx
 this.state = {
   users: [],
   username: 'justatest',
@@ -285,7 +179,7 @@ Make sure to change the state back before moving on.
 
 ## Create React App Build
 
-Before updating the production environment, let's create a [build](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment) with Create React App locally, outside of Docker, which will generate static files.
+Before updating the production environment, let's create a [build](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment) with Create React App locally, outside of Docker (e.g., in a new terminal window), which will generate static files.
 
 Make sure the `REACT_APP_USERS_SERVICE_URL` environment variable is set:
 
@@ -302,7 +196,7 @@ Then run the `build` command from the "services/client" directory:
 $ npm run build
 ```
 
-You should see a "build" directory, with "services/client", with the static files. We need to serve this up with a basic web server. Let's use the [HTTP server](https://docs.python.org/3/library/http.server.html#module-http.server) from the standard library. Navigate to the "build" directory, and then run the server:
+You should see a "build" directory, within "services/client", with the static files. We need to serve this up with a basic web server. Let's use the [HTTP server](https://docs.python.org/3/library/http.server.html#module-http.server) from the Python standard library. Navigate to the "build" directory, and then run the server:
 
 ```sh
 $ python3 -m http.server
@@ -315,37 +209,31 @@ This will serve up the app on [http://localhost:8000/](http://localhost:8000/). 
 Add *Dockerfile-prod* to the root of the "client" directory:
 
 ```
-FROM node:latest
-
-# set working directory
+# build environment
+FROM node:9.4 as builder
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
-
-# add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-# add environment variables
 ARG REACT_APP_USERS_SERVICE_URL
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
 ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
-
-# install and cache app dependencies
-ADD package.json /usr/src/app/package.json
+COPY package.json /usr/src/app/package.json
 RUN npm install --silent
-RUN npm install pushstate-server -g --silent
-
-# add app
-ADD . /usr/src/app
-
-# build react app
+RUN npm install react-scripts@1.1.0 -g --silent
+COPY . /usr/src/app
 RUN npm run build
 
-# start app
-CMD ["pushstate-server", "build", "3000"]
+# production environment
+FROM nginx:1.13.5-alpine
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 ```
 
-When the image is built, we can pass arguments to the *Dockerfile*, via the [ARG](https://docs.docker.com/engine/reference/builder/#arg) instruction, which can then be used as environment variables. `npm run build` will generate static files that are served up on port 3000 via the [pushstate-server](https://www.npmjs.com/package/pushstate-server).
+Here, we used [multistage builds](https://docs.docker.com/engine/userguide/eng-image/multistage-build/) to create a temporary image (build environment) used for building the artifact that is then copied over to the production image (production environment). The temporary build image is discarded along with the original files and folders associated with the image. This produces a lean, production-ready image.
+
+When the image is built, arguments will be passed to the *Dockerfile*, via the [ARG](https://docs.docker.com/engine/reference/builder/#arg) instruction, which can then be used as environment variables. `npm run build` will generate static files that are served up on port 80 via Nginx.
 
 Let's test it without Docker Compose.
 
@@ -363,21 +251,15 @@ This uses the *Dockerfile-prod* file found in "services/client", `./`, to build 
 
 > You can view all images by running `docker image`.
 
-Spin up the container from the `test` image, mapping port 3000 in the container to port 9000 outside the container:
+Spin up the container from the `test` image, mapping port 80 in the container to port 9000 outside the container:
 
 ```sh
-$ docker run -d -p 9000:3000 test
+$ docker run -d -p 9000:80 test
 ```
 
 Navigate to [http://localhost:9000/](http://localhost:9000/) in your browser to test.
 
-Once done, grab the container ID by running `docker ps`, and then view the container's environment variables:
-
-```sh
-$ docker exec CONTAINER_ID bash -c 'env'
-```
-
-Stop and remove the container:
+Stop and remove the container once done:
 
 ```sh
 $ docker stop CONTAINER_ID
@@ -399,21 +281,21 @@ client:
     context: ./services/client
     dockerfile: Dockerfile-prod
     args:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
   ports:
-    - '3007:3000'
+    - '3007:80'
   depends_on:
-    - users-service
+    - users
   links:
-    - users-service
+    - users
 ```
 
 So, instead of passing `NODE_ENV` and `REACT_APP_USERS_SERVICE_URL` as environment variables, which happens at runtime, we defined them as build arguments.
 
-Again, `client` needs to spin up before `nginx`, so update *docker-compose-prod.yml*:
+Again, the `client` service needs to spin up before `nginx`, so update *docker-compose-prod.yml*:
 
-```
+```yaml
 nginx:
   container_name: nginx
   build: ./services/nginx
@@ -421,11 +303,98 @@ nginx:
   ports:
     - 80:80
   depends_on:
-    - users-service
+    - users
     - client
-  links:
-    - users-service
 ```
+
+Did you notice that we exposed a different internal port for the `client` service in production?
+
+- `3000` for dev
+- `80`for prod
+
+Because of this, we need to use a different Nginx config file in production:
+
+1. Rename *services/nginx/Dockerfile* to *services/nginx/Dockerfile-dev*
+1. Rename *services/nginx/flask.conf* to *services/nginx/dev.conf*
+1. Update *services/nginx/Dockerfile-dev*:
+
+    ```
+    FROM nginx:1.13.8
+
+    RUN rm /etc/nginx/conf.d/default.conf
+    COPY /dev.conf /etc/nginx/conf.d
+    ```
+
+1. Update `nginx` in *docker-compose-dev.yml*:
+
+    ```yaml
+    nginx:
+      container_name: nginx
+      build:
+        context: ./services/nginx
+        dockerfile: Dockerfile-dev
+      restart: always
+      ports:
+        - 80:80
+      depends_on:
+        - users
+        - client
+    ```
+
+1. Create a new file called *services/nginx/Dockerfile-prod*:
+
+    ```
+    FROM nginx:1.13.8
+
+    RUN rm /etc/nginx/conf.d/default.conf
+    COPY /prod.conf /etc/nginx/conf.d
+    ```
+
+1. Add *services/nginx/prod.conf* as well:
+
+    ```
+    server {
+
+      listen 80;
+
+      location / {
+        proxy_pass http://client:80;
+        proxy_redirect    default;
+        proxy_set_header  Host $host;
+        proxy_set_header  X-Real-IP $remote_addr;
+        proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header  X-Forwarded-Host $server_name;
+      }
+
+      location /users {
+        proxy_pass        http://users:5000;
+        proxy_redirect    default;
+        proxy_set_header  Host $host;
+        proxy_set_header  X-Real-IP $remote_addr;
+        proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header  X-Forwarded-Host $server_name;
+      }
+
+    }
+    ```
+
+1. Update `nginx` in *docker-compose-prod.yml*:
+
+    ```yaml
+    nginx:
+      container_name: nginx
+      build:
+        context: ./services/nginx
+        dockerfile: Dockerfile-prod
+      restart: always
+      ports:
+        - 80:80
+      depends_on:
+        - users
+        - client
+    ```
+
+
 
 To update production, set the `testdriven-prod` machine as the active machine, change the `REACT_APP_USERS_SERVICE_URL` environment variable to the IP associated with the `testdriven-prod` machine, and update the containers:
 
@@ -436,14 +405,9 @@ $ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_AWS_IP
 $ docker-compose -f docker-compose-prod.yml up -d --build
 ```
 
-> Remember: Since the environment variables are added at build time, if you update the variables, you *will* have to rebuild the Docker image.
+> Remember: Since the environment variables are added at the build time, if you change the variables, you *will* have to re-build the Docker image.
 
-Check the environment variables:
-
-```sh
-$ docker-compose -f docker-compose-prod.yml \
-  run client env
-```
+Make sure all is well in the browser.
 
 ## Travis
 
@@ -452,6 +416,7 @@ One more thing: Add the `REACT_APP_USERS_SERVICE_URL` environment variable to th
 ```yaml
 before_script:
   - export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1
+  - docker-compose -f docker-compose-dev.yml up --build -d
 ```
 
 Commit and push your code to GitHub. Ensure the Travis build passes before moving on.

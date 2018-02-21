@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -765,7 +841,7 @@
 
           
 
-            <h5>Part 2, Lesson 7</h5>
+            <h5>Part 2, Lesson 8</h5>
 
             <div class="page-nav">
               <br>
@@ -793,126 +869,12 @@
 
 <hr />
 
-<h2 id="refactor">Refactor</h2>
-
-<p>Before we start, let’s refactor the project structure.</p>
-
-<p>Add a new folder to the project root called “services”, and then add the “client”, “nginx”, and “users-service” directory to that folder. Then, rename the “users-service” directory to just “users”.</p>
-
-<p>Update <em>docker-compose-dev.yml</em>:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.3'</span>
-
-<span class="na">services</span><span class="pi">:</span>
-
-  <span class="na">users-service</span><span class="pi">:</span>
-    <span class="na">container_name</span><span class="pi">:</span> <span class="s">users-service</span>
-    <span class="na">build</span><span class="pi">:</span>
-      <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users</span>
-      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-dev</span>
-    <span class="na">volumes</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s1">'</span><span class="s">./services/users:/usr/src/app'</span>
-    <span class="na">ports</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">5001:5000</span>
-    <span class="na">environment</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">APP_SETTINGS=project.config.DevelopmentConfig</span>
-      <span class="pi">-</span> <span class="s">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
-      <span class="pi">-</span> <span class="s">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
-    <span class="na">depends_on</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">users-db</span>
-    <span class="na">links</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">users-db</span>
-
-  <span class="na">users-db</span><span class="pi">:</span>
-    <span class="na">container_name</span><span class="pi">:</span> <span class="s">users-db</span>
-    <span class="na">build</span><span class="pi">:</span>
-      <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users/project/db</span>
-      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile</span>
-    <span class="na">ports</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">5435:5432</span>
-    <span class="na">environment</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">POSTGRES_USER=postgres</span>
-      <span class="pi">-</span> <span class="s">POSTGRES_PASSWORD=postgres</span>
-
-  <span class="na">nginx</span><span class="pi">:</span>
-    <span class="na">container_name</span><span class="pi">:</span> <span class="s">nginx</span>
-    <span class="na">build</span><span class="pi">:</span> <span class="s">./services/nginx</span>
-    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
-    <span class="na">ports</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">80:80</span>
-    <span class="na">depends_on</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">users-service</span>
-    <span class="na">links</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">users-service</span>
-</code></pre></div></div>
-
-<p>Update <em>docker-compose-prod.yml</em> as well:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.3'</span>
-
-<span class="na">services</span><span class="pi">:</span>
-
-  <span class="na">users-service</span><span class="pi">:</span>
-    <span class="na">container_name</span><span class="pi">:</span> <span class="s">users-service</span>
-    <span class="na">build</span><span class="pi">:</span>
-      <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users</span>
-      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-prod</span>
-    <span class="na">expose</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s1">'</span><span class="s">5000'</span>
-    <span class="na">environment</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">APP_SETTINGS=project.config.ProductionConfig</span>
-      <span class="pi">-</span> <span class="s">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod</span>
-      <span class="pi">-</span> <span class="s">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
-    <span class="na">depends_on</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">users-db</span>
-    <span class="na">links</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">users-db</span>
-
-  <span class="na">users-db</span><span class="pi">:</span>
-    <span class="na">container_name</span><span class="pi">:</span> <span class="s">users-db</span>
-    <span class="na">build</span><span class="pi">:</span>
-      <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users/project/db</span>
-      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile</span>
-    <span class="na">ports</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">5435:5432</span>
-    <span class="na">environment</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">POSTGRES_USER=postgres</span>
-      <span class="pi">-</span> <span class="s">POSTGRES_PASSWORD=postgres</span>
-
-  <span class="na">nginx</span><span class="pi">:</span>
-    <span class="na">container_name</span><span class="pi">:</span> <span class="s">nginx</span>
-    <span class="na">build</span><span class="pi">:</span> <span class="s">./services/nginx</span>
-    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
-    <span class="na">ports</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">80:80</span>
-    <span class="na">depends_on</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">users-service</span>
-    <span class="na">links</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">users-service</span>
-</code></pre></div></div>
-
-<p>Set <code class="highlighter-rouge">testdriven-dev</code> as the active Docker Machine:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-machine <span class="nb">env </span>testdriven-dev
-<span class="nv">$ </span><span class="nb">eval</span> <span class="k">$(</span>docker-machine <span class="nb">env </span>testdriven-dev<span class="k">)</span>
-</code></pre></div></div>
-
-<p>Update the containers:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml up <span class="nt">-d</span>
-</code></pre></div></div>
-
-<p>Ensure the app is working in the browser, and then run the tests:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
-</code></pre></div></div>
-
 <h2 id="local-development">Local Development</h2>
 
 <p>Add <em>Dockerfile-dev</em> to the root of the “client” directory, making sure to review the code comments:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM node:latest
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># base image
+FROM node:9.4
 
 # set working directory
 RUN mkdir /usr/src/app
@@ -922,9 +884,9 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
-ADD package.json /usr/src/app/package.json
+COPY package.json /usr/src/app/package.json
 RUN npm install --silent
-RUN npm install react-scripts@1.0.15 -g --silent
+RUN npm install react-scripts@1.1.0 -g --silent
 
 # start app
 CMD ["npm", "start"]
@@ -934,24 +896,37 @@ CMD ["npm", "start"]
   <p>Silencing the NPM output via <code class="highlighter-rouge">--silent</code> is a personal choice. It’s often frowned upon, though, since it can swallow errors. Keep this in mind so you don’t waste time debugging.</p>
 </blockquote>
 
+<p>Add a <em>.dockerignore</em>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node_modules
+coverage
+build
+env
+htmlcov
+.dockerignore
+Dockerfile-dev
+Dockerfile-prod
+</code></pre></div></div>
+
 <p>Then, add the new service to the <em>docker-compose-dev.yml</em> file like so:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>client:
-  container_name: client
-  build:
-    context: ./services/client
-    dockerfile: Dockerfile-dev
-  volumes:
-    - './services/client:/usr/src/app'
-  ports:
-    - '3007:3000'
-  environment:
-    - NODE_ENV=development
-    - REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}
-  depends_on:
-    - users-service
-  links:
-    - users-service
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">client</span><span class="pi">:</span>
+  <span class="na">container_name</span><span class="pi">:</span> <span class="s">client</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">context</span><span class="pi">:</span> <span class="s">./services/client</span>
+    <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-dev</span>
+  <span class="na">volumes</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s1">'</span><span class="s">./services/client:/usr/src/app'</span>
+    <span class="pi">-</span> <span class="s1">'</span><span class="s">/usr/src/app/node_modules'</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s1">'</span><span class="s">3007:3000'</span>
+  <span class="na">environment</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">NODE_ENV=development</span>
+    <span class="pi">-</span> <span class="s">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
+  <span class="na">depends_on</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">users</span>
+  <span class="na">links</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">users</span>
 </code></pre></div></div>
 
 <p>In the terminal, make sure <code class="highlighter-rouge">testdriven-dev</code> is the active machine and then add the valid environment variable:</p>
@@ -966,7 +941,8 @@ CMD ["npm", "start"]
 
 <p>Run the client-side tests:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml run client npm <span class="nb">test</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
+  run client npm <span class="nb">test</span>
 </code></pre></div></div>
 
 <p>Navigate to <a href="http://DOCKER_MACHINE_DEV_IP:3007/">http://DOCKER_MACHINE_DEV_IP:3007/</a> in your browser to test the app.</p>
@@ -989,7 +965,7 @@ CMD ["npm", "start"]
   }
 
   location /users {
-    proxy_pass        http://users-service:5000;
+    proxy_pass        http://users:5000;
     proxy_redirect    default;
     proxy_set_header  Host $host;
     proxy_set_header  X-Real-IP $remote_addr;
@@ -1009,17 +985,15 @@ CMD ["npm", "start"]
 
 <p>Also, <code class="highlighter-rouge">client</code> needs to spin up before <code class="highlighter-rouge">nginx</code>, so update <em>docker-compose-dev.yml</em>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nginx:
-  container_name: nginx
-  build: ./services/nginx
-  restart: always
-  ports:
-    - 80:80
-  depends_on:
-    - users-service
-    - client
-  links:
-    - users-service
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">nginx</span><span class="pi">:</span>
+  <span class="na">container_name</span><span class="pi">:</span> <span class="s">nginx</span>
+  <span class="na">build</span><span class="pi">:</span> <span class="s">./services/nginx</span>
+  <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">80:80</span>
+  <span class="na">depends_on</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">users</span>
+    <span class="pi">-</span> <span class="s">client</span>
 </code></pre></div></div>
 
 <p>Update the containers (via <code class="highlighter-rouge">docker-compose -f docker-compose-dev.yml up -d --build</code>) and then test the app out in the browser:</p>
@@ -1036,7 +1010,7 @@ CMD ["npm", "start"]
 
 <p>Clear the terminal screen, and then change the state object in the <code class="highlighter-rouge">App</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">users</span><span class="p">:</span> <span class="p">[],</span>
   <span class="na">username</span><span class="p">:</span> <span class="s1">'justatest'</span><span class="p">,</span>
   <span class="na">email</span><span class="p">:</span> <span class="s1">''</span>
@@ -1061,7 +1035,7 @@ CMD ["npm", "start"]
 
 <h2 id="create-react-app-build">Create React App Build</h2>
 
-<p>Before updating the production environment, let’s create a <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment">build</a> with Create React App locally, outside of Docker, which will generate static files.</p>
+<p>Before updating the production environment, let’s create a <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment">build</a> with Create React App locally, outside of Docker (e.g., in a new terminal window), which will generate static files.</p>
 
 <p>Make sure the <code class="highlighter-rouge">REACT_APP_USERS_SERVICE_URL</code> environment variable is set:</p>
 
@@ -1077,7 +1051,7 @@ CMD ["npm", "start"]
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm run build
 </code></pre></div></div>
 
-<p>You should see a “build” directory, with “services/client”, with the static files. We need to serve this up with a basic web server. Let’s use the <a href="https://docs.python.org/3/library/http.server.html#module-http.server">HTTP server</a> from the standard library. Navigate to the “build” directory, and then run the server:</p>
+<p>You should see a “build” directory, within “services/client”, with the static files. We need to serve this up with a basic web server. Let’s use the <a href="https://docs.python.org/3/library/http.server.html#module-http.server">HTTP server</a> from the Python standard library. Navigate to the “build” directory, and then run the server:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python3 <span class="nt">-m</span> http.server
 </code></pre></div></div>
@@ -1088,37 +1062,31 @@ CMD ["npm", "start"]
 
 <p>Add <em>Dockerfile-prod</em> to the root of the “client” directory:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM node:latest
-
-# set working directory
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build environment
+FROM node:9.4 as builder
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
-
-# add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-# add environment variables
 ARG REACT_APP_USERS_SERVICE_URL
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
 ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
-
-# install and cache app dependencies
-ADD package.json /usr/src/app/package.json
+COPY package.json /usr/src/app/package.json
 RUN npm install --silent
-RUN npm install pushstate-server -g --silent
-
-# add app
-ADD . /usr/src/app
-
-# build react app
+RUN npm install react-scripts@1.1.0 -g --silent
+COPY . /usr/src/app
 RUN npm run build
 
-# start app
-CMD ["pushstate-server", "build", "3000"]
+# production environment
+FROM nginx:1.13.5-alpine
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 </code></pre></div></div>
 
-<p>When the image is built, we can pass arguments to the <em>Dockerfile</em>, via the <a href="https://docs.docker.com/engine/reference/builder/#arg">ARG</a> instruction, which can then be used as environment variables. <code class="highlighter-rouge">npm run build</code> will generate static files that are served up on port 3000 via the <a href="https://www.npmjs.com/package/pushstate-server">pushstate-server</a>.</p>
+<p>Here, we used <a href="https://docs.docker.com/engine/userguide/eng-image/multistage-build/">multistage builds</a> to create a temporary image (build environment) used for building the artifact that is then copied over to the production image (production environment). The temporary build image is discarded along with the original files and folders associated with the image. This produces a lean, production-ready image.</p>
+
+<p>When the image is built, arguments will be passed to the <em>Dockerfile</em>, via the <a href="https://docs.docker.com/engine/reference/builder/#arg">ARG</a> instruction, which can then be used as environment variables. <code class="highlighter-rouge">npm run build</code> will generate static files that are served up on port 80 via Nginx.</p>
 
 <p>Let’s test it without Docker Compose.</p>
 
@@ -1139,19 +1107,14 @@ CMD ["pushstate-server", "build", "3000"]
   <p>You can view all images by running <code class="highlighter-rouge">docker image</code>.</p>
 </blockquote>
 
-<p>Spin up the container from the <code class="highlighter-rouge">test</code> image, mapping port 3000 in the container to port 9000 outside the container:</p>
+<p>Spin up the container from the <code class="highlighter-rouge">test</code> image, mapping port 80 in the container to port 9000 outside the container:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">-d</span> <span class="nt">-p</span> 9000:3000 <span class="nb">test</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">-d</span> <span class="nt">-p</span> 9000:80 <span class="nb">test</span>
 </code></pre></div></div>
 
 <p>Navigate to <a href="http://localhost:9000/">http://localhost:9000/</a> in your browser to test.</p>
 
-<p>Once done, grab the container ID by running <code class="highlighter-rouge">docker ps</code>, and then view the container’s environment variables:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker <span class="nb">exec </span>CONTAINER_ID bash <span class="nt">-c</span> <span class="s1">'env'</span>
-</code></pre></div></div>
-
-<p>Stop and remove the container:</p>
+<p>Stop and remove the container once done:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker stop CONTAINER_ID
 <span class="nv">$ </span>docker <span class="nb">rm </span>CONTAINER_ID
@@ -1170,32 +1133,122 @@ CMD ["pushstate-server", "build", "3000"]
     <span class="na">context</span><span class="pi">:</span> <span class="s">./services/client</span>
     <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-prod</span>
     <span class="na">args</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">NODE_ENV=development</span>
+      <span class="pi">-</span> <span class="s">NODE_ENV=production</span>
       <span class="pi">-</span> <span class="s">REACT_APP_USERS_SERVICE_URL=${REACT_APP_USERS_SERVICE_URL}</span>
   <span class="na">ports</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s1">'</span><span class="s">3007:3000'</span>
+    <span class="pi">-</span> <span class="s1">'</span><span class="s">3007:80'</span>
   <span class="na">depends_on</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">users-service</span>
+    <span class="pi">-</span> <span class="s">users</span>
   <span class="na">links</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">users-service</span>
+    <span class="pi">-</span> <span class="s">users</span>
 </code></pre></div></div>
 
 <p>So, instead of passing <code class="highlighter-rouge">NODE_ENV</code> and <code class="highlighter-rouge">REACT_APP_USERS_SERVICE_URL</code> as environment variables, which happens at runtime, we defined them as build arguments.</p>
 
-<p>Again, <code class="highlighter-rouge">client</code> needs to spin up before <code class="highlighter-rouge">nginx</code>, so update <em>docker-compose-prod.yml</em>:</p>
+<p>Again, the <code class="highlighter-rouge">client</code> service needs to spin up before <code class="highlighter-rouge">nginx</code>, so update <em>docker-compose-prod.yml</em>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nginx:
-  container_name: nginx
-  build: ./services/nginx
-  restart: always
-  ports:
-    - 80:80
-  depends_on:
-    - users-service
-    - client
-  links:
-    - users-service
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">nginx</span><span class="pi">:</span>
+  <span class="na">container_name</span><span class="pi">:</span> <span class="s">nginx</span>
+  <span class="na">build</span><span class="pi">:</span> <span class="s">./services/nginx</span>
+  <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">80:80</span>
+  <span class="na">depends_on</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">users</span>
+    <span class="pi">-</span> <span class="s">client</span>
 </code></pre></div></div>
+
+<p>Did you notice that we exposed a different internal port for the <code class="highlighter-rouge">client</code> service in production?</p>
+
+<ul>
+  <li><code class="highlighter-rouge">3000</code> for dev</li>
+  <li><code class="highlighter-rouge">80</code>for prod</li>
+</ul>
+
+<p>Because of this, we need to use a different Nginx config file in production:</p>
+
+<ol>
+  <li>Rename <em>services/nginx/Dockerfile</em> to <em>services/nginx/Dockerfile-dev</em></li>
+  <li>Rename <em>services/nginx/flask.conf</em> to <em>services/nginx/dev.conf</em></li>
+  <li>
+    <p>Update <em>services/nginx/Dockerfile-dev</em>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> FROM nginx:1.13.8
+
+ RUN rm /etc/nginx/conf.d/default.conf
+ COPY /dev.conf /etc/nginx/conf.d
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Update <code class="highlighter-rouge">nginx</code> in <em>docker-compose-dev.yml</em>:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">nginx</span><span class="pi">:</span>
+   <span class="na">container_name</span><span class="pi">:</span> <span class="s">nginx</span>
+   <span class="na">build</span><span class="pi">:</span>
+     <span class="na">context</span><span class="pi">:</span> <span class="s">./services/nginx</span>
+     <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-dev</span>
+   <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+   <span class="na">ports</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">80:80</span>
+   <span class="na">depends_on</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">users</span>
+     <span class="pi">-</span> <span class="s">client</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create a new file called <em>services/nginx/Dockerfile-prod</em>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> FROM nginx:1.13.8
+
+ RUN rm /etc/nginx/conf.d/default.conf
+ COPY /prod.conf /etc/nginx/conf.d
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add <em>services/nginx/prod.conf</em> as well:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> server {
+
+   listen 80;
+
+   location / {
+     proxy_pass http://client:80;
+     proxy_redirect    default;
+     proxy_set_header  Host $host;
+     proxy_set_header  X-Real-IP $remote_addr;
+     proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_set_header  X-Forwarded-Host $server_name;
+   }
+
+   location /users {
+     proxy_pass        http://users:5000;
+     proxy_redirect    default;
+     proxy_set_header  Host $host;
+     proxy_set_header  X-Real-IP $remote_addr;
+     proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_set_header  X-Forwarded-Host $server_name;
+   }
+
+ }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Update <code class="highlighter-rouge">nginx</code> in <em>docker-compose-prod.yml</em>:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">nginx</span><span class="pi">:</span>
+   <span class="na">container_name</span><span class="pi">:</span> <span class="s">nginx</span>
+   <span class="na">build</span><span class="pi">:</span>
+     <span class="na">context</span><span class="pi">:</span> <span class="s">./services/nginx</span>
+     <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-prod</span>
+   <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+   <span class="na">ports</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">80:80</span>
+   <span class="na">depends_on</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="s">users</span>
+     <span class="pi">-</span> <span class="s">client</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
 
 <p>To update production, set the <code class="highlighter-rouge">testdriven-prod</code> machine as the active machine, change the <code class="highlighter-rouge">REACT_APP_USERS_SERVICE_URL</code> environment variable to the IP associated with the <code class="highlighter-rouge">testdriven-prod</code> machine, and update the containers:</p>
 
@@ -1206,14 +1259,10 @@ CMD ["pushstate-server", "build", "3000"]
 </code></pre></div></div>
 
 <blockquote>
-  <p>Remember: Since the environment variables are added at build time, if you update the variables, you <em>will</em> have to rebuild the Docker image.</p>
+  <p>Remember: Since the environment variables are added at the build time, if you change the variables, you <em>will</em> have to re-build the Docker image.</p>
 </blockquote>
 
-<p>Check the environment variables:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run client <span class="nb">env</span>
-</code></pre></div></div>
+<p>Make sure all is well in the browser.</p>
 
 <h2 id="travis">Travis</h2>
 
@@ -1221,6 +1270,7 @@ CMD ["pushstate-server", "build", "3000"]
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">before_script</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">export REACT_APP_USERS_SERVICE_URL=http://127.0.0.1</span>
+  <span class="pi">-</span> <span class="s">docker-compose -f docker-compose-dev.yml up --build -d</span>
 </code></pre></div></div>
 
 <p>Commit and push your code to GitHub. Ensure the Travis build passes before moving on.</p>

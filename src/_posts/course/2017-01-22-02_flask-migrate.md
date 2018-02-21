@@ -30,7 +30,7 @@ Ensure the app is working in the browser, and then run the tests:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py test
+  run users python manage.py test
 
 $ docker-compose -f docker-compose-dev.yml \
     run client npm test
@@ -52,8 +52,9 @@ password = db.Column(db.String(255), nullable=False)
 Don't make any changes just yet. Let's start with some tests. Add a new file to "services/users/project/tests" called *test_user_model.py*. This file will hold tests related to our database model:
 
 ```python
-# users/project/tests/test_user_model.py
+# services/users/project/tests/test_user_model.py
 
+import unittest
 
 from project import db
 from project.api.models import User
@@ -103,11 +104,26 @@ class TestUserModel(BaseTestCase):
         self.assertRaises(IntegrityError, db.session.commit)
 
     def test_to_json(self):
-        user = add_user('justatest', 'test@test.com')
-        self.assertTrue(isinstance(user.to_json(), dict))
+      user = User(
+          username='justatest',
+          email='test@test.com',
+      )
+      db.session.add(user)
+      db.session.commit()
+      self.assertTrue(isinstance(user.to_json(), dict))
+
+if __name__ == '__main__':
+    unittest.main()
 ```
 
-Notice how we didn't invoke `db.session.commit` the second time, when adding a user. Instead, we passed it to `assertRaises()` and let it invoke it and assert the exception was raised.
+Notice how we didn't invoke `db.session.commit` the second time, when adding a user. Instead, we passed `db.session.commit` to `assertRaises()` and let `assertRaises()` invoke it and assert that the exception was raised.
+
+It's worth nothing that you could use `assertRaises` as a context manager instead:
+
+```python
+with self.assertRaises(IntegrityError):
+    db.session.commit()
+```
 
 Add the import:
 
@@ -125,6 +141,8 @@ test_add_user_duplicate_username (test_user_model.TestUserModel) ... FAIL
 Error:
 
 ```sh
+NameError: name 'add_user' is not defined
+AssertionError: IntegrityError not raised by do
 AssertionError: IntegrityError not raised by do
 ```
 
@@ -139,24 +157,25 @@ flask-migrate==2.1.1
 In *services/users/project/\_\_init\_\_.py*, add the import, create a new instance, and update `create_app()`:
 
 ```python
-# users/project/__init__.py
+# services/users/project/__init__.py
 
 
 import os
 
-from flask_cors import CORS
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_debugtoolbar import DebugToolbarExtension
+from flask_cors import CORS
 from flask_migrate import Migrate
 
 
-# instantiate the db
+# instantiate the extensions
 db = SQLAlchemy()
-# instantiate flask migrate
+toolbar = DebugToolbarExtension()
 migrate = Migrate()
 
 
-def create_app():
+def create_app(script_info=None):
 
     # instantiate the app
     app = Flask(__name__)
@@ -170,28 +189,30 @@ def create_app():
 
     # set up extensions
     db.init_app(app)
+    toolbar.init_app(app)
     migrate.init_app(app, db)
 
     # register blueprints
     from project.api.users import users_blueprint
     app.register_blueprint(users_blueprint)
 
+    # shell context for flask cli
+    app.shell_context_processor({'app': app, 'db': db})
     return app
 ```
 
-Then, add a new manager command to *services/users/manage.py*, just below `manager = Manager(app)`:
+Before we create the migrations, update the *.dockerignore*:
 
-```python
-manager.add_command('db', MigrateCommand)
+```
+env
+htmlcov
+.dockerignore
+Dockerfile-dev
+Dockerfile-prod
+migrations
 ```
 
-Add the import as well:
-
-```python
-from flask_migrate import MigrateCommand
-```
-
-Update the containers:
+Then, update the containers:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml up -d --build
@@ -201,13 +222,13 @@ Generate the migrations folder, add the initial migration, and then apply it to 
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py db init
+  run users python manage.py db init
 
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py db migrate
+  run users python manage.py db migrate
 
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py db upgrade
+  run users python manage.py db upgrade
 ```
 
 > Review the [Flask-Migrate documentation](https://flask-migrate.readthedocs.io/en/latest/) for more info on the above commands.
@@ -227,28 +248,52 @@ Again, run:
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py db migrate
+  run users python manage.py db migrate
 
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service python manage.py db upgrade
+  run users python manage.py db upgrade
 ```
 
-> Keep in mind that if you have any duplicate usernames and/or emails already in your database, you will get an error when trying to apply the migration to the database. You can either update the data or drop the db and start over.
+> Keep in mind that if you have any duplicate usernames and/or emails already in your database, you will get an error when trying to apply the migration to the database. You can either update the data or drop the database and start over.
 
-Run the tests again. They should pass!
+Hop into psql to ensure the table was updated:
+
+```sh
+$ docker exec -ti users-db psql -U postgres -W
+```
+
+Then:
+
+```sh
+# \c users_dev
+# \d+ users
+```
+
+You should see the unique constraints:
+
+```sh
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_username_key" UNIQUE CONSTRAINT, btree (username)
+```
+
+Run the tests again. You should now just have a single error:
+
+```sh
+NameError: name 'add_user' is not defined
+```
 
 ## Refactor
 
 Now is a good time to do some refactoring...
 
-First, in *services/users/project/tests/test_users.pyy*, rename `test_add_user_duplicate_user` to `test_add_user_duplicate_email`.
-
-Also, did you notice that we added a new user a number of times in the *test_user_model.py* tests? Let's abstract out the `add_user` helper function from *test_users.py* to a utility file so we can use it in both test files.
+Did you notice that we added a new user a number of times in the *test_user_model.py* tests? Let's abstract out the `add_user` helper function from *test_users.py* to a utility file so we can use it in both test files.
 
 Add a new file called *utils.py* to "tests":
 
 ```python
-# users/project/tests/utils.py
+# services/users/project/tests/utils.py
 
 
 from project import db
@@ -271,8 +316,9 @@ from project.tests.utils import add_user
 Refactor *test_user_model.py* like so:
 
 ```python
-# users/project/tests/test_user_model.py
+# services/users/project/tests/test_user_model.py
 
+import unittest
 
 from sqlalchemy.exc import IntegrityError
 
@@ -312,13 +358,24 @@ class TestUserModel(BaseTestCase):
     def test_to_json(self):
         user = add_user('justatest', 'test@test.com')
         self.assertTrue(isinstance(user.to_json(), dict))
+
+
+if __name__ == '__main__':
+    unittest.main()
 ```
 
-Run the tests again to ensure nothing broke from the refactor. What about flake8?
+Run the tests again to ensure nothing broke from the refactor:
+
+```sh
+----------------------------------------------------------------------
+Ran 19 tests in 0.512s
+```
+
+What about flake8?
 
 ```sh
 $ docker-compose -f docker-compose-dev.yml \
-  run users-service flake8 project
+  run users flake8 project
 ```
 
 Correct any issues, and then commit and push your code to GitHub. Make sure the Travis build passes.

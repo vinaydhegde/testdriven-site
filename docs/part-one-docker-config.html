@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -796,62 +872,76 @@
 <p>Start by ensuring that you have Docker, Docker Compose, and Docker Machine installed:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker <span class="nt">-v</span>
-Docker version 17.09.0-ce, build afdb6d4
+Docker version 17.12.0-ce, build c97c6d6
 <span class="nv">$ </span>docker-compose <span class="nt">-v</span>
-docker-compose version 1.16.1, build 6d1ac21
+docker-compose version 1.18.0, build 8dd22a9
 <span class="nv">$ </span>docker-machine <span class="nt">-v</span>
-docker-machine version 0.12.2, build 9371605
+docker-machine version 0.13.0, build 9ba6da9
 </code></pre></div></div>
 
 <p>Next, we need to <a href="https://docs.docker.com/machine/reference/create/">create</a> a new Docker host with <a href="https://docs.docker.com/machine/">Docker Machine</a> and point the Docker client at it:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-machine create <span class="nt">-d</span> virtualbox testdriven-dev
+<span class="nv">$ </span>docker-machine <span class="nb">env </span>testdriven-dev
 <span class="nv">$ </span><span class="nb">eval</span> <span class="s2">"</span><span class="k">$(</span>docker-machine <span class="nb">env </span>testdriven-dev<span class="k">)</span><span class="s2">"</span>
 </code></pre></div></div>
 
 <blockquote>
-  <p>Learn more about the above command <a href="https://stackoverflow.com/questions/40038572/eval-docker-machine-env-default/40040077#40040077">here</a>.</p>
+  <p>Learn more about the <code class="highlighter-rouge">eval</code> command <a href="https://stackoverflow.com/questions/40038572/eval-docker-machine-env-default/40040077#40040077">here</a>.</p>
 </blockquote>
 
-<p>Add a <em>Dockerfile-dev</em> to the “users-service” directory, making sure to review the code comments:</p>
+<p>Add a <em>Dockerfile-dev</em> to the “users” directory, making sure to review the code comments:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM python:3.6.3
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM python:3.6.4
 
 # set working directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # add requirements
-ADD ./requirements.txt /usr/src/app/requirements.txt
+COPY ./requirements.txt /usr/src/app/requirements.txt
 
 # install requirements
 RUN pip install -r requirements.txt
 
 # add app
-ADD . /usr/src/app
+COPY . /usr/src/app
 
 # run server
-CMD python manage.py runserver -h 0.0.0.0
+CMD python manage.py run -h 0.0.0.0
 </code></pre></div></div>
+
+<p>Add <em>.dockerignore</em> to the “users” directory as well:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>env
+.dockerignore
+Dockerfile-dev
+Dockerfile-prod
+</code></pre></div></div>
+
+<p>Like the <em>.gitignore</em> file, the <a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file">.dockerignore</a> file lets you exclude certain files and folders from being copied over to the image.</p>
 
 <p>Then add a <em>docker-compose-dev.yml</em> file to the root:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: '3.3'
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.4'</span>
 
-services:
+<span class="na">services</span><span class="pi">:</span>
 
-  users-service:
-    container_name: users-service
-    build:
-      context: ./users-service
-      dockerfile: Dockerfile-dev
-    volumes:
-      - './users-service:/usr/src/app'
-    ports:
-      - 5001:5000
+  <span class="na">users</span><span class="pi">:</span>
+    <span class="na">container_name</span><span class="pi">:</span> <span class="s">users</span>
+    <span class="na">build</span><span class="pi">:</span>
+      <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users</span>
+      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-dev</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s1">'</span><span class="s">./services/users:/usr/src/app'</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">5001:5000</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">FLASK_APP=project/__init__.py</span>
+      <span class="pi">-</span> <span class="s">FLASK_DEBUG=1</span>
 </code></pre></div></div>
 
-<p>This config will create a container called <code class="highlighter-rouge">users-service</code>, from the Dockerfile.</p>
+<p>This config will create a container called <code class="highlighter-rouge">users</code>, from the Dockerfile.</p>
 
 <blockquote>
   <p>Directories are relative to the <em>docker-compose-dev.yml</em> file.</p>
@@ -859,7 +949,7 @@ services:
 
 <p>The <code class="highlighter-rouge">volume</code> is used to mount the code into the container. This is a must for a development environment in order to update the container whenever a change to the source code is made. Without this, you would have to re-build the image after each code change.</p>
 
-<p>Take note of the <a href="https://docs.docker.com/compose/compose-file/">Docker compose file version</a> used - <code class="highlighter-rouge">3.3</code>. Keep in mind that this does <em>not</em> relate directly to the version of Docker Compose installed - it simply specifies the file format that you want to use.</p>
+<p>Take note of the <a href="https://docs.docker.com/compose/compose-file/">Docker compose file version</a> used - <code class="highlighter-rouge">3.4</code>. Keep in mind that this does <em>not</em> relate directly to the version of Docker Compose installed - it simply specifies the file format that you want to use.</p>
 
 <p>Build the image:</p>
 
@@ -882,26 +972,28 @@ services:
 
 <p>Navigate to <a href="http://DOCKER_MACHINE_IP:5001/users/ping">http://DOCKER_MACHINE_IP:5001/users/ping</a>. Make sure you see the same JSON response as before. Next, add an environment variable to the <em>docker-compose-dev.yml</em> file to load the app config for the dev environment:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>version: '3.3'
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.4'</span>
 
-services:
+<span class="na">services</span><span class="pi">:</span>
 
-  users-service:
-    container_name: users-service
-    build:
-      context: ./users-service
-      dockerfile: Dockerfile-dev
-    volumes:
-      - './users-service:/usr/src/app'
-    ports:
-      - 5001:5000
-    environment:
-      - APP_SETTINGS=project.config.DevelopmentConfig
+  <span class="na">users</span><span class="pi">:</span>
+    <span class="na">container_name</span><span class="pi">:</span> <span class="s">users</span>
+    <span class="na">build</span><span class="pi">:</span>
+      <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users</span>
+      <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-dev</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s1">'</span><span class="s">./services/users:/usr/src/app'</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">5001:5000</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">FLASK_APP=project/__init__.py</span>
+      <span class="pi">-</span> <span class="s">FLASK_DEBUG=1</span>
+      <span class="pi">-</span> <span class="s">APP_SETTINGS=project.config.DevelopmentConfig</span>
 </code></pre></div></div>
 
 <p>Then update <em>project/__init__.py</em>, to pull in the environment variables:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/__init__.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/__init__.py</span>
 
 
 <span class="kn">import</span> <span class="nn">os</span>

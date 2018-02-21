@@ -20,24 +20,25 @@ $ docker-machine env testdriven-prod
 $ eval $(docker-machine env testdriven-prod)
 ```
 
-We need to add the `SECRET_KEY` environment variable to the `users-service` in *docker-compose-prod.yml*:
+We need to add the `SECRET_KEY` environment variable for the `users` in *docker-compose-prod.yml*:
 
 ```yaml
-users-service:
-  container_name: users-service
-  build: https://github.com/realpython/flask-microservices-users.git
+users:
+  container_name: users
+  build:
+    context: ./services/users
+    dockerfile: Dockerfile-prod
   expose:
     - '5000'
   environment:
     - APP_SETTINGS=project.config.ProductionConfig
-    - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
+    - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
     - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
     - SECRET_KEY=${SECRET_KEY}
   depends_on:
     - users-db
   links:
     - users-db
-  command: gunicorn -b 0.0.0.0:5000 manage:app
 ```
 
 Since this key should truly be random, we'll set the key locally and pull it into the container at the build time.
@@ -63,41 +64,7 @@ Grab the IP for the `testdriven-prod` machine and use it for the `REACT_APP_USER
 $ export REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_AWS_IP
 ```
 
-Then, update *services/client/Dockerfile-prod*, to install react-scripts:
-
-```
-FROM node:latest
-
-# set working directory
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
-
-# add `/usr/src/app/node_modules/.bin` to $PATH
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-# add environment variables
-ARG REACT_APP_USERS_SERVICE_URL
-ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
-ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
-
-# install and cache app dependencies
-ADD package.json /usr/src/app/package.json
-RUN npm install --silent
-RUN npm install pushstate-server -g --silent
-RUN npm install react-scripts@1.0.15 -g --silent
-
-# add app
-ADD . /usr/src/app
-
-# build react app
-RUN npm run build
-
-# start app
-CMD ["pushstate-server", "build", "3000"]
-```
-
-Update the containers:
+Then, update the containers:
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml up -d --build
@@ -107,23 +74,82 @@ Re-create and seed the database:
 
 ```sh
 $ docker-compose -f docker-compose-prod.yml \
-  run users-service python manage.py recreate_db
+  run users python manage.py recreate_db
 
 $ docker-compose -f docker-compose-prod.yml \
-  run users-service python manage.py seed_db
+  run users python manage.py seed_db
 ```
 
-And run the tests:
+Manually test it in the browser. Try navigating to an individual route from the URL bar:
+
+1. http://DOCKER_MACHINE_AWS_IP/login
+1. http://DOCKER_MACHINE_AWS_IP/about
+
+You should see a 404. Why? Essentially, the Docker Nginx image is overriding the behavior of React Router.
+
+To fix, update *services/client/Dockerfile-prod*:
+
+```
+# build environment
+FROM node:9.4 as builder
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+ARG REACT_APP_USERS_SERVICE_URL
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
+COPY package.json /usr/src/app/package.json
+RUN npm install --silent
+RUN npm install react-scripts@1.1.0 -g --silent
+COPY . /usr/src/app
+RUN npm run build
+
+# production environment
+FROM nginx:1.13.5-alpine
+RUN rm -rf /etc/nginx/conf.d
+COPY conf /etc/nginx
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+Take note of the two new lines:
+
+```
+RUN rm -rf /etc/nginx/conf.d
+COPY conf /etc/nginx
+```
+
+Here, we removed the default Nginx configuration and replaced it with our own. Add a new folder to "services/client" called "conf", add a new folder in "conf" called "conf.d", and then add a new file to "conf.d" called *default.conf*:
 
 ```sh
-$ docker-compose -f docker-compose-prod.yml \
-  run users-service python manage.py test
-
-$ docker-compose -f docker-compose-prod.yml \
-  run users-service flake8 project
-
-$ docker-compose -f docker-compose-prod.yml \
-  run client npm test -- --verbose
+└── conf
+    └── conf.d
+        └── default.conf
 ```
 
-Test it in the browser one last time. Commit and push your code.
+Finally, update *default.conf*:
+
+```
+server {
+  listen 80;
+  location / {
+    root   /usr/share/nginx/html;
+    index  index.html index.htm;
+    try_files $uri $uri/ /index.html;
+  }
+  error_page   500 502 503 504  /50x.html;
+  location = /50x.html {
+    root   /usr/share/nginx/html;
+  }
+}
+```
+
+Update the containers:
+
+```sh
+$ docker-compose -f docker-compose-prod.yml up -d --build
+```
+
+Manually test in the browser again. Commit and push your code once done.

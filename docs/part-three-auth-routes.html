@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -798,12 +874,11 @@
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coverage Summary:
 Name                    Stmts   Miss Branch BrPart  Cover
 <span class="nt">---------------------------------------------------------</span>
-project/__init__.py        20     10      0      0    50%
+project/__init__.py        24     12      0      0    50%
 project/api/models.py      31     21      2      0    30%
-project/api/users.py       53      0     12      0   100%
-project/config.py          23      0      0      0   100%
+project/api/users.py       50     10     10      0    83%
 <span class="nt">---------------------------------------------------------</span>
-TOTAL                     127     31     14      0    77%
+TOTAL                     105     43     12      0    62%
 </code></pre></div></div>
 
 <h2 id="routes-setup">Routes Setup</h2>
@@ -1230,7 +1305,8 @@ TOTAL                     127     31     14      0    77%
 
 <p>Run the tests:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 35 tests <span class="k">in </span>9.513s
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 35 tests <span class="k">in </span>5.040s
 
 OK
 </code></pre></div></div>
@@ -1274,7 +1350,8 @@ OK
 
 <p>Make sure the tests still pass:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 35 tests <span class="k">in </span>5.513s
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 35 tests <span class="k">in </span>1.015s
 
 OK
 </code></pre></div></div>
@@ -1353,7 +1430,8 @@ OK
 
 <p>Test one final time.</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 37 tests <span class="k">in </span>5.885s
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 37 tests <span class="k">in </span>1.144s
 
 OK
 </code></pre></div></div>
@@ -1363,29 +1441,28 @@ OK
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coverage Summary:
 Name                    Stmts   Miss Branch BrPart  Cover
 <span class="nt">---------------------------------------------------------</span>
-project/__init__.py        22     10      0      0    55%
-project/api/auth.py        78      6     18      4    90%
+project/__init__.py        26     12      0      0    54%
+project/api/auth.py        78     15     18      4    80%
 project/api/models.py      31     17      2      0    48%
-project/api/users.py       53      0     12      0   100%
-project/config.py          23      0      0      0   100%
+project/api/users.py       50     10     10      0    83%
 <span class="nt">---------------------------------------------------------</span>
-TOTAL                     207     33     32      4    85%
+TOTAL                     185     54     30      4    73%
 </code></pre></div></div>
 
 <p>Finally, update <code class="highlighter-rouge">seed_db()</code> in <em>manage.py</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@manager.command</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@cli.command</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">seed_db</span><span class="p">():</span>
     <span class="s">"""Seeds the database."""</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span>
         <span class="n">username</span><span class="o">=</span><span class="s">'michael'</span><span class="p">,</span>
-        <span class="n">email</span><span class="o">=</span><span class="s">'michael@realpython.com'</span><span class="p">,</span>
-        <span class="n">password</span><span class="o">=</span><span class="s">'test'</span>
+        <span class="n">email</span><span class="o">=</span><span class="s">'michael@reallynotreal.com'</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s">'greaterthaneight'</span>
     <span class="p">))</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">User</span><span class="p">(</span>
         <span class="n">username</span><span class="o">=</span><span class="s">'michaelherman'</span><span class="p">,</span>
         <span class="n">email</span><span class="o">=</span><span class="s">'michael@mherman.org'</span><span class="p">,</span>
-        <span class="n">password</span><span class="o">=</span><span class="s">'test'</span>
+        <span class="n">password</span><span class="o">=</span><span class="s">'greaterthaneight'</span>
     <span class="p">))</span>
     <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 </code></pre></div></div>

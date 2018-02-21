@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -804,10 +880,10 @@
 <p>Ensure the app is working in the browser, and then run the tests:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service flake8 project
+  run <span class="nb">users </span>flake8 project
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
   run client npm <span class="nb">test</span> <span class="nt">--</span> <span class="nt">--verbose</span>
@@ -821,26 +897,26 @@
 
 <p>To remove the form, update <em>UsersList.jsx</em>:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">UsersList</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-      <span class="p">{</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>All Users<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+      <span class="si">{</span>
         <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
           <span class="k">return</span> <span class="p">(</span>
-            <span class="o">&lt;</span><span class="nx">h4</span>
-              <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
-              <span class="nx">className</span><span class="o">=</span><span class="s2">"well"</span>
-            <span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span>
-            <span class="o">&lt;</span><span class="sr">/h4</span><span class="err">&gt;
-</span>          <span class="p">)</span>
+            <span class="p">&lt;</span><span class="nt">h4</span>
+              <span class="na">key=</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span>
+              <span class="na">className=</span><span class="s2">"well"</span>
+            <span class="p">&gt;</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="si">}</span>
+            <span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+          <span class="p">)</span>
         <span class="p">})</span>
-      <span class="p">}</span>
-    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>  <span class="p">)</span>
+      <span class="si">}</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
 <span class="p">};</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
@@ -848,11 +924,11 @@
 
 <p>Update the route in the <code class="highlighter-rouge">App</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">UsersList</span>
-    <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="p">}</span>
-  <span class="sr">/</span><span class="err">&gt;
-</span><span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">Route</span> <span class="nx">exact</span> <span class="nx">path</span><span class="o">=</span><span class="s1">'/'</span> <span class="nx">render</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="p">&lt;</span><span class="nc">UsersList</span>
+    <span class="na">users=</span><span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">users</span><span class="si">}</span>
+  <span class="p">/&gt;</span>
+<span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
 </span></code></pre></div></div>
 
 <p>Make sure to remove the <code class="highlighter-rouge">AddUser</code> import at the top of the file, and then test it out in the browser:</p>
@@ -911,9 +987,9 @@
 
 <p>All tests should now pass. Before moving on, since <code class="highlighter-rouge">&lt;h1&gt;All Users&lt;/h1&gt;</code> is now part of the <code class="highlighter-rouge">UsersList</code> component, let’s update the unit test:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'UsersList renders properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="nx">users</span><span class="p">}</span><span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
-</span>  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h4'</span><span class="p">);</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'UsersList renders properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(&lt;</span><span class="nc">UsersList</span> <span class="na">users=</span><span class="si">{</span><span class="nx">users</span><span class="si">}</span><span class="p">/&gt;);</span>
+  <span class="kd">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h4'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h1'</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'All Users'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">className</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'well'</span><span class="p">);</span>
@@ -921,46 +997,46 @@
 <span class="p">});</span>
 </code></pre></div></div>
 
-<h3 id="add-table">Add table</h3>
+<h3 id="add-a-table">Add a table</h3>
 
 <p>Next, let’s use React-Bootstrap to add a <a href="https://react-bootstrap.github.io/components/table/">table</a> to the <code class="highlighter-rouge">UsersList</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">Table</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-bootstrap'</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">UsersList</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">All</span> <span class="nx">Users</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="nx">hr</span><span class="o">/&gt;&lt;</span><span class="nx">br</span><span class="o">/&gt;</span>
-      <span class="o">&lt;</span><span class="nx">Table</span> <span class="nx">striped</span> <span class="nx">bordered</span> <span class="nx">condensed</span> <span class="nx">hover</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">thead</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">User</span> <span class="nx">ID</span><span class="o">&lt;</span><span class="sr">/th</span><span class="err">&gt;
-</span>            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Email</span><span class="o">&lt;</span><span class="sr">/th</span><span class="err">&gt;
-</span>            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Username</span><span class="o">&lt;</span><span class="sr">/th</span><span class="err">&gt;
-</span>            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Active</span><span class="o">&lt;</span><span class="sr">/th</span><span class="err">&gt;
-</span>            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;</span><span class="nx">Admin</span><span class="o">&lt;</span><span class="sr">/th</span><span class="err">&gt;
-</span>          <span class="o">&lt;</span><span class="sr">/tr</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="sr">/thead</span><span class="err">&gt;
-</span>        <span class="o">&lt;</span><span class="nx">tbody</span><span class="o">&gt;</span>
-          <span class="p">{</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>All Users<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+      <span class="p">&lt;</span><span class="nc">Table</span> <span class="nt">striped</span> <span class="nt">bordered</span> <span class="nt">condensed</span> <span class="nt">hover</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>User ID<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Email<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Username<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Active<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Admin<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+          <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+          <span class="si">{</span>
             <span class="nx">props</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
               <span class="k">return</span> <span class="p">(</span>
-                <span class="o">&lt;</span><span class="nx">tr</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
-                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
-</span>                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
-</span>                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
-</span>                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nb">String</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">active</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
-</span>                  <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="p">{</span><span class="nb">String</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">admin</span><span class="p">)}</span><span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
-</span>                <span class="o">&lt;</span><span class="sr">/tr</span><span class="err">&gt;
-</span>              <span class="p">)</span>
+                <span class="p">&lt;</span><span class="nt">tr</span> <span class="na">key=</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span><span class="si">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">username</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span><span class="si">{</span><span class="nb">String</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">active</span><span class="p">)</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                  <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span><span class="si">{</span><span class="nb">String</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">admin</span><span class="p">)</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+              <span class="p">)</span>
             <span class="p">})</span>
-          <span class="p">}</span>
-        <span class="o">&lt;</span><span class="sr">/tbody</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/Table</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>  <span class="p">)</span>
+          <span class="si">}</span>
+        <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nc">Table</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">)</span>
 <span class="p">};</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="nx">UsersList</span><span class="p">;</span>
@@ -974,9 +1050,9 @@
 
 <p>Update the test:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'UsersList renders properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">UsersList</span> <span class="nx">users</span><span class="o">=</span><span class="p">{</span><span class="nx">users</span><span class="p">}</span><span class="sr">/&gt;</span><span class="se">)</span><span class="err">;
-</span>  <span class="nx">expect</span><span class="p">(</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h1'</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'All Users'</span><span class="p">);</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">test</span><span class="p">(</span><span class="s1">'UsersList renders properly'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(&lt;</span><span class="nc">UsersList</span> <span class="na">users=</span><span class="si">{</span><span class="nx">users</span><span class="si">}</span><span class="p">/&gt;);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'h1'</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'All Users'</span><span class="p">);</span>
   <span class="c1">// table</span>
   <span class="kd">const</span> <span class="nx">table</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'Table'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">table</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
@@ -999,7 +1075,7 @@
   <span class="kd">const</span> <span class="nx">td</span> <span class="o">=</span> <span class="nx">wrapper</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">'tbody &gt; tr &gt; td'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">td</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">td</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">td</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'michael@realpython.com'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">td</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'hermanmu@gmail.com'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">td</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'michael'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">td</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'true'</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">td</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">'false'</span><span class="p">);</span>
@@ -1008,11 +1084,11 @@
 
 <p>Make sure to update the fixture as well:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">users</span> <span class="o">=</span> <span class="p">[</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">users</span> <span class="o">=</span> <span class="p">[</span>
   <span class="p">{</span>
     <span class="s1">'active'</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="s1">'admin'</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s1">'email'</span><span class="p">:</span> <span class="s1">'michael@realpython.com'</span><span class="p">,</span>
+    <span class="s1">'email'</span><span class="p">:</span> <span class="s1">'hermanmu@gmail.com'</span><span class="p">,</span>
     <span class="s1">'id'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="s1">'username'</span><span class="p">:</span> <span class="s1">'michael'</span>
   <span class="p">},</span>
@@ -1042,7 +1118,7 @@ Ran all <span class="nb">test </span>suites.
 
 <p>Next, let’s add the <code class="highlighter-rouge">active</code> and <code class="highlighter-rouge">admin</code> properties to the <code class="highlighter-rouge">UserStatus</code> component:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">UserStatus</span> <span class="kd">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">UserStatus</span> <span class="kd">extends</span> <span class="nx">Component</span> <span class="p">{</span>
   <span class="kd">constructor</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
@@ -1081,19 +1157,19 @@ Ran all <span class="nb">test </span>suites.
   <span class="p">};</span>
   <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">You</span> <span class="nx">must</span> <span class="nx">be</span> <span class="nx">logged</span> <span class="k">in</span> <span class="nx">to</span> <span class="nx">view</span> <span class="k">this</span><span class="p">.</span> <span class="nx">Click</span> <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="s2">"/login"</span><span class="o">&gt;</span><span class="nx">here</span><span class="o">&lt;</span><span class="sr">/Link&gt; to log back in.&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+      <span class="k">return</span> <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>You must be logged in to view this. Click <span class="p">&lt;</span><span class="nc">Link</span> <span class="na">to=</span><span class="s2">"/login"</span><span class="p">&gt;</span>here<span class="p">&lt;/</span><span class="nc">Link</span><span class="p">&gt;</span> to log back in.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
     <span class="p">};</span>
     <span class="k">return</span> <span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">ul</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="nx">User</span> <span class="na">ID</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.id}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="na">Email</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.email}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="na">Username</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.username}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="na">Active</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.active}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-          <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;&lt;</span><span class="nx">strong</span><span class="o">&gt;</span><span class="na">Admin</span><span class="p">:</span><span class="o">&lt;</span><span class="sr">/strong&gt; {this.state.admin}&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="sr">/ul</span><span class="err">&gt;
-</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="p">)</span>
+      <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>User ID:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Email:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">email</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Username:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">username</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Active:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">active</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+          <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Admin:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="si">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">admin</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">)</span>
   <span class="p">};</span>
 <span class="p">};</span>
 </code></pre></div></div>
@@ -1104,10 +1180,45 @@ Ran all <span class="nb">test </span>suites.
 
 <p>That’s it. Short lesson. Make sure the tests still pass.</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Test Suites: 7 passed, 7 total
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PASS  src/components/__tests__/NavBar.test.jsx
+ ✓ NavBar renders properly <span class="o">(</span>5ms<span class="o">)</span>
+ ✓ NavBar renders a snapshot properly <span class="o">(</span>13ms<span class="o">)</span>
+
+PASS  src/components/__tests__/App.test.jsx
+ ✓ App renders without crashing <span class="o">(</span>6ms<span class="o">)</span>
+
+PASS  src/components/__tests__/UsersList.test.jsx
+ ✓ UsersList renders properly <span class="o">(</span>12ms<span class="o">)</span>
+ ✓ UsersList renders a snapshot properly <span class="o">(</span>3ms<span class="o">)</span>
+
+PASS  src/components/__tests__/Form.test.jsx
+ When not authenticated
+   ✓ Register Form renders properly <span class="o">(</span>4ms<span class="o">)</span>
+   ✓ Register Form submits the form properly <span class="o">(</span>2ms<span class="o">)</span>
+   ✓ Register Form renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
+   ✓ Login Form renders properly <span class="o">(</span>2ms<span class="o">)</span>
+   ✓ Login Form submits the form properly <span class="o">(</span>1ms<span class="o">)</span>
+   ✓ Login Form renders a snapshot properly <span class="o">(</span>1ms<span class="o">)</span>
+ When authenticated
+   ✓ Register redirects properly
+   ✓ Login redirects properly <span class="o">(</span>1ms<span class="o">)</span>
+
+PASS  src/components/__tests__/AddUser.test.jsx
+ ✓ AddUser renders properly <span class="o">(</span>5ms<span class="o">)</span>
+ ✓ AddUser renders a snapshot properly <span class="o">(</span>2ms<span class="o">)</span>
+
+PASS  src/components/__tests__/Logout.test.jsx
+ ✓ Logout renders properly <span class="o">(</span>4ms<span class="o">)</span>
+ ✓ Logout renders a snapshot properly <span class="o">(</span>11ms<span class="o">)</span>
+
+PASS  src/components/__tests__/About.test.jsx
+ ✓ About renders properly <span class="o">(</span>2ms<span class="o">)</span>
+ ✓ About renders a snapshot properly <span class="o">(</span>1ms<span class="o">)</span>
+
+Test Suites: 7 passed, 7 total
 Tests:       19 passed, 19 total
 Snapshots:   7 passed, 7 total
-Time:        9.111s
+Time:        4.163s
 Ran all <span class="nb">test </span>suites.
 </code></pre></div></div>
 

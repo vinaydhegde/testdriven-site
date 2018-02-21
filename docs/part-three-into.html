@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -770,7 +846,7 @@
             <div class="page-nav">
               <br>
               
-                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-next-steps">&laquo; Next Steps</a>
+                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-structure">&laquo; Structure</a>
               
               
                 <a class="btn btn-outline-success" href="https://testdriven.io/part-three-flask-migrate">Flask Migrate &raquo;</a>
@@ -789,7 +865,7 @@
 
           
 
-          <p>In part 3, we’ll add <em>database migrations</em> along with <em>password hashing</em> in order to implement <em>token-based authentication</em> to the users service with JSON Web Tokens (JWTs). We’ll then turn our attention to the client and add <em>React Router</em> to the React app to enable client-side routing along with client-side authentication.</p>
+          <p>In part 3, we’ll add <em>database migrations</em> along with <em>password hashing</em> in order to implement <em>token-based authentication</em> to the <code class="highlighter-rouge">users</code> service with JSON Web Tokens (JWTs). We’ll then turn our attention to the client-side and add <em>React Router</em> to the React app to enable client-side routing along with client-side authentication.</p>
 
 <h2 id="objectives">Objectives</h2>
 
@@ -814,8 +890,8 @@
 <p>Check out the live apps, running on EC2 -</p>
 
 <ol>
-  <li><a href="http://testdriven-production-alb-484275327.us-east-1.elb.amazonaws.com/">Production</a></li>
-  <li><a href="http://testdriven-staging-alb-1378944177.us-east-1.elb.amazonaws.com/">Staging</a></li>
+  <li><a href="http://testdriven-production-alb-1950288253.us-west-1.elb.amazonaws.com">Production</a></li>
+  <li><a href="http://testdriven-staging-alb-355212289.us-west-1.elb.amazonaws.com">Staging</a></li>
 </ol>
 
 <p>You can also test out the following endpoints…</p>
@@ -881,7 +957,7 @@
   </tbody>
 </table>
 
-<p>Finished code for part 3: <a href="https://github.com/realpython/testdriven-app/releases/tag/part3">https://github.com/realpython/testdriven-app/releases/tag/part3</a></p>
+<p>Finished code for part 3: <a href="https://github.com/testdrivenio/testdriven-app-2.2/releases/tag/part3">https://github.com/testdrivenio/testdriven-app-2.2/releases/tag/part3</a></p>
 
 <h2 id="dependencies">Dependencies</h2>
 
@@ -892,7 +968,7 @@
   <li>Flask-Bcrypt v0.7.1</li>
   <li>PyJWT v1.5.3</li>
   <li>react-router-dom v4.2.2</li>
-  <li>React Bootstrap v0.31.5</li>
+  <li>React Bootstrap v0.32.1</li>
   <li>React Router Bootstrap v0.24.4</li>
 </ol>
 
@@ -910,7 +986,7 @@
             <div class="page-nav">
               <br>
               
-                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-next-steps">&laquo; Next Steps</a>
+                <a class="btn btn-outline-success" href="https://testdriven.io/part-two-structure">&laquo; Structure</a>
               
               
                 <a class="btn btn-outline-success" href="https://testdriven.io/part-three-flask-migrate">Flask Migrate &raquo;</a>

@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -796,7 +872,8 @@
 <p>Create a new project and install Flask:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">mkdir </span>testdriven-app <span class="o">&amp;&amp;</span> <span class="nb">cd </span>testdriven-app
-<span class="nv">$ </span><span class="nb">mkdir </span>users-service <span class="o">&amp;&amp;</span> <span class="nb">cd </span>users-service
+<span class="nv">$ </span><span class="nb">mkdir </span>services <span class="o">&amp;&amp;</span> <span class="nb">cd </span>services
+<span class="nv">$ </span><span class="nb">mkdir users</span> <span class="o">&amp;&amp;</span> <span class="nb">cd users</span>
 <span class="nv">$ </span><span class="nb">mkdir </span>project
 <span class="nv">$ </span>python3.6 <span class="nt">-m</span> venv <span class="nb">env</span>
 <span class="nv">$ </span><span class="nb">source env</span>/bin/activate
@@ -805,7 +882,7 @@
 
 <p>Add an <em>__init__.py</em> file to the “project” directory and configure the first route:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/__init__.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/__init__.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
@@ -823,37 +900,35 @@
     <span class="p">})</span>
 </code></pre></div></div>
 
-<p>Next, let’s configure <a href="https://flask-script.readthedocs.io/en/latest/">Flask Script</a> to run and manage the app from the command line:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>pip <span class="nb">install </span>flask-script<span class="o">==</span>2.0.5
-</code></pre></div></div>
+<p>Next, let’s configure the <a href="http://flask.pocoo.org/docs/0.12/cli/">Flask CLI</a> tool to run and manage the app from the command line.</p>
 
 <blockquote>
-  <p>Since Flask Script is <a href="https://github.com/smurfix/flask-script/issues/172">deprecated</a>, you are more than welcome to use the <a href="http://flask.pocoo.org/docs/0.12/cli/">Flask CLI</a> in its place. Review the following <a href="https://stackoverflow.com/questions/42754341/use-flasks-click-cli-with-the-app-factory-pattern">article</a> for more info.</p>
+  <p>Feel free to replace the Flask CLI tool with <a href="https://flask-script.readthedocs.io/en/latest/">Flask Script</a> if you’re used to it. Just keep in mind that it is <a href="https://github.com/smurfix/flask-script/issues/172">deprecated</a>.</p>
 </blockquote>
 
-<p>Add a <em>manage.py</em> file to the “users-service” directory:</p>
+<p>First, add a <em>manage.py</em> file to the “users” directory:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/manage.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/manage.py</span>
 
 
-<span class="kn">from</span> <span class="nn">flask_script</span> <span class="kn">import</span> <span class="n">Manager</span>
+<span class="kn">from</span> <span class="nn">flask.cli</span> <span class="kn">import</span> <span class="n">FlaskGroup</span>
 
 <span class="kn">from</span> <span class="nn">project</span> <span class="kn">import</span> <span class="n">app</span>
 
 
-<span class="n">manager</span> <span class="o">=</span> <span class="n">Manager</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">cli</span> <span class="o">=</span> <span class="n">FlaskGroup</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="n">manager</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">cli</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Here, we created a new <code class="highlighter-rouge">Manager</code> instance to handle all of the manager commands from the command line.</p>
+<p>Here, we created a new <code class="highlighter-rouge">FlaskGroup</code> instance to extend the normal CLI with commands related to the Flask app.</p>
 
 <p>Run the server:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py runserver
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span><span class="nb">export </span><span class="nv">FLASK_APP</span><span class="o">=</span>project/__init__.py
+<span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py run
 </code></pre></div></div>
 
 <p>Navigate to <a href="http://localhost:5000/users/ping">http://localhost:5000/users/ping</a> in your browser. You should see:</p>
@@ -866,34 +941,32 @@
 
 <p>Kill the server and add a new file called <em>config.py</em> to the “project” directory:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/config.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/config.py</span>
 
 
 <span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
     <span class="s">"""Base configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
 
 
 <span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Development configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">pass</span>
 
 
 <span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Testing configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
 
 
 <span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Production configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">pass</span>
 </code></pre></div></div>
 
 <p>Update <em>__init__.py</em> to pull in the dev config on init:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># users-service/project/__init__.py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/__init__.py</span>
 
 
 <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span>
@@ -914,19 +987,21 @@
     <span class="p">})</span>
 </code></pre></div></div>
 
-<p>Run the app again. This time, <a href="http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode">debug mode</a> should be on:</p>
+<p>Run the app again. This time, let’s enable <a href="http://flask.pocoo.org/docs/0.12/quickstart/#debug-mode">debug mode</a>:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python manage.py runserver
- <span class="k">*</span> Running on http://127.0.0.1:5000/ <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
- <span class="k">*</span> Restarting with <span class="nb">stat</span>
- <span class="k">*</span> Debugger is active!
- <span class="k">*</span> Debugger PIN: 107-952-069
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">FLASK_DEBUG</span><span class="o">=</span>1
+<span class="nv">$ </span>python manage.py run
+<span class="k">*</span> Serving Flask app <span class="s2">"project"</span>
+<span class="k">*</span> Forcing debug mode on
+<span class="k">*</span> Running on http://127.0.0.1:5000/ <span class="o">(</span>Press CTRL+C to quit<span class="o">)</span>
+<span class="k">*</span> Restarting with <span class="nb">stat</span>
+<span class="k">*</span> Debugger is active!
+<span class="k">*</span> Debugger PIN: 128-868-573
 </code></pre></div></div>
 
-<p>Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a <em>requirements.txt</em> file to the “users-service” directory:</p>
+<p>Now when you make changes to the code, the app will automatically reload. Once done, kill the server and deactivate from the virtual environment. Then, add a <em>requirements.txt</em> file to the “users” directory:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Flask==0.12.2
-Flask-Script==2.0.5
 </code></pre></div></div>
 
 <p>Finally, add a <em>.gitignore</em>, to the project root:</p>

@@ -9,7 +9,7 @@ share: true
 type: course
 ---
 
-Moving right along, let's add some methods to handle a user signing up, logging in, and logging out...
+Moving on, let's finish up user auth...
 
 ---
 
@@ -19,7 +19,7 @@ For the `/status` link, we need to add a new component that displays the respons
 
 First, add a new component called *UserStatus.jsx*:
 
-```javascript
+```jsx
 import React, { Component } from 'react';
 import axios from 'axios';
 
@@ -64,15 +64,15 @@ Here, we used a stateful, class-based component to give the component its own in
 
 Import the component into *App.jsx*, and then add a new route:
 
-```javascript
+```jsx
 <Route exact path='/status' component={UserStatus}/>
 ```
 
-Test this out first when you're not logged in. You should see a 401 error in the JavaScript console. Try again when you are logged in. You should see an object with the keys `active`, `email`, `id`, and `username`.
+Test this out first when you're not logged in. You should see a 401 error in the JavaScript console. Try again when you are logged in. You should see an object with the keys `active`, `email`, `id`, and `username` in the console.
 
 To add the values to the component, update the `.then`:
 
-```javascript
+```jsx
 .then((res) => {
   this.setState({
     email: res.data.data.email,
@@ -84,7 +84,7 @@ To add the values to the component, update the `.then`:
 
 Also, update the `render()`:
 
-```javascript
+```jsx
 render() {
   return (
     <div>
@@ -109,7 +109,7 @@ Finally, let's make the following changes to the `Navbar`:
 
 Update the `NavBar` component like so to show/hide based on the value of `isAuthenticated`:
 
-```javascript
+```jsx
 const NavBar = (props) => (
   <Navbar inverse collapseOnSelect>
     <Navbar.Header>
@@ -156,7 +156,7 @@ const NavBar = (props) => (
 
 Make sure to pass `isAuthenticated` down on the `props`:
 
-```javascript
+```jsx
 <NavBar
   title={this.state.title}
   isAuthenticated={this.state.isAuthenticated}
@@ -165,10 +165,12 @@ Make sure to pass `isAuthenticated` down on the `props`:
 
 This merely hides the links. An unauthenticated user could still access the route via entering the URL into the URL bar. To restrict access, update the `render()` in *UserStatus.jsx*:
 
-```javascript
+```jsx
 render() {
   if (!this.props.isAuthenticated) {
-    return <p>You must be logged in to view this. Click <Link to="/login">here</Link> to log back in.</p>
+    return (
+      <p>You must be logged in to view this. Click <Link to="/login">here</Link> to log back in.</p>
+    )
   };
   return (
     <div>
@@ -184,13 +186,13 @@ render() {
 
 Add the import:
 
-```javascript
+```jsx
 import { Link } from 'react-router-dom';
 ```
 
 Then update the route in the `App` component:
 
-```javascript
+```jsx
 <Route exact path='/status' render={() => (
   <UserStatus
     isAuthenticated={this.state.isAuthenticated}
@@ -206,7 +208,7 @@ Open the JavaScript console, and then try this out. Did you notice that the AJAX
 
 To fix, add a conditional to the `componentDidMount()` in the `UserStatus` component:
 
-```javascript
+```jsx
 componentDidMount() {
   if (this.props.isAuthenticated) {
     this.getUserStatus();

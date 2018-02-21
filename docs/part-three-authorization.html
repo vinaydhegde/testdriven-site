@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -815,10 +891,10 @@
 <p>Ensure the app is working in the browser, and then run the tests:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service flake8 project
+  run <span class="nb">users </span>flake8 project
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
   run client npm <span class="nb">test</span> <span class="nt">--</span> <span class="nt">--verbose</span>
@@ -966,7 +1042,17 @@
 
 <p>Create a new file in “project/api” called <em>utils.py</em>:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># services/users/project/api/utils.py</span>
+
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span>
+
+<span class="kn">from</span> <span class="nn">project.api.models</span> <span class="kn">import</span> <span class="n">User</span>
+
+
+<span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">decorated_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">response_object</span> <span class="o">=</span> <span class="p">{</span>
@@ -1053,12 +1139,13 @@
 
 <p>Make sure the tests pass:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 39 tests <span class="k">in </span>6.404s
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 39 tests <span class="k">in </span>1.349s
 
 OK
 </code></pre></div></div>
 
-<p>Moving on, for the <code class="highlighter-rouge">/users</code> POST endpoint, add a new test: to “services/users/project/tests/test_users.py”</p>
+<p>Moving on, for the <code class="highlighter-rouge">/users</code> POST endpoint, add a new test: to <em>services/users/project/tests/test_users.py</em></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_add_user_inactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">add_user</span><span class="p">(</span><span class="s">'test'</span><span class="p">,</span> <span class="s">'test@test.com'</span><span class="p">,</span> <span class="s">'test'</span><span class="p">)</span>
@@ -1080,7 +1167,7 @@ OK
             <span class="s">'/users'</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
                 <span class="s">'username'</span><span class="p">:</span> <span class="s">'michael'</span><span class="p">,</span>
-                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@realpython.com'</span><span class="p">,</span>
+                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@sonotreal.com'</span><span class="p">,</span>
                 <span class="s">'password'</span><span class="p">:</span> <span class="s">'test'</span>
             <span class="p">}),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
@@ -1150,7 +1237,7 @@ FAIL: test_add_user_invalid_json_keys_no_password <span class="o">(</span>test_u
      <span class="s">'/users'</span><span class="p">,</span>
      <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
          <span class="s">'username'</span><span class="p">:</span> <span class="s">'michael'</span><span class="p">,</span>
-         <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@realpython.com'</span><span class="p">,</span>
+         <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@sonotreal.com'</span><span class="p">,</span>
          <span class="s">'password'</span><span class="p">:</span> <span class="s">'test'</span>
      <span class="p">}),</span>
      <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
@@ -1162,7 +1249,8 @@ FAIL: test_add_user_invalid_json_keys_no_password <span class="o">(</span>test_u
 
 <p>Refactor as necessary. Test again to make sure all tests pass:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 40 tests <span class="k">in </span>6.864s
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 40 tests <span class="k">in </span>1.490s
 
 OK
 </code></pre></div></div>
@@ -1189,23 +1277,23 @@ OK
 <p>Create the migration:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db migrate
+  run <span class="nb">users </span>python manage.py db migrate
 </code></pre></div></div>
 
-<p>Drop the <code class="highlighter-rouge">users_dev</code> database, and then re-create it:</p>
+<p>Do not apply it to the actual database just yet, though. Instead, find the newly created migration file and change the <code class="highlighter-rouge">upgrade()</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">upgrade</span><span class="p">():</span>
+    <span class="c"># ### commands auto generated by Alembic - please adjust! ###</span>
+    <span class="n">op</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s">'users'</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="s">'admin'</span><span class="p">,</span> <span class="n">sa</span><span class="o">.</span><span class="n">Boolean</span><span class="p">(),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="n">op</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">'UPDATE users SET admin=False'</span><span class="p">)</span>
+    <span class="n">op</span><span class="o">.</span><span class="n">alter_column</span><span class="p">(</span><span class="s">'users'</span><span class="p">,</span> <span class="s">'admin'</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c"># ### end Alembic commands ###</span>
+</code></pre></div></div>
+
+<p>Now, when we apply the migration, <code class="highlighter-rouge">nullable</code> is first set to <code class="highlighter-rouge">true</code>, the users are updated, and then <code class="highlighter-rouge">nullable</code> is changed to <code class="highlighter-rouge">false</code>.</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py recreate_db
-</code></pre></div></div>
-
-<blockquote>
-  <p>We have to drop the database here because the existing users do not have the <code class="highlighter-rouge">admin</code> property. Since the property is required, we could not apply the migration. If you want to maintain the existing users, you could set <code class="highlighter-rouge">nullable</code> as <code class="highlighter-rouge">True</code> in the model. Apply the migration, update the existing users, and then create a new migration to set <code class="highlighter-rouge">nullable</code> as <code class="highlighter-rouge">False</code>.</p>
-</blockquote>
-
-<p>Apply the migrations:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose <span class="nt">-f</span> docker-compose-dev.yml <span class="se">\</span>
-  run users-service python manage.py db upgrade
+  run <span class="nb">users </span>python manage.py db upgrade
 </code></pre></div></div>
 
 <p>The tests should pass. Next, let’s add a new test to <em>services/users/project/tests/test_users.py</em>:</p>
@@ -1227,7 +1315,7 @@ OK
             <span class="s">'/users'</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span>
                 <span class="s">'username'</span><span class="p">:</span> <span class="s">'michael'</span><span class="p">,</span>
-                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@realpython.com'</span><span class="p">,</span>
+                <span class="s">'email'</span><span class="p">:</span> <span class="s">'michael@sonotreal.com'</span><span class="p">,</span>
                 <span class="s">'password'</span><span class="p">:</span> <span class="s">'test'</span>
             <span class="p">}),</span>
             <span class="n">content_type</span><span class="o">=</span><span class="s">'application/json'</span><span class="p">,</span>
@@ -1320,10 +1408,26 @@ test_add_user_invalid_json_keys_no_password <span class="o">(</span>test_users.T
 
 <p>Test it again:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 41 tests <span class="k">in </span>6.440s
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 41 tests <span class="k">in </span>1.476s
 
 OK
 </code></pre></div></div>
+
+<blockquote>
+  <p>You may want to encapsulate the logic of adding a new admin user into a helper function:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">add_admin</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+      <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span>
+      <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">admin</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">user</span>
+</code></pre></div>  </div>
+
+</blockquote>
 
 <h2 id="to_json"><code class="highlighter-rouge">to_json</code></h2>
 
@@ -1371,8 +1475,8 @@ OK
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">def</span> <span class="nf">test_all_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
      <span class="s">"""Ensure get all users behaves correctly."""</span>
-     <span class="n">add_user</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="s">'michael@realpython.com'</span><span class="p">,</span> <span class="s">'test'</span><span class="p">)</span>
-     <span class="n">add_user</span><span class="p">(</span><span class="s">'fletcher'</span><span class="p">,</span> <span class="s">'fletcher@realpython.com'</span><span class="p">,</span> <span class="s">'test'</span><span class="p">)</span>
+     <span class="n">add_user</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="s">'michael@mherman.org'</span><span class="p">,</span> <span class="s">'test'</span><span class="p">)</span>
+     <span class="n">add_user</span><span class="p">(</span><span class="s">'fletcher'</span><span class="p">,</span> <span class="s">'fletcher@noteal.com'</span><span class="p">,</span> <span class="s">'test'</span><span class="p">)</span>
      <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
          <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'/users'</span><span class="p">)</span>
          <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
@@ -1380,12 +1484,12 @@ OK
          <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'michael'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'username'</span><span class="p">])</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
-             <span class="s">'michael@realpython.com'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
+             <span class="s">'michael@mherman.org'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'active'</span><span class="p">])</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'admin'</span><span class="p">])</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'fletcher'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">'username'</span><span class="p">])</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span>
-             <span class="s">'fletcher@realpython.com'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
+             <span class="s">'fletcher@noteal.com'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">'email'</span><span class="p">])</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">'active'</span><span class="p">])</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'users'</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="s">'admin'</span><span class="p">])</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">'success'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">'status'</span><span class="p">])</span>
@@ -1413,7 +1517,8 @@ KeyError: <span class="s1">'admin'</span>
 
 <p>Ensure the tests pass:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ran 41 tests <span class="k">in </span>6.721s
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">----------------------------------------------------------------------</span>
+Ran 41 tests <span class="k">in </span>1.474s
 
 OK
 </code></pre></div></div>
@@ -1423,14 +1528,13 @@ OK
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Coverage Summary:
 Name                    Stmts   Miss Branch BrPart  Cover
 <span class="nt">---------------------------------------------------------</span>
-project/__init__.py        22     10      0      0    55%
-project/api/auth.py        72      5     16      3    91%
+project/__init__.py        26     12      0      0    54%
+project/api/auth.py        60     16     10      2    74%
 project/api/models.py      32     18      2      0    47%
-project/api/users.py       58      0     14      0   100%
-project/api/utils.py       22      1      6      1    93%
-project/config.py          23      0      0      0   100%
+project/api/users.py       58     12     14      0    83%
+project/api/utils.py       22      8      6      1    68%
 <span class="nt">---------------------------------------------------------</span>
-TOTAL                     229     34     38      4    86%
+TOTAL                     198     66     32      3    70%
 </code></pre></div></div>
 
 <p>Commit your code and move on.</p>

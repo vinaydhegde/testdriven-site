@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -789,7 +865,7 @@
 
           
 
-          <p>In this lesson, we’ll add JWT to the users service…</p>
+          <p>In this lesson, we’ll add JWT to the <code class="highlighter-rouge">users</code> service…</p>
 
 <hr />
 
@@ -798,9 +874,9 @@
 <p>The auth workflow works as follows:</p>
 
 <ol>
-  <li>The end user submits login credentials from the client to the users service via AJAX</li>
-  <li>The users service then verifies that the credentials are valid and responds with an auth token</li>
-  <li>The token is stored on the client and is sent with all subsequent requests, where the users service decodes the token and validates it</li>
+  <li>The end user submits login credentials from the <code class="highlighter-rouge">client</code> to the <code class="highlighter-rouge">users</code> service via AJAX</li>
+  <li>The <code class="highlighter-rouge">users</code> service then verifies that the credentials are valid and responds with an auth token</li>
+  <li>The token is stored on the client and is sent with all subsequent requests, where the <code class="highlighter-rouge">users</code> service decodes the token and validates it</li>
 </ol>
 
 <p>Tokens have three main parts:</p>
@@ -821,6 +897,8 @@
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pyjwt==1.5.3
 </code></pre></div></div>
+
+<h3 id="encode-token">Encode Token</h3>
 
 <p>Add the following test to <code class="highlighter-rouge">TestUserModel()</code> in <em>services/users/project/tests/test_user_model.py</em>:</p>
 
@@ -890,45 +968,46 @@
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
     <span class="s">"""Base configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SECRET_KEY'</span><span class="p">)</span>
+    <span class="n">DEBUG_TB_ENABLED</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">DEBUG_TB_INTERCEPT_REDIRECTS</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">BCRYPT_LOG_ROUNDS</span> <span class="o">=</span> <span class="mi">13</span>
 </code></pre></div></div>
 
 <p>Add the <code class="highlighter-rouge">SECRET_KEY</code> environment variable to <code class="highlighter-rouge">environment</code> within <em>docker-compose-dev.yml</em>:</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">environment</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">SECRET_KEY=my_precious</span>
+  <span class="pi">-</span> <span class="s">FLASK_DEBUG=1</span>
   <span class="pi">-</span> <span class="s">APP_SETTINGS=project.config.DevelopmentConfig</span>
   <span class="pi">-</span> <span class="s">DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev</span>
   <span class="pi">-</span> <span class="s">DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test</span>
+  <span class="pi">-</span> <span class="s">SECRET_KEY=my_precious</span>
 </code></pre></div></div>
 
 <p>Let’s also add the token expiration to the config:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BaseConfig</span><span class="p">:</span>
     <span class="s">"""Base configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SECRET_KEY'</span><span class="p">)</span>
+    <span class="n">DEBUG_TB_ENABLED</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">DEBUG_TB_INTERCEPT_REDIRECTS</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">BCRYPT_LOG_ROUNDS</span> <span class="o">=</span> <span class="mi">13</span>
     <span class="n">TOKEN_EXPIRATION_DAYS</span> <span class="o">=</span> <span class="mi">30</span>
     <span class="n">TOKEN_EXPIRATION_SECONDS</span> <span class="o">=</span> <span class="mi">0</span>
 
-
 <span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Development configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_URL'</span><span class="p">)</span>
+    <span class="n">DEBUG_TB_ENABLED</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">BCRYPT_LOG_ROUNDS</span> <span class="o">=</span> <span class="mi">4</span>
 
 
 <span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Testing configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">TESTING</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_TEST_URL'</span><span class="p">)</span>
     <span class="n">BCRYPT_LOG_ROUNDS</span> <span class="o">=</span> <span class="mi">4</span>
@@ -938,7 +1017,6 @@
 
 <span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
     <span class="s">"""Production configuration"""</span>
-    <span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_URL'</span><span class="p">)</span>
 </code></pre></div></div>
 
@@ -953,11 +1031,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SECRET_KEY'</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">current_app</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SQLALCHEMY_DATABASE_URI'</span><span class="p">]</span> <span class="o">==</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_URL'</span><span class="p">))</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_URL'</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG_TB_ENABLED'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'BCRYPT_LOG_ROUNDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TOKEN_EXPIRATION_DAYS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">30</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TOKEN_EXPIRATION_SECONDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
@@ -972,12 +1051,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SECRET_KEY'</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TESTING'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'PRESERVE_CONTEXT_ON_EXCEPTION'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SQLALCHEMY_DATABASE_URI'</span><span class="p">]</span> <span class="o">==</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_TEST_URL'</span><span class="p">))</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'DATABASE_TEST_URL'</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG_TB_ENABLED'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'BCRYPT_LOG_ROUNDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TOKEN_EXPIRATION_DAYS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TOKEN_EXPIRATION_SECONDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
@@ -992,8 +1072,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span>
             <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'SECRET_KEY'</span><span class="p">]</span> <span class="o">==</span>
             <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SECRET_KEY'</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TESTING'</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'DEBUG_TB_ENABLED'</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'BCRYPT_LOG_ROUNDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TOKEN_EXPIRATION_DAYS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">30</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">'TOKEN_EXPIRATION_SECONDS'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
@@ -1025,6 +1105,8 @@
   <p>Now is a great time to check your understanding: See if you can write the test as well as the code for decoding a token on your own.</p>
 </blockquote>
 
+<h3 id="decode-token">Decode Token</h3>
+
 <p>Moving on, add the following test to <em>test_user_model.py</em> for decoding a token:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_decode_auth_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1051,7 +1133,7 @@
         <span class="k">return</span> <span class="s">'Invalid token. Please log in again.'</span>
 </code></pre></div></div>
 
-<p>Again, every authenticated request must include the auth token to verity the user’s authenticity. Make sure the tests pass before moving on.</p>
+<p>Again, every authenticated request <em>must</em> include the auth token to verity the user’s authenticity. Make sure the tests pass before moving on.</p>
 
 
           

@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519175554372002000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519237828935405000" rel="stylesheet">
 </head>
 
 
@@ -219,6 +219,23 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -267,6 +284,10 @@
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -347,6 +368,8 @@
                 
               
                 
+              
+                
                   <li>
                       <span class="badge badge-light">&bull;</span>
                       <span>
@@ -374,6 +397,17 @@
                       <span>
                         <a href="https://testdriven.io/part-two-continuous-integration">
                           Continuous Integration
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
                         </a>
                       </span>
                     </li>
@@ -432,6 +466,19 @@
                         </a>
                       </span>
                     </li>
+                
+              
+                
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
                 
               
                 
@@ -500,11 +547,25 @@
         
         
           
+        
+        
+        
+          
+        
+        
+        
+          
           <li>
             <h5 data-part="3" data-toggle="collapse" href="#collapse3">
               Part 3
             </h5>
             <ul class="collapse" id="collapse3" style="padding:0">  
+              
+                
+              
+                
+              
+                
               
                 
               
@@ -690,12 +751,27 @@
                 
               
                 
+                  <li>
+                      <span class="badge badge-light">&bull;</span>
+                      <span>
+                        <a href="https://testdriven.io/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                
+              
+                
               
                 
                
               <br> 
             </ul>
           
+          
+        
+        
+        
           
         
         
@@ -819,7 +895,7 @@
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-machine <span class="nb">ls</span>
 </code></pre></div></div>
 
-<p>Create a new compose file called <em>docker-compose-prod.yml</em> and add the contents of the other compose file minus the <code class="highlighter-rouge">volumes</code>.</p>
+<p>Create a new compose file called <em>docker-compose-prod.yml</em> and add the contents of the other compose file minus the <code class="highlighter-rouge">FLASK_DEBUG</code> environment variable (alternatively, you could set it to <code class="highlighter-rouge">FLASK_DEBUG=1</code>) and the <code class="highlighter-rouge">volumes</code>.</p>
 
 <blockquote>
   <p>What would happen if you left the volumes in?</p>
@@ -830,13 +906,13 @@
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml up <span class="nt">-d</span> <span class="nt">--build</span>
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service python manage.py recreate_db
+  run <span class="nb">users </span>python manage.py recreate_db
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service python manage.py seed_db
+  run <span class="nb">users </span>python manage.py seed_db
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service python manage.py <span class="nb">test</span>
+  run <span class="nb">users </span>python manage.py <span class="nb">test</span>
 </code></pre></div></div>
 
 <p>Add port 5001 to the <a href="http://stackoverflow.com/questions/26338301/ec2-how-to-add-port-8080-in-security-group">AWS Security Group</a>. Grab the IP and make sure to test in the browser.</p>
@@ -845,7 +921,7 @@
 
 <p>What about the app config and environment variables? Are these set up right? Are we using the production config? To check, run:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml run users-service <span class="nb">env</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml run <span class="nb">users env</span>
 </code></pre></div></div>
 
 <p>You should see the <code class="highlighter-rouge">APP_SETTINGS</code> variable assigned to <code class="highlighter-rouge">project.config.DevelopmentConfig</code>.</p>
@@ -866,10 +942,10 @@
 <p>Re-create the db and apply the seed again:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service python manage.py recreate_db
+  run <span class="nb">users </span>python manage.py recreate_db
 
 <span class="nv">$ </span>docker-compose <span class="nt">-f</span> docker-compose-prod.yml <span class="se">\</span>
-  run users-service python manage.py seed_db
+  run <span class="nb">users </span>python manage.py seed_db
 </code></pre></div></div>
 
 <p>Ensure the app is still running and check the environment variables again.</p>
@@ -881,7 +957,7 @@
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gunicorn==19.7.1
 </code></pre></div></div>
 
-<p>Create a new file in “users-service” called <em>entrypoint-prod.sh</em>:</p>
+<p>Create a new file in “users” called <em>entrypoint-prod.sh</em>:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
 
@@ -896,9 +972,14 @@
 gunicorn <span class="nt">-b</span> 0.0.0.0:5000 manage:app
 </code></pre></div></div>
 
+<p>Update the permissions:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">chmod</span> +x services/users/entrypoint-prod.sh
+</code></pre></div></div>
+
 <p>Add a new Dockerfile called <em>Dockerfile-prod</em>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM python:3.6.3
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM python:3.6.4
 
 # install environment dependencies
 RUN apt-get update -yqq \
@@ -911,25 +992,25 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # add requirements
-ADD ./requirements.txt /usr/src/app/requirements.txt
+COPY ./requirements.txt /usr/src/app/requirements.txt
 
 # install requirements
 RUN pip install -r requirements.txt
 
 # add entrypoint.sh
-ADD ./entrypoint-prod.sh /usr/src/app/entrypoint-prod.sh
+COPY ./entrypoint-prod.sh /usr/src/app/entrypoint-prod.sh
 
 # add app
-ADD . /usr/src/app
+COPY . /usr/src/app
 
 # run server
 CMD ["./entrypoint-prod.sh"]
 </code></pre></div></div>
 
-<p>Then, change the <code class="highlighter-rouge">build</code> context for the <code class="highlighter-rouge">users-service</code> in <em>docker-compose-prod.yml</em> to reference the new Dockerfile:</p>
+<p>Then, change the <code class="highlighter-rouge">build</code> context for the <code class="highlighter-rouge">users</code> in <em>docker-compose-prod.yml</em> to reference the new Dockerfile:</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">build</span><span class="pi">:</span>
-  <span class="na">context</span><span class="pi">:</span> <span class="s">./users-service</span>
+  <span class="na">context</span><span class="pi">:</span> <span class="s">./services/users</span>
   <span class="na">dockerfile</span><span class="pi">:</span> <span class="s">Dockerfile-prod</span>
 </code></pre></div></div>
 
@@ -944,12 +1025,12 @@ CMD ["./entrypoint-prod.sh"]
 
 <h2 id="nginx">Nginx</h2>
 
-<p>Next, let’s get Nginx up and running as a reverse proxy to the web server. Create a new folder called “nginx” in the project root, and then add a <em>Dockerfile</em>:</p>
+<p>Next, let’s get Nginx up and running as a reverse proxy to the web server. Create a new folder called “nginx” in the “services” folder, and then add a <em>Dockerfile</em>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM nginx:1.13.5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM nginx:1.13.8
 
 RUN rm /etc/nginx/conf.d/default.conf
-ADD /flask.conf /etc/nginx/conf.d
+COPY /flask.conf /etc/nginx/conf.d
 </code></pre></div></div>
 
 <p>Add a new config file called <em>flask.conf</em> to the “nginx” folder as well:</p>
@@ -959,7 +1040,7 @@ ADD /flask.conf /etc/nginx/conf.d
   listen 80;
 
   location / {
-    proxy_pass        http://users-service:5000;
+    proxy_pass        http://users:5000;
     proxy_redirect    default;
     proxy_set_header  Host $host;
     proxy_set_header  X-Real-IP $remote_addr;
@@ -972,22 +1053,20 @@ ADD /flask.conf /etc/nginx/conf.d
 
 <p>Add an <code class="highlighter-rouge">nginx</code> service to the <em>docker-compose-prod.yml</em>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nginx:
-  container_name: nginx
-  build: ./nginx/
-  restart: always
-  ports:
-    - 80:80
-  depends_on:
-    - users-service
-  links:
-    - users-service
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">nginx</span><span class="pi">:</span>
+  <span class="na">container_name</span><span class="pi">:</span> <span class="s">nginx</span>
+  <span class="na">build</span><span class="pi">:</span> <span class="s">./services/nginx</span>
+  <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">80:80</span>
+  <span class="na">depends_on</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">users</span>
 </code></pre></div></div>
 
-<p>Then, remove the exposed <code class="highlighter-rouge">ports</code> from the users service and only expose port <code class="highlighter-rouge">5000</code> to other containers:</p>
+<p>Then, remove the exposed <code class="highlighter-rouge">ports</code> from the <code class="highlighter-rouge">users</code> service and only expose port <code class="highlighter-rouge">5000</code> to other containers:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>expose:
-  - '5000'
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">expose</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s1">'</span><span class="s">5000'</span>
 </code></pre></div></div>
 
 <p>Build the image and run the container:</p>
@@ -997,18 +1076,16 @@ ADD /flask.conf /etc/nginx/conf.d
 
 <p>Add port <code class="highlighter-rouge">80</code> to the Security Group on AWS. Test the site in the browser again, this time at <a href="http://DOCKER_MACHINE_PROD_IP/users">http://DOCKER_MACHINE_PROD_IP/users</a>.</p>
 
-<p>Let’s update this locally as well. First, add nginx to the <em>docker-compose-dev.yml</em> file:</p>
+<p>Let’s update this locally as well. First, add <code class="highlighter-rouge">nginx</code> to the <em>docker-compose-dev.yml</em> file:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nginx:
-  container_name: nginx
-  build: ./nginx/
-  restart: always
-  ports:
-    - 80:80
-  depends_on:
-    - users-service
-  links:
-    - users-service
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">nginx</span><span class="pi">:</span>
+  <span class="na">container_name</span><span class="pi">:</span> <span class="s">nginx</span>
+  <span class="na">build</span><span class="pi">:</span> <span class="s">./services/nginx</span>
+  <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">80:80</span>
+  <span class="na">depends_on</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">users</span>
 </code></pre></div></div>
 
 <p>Next, we need to update the active host. To check which host is currently active, run:</p>
