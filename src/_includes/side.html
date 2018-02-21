@@ -10,10 +10,10 @@
         {% if post.type == 'course' and break_flag == false %}
           {% assign post_part = post.part %}
           <li>
-            <h5 data-part="{{post.part}}" data-toggle="collapse" href="#collapse{{post.part}}">
+            <h5 data-toggle="collapse" href="#collapse{{post.part}}">
               Part {{post_part}}
             </h5>
-            <ul class="collapse" id="collapse{{post.part}}" style="padding:0">  
+            <ul data-part="{{post.part}}" class="collapse" id="collapse{{post.part}}" style="padding:0">  
               {% for post in site.posts reversed %}
                 {% if post.type == 'course' and post.part == post_part %}
                   <li>
