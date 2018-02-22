@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519316483237270000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519319448228251000" rel="stylesheet">
 </head>
 
 
@@ -74,590 +74,934 @@
         <div class="col-sm-3 d-none d-md-block">
     <div id="toc-block" class="collection card">
       <ul class="collapsible collapsible-accordion">
+        <br>
+        <!--  init break_flag -->
         
+        
+        <!-- outer loop -->
+        
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
             
-              <li>
-                <br>
-                <h5 data-part="1">
-                  Part 1
-                </h5>
-                <div class="collapsible-body">
+            <li>
+              <!-- create header for part -->
+              <h5 data-toggle="collapse" href="#collapse1">
+                Part 1
+              </h5>
+              <!-- create ul for hidden part content -->
+              <ul data-part="1" class="collapse" id="collapse1" style="padding:0">
+                
+                <!-- nested loop -->
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-intro">
+                            Introduction
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-microservices">
+                            Microservices
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-app-overview">
+                            App Overview
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-getting-started">
+                            Getting Started
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-docker-config">
+                            Docker Config
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-postgres-setup">
+                            Postgres Setup
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-test-setup">
+                            Test Setup
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-flask-blueprints">
+                            Flask Blueprints
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-restful-routes">
+                            RESTful Routes
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-deployment">
+                            Deployment
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-jinja-templates">
+                            Jinja Templates
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-workflow">
+                            Workflow
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-one-structure">
+                            Structure
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                 
+                <br> 
+              </ul>
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>1.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-intro">
-                    Introduction
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
-          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>2.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-microservices">
-                    Microservices
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>3.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-app-overview">
-                    App Overview
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>4.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-getting-started">
-                    Getting Started
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>5.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-docker-config">
-                    Docker Config
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>6.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-postgres-setup">
-                    Postgres Setup
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>7.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-test-setup">
-                    Test Setup
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>8.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-flask-blueprints">
-                    Flask Blueprints
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>9.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-restful-routes">
-                    RESTful Routes
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>10.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-deployment">
-                    Deployment
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>11.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-jinja-templates">
-                    Jinja Templates
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>12.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-workflow">
-                    Workflow
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>13.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-one-structure">
-                    Structure
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-              <li>
-                <br>
-                <h5 data-part="2">
-                  Part 2
-                </h5>
-                <div class="collapsible-body">
-            
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>1.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-intro">
-                    Introduction
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
-            
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>2.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-code-coverage-and-quality">
-                    Code Coverage and Quality
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
-          
-            
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>3.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-continuous-integration">
-                    Continuous Integration
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
-          
-            
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>4.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-flask-debug-toolbar">
-                    Flask Debug Toolbar
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
-          
-            
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>5.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-react-setup">
-                    React Setup
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
-          
-            
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>6.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-testing-react">
-                    Testing React
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
-          
-            
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>7.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-react-forms">
-                    React Forms
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
-          
-            
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>8.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-react-and-docker">
-                    React and Docker
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>9.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-next-steps">
-                    Next Steps
-                  </a>
-                </span>
-              </li>
-            </ul>
+            <li>
+              <!-- create header for part -->
+              <h5 data-toggle="collapse" href="#collapse2">
+                Part 2
+              </h5>
+              <!-- create ul for hidden part content -->
+              <ul data-part="2" class="collapse" id="collapse2" style="padding:0">
+                
+                <!-- nested loop -->
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-intro">
+                            Introduction
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-code-coverage-and-quality">
+                            Code Coverage and Quality
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-continuous-integration">
+                            Continuous Integration
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-flask-debug-toolbar">
+                            Flask Debug Toolbar
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-react-setup">
+                            React Setup
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-testing-react">
+                            Testing React
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-react-forms">
+                            React Forms
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-react-and-docker">
+                            React and Docker
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-next-steps">
+                            Next Steps
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-two-structure">
+                            Structure
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                 
+                <br> 
+              </ul>
+            
+            <!-- stops nested loop after first itration  -->
+            
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>10.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-two-structure">
-                    Structure
-                  </a>
-                </span>
-              </li>
-            </ul>
-          
-        
-          
+            <li>
+              <!-- create header for part -->
+              <h5 data-toggle="collapse" href="#collapse3">
+                Part 3
+              </h5>
+              <!-- create ul for hidden part content -->
+              <ul data-part="3" class="collapse" id="collapse3" style="padding:0">
+                
+                <!-- nested loop -->
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-into">
+                            Introduction
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-flask-migrate">
+                            Flask Migrate
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-flask-bcrypt">
+                            Flask Bcrypt
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-jwt-setup">
+                            JWT Setup
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-auth-routes">
+                            Auth Routes
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-react-router">
+                            React Router
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-react-bootstrap">
+                            React Bootstrap
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-react-auth-one">
+                            React Auth - part one
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-mocking-user-interaction">
+                            Mocking User Interaction
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-react-auth-two">
+                            React Auth - part two
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-authorization">
+                            Authorization
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-update-component">
+                            Update Component
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-update-docker">
+                            Update Docker
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="https://testdriven.io/part-three-structure">
+                            Structure
+                          </a>
+                        </span>
+                      </li>
+                  
+                
+                  
+                
+                  
+                 
+                <br> 
+              </ul>
             
-              <li>
-                <br>
-                <h5 data-part="3">
-                  Part 3
-                </h5>
-                <div class="collapsible-body">
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>1.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-into">
-                    Introduction
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>2.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-flask-migrate">
-                    Flask Migrate
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>3.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-flask-bcrypt">
-                    Flask Bcrypt
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>4.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-jwt-setup">
-                    JWT Setup
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>5.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-auth-routes">
-                    Auth Routes
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>6.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-react-router">
-                    React Router
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>7.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-react-bootstrap">
-                    React Bootstrap
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>8.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-react-auth-one">
-                    React Auth - part one
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>9.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-mocking-user-interaction">
-                    Mocking User Interaction
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>10.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-react-auth-two">
-                    React Auth - part two
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>11.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-authorization">
-                    Authorization
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>12.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-update-component">
-                    Update Component
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>13.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-update-docker">
-                    Update Docker
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
             
-            <ul>
-              <li>
-                <span class="badge badge-light">&bull;</span>
-                <!-- <span>14.&nbsp;</span> -->
-                <span>
-                  <a href="http://localhost:4000/part-three-structure">
-                    Structure
-                  </a>
-                </span>
-              </li>
-            </ul>
           
-        
+          <!-- resets break_flag if the current post_part has incremented -->
           
-        
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
-        
-      </div>
-      <br>
-      </li>
+            <!-- stops nested loop after first itration  -->
+            
+          
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+            <!-- stops nested loop after first itration  -->
+            
+          
+        </li>
       </ul>
     </div>
   </div>
@@ -688,7 +1032,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-intro"
+                  href="https://testdriven.io/part-one-intro"
                 >Introduction</a>
               </span>
             </li>
@@ -701,7 +1045,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-microservices"
+                  href="https://testdriven.io/part-one-microservices"
                 >Microservices</a>
               </span>
             </li>
@@ -714,7 +1058,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-app-overview"
+                  href="https://testdriven.io/part-one-app-overview"
                 >App Overview</a>
               </span>
             </li>
@@ -727,7 +1071,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-getting-started"
+                  href="https://testdriven.io/part-one-getting-started"
                 >Getting Started</a>
               </span>
             </li>
@@ -740,7 +1084,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-docker-config"
+                  href="https://testdriven.io/part-one-docker-config"
                 >Docker Config</a>
               </span>
             </li>
@@ -753,7 +1097,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-postgres-setup"
+                  href="https://testdriven.io/part-one-postgres-setup"
                 >Postgres Setup</a>
               </span>
             </li>
@@ -766,7 +1110,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-test-setup"
+                  href="https://testdriven.io/part-one-test-setup"
                 >Test Setup</a>
               </span>
             </li>
@@ -779,7 +1123,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-flask-blueprints"
+                  href="https://testdriven.io/part-one-flask-blueprints"
                 >Flask Blueprints</a>
               </span>
             </li>
@@ -792,7 +1136,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-restful-routes"
+                  href="https://testdriven.io/part-one-restful-routes"
                 >RESTful Routes</a>
               </span>
             </li>
@@ -805,7 +1149,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-deployment"
+                  href="https://testdriven.io/part-one-deployment"
                 >Deployment</a>
               </span>
             </li>
@@ -818,7 +1162,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-jinja-templates"
+                  href="https://testdriven.io/part-one-jinja-templates"
                 >Jinja Templates</a>
               </span>
             </li>
@@ -831,7 +1175,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-workflow"
+                  href="https://testdriven.io/part-one-workflow"
                 >Workflow</a>
               </span>
             </li>
@@ -844,7 +1188,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-one-structure"
+                  href="https://testdriven.io/part-one-structure"
                 >Structure</a>
               </span>
             </li>
@@ -862,7 +1206,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-intro"
+                  href="https://testdriven.io/part-two-intro"
                 >Introduction</a>
               </span>
             </li>
@@ -875,7 +1219,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-code-coverage-and-quality"
+                  href="https://testdriven.io/part-two-code-coverage-and-quality"
                 >Code Coverage and Quality</a>
               </span>
             </li>
@@ -888,7 +1232,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-continuous-integration"
+                  href="https://testdriven.io/part-two-continuous-integration"
                 >Continuous Integration</a>
               </span>
             </li>
@@ -901,7 +1245,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-flask-debug-toolbar"
+                  href="https://testdriven.io/part-two-flask-debug-toolbar"
                 >Flask Debug Toolbar</a>
               </span>
             </li>
@@ -914,7 +1258,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-react-setup"
+                  href="https://testdriven.io/part-two-react-setup"
                 >React Setup</a>
               </span>
             </li>
@@ -927,7 +1271,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-testing-react"
+                  href="https://testdriven.io/part-two-testing-react"
                 >Testing React</a>
               </span>
             </li>
@@ -940,7 +1284,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-react-forms"
+                  href="https://testdriven.io/part-two-react-forms"
                 >React Forms</a>
               </span>
             </li>
@@ -953,7 +1297,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-react-and-docker"
+                  href="https://testdriven.io/part-two-react-and-docker"
                 >React and Docker</a>
               </span>
             </li>
@@ -966,7 +1310,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-next-steps"
+                  href="https://testdriven.io/part-two-next-steps"
                 >Next Steps</a>
               </span>
             </li>
@@ -979,7 +1323,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-two-structure"
+                  href="https://testdriven.io/part-two-structure"
                 >Structure</a>
               </span>
             </li>
@@ -997,7 +1341,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-into"
+                  href="https://testdriven.io/part-three-into"
                 >Introduction</a>
               </span>
             </li>
@@ -1010,7 +1354,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-flask-migrate"
+                  href="https://testdriven.io/part-three-flask-migrate"
                 >Flask Migrate</a>
               </span>
             </li>
@@ -1023,7 +1367,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-flask-bcrypt"
+                  href="https://testdriven.io/part-three-flask-bcrypt"
                 >Flask Bcrypt</a>
               </span>
             </li>
@@ -1036,7 +1380,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-jwt-setup"
+                  href="https://testdriven.io/part-three-jwt-setup"
                 >JWT Setup</a>
               </span>
             </li>
@@ -1049,7 +1393,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-auth-routes"
+                  href="https://testdriven.io/part-three-auth-routes"
                 >Auth Routes</a>
               </span>
             </li>
@@ -1062,7 +1406,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-react-router"
+                  href="https://testdriven.io/part-three-react-router"
                 >React Router</a>
               </span>
             </li>
@@ -1075,7 +1419,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-react-bootstrap"
+                  href="https://testdriven.io/part-three-react-bootstrap"
                 >React Bootstrap</a>
               </span>
             </li>
@@ -1088,7 +1432,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-react-auth-one"
+                  href="https://testdriven.io/part-three-react-auth-one"
                 >React Auth - part one</a>
               </span>
             </li>
@@ -1101,7 +1445,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-mocking-user-interaction"
+                  href="https://testdriven.io/part-three-mocking-user-interaction"
                 >Mocking User Interaction</a>
               </span>
             </li>
@@ -1114,7 +1458,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-react-auth-two"
+                  href="https://testdriven.io/part-three-react-auth-two"
                 >React Auth - part two</a>
               </span>
             </li>
@@ -1127,7 +1471,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-authorization"
+                  href="https://testdriven.io/part-three-authorization"
                 >Authorization</a>
               </span>
             </li>
@@ -1140,7 +1484,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-update-component"
+                  href="https://testdriven.io/part-three-update-component"
                 >Update Component</a>
               </span>
             </li>
@@ -1153,7 +1497,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-update-docker"
+                  href="https://testdriven.io/part-three-update-docker"
                 >Update Docker</a>
               </span>
             </li>
@@ -1166,7 +1510,7 @@
               <span>
                 <a
                   class="collection-item"
-                  href="http://localhost:4000/part-three-structure"
+                  href="https://testdriven.io/part-three-structure"
                 >Structure</a>
               </span>
             </li>
@@ -1440,6 +1784,29 @@
   type="text/javascript"
   src="https://gumroad.com/js/gumroad.js"
 ></script>
+<script>
+  // stops script from running on non blog pages
+  let tocContainer = document.getElementById('blog-toc');
+  if (tocContainer) {
+    const headerList = document.getElementsByTagName('h2');
+    for (el in headerList) {
+      if (headerList[el].innerHTML && headerList[el].innerHTML !== 'Contents') {
+        // added to anchor target to push target below navbar
+        headerList[el].setAttribute('style', 'padding-top: 60px; margin-top: -60px;');
+        // create li
+        let listElement = document.createElement('li');
+        // create anchor
+        let anchorElement = document.createElement('a');
+        // set text and href values
+        anchorElement.innerText = headerList[el].innerHTML;
+        anchorElement.href = "#" + headerList[el].id;
+        // append anchor to li, append li to ul
+        listElement.appendChild(anchorElement);
+        tocContainer.appendChild(listElement);
+      }
+    }
+  }
+</script>
 <!-- addthis -->
 
 

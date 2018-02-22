@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1519316483237270000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1519319448228251000" rel="stylesheet">
 </head>
 
 
@@ -110,37 +110,13 @@
       <div class="text-center">
         <hr>
         <p><a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a></p>
-        <p><a href="http://localhost:4000/part-one-intro">Or, preview parts 1 - 3</a></p>
+        <p><a href="https://testdriven.io/part-one-intro">Or, preview parts 1 - 3</a></p>
       </div>
     </div>
   </div>
-  <br>
-<div class="blog-toc-container">
-  <h4 class="card-header text-center">Table of Contents</h4>
-  <div class="card box-shadow blog-toc-subcontainer">
-    <ul class="blog-toc card-body" id="blog-toc" />
-  </div>
-</div>
-<script>
-  const headerList = document.getElementsByTagName('h2');
-  let tocContainer = document.getElementById('blog-toc');
-  for (el in headerList) {
-    if (headerList[el].innerHTML && headerList[el].innerHTML !== 'Contents') {
-      // added to anchor target to push target below navbar
-      headerList[el].setAttribute('style', 'padding-top: 60px; margin-top: -60px;');
-      // create li
-      let listElement = document.createElement('li');
-      // create anchor
-      let anchorElement = document.createElement('a');
-      // set text and href values
-      anchorElement.innerText = headerList[el].innerHTML;
-      anchorElement.href = "#" + headerList[el].id;
-      // append anchor to li, append li to ul
-      listElement.appendChild(anchorElement);
-      tocContainer.appendChild(listElement);
-    }
-  }  
-</script>
+  <!-- prevents blog-toc from rendering in author pages -->
+  
+  
 </div>
 
 
@@ -184,6 +160,29 @@
   type="text/javascript"
   src="https://gumroad.com/js/gumroad.js"
 ></script>
+<script>
+  // stops script from running on non blog pages
+  let tocContainer = document.getElementById('blog-toc');
+  if (tocContainer) {
+    const headerList = document.getElementsByTagName('h2');
+    for (el in headerList) {
+      if (headerList[el].innerHTML && headerList[el].innerHTML !== 'Contents') {
+        // added to anchor target to push target below navbar
+        headerList[el].setAttribute('style', 'padding-top: 60px; margin-top: -60px;');
+        // create li
+        let listElement = document.createElement('li');
+        // create anchor
+        let anchorElement = document.createElement('a');
+        // set text and href values
+        anchorElement.innerText = headerList[el].innerHTML;
+        anchorElement.href = "#" + headerList[el].id;
+        // append anchor to li, append li to ul
+        listElement.appendChild(anchorElement);
+        tocContainer.appendChild(listElement);
+      }
+    }
+  }
+</script>
 <!-- addthis -->
 
 

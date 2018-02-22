@@ -151,6 +151,29 @@ blog
   padding-left: 0;
 }
 
+/* 
+blog-toc 
+*/
+
+.blog-toc-container {
+  position: sticky;
+  top: 70px;
+}
+
+.blog-toc-subcontainer {
+  padding: 1rem;
+}
+
+.blog-toc {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+/*
+syntax highlighting
+*/
+
 .highlight .hll { background-color: #ffffcc }
 .highlight  { background: #f8f8f8; }
 .highlight .c { color: #408080; font-style: italic } /* Comment */
@@ -220,24 +243,3 @@ blog
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
 .highlight .vm { color: #19177C } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
-
-/* 
-blog-toc
- */
-
-.blog-toc-container {
-  margin-top: -60px; /* added to prevent toc from being hidden by navbar*/
-  padding-top: 60px; /* added to prevent toc from being hidden by navbar*/
-  position: sticky;
-  top: 0;
- }
-
-.blog-toc-subcontainer {
-  padding: 1rem;
-}
-
-.blog-toc {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  padding-top: 0;
-}

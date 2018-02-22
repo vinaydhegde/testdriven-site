@@ -10,5 +10,9 @@
       </div>
     </div>
   </div>
-  {% include blog-toc.html %}
+  <!-- prevents blog-toc from rendering in author pages -->
+  {% assign path_param = page.permalink | split: '/' | first %}
+  {% if path_param != 'blog' and path_param != 'authors' %}
+    {% include blog-toc.html %}
+  {% endif %}
 </div>
