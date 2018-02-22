@@ -1,37 +1,48 @@
 <div class="col-sm-3 d-none d-md-block">
-  <div id="toc-block" class="collection card">
-    <ul class="collapsible collapsible-accordion">
-      <br>
-      {% assign break_flag = false %}
-      {% for post in site.posts reversed %}
-        {% if post_part and post_part != post.part %}
-          {% assign break_flag = false %}
-        {% endif %}
-        {% if post.type == 'course' and break_flag == false %}
-          {% assign post_part = post.part %}
-          <li>
-            <h5 data-toggle="collapse" href="#collapse{{post.part}}">
-              Part {{post_part}}
-            </h5>
-            <ul data-part="{{post.part}}" class="collapse" id="collapse{{post.part}}" style="padding:0">  
-              {% for post in site.posts reversed %}
-                {% if post.type == 'course' and post.part == post_part %}
-                  <li>
-                      <span class="badge badge-light">&bull;</span>
-                      <span>
-                        <a href="{{site.url}}{{ post.url }}">
-                          {{post.title}}
-                        </a>
-                      </span>
-                    </li>
-                {% endif %}
-              {% endfor %} 
-              <br> 
-            </ul>
+    <div id="toc-block" class="collection card">
+      <ul class="collapsible collapsible-accordion">
+        <br>
+        <!--  init break_flag -->
+        {% assign break_flag = false %}
+        
+        <!-- outer loop -->
+        {% for post in site.posts reversed %}
+          <!-- resets break_flag if the current post_part has incremented -->
+          {% if post_part and post_part != post.part %}
+            {% assign break_flag = false %}
           {% endif %}
-          {% assign break_flag = true %}
-        {% endfor %}
-      </li>
-    </ul>
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          {% if post.type == 'course' and break_flag == false %}
+            {% assign post_part = post.part %}
+            <li>
+              <!-- create header for part -->
+              <h5 data-part="{{post.part}}" data-toggle="collapse" href="#collapse{{post.part}}">
+                Part {{post_part}}
+              </h5>
+              <!-- create ul for hidden part content -->
+              <ul class="collapse" id="collapse{{post.part}}" style="padding:0">
+                
+                <!-- nested loop -->
+                {% for post in site.posts reversed %}
+                  {% if post.type == 'course' and post.part == post_part %}
+                    <li>
+                        <span class="badge badge-light">&bull;</span>
+                        <span>
+                          <a href="{{site.url}}{{ post.url }}">
+                            {{post.title}}
+                          </a>
+                        </span>
+                      </li>
+                  {% endif %}
+                {% endfor %} 
+                <br> 
+              </ul>
+            {% endif %}
+            <!-- stops nested loop after first itration  -->
+            {% assign break_flag = true %}
+          {% endfor %}
+        </li>
+      </ul>
+    </div>
   </div>
-</div>

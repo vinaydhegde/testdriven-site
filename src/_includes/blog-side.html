@@ -10,5 +10,7 @@
       </div>
     </div>
   </div>
-  {% include blog-toc.html %}
+  {% if page.permalink != 'blog/' %}
+    {% include blog-toc.html %}
+  {% endif %}
 </div>
