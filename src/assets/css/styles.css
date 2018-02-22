@@ -132,6 +132,16 @@ pre > code {
 blog
  */
 
+.no_toc {
+  display: none;
+}
+
+@media screen and (max-width: 991px) {
+  .no_toc {
+    display: block;
+  }
+}
+
 .blog-list li {
   margin: 0;
   list-style: none;
