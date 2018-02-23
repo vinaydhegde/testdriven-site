@@ -1,32 +1,32 @@
 <div class="col-sm-3 d-none d-md-block">
-  <div id="toc-block" class="collection card">
-    <ul class="collapsible collapsible-accordion">
-      {% for post in site.posts reversed %}
-        {% if post.type == 'course' %}
-          {% if post.intro %}
-            <li>
-              <br>
-              <h5 data-part="{{post.part}}">
-                Part {{post.part}}
-              </h5>
-              <div class="collapsible-body">
+    <div id="toc-block" class="collection card">
+      <ul class="collapsible collapsible-accordion">
+        {% for post in site.posts reversed %}
+          {% if post.type == 'course' %}
+            {% if post.intro %}
+              <li>
+                <br>
+                <h5 data-part="{{post.part}}">
+                  Part {{post.part}}
+                </h5>
+                <div class="collapsible-body">
+            {% endif %}
+            <ul>
+              <li>
+                <span class="badge badge-light">&bull;</span>
+                <!-- <span>{{ post.lesson }}.&nbsp;</span> -->
+                <span>
+                  <a href="{{site.url}}{{ post.url }}">
+                    {{ post.title }}
+                  </a>
+                </span>
+              </li>
+            </ul>
           {% endif %}
-          <ul>
-            <li>
-              <span class="badge badge-light">&bull;</span>
-              <!-- <span>{{ post.lesson }}.&nbsp;</span> -->
-              <span>
-                <a href="{{site.url}}{{ post.url }}">
-                  {{ post.title }}
-                </a>
-              </span>
-            </li>
-          </ul>
-        {% endif %}
-      {% endfor %}
+        {% endfor %}
+      </div>
+      <br>
+      </li>
+      </ul>
     </div>
-    <br>
-    </li>
-    </ul>
   </div>
-</div>
