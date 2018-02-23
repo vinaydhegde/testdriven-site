@@ -139,7 +139,7 @@ blog
 @media screen and (max-width: 991px) {
   .no_toc {
     display: block;
-  } 
+  }
 }
 
 .blog-list li {
@@ -151,9 +151,9 @@ blog
   padding-left: 0;
 }
 
-/* 
-blog-toc 
-*/
+/*
+blog-toc
+ */
 
 .blog-toc-container {
   position: sticky;

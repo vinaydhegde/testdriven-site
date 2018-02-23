@@ -7,7 +7,7 @@ permalink: building-a-concurrent-web-scraper-with-python-and-selenium
 type: blog
 author: Caleb Pollman
 lastname: pollman
-description: This post looks at how to speed up a Python web scraper with multiprocessing..
+description: This post looks at how to speed up a Python web scraper with multiprocessing.
 keywords: "web scraping, python, multiprocessing, scraping, crawling, web crawling, selenium, concurrency, webdriver"
 image: /assets/img/blog/web_scraper_python_selenium.png
 image_alt: python and selenium
