@@ -2,29 +2,42 @@
 
 [![Build Status](https://travis-ci.org/testdrivenio/testdriven-site.svg?branch=backup)](https://travis-ci.org/testdrivenio/testdriven-site)
 
-### Run locally
+### Development Process
+
+Check out `source` branch
+
+```sh
+$ git checkout source
+```
+
+Run locally:
 
 ```sh
 $ bundle exec jekyll serve
 ```
 
-### Deploy
+Make changes. Remove "docs" directory.  Commit your code, and then push:
 
-1. Generate build:
+```sh
+$ git push origin source
+```
 
-  ```sh
-  # generate build locally
-  $ JEKYLL_ENV=production bundle exec jekyll build
-  ```
+If Travis build passes, merge into `master`:
 
-1. Commit your code, and then push to `backup` branch:
+```sh
+$ git checkout master
+$ git merge source
+```
 
-  ```sh
-  $ git push origin master:backup
-  ```
+Generate build:
 
-1. If travis build passes, deploy:
+```sh
+# generate build locally
+$ JEKYLL_ENV=production bundle exec jekyll build
+```
 
-  ```sh
-  $ git subtree push --prefix docs origin master
-  ```
+Deploy:
+
+```sh
+$ git subtree push --prefix docs origin master
+```
