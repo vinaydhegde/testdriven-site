@@ -32,7 +32,6 @@ $ git merge source
 Generate build:
 
 ```sh
-# generate build locally
 $ JEKYLL_ENV=production bundle exec jekyll build
 ```
 

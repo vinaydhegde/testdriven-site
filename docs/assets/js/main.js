@@ -13,13 +13,13 @@ function setActivePart(url) {
   var active = url.split('-')[1];
   if (active) {
     if (active === 'one') {
-      $('h5[data-part="1"]').addClass('active');
+      $('ul[data-part="1"]').removeClass('collapse');
     }
     if (active === 'two') {
-      $('h5[data-part="2"]').addClass('active');
+      $('ul[data-part="2"]').removeClass('collapse');
     }
     if (active === 'three') {
-      $('h5[data-part="3"]').addClass('active');
+      $('ul[data-part="3"]').removeClass('collapse');
     }
   }
 }
