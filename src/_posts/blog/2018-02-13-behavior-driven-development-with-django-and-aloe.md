@@ -56,6 +56,19 @@ Want to build this project as you read the post?
     ```
     >
 
+1. Update the `INSTALLED_APPS` list in *settings.py*:
+
+    ```python
+    INSTALLED_APPS = [
+
+        ...
+
+        'aloe_django',
+        'rest_framework',
+        'example',
+    ]
+    ```   
+
 Just looking for the code? Grab it from the [repo](https://github.com/testdrivenio/django-aloe-bdd).
 
 ## Brief Overview of BDD
@@ -96,6 +109,8 @@ An Aloe test case is called a _feature_. You program features using two files--a
 
 1. The _Feature_ file consists of statements written in plain English that describe how to configure, execute, and confirm the results of a test. Use the `Feature` keyword to label the feature and the `Scenario` keyword to define a user story that you are planning to test. In the example above, the scenario defines a series of steps that explain how to populate the _User_ database table, log a user into the app, and validate the login. All step statements must begin with one of four keywords: `Given`, `When`, `Then`, or `And`.
 1. The _Steps_ file contains Python functions that are mapped to the _Feature_ file steps using regular expressions.
+
+> You may need to add an *\_\_init\_\_.py* file to the "features" directory for the interpreter to load the *friendships_steps.py* file correctly.
 
 Run `python manage.py harvest` and see the following output.
 
