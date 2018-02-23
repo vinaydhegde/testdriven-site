@@ -36,7 +36,7 @@ Generate build:
 $ JEKYLL_ENV=production bundle exec jekyll build
 ```
 
-Deploy:
+Commit your code, and then deploy:
 
 ```sh
 $ git subtree push --prefix docs origin master
