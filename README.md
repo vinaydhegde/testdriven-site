@@ -16,7 +16,7 @@ Run locally:
 $ bundle exec jekyll serve
 ```
 
-Make changes. Remove "docs" directory.  Commit your code, and then push:
+Make changes. Remove "docs" directory. Commit your code, and then push:
 
 ```sh
 $ git push origin source
