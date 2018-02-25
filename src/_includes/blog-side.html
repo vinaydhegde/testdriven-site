@@ -10,7 +10,8 @@
       </div>
     </div>
   </div>
-  {% if page.permalink != 'blog/' %}
+  {% assign path_param = page.permalink | split: '/' | first %}
+  {% if path_param != 'blog' and path_param != 'authors' %}
     {% include blog-toc.html %}
   {% endif %}
 </div>
