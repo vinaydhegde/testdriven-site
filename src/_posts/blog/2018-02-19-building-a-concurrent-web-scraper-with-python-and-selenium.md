@@ -11,6 +11,7 @@ description: This post looks at how to speed up a Python web scraper with multip
 keywords: "web scraping, python, multiprocessing, scraping, crawling, web crawling, selenium, concurrency, webdriver"
 image: /assets/img/blog/web_scraper_python_selenium.png
 image_alt: python and selenium
+blurb: This is a quick post that looks at how to speed up a simple, Python-based web scraping and crawling script with parallel processing via the multiprocessing library. We'll also break down the script itself and show how to test the parsing functionality.
 date: 2018-02-19
 ---
 
