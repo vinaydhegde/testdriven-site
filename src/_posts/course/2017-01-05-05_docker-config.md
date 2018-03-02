@@ -24,6 +24,8 @@ $ docker-machine -v
 docker-machine version 0.13.0, build 9ba6da9
 ```
 
+> If you have problems with Docker Machine, you *do not* need to use it in your development environment. In fact, I am removing Docker Machine for local development in the next edition of the course.
+
 Next, we need to [create](https://docs.docker.com/machine/reference/create/) a new Docker host with [Docker Machine](https://docs.docker.com/machine/) and point the Docker client at it:
 
 ```sh
