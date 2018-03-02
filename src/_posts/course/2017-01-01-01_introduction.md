@@ -35,7 +35,7 @@ By the end of this part, you will be able to...
 1. Run unit and integration tests inside a Docker container
 1. Enable services running in different containers to talk to one another
 1. Work with Python and Flask running inside a Docker Container
-1. Install Flask, Ngnix, and Gunicorn on an Amazon EC2 instance
+1. Install Flask, Nginx, and Gunicorn on an Amazon EC2 instance
 
 ## App
 

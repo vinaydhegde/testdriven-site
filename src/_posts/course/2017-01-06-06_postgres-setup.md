@@ -115,7 +115,7 @@ ADD create.sql /docker-entrypoint-initdb.d
 
 Here, we extend the [official Postgres image](https://hub.docker.com/_/postgres/) by adding a SQL file to the "docker-entrypoint-initdb.d" directory in the container, which will execute on init.
 
-Update *docker-compose.yml-dev*:
+Update *docker-compose-dev.yml*:
 
 ```yaml
 version: '3.4'

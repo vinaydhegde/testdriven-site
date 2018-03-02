@@ -36,7 +36,7 @@ Smaller code bases tend to be easier to understand since you do not have to gras
 
 ### Accelerated Feedback Loops
 
-With microservices, developers often own the entire lifecycle of the app, from inception to delivery. Instead of aligning teams with a particular set of technologies - like client ui, server-side, etc. - teams are more product-focused, responsible for delivering the application to the customers themselves. Because of this, they have much more visibility into how the application is being used in the real-world. This speeds up the feedback loop, making it easier to fix bugs and iterate.
+With microservices, developers often own the entire lifecycle of the app, from inception to delivery. Instead of aligning teams with a particular set of technologies - like client UI, server-side, etc. - teams are more product-focused, responsible for delivering the application to the customers themselves. Because of this, they have much more visibility into how the application is being used in the real-world. This speeds up the feedback loop, making it easier to fix bugs and iterate.
 
 ## Cons
 
@@ -50,7 +50,7 @@ Once you split out a service there is no going back.
 
 With a monolith, generally everything happens in a single process so you don't have to make very many calls to other services. As you break out pieces of your application into microservices, you'll find that you'll now have to make a network call when before you could just call a function.
 
-This can cause problems especially if multiple services need to communicate with one another, resulting in ping-pong-like affect in terms of network requests. You will also have to account for a service going down altogether.
+This can cause problems especially if multiple services need to communicate with one another, resulting in ping-pong-like effect in terms of network requests. You will also have to account for a service going down altogether.
 
 ### Data Persistence
 
