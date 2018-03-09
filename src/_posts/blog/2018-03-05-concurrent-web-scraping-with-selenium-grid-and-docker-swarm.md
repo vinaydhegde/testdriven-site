@@ -38,13 +38,14 @@ By the end of this tutorial, you will be able to:
 Start by cloning down the base project with the web scraping script, create and activate a virtual environment, and install the dependencies:
 
 ```sh
-$ git clone https://github.com/testdrivenio/selenium-grid-docker-swarm.git \
-  --branch base --single-branch
+$ git clone https://github.com/testdrivenio/selenium-grid-docker-swarm.git --branch base --single-branch
 $ cd selenium-grid-docker-swarm
 $ python3.6 -m venv env
 $ source env/bin/activate
 (env)$ pip install -r requirements.txt
 ```
+
+> The above commands may differ depending on your environment.
 
 Test out the scraper:
 

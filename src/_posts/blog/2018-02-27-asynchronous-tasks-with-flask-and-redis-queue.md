@@ -52,8 +52,7 @@ In the end, the app will look like this:
 Want to follow along? Clone down the base project, and then review the code and project structure:
 
 ```sh
-$ git clone https://github.com/mjhea0/flask-redis-queue \
-  --branch base --single-branch
+$ git clone https://github.com/mjhea0/flask-redis-queue --branch base --single-branch
 $ cd flask-redis-queue
 ```
 

@@ -41,6 +41,8 @@ $ source env/bin/activate
 (env)$ pip install -r requirements.txt
 ```
 
+> The above commands may differ depending on your environment.
+
 Install [ChromeDriver](https://sites.google.com/a/chromium.org/ChromeDriver/) globally. (We're using version [2.3.5](https://chromedriver.storage.googleapis.com/index.html?path=2.35/)).
 
 ## Script Overview
