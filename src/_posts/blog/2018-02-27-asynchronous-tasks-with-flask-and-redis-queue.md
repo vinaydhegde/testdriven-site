@@ -23,6 +23,10 @@ This post looks at how to configure [Redis Queue](http://python-rq.org/) (RQ) to
 
 > Celery is a viable solution as well. It's quite a bit more complex and brings in more dependencies than Redis Queue, though.
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## Objectives
 
 By the end of this post you should be able to:

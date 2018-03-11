@@ -1,8 +1,10 @@
 ---
-layout: course
+layout: main
 title: Testimonials
 permalink: testimonials/
 ---
+
+<hr><br>
 
 Please email me at <a href="mailto:michael@mherman.org">michael@mherman.org</a> if you'd like to add your testimonial to the list. Cheers!
 

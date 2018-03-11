@@ -8,7 +8,7 @@
   <link rel="shortcut icon" type="image/png" href="/favicon.png">
   <!-- og -->
   
-    <meta property="og:image" content="https://testdriven.io/assets/img/blog/selenium-grid-docker/web_scraping_selenium_docker.png" />
+    <meta property="og:image" content="http://localhost:4000/assets/img/blog/selenium-grid-docker/web_scraping_selenium_docker.png" />
   
   <!-- description -->
   
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1520607235071433000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1520791336468163000" rel="stylesheet">
 </head>
 
 
@@ -45,14 +45,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Course</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/course-contents">Contents</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/testimonials">Testimonials</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Courses
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/microservices">Microservices with Docker, Flask, and React</a>
+            <a class="dropdown-item" href="/channels">Django Channels and Angular</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/testimonials">Testimonials</a>
+            <a class="dropdown-item" href="/course-contents">Contents</a>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/blog">Blog</a>
@@ -67,14 +70,12 @@
         <a class="nav-link" href="https://github.com/testdrivenio"><i class="fab fa-github"></i></a>
       </li>
       <li class="nav-item nav-purcahse-btn">
-        <a class="btn btn-outline-warning" href="https://gum.co/flask">Purchase the Course</a>
+        <a class="btn btn-outline-warning" href="/">Purchase the Courses</a>
       </li>
   </ul>
   </div>
 </nav>
 
-
-    <br>
 
     <div class="container">
       <div class="row">
@@ -90,10 +91,10 @@
           <h1>Concurrent Web Scraping with Selenium Grid and Docker Swarm</h1>
 
           
-            <p>Posted by <a href="https://testdriven.io/authors/herman">Michael Herman</a></span> on <span class="badge badge-secondary">Mar 5, 2018</span><br>
+            <p>Posted by <a href="http://localhost:4000/authors/herman">Michael Herman</a></span> on <span class="badge badge-secondary">Mar 5, 2018</span><br>
   
     <br>
-    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Concurrent Web Scraping with Selenium Grid and Docker Swarm&amp;url=https%3A%2F%2Ftestdriven.io/concurrent-web-scraping-with-selenium-grid-and-docker-swarm&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Concurrent Web Scraping with Selenium Grid and Docker Swarm&amp;url=http%3A%2F%2Flocalhost%3A4000/concurrent-web-scraping-with-selenium-grid-and-docker-swarm&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   
 
 </p>
@@ -108,6 +109,18 @@
   <li>Python v3.6.4</li>
   <li>Selenium v3.9.1</li>
 </ol>
+
+<h2 class="no_toc">Contents</h2>
+
+<ul class="no_toc" id="markdown-toc">
+  <li><a href="#objectives" id="markdown-toc-objectives">Objectives</a></li>
+  <li><a href="#getting-started" id="markdown-toc-getting-started">Getting Started</a></li>
+  <li><a href="#configuring-selenium-grid" id="markdown-toc-configuring-selenium-grid">Configuring Selenium Grid</a></li>
+  <li><a href="#deploying-to-digital-ocean" id="markdown-toc-deploying-to-digital-ocean">Deploying to Digital Ocean</a></li>
+  <li><a href="#running-docker-swarm" id="markdown-toc-running-docker-swarm">Running Docker Swarm</a></li>
+  <li><a href="#automating-the-workflow" id="markdown-toc-automating-the-workflow">Automating the Workflow</a></li>
+  <li><a href="#next-steps" id="markdown-toc-next-steps">Next Steps</a></li>
+</ul>
 
 <h2 id="objectives">Objectives</h2>
 
@@ -557,28 +570,29 @@ docker-machine <span class="nb">rm </span>node-1 node-2 node-3 node-4 <span clas
           
   
     <br>
-    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Concurrent Web Scraping with Selenium Grid and Docker Swarm&amp;url=https%3A%2F%2Ftestdriven.io/concurrent-web-scraping-with-selenium-grid-and-docker-swarm&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Concurrent Web Scraping with Selenium Grid and Docker Swarm&amp;url=http%3A%2F%2Flocalhost%3A4000/concurrent-web-scraping-with-selenium-grid-and-docker-swarm&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   
 
 
 
         </div>
 
-        <div class="col-md-3 d-none d-lg-block">
-  <div class="card box-shadow">
-    <h4 class="card-header text-center">Microservices with Docker, Flask, and React</h4>
-    <div class="card-body text-dark">
-      <p class="card-text">Get the full course. Learn how to build, test, and deploy microservices powered by Docker, Flask, and React!</p>
-      <div class="text-center">
-        <hr>
-        <p><a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a></p>
-        <p><a href="https://testdriven.io/part-one-intro">Or, preview parts 1 - 3</a></p>
+        
+  <div class="col-md-3 d-none d-lg-block">
+    <div class="card box-shadow">
+      <h4 class="card-header text-center">Microservices with Docker, Flask, and React</h4>
+      <div class="card-body text-dark">
+        <p class="card-text">Get the full course. Learn how to build, test, and deploy microservices to Amazon ECS powered by Docker, Flask, and React!</p>
+        <div class="text-center">
+          <hr>
+          <p><a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a></p>
+          <p><a href="http://localhost:4000/part-one-intro">Or, preview parts 1 - 3</a></p>
+        </div>
       </div>
     </div>
-  </div>
-  
-  
-    <br>
+    <!--  -->
+    
+      <br>
 <div class="blog-toc-container card box-shadow">
   <h4 class="card-header text-center">Table of Contents</h4>
   <div class="blog-toc-subcontainer">
@@ -606,8 +620,9 @@ docker-machine <span class="nb">rm </span>node-1 node-2 node-3 node-4 <span clas
   }
 </script>
 
-  
-</div>
+    
+  </div>
+
 
 
       </div>
@@ -660,17 +675,6 @@ docker-machine <span class="nb">rm </span>node-1 node-2 node-3 node-4 <span clas
 
 
     
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-100160465-1', 'auto');
-    ga('send', 'pageview');
-
-  </script>
-
 
 
   </body>

@@ -19,15 +19,15 @@ permalink: course-contents/
           <p>{{ post.full_intro }}</p>
           <ul class="lessons-list"></ul>
         {% endif %}
-            <li class="collection-li-contents">
-              <span>&bull;</span>
-              <span>
-                <a
-                  class="collection-item"
-                  href="{{ site.url }}{{ post.url }}"
-                >{{ post.title }}</a>
-              </span>
-            </li>
+          <li class="collection-li-contents">
+            <span>&bull;</span>
+            <span>
+              <a
+                class="collection-item"
+                href="{{ site.url }}{{ post.url }}"
+              >{{ post.title }}</a>
+            </span>
+          </li>
       {% endif %}
     {% endfor %}
     <br>
