@@ -25,7 +25,7 @@ title: Test Driven Development Courses
   </div>
   <div class="col-9">
     <h3 style="margin-top:0">Real-Time Applications with Django Channels and Angular</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p>Learn how to build and test a real-time ride-sharing app with Django Channels and Angular!</p>
     <a href="/channels" class="btn btn-primary">View Course</a>
   </div>
 </div>
