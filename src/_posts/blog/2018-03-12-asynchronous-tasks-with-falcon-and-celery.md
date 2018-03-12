@@ -12,7 +12,7 @@ keywords: "python, web development, falcon web framework, falcon, celery, redis,
 image: /assets/img/blog/falcon-celery/async_falcon_celery.png
 image_alt: falcon and celery
 blurb: This post shows how to integrate Celery into the Python-based Falcon web framework.
-date: 2018-03-11
+date: 2018-03-12
 ---
 
 Asynchronous tasks are used to move intensive, time-consuming processes, which are prone to failure, to the background so a response can be returned immediately to the client.
