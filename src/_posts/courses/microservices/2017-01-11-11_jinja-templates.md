@@ -7,6 +7,7 @@ part: 1
 lesson: 11
 share: true
 type: course
+course: microservices
 ---
 
 Instead of just serving up a JSON API, let's spice it up with server-side templates...
@@ -109,7 +110,7 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
 Ready to test? Simply open your browser and navigate to the IP associated with the `testdriven-dev` machine.
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/01_bootstrap.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask app">
+  <img src="/assets/img/courses/microservices/01_bootstrap.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask app">
 </div>
 
 How about a test?

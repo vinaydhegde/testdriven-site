@@ -7,6 +7,7 @@ part: 3
 lesson: 7
 share: true
 type: course
+course: microservices
 ---
 
 In this lesson, we'll add a Navbar and a form component with React Bootstrap to set the stage for adding in full auth...
@@ -209,7 +210,7 @@ $ docker-compose -f docker-compose-dev.yml up -d --build
 Test it out in the browser.
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_bootstrap_navbar.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react bootstrap navbar">
+  <img src="/assets/img/courses/microservices/03_react_bootstrap_navbar.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react bootstrap navbar">
 </div>
 
 > Run into this issue?

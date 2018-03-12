@@ -7,6 +7,7 @@ part: 2
 lesson: 6
 share: true
 type: course
+course: microservices
 ---
 
 Let's look at testing React components...

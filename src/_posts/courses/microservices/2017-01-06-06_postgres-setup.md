@@ -7,6 +7,7 @@ part: 1
 lesson: 6
 share: true
 type: course
+course: microservices
 ---
 
 In this lesson, we'll configure Postgres, get it up and running in another container, and link it to the `users` container...

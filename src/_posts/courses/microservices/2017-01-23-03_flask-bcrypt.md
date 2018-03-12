@@ -7,6 +7,7 @@ part: 3
 lesson: 3
 share: true
 type: course
+course: microservices
 ---
 
 In this lesson, we'll add support for password hashing...

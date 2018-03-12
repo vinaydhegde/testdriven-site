@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1520791336468163000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1520824363462268000" rel="stylesheet">
 </head>
 
 
@@ -162,7 +162,7 @@
 <p>To test, remove the <code class="highlighter-rouge">required</code> attribute on each of the form <code class="highlighter-rouge">input</code>s in <em>services/client/src/components/Form.jsx</em>. Then, you should see <code class="highlighter-rouge">sanity check!</code> in the JavaScript console on form submit for both forms in the browser.</p>
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_form_submit_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
+  <img src="/assets/img/courses/microservices/03_react_form_submit_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
 </div>
 
 <p>Remove <code class="highlighter-rouge">console.log('sanity check!')</code> and add the <code class="highlighter-rouge">required</code> attributes back when done.</p>
@@ -242,7 +242,7 @@
 </span></code></pre></div></div>
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_form_ajax_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
+  <img src="/assets/img/courses/microservices/03_react_form_ajax_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
 </div>
 
 <p>Test logging in as well. Again, you should see the very same object in the console.</p>
@@ -283,7 +283,7 @@
 <p>Try logging in again. After a successful login, open the “Application” tab in <a href="https://developer.chrome.com/devtools">Chrome DevTools</a>. Click the arrow pointing toward <a href="https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage">LocalStorage</a> and select the IP (which should be the IP associated with the Docker Machine). You should see a key of <code class="highlighter-rouge">authToken</code> with a value of the actual token in the pane.</p>
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_auth_login.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
+  <img src="/assets/img/courses/microservices/03_react_auth_login.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth" />
 </div>
 
 <p>Instead of always checking LocalStorage for the auth token, let’s add a boolean to the state so we can quickly tell if a user is authenticated.</p>
@@ -501,27 +501,33 @@ Ran all <span class="nb">test </span>suites.
         </div>
 
         
-  <div class="col-sm-3 d-none d-md-block">
+  
+    <div class="col-sm-3 d-none d-md-block">
     <div id="toc-block" class="collection">
       <span class="text-center"><h4>Course Preview:</h4></span>
       <ul class="collapsible collapsible-accordion">
         <br>
+
         <!--  init break_flag -->
         
 
         <!-- outer loop -->
         
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
             
             <li>
+
               <!-- create header for part -->
               <h5 class="btn btn-outline-dark btn-block" data-toggle="collapse" href="#collapse1">
                 Part 1
               </h5>
+
               <!-- create ul for hidden part content -->
               <ul data-part="1" class="collapse" id="collapse1" style="padding:0">
 
@@ -529,145 +535,161 @@ Ran all <span class="nb">test </span>suites.
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-intro">
-                            Introduction
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-intro">
+                          Introduction
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-microservices">
-                            Microservices
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-microservices">
+                          Microservices
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-app-overview">
-                            App Overview
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-app-overview">
+                          App Overview
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-getting-started">
-                            Getting Started
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-getting-started">
+                          Getting Started
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-docker-config">
-                            Docker Config
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-docker-config">
+                          Docker Config
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-postgres-setup">
-                            Postgres Setup
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-postgres-setup">
+                          Postgres Setup
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-test-setup">
-                            Test Setup
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-test-setup">
+                          Test Setup
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-flask-blueprints">
-                            Flask Blueprints
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-flask-blueprints">
+                          Flask Blueprints
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-restful-routes">
-                            RESTful Routes
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-restful-routes">
+                          RESTful Routes
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-deployment">
-                            Deployment
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-deployment">
+                          Deployment
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-jinja-templates">
-                            Jinja Templates
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-jinja-templates">
+                          Jinja Templates
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-workflow">
-                            Workflow
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-workflow">
+                          Workflow
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-one-structure">
-                            Structure
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-one-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
                   
                 
                   
@@ -729,116 +751,157 @@ Ran all <span class="nb">test </span>suites.
                 <br>
               </ul>
             
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
             
             <li>
+
               <!-- create header for part -->
               <h5 class="btn btn-outline-dark btn-block" data-toggle="collapse" href="#collapse2">
                 Part 2
               </h5>
+
               <!-- create ul for hidden part content -->
               <ul data-part="2" class="collapse" id="collapse2" style="padding:0">
 
@@ -872,112 +935,128 @@ Ran all <span class="nb">test </span>suites.
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-intro">
-                            Introduction
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-intro">
+                          Introduction
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-code-coverage-and-quality">
-                            Code Coverage and Quality
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-code-coverage-and-quality">
+                          Code Coverage and Quality
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-continuous-integration">
-                            Continuous Integration
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-continuous-integration">
+                          Continuous Integration
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-flask-debug-toolbar">
-                            Flask Debug Toolbar
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-flask-debug-toolbar">
+                          Flask Debug Toolbar
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-react-setup">
-                            React Setup
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-react-setup">
+                          React Setup
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-testing-react">
-                            Testing React
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-testing-react">
+                          Testing React
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-react-forms">
-                            React Forms
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-react-forms">
+                          React Forms
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-react-and-docker">
-                            React and Docker
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-react-and-docker">
+                          React and Docker
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-next-steps">
-                            Next Steps
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-next-steps">
+                          Next Steps
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-two-structure">
-                            Structure
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-two-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
                   
                 
                   
@@ -1019,92 +1098,124 @@ Ran all <span class="nb">test </span>suites.
                 <br>
               </ul>
             
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
             
             <li>
+
               <!-- create header for part -->
               <h5 class="btn btn-outline-dark btn-block" data-toggle="collapse" href="#collapse3">
                 Part 3
               </h5>
+
               <!-- create ul for hidden part content -->
               <ul data-part="3" class="collapse" id="collapse3" style="padding:0">
 
@@ -1158,156 +1269,172 @@ Ran all <span class="nb">test </span>suites.
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-into">
-                            Introduction
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-into">
+                          Introduction
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-flask-migrate">
-                            Flask Migrate
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-flask-migrate">
+                          Flask Migrate
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-flask-bcrypt">
-                            Flask Bcrypt
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-flask-bcrypt">
+                          Flask Bcrypt
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-jwt-setup">
-                            JWT Setup
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-jwt-setup">
+                          JWT Setup
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-auth-routes">
-                            Auth Routes
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-auth-routes">
+                          Auth Routes
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-react-router">
-                            React Router
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-react-router">
+                          React Router
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-react-bootstrap">
-                            React Bootstrap
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-react-bootstrap">
+                          React Bootstrap
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-react-auth-one">
-                            React Auth - part one
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-react-auth-one">
+                          React Auth - part one
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-mocking-user-interaction">
-                            Mocking User Interaction
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-mocking-user-interaction">
+                          Mocking User Interaction
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-react-auth-two">
-                            React Auth - part two
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-react-auth-two">
+                          React Auth - part two
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-authorization">
-                            Authorization
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-authorization">
+                          Authorization
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-update-component">
-                            Update Component
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-update-component">
+                          Update Component
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-update-docker">
-                            Update Docker
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-update-docker">
+                          Update Docker
+                        </a>
+                      </span>
+                    </li>
                   
                 
                   
                     <li>
-                        <span class="badge">&bull;</span>
-                        <span>
-                          <a href="http://localhost:4000/part-three-structure">
-                            Structure
-                          </a>
-                        </span>
-                      </li>
+                      <span class="badge">&bull;</span>
+                      <span>
+                        <a href="http://localhost:4000/part-three-structure">
+                          Structure
+                        </a>
+                      </span>
+                    </li>
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
                   
                 
                   
@@ -1321,150 +1448,292 @@ Ran all <span class="nb">test </span>suites.
                 <br>
               </ul>
             
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
           <!-- resets break_flag if the current post_part has incremented -->
           
+
           <!-- creates header and content for each part -->
           <!-- break_flag prevents header and content creation being repeated for each post.part -->
           
+
             <!-- stops nested loop after first itration  -->
             
           
+
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+
+            <!-- stops nested loop after first itration  -->
+            
+          
+
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+
+            <!-- stops nested loop after first itration  -->
+            
+          
+
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+
+            <!-- stops nested loop after first itration  -->
+            
+          
+
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+
+            <!-- stops nested loop after first itration  -->
+            
+          
+
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+
+            <!-- stops nested loop after first itration  -->
+            
+          
+
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+
+            <!-- stops nested loop after first itration  -->
+            
+          
+
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+
+            <!-- stops nested loop after first itration  -->
+            
+          
+
+          <!-- resets break_flag if the current post_part has incremented -->
+          
+
+          <!-- creates header and content for each part -->
+          <!-- break_flag prevents header and content creation being repeated for each post.part -->
+          
+
+            <!-- stops nested loop after first itration  -->
+            
+          
+
         </li>
       </ul>
     </div>
   </div>
 
+  
 
 
 

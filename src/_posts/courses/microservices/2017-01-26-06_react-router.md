@@ -7,6 +7,7 @@ part: 3
 lesson: 6
 share: true
 type: course
+course: microservices
 ---
 
 In this lesson, we'll wire up routing in the React app to manage navigation between different components so the end user has unique pages to interact with...
@@ -268,7 +269,7 @@ Then add the component to the `render` method, just below the `UsersList` compon
 Make sure you can view the new component in the browser:
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_about_component.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react about component">
+  <img src="/assets/img/courses/microservices/03_react_about_component.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react about component">
 </div>
 
 Now, to render the `About` component in a different route, update the `render` method again:

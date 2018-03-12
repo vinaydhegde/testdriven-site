@@ -7,6 +7,7 @@ part: 1
 lesson: 8
 share: true
 type: course
+course: microservices
 ---
 
 With tests in place, let's refactor the app, adding in Blueprints...

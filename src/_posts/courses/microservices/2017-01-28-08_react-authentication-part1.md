@@ -7,6 +7,7 @@ part: 3
 lesson: 8
 share: true
 type: course
+course: microservices
 ---
 
 Moving right along, let's add some methods to handle a user signing up, logging in, and logging out...
@@ -67,7 +68,7 @@ And then pass it down via the `props`:
 To test, remove the `required` attribute on each of the form `input`s in *services/client/src/components/Form.jsx*. Then, you should see `sanity check!` in the JavaScript console on form submit for both forms in the browser.
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_form_submit_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
+  <img src="/assets/img/courses/microservices/03_react_form_submit_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
 </div>
 
 Remove `console.log('sanity check!')` and add the `required` attributes back when done.
@@ -154,7 +155,7 @@ Test the user registration out. If you have everything set up correctly, you sho
 ```
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_form_ajax_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
+  <img src="/assets/img/courses/microservices/03_react_form_ajax_test.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
 </div>
 
 Test logging in as well. Again, you should see the very same object in the console.
@@ -193,7 +194,7 @@ window.localStorage.setItem('authToken', res.data.auth_token);
 Try logging in again. After a successful login, open the "Application" tab in [Chrome DevTools](https://developer.chrome.com/devtools). Click the arrow pointing toward [LocalStorage](https://developers.google.com/web/tools/chrome-devtools/manage-data/local-storage) and select the IP (which should be the IP associated with the Docker Machine). You should see a key of `authToken` with a value of the actual token in the pane.
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_auth_login.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
+  <img src="/assets/img/courses/microservices/03_react_auth_login.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
 </div>
 
 Instead of always checking LocalStorage for the auth token, let's add a boolean to the state so we can quickly tell if a user is authenticated.

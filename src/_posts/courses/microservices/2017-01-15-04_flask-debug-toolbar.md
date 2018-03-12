@@ -7,6 +7,7 @@ part: 2
 lesson: 4
 share: true
 type: course
+course: microservices
 ---
 
 Let's wire up the [Flask Debug Toolbar](https://flask-debugtoolbar.readthedocs.io) before diving into React...
@@ -178,7 +179,7 @@ $ docker-machine ip testdriven-dev
 Navigate to [http://DOCKER_MACHINE_IP](http://DOCKER_MACHINE_IP) in your browser to view the toolbar in action:
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/01_flask-debug-toolbar.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask debug toolbar">
+  <img src="/assets/img/courses/microservices/01_flask-debug-toolbar.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask debug toolbar">
 </div>
 
 > You may be wondering why we installed the toolbar in the first place since we won't be using server-rendered views all that much in this course. Well, it can still come in handy from time to time and it's a nice to have if you ever do serve up some Jinja templates.

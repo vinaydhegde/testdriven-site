@@ -7,6 +7,7 @@ part: 3
 lesson: 12
 share: true
 type: course
+course: microservices
 ---
 
 In this lesson, we'll refactor the `UsersList` and `UserStatus` components...
@@ -82,7 +83,7 @@ Update the route in the `App` component:
 Make sure to remove the `AddUser` import at the top of the file, and then test it out in the browser:
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_refactor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react component refactor">
+  <img src="/assets/img/courses/microservices/03_react_refactor.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react component refactor">
 </div>
 
 What about the tests?
@@ -199,7 +200,7 @@ export default UsersList;
 The rendered component should now look like:
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_refactor_users_table.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react component refactor all users">
+  <img src="/assets/img/courses/microservices/03_react_refactor_users_table.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react component refactor all users">
 </div>
 
 Update the test:

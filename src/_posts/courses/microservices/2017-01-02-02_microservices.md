@@ -7,6 +7,7 @@ part: 1
 lesson: 2
 share: true
 type: course
+course: microservices
 ---
 
 Microservice architecture provides a means of breaking apart large applications into smaller services that interact and communicate with each another. Communication between the services usually happens over a network connection through HTTP calls (request/response). [Web sockets](https://en.wikipedia.org/wiki/WebSocket), [message queues](https://en.wikipedia.org/wiki/Message_queue) and [remote procedure calls](https://en.wikipedia.org/wiki/Remote_procedure_call) (RPC) can

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <!-- meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <!-- og -->
+  
+  <!-- description -->
+  
+  <!-- keywords -->
+  
+  <!-- title -->
+  
+    <title>Microservices with Docker, Flask, and React - UI Support</title>
+    <meta property="og:title" content="Microservices with Docker, Flask, and React - UI Support" />
+  
+  <!-- styles -->
+  <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
+  <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+  <link href="/assets/css/styles.css?1520824363462268000" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img
+        class="nav-logo" src="/assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io"
+      />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Courses
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/microservices">Microservices with Docker, Flask, and React</a>
+            <a class="dropdown-item" href="/channels">Django Channels and Angular</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/testimonials">Testimonials</a>
+            <a class="dropdown-item" href="/course-contents">Contents</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item">
+        <a class="nav-link" href="https://twitter.com/testdrivenio"><i class="fab fa-twitter"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/testdrivenio"><i class="fab fa-github"></i></a>
+      </li>
+      <li class="nav-item nav-purcahse-btn">
+        <a class="btn btn-outline-warning" href="/">Purchase the Courses</a>
+      </li>
+  </ul>
+  </div>
+</nav>
+
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-9">
+
+          <h1>UI Support</h1>
+
+          
+
+            <h5>Part 1, Lesson 6</h5>
+
+            <div class="page-nav">
+              <br>
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/channels-web-sockets">&laquo; WebSockets</a>
+              
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/channels-user-photos">User Photos &raquo;</a>
+              
+            </div>
+
+            
+  
+    <br>
+    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - UI Support&amp;url=http%3A%2F%2Flocalhost%3A4000/channels-ui-support&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  
+
+
+
+            <br><br>
+
+          
+
+          <p>Up until now, we haven’t had a reason to track users as drivers or riders. Users can be either. But as soon as we add a UI, we will need a way for users to sign up with a role. Drivers will see a different UI and will experience different functionality than riders.</p>
+
+<p>The first thing we need to do is add support for user groups in our serializers in <em>example/serializers.py</em>.</p>
+
+<h2 id="serializer">Serializer</h2>
+
+<p>First, update the <code class="highlighter-rouge">UserSerializer</code> serializer:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">password1</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">write_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">password2</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">write_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">'password1'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">data</span><span class="p">[</span><span class="s">'password2'</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">'Passwords must match.'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="n">group_data</span> <span class="o">=</span> <span class="n">validated_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">'group'</span><span class="p">)</span>
+        <span class="n">group</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Group</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">group_data</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">validated_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">'password1'</span><span class="p">,</span> <span class="s">'password2'</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">'password'</span><span class="p">]</span> <span class="o">=</span> <span class="n">validated_data</span><span class="p">[</span><span class="s">'password1'</span><span class="p">]</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s">'id'</span><span class="p">,</span> <span class="s">'username'</span><span class="p">,</span> <span class="s">'password1'</span><span class="p">,</span> <span class="s">'password2'</span><span class="p">,</span> <span class="s">'first_name'</span><span class="p">,</span>
+            <span class="s">'last_name'</span><span class="p">,</span> <span class="s">'group'</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">read_only_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">'id'</span><span class="p">,)</span>
+</code></pre></div></div>
+
+<p>Add the import:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">Group</span>
+</code></pre></div></div>
+
+<p>Then update the <code class="highlighter-rouge">ReadOnlyUserSerializer</code> serializer:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ReadOnlyUserSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="c"># Without the validator, serialization will fail for users</span>
+    <span class="c"># that already exist.</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="p">])</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="nb">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="nb">NotImplementedError</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">read_only_fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s">'id'</span><span class="p">,</span> <span class="s">'username'</span><span class="p">,</span> <span class="s">'first_name'</span><span class="p">,</span> <span class="s">'last_name'</span><span class="p">,</span> <span class="s">'group'</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="model">Model</h2>
+
+<p>Next, update the custom user model in <em>example/models.py</em> to support groups as well:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">AbstractUser</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">groups</span> <span class="k">else</span> <span class="bp">None</span>
+</code></pre></div></div>
+
+<p>We are not adding any database fields so we don’t need to create a new migration.</p>
+
+<h2 id="view">View</h2>
+
+<p>Lastly, add the proper filters to the <code class="highlighter-rouge">TripView</code> in <em>example/apis.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TripView</span><span class="p">(</span><span class="n">viewsets</span><span class="o">.</span><span class="n">ReadOnlyModelViewSet</span><span class="p">):</span>
+    <span class="n">lookup_field</span> <span class="o">=</span> <span class="s">'nk'</span>
+    <span class="n">lookup_url_kwarg</span> <span class="o">=</span> <span class="s">'trip_nk'</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">(</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">,)</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">TripSerializer</span>
+
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="s">'driver'</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Trip</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">filter</span><span class="p">(</span>
+                <span class="n">Q</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">Trip</span><span class="o">.</span><span class="n">REQUESTED</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">driver</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="s">'rider'</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Trip</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">rider</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Trip</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">none</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Add the import:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Q</span>
+</code></pre></div></div>
+
+<h2 id="test">Test</h2>
+
+<p>Re-run the tests:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py <span class="nb">test </span>example.tests
+</code></pre></div></div>
+
+<p>You should see a few errors:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rest_framework.exceptions.ValidationError:
+{'rider': {'group': ['This field may not be null.']}}
+
+...
+
+AssertionError:
+[OrderedDict([('id', 1), ('rider', None), [495 chars]')])] != []
+
+...
+
+AssertionError: 201 != 400
+</code></pre></div></div>
+
+<p>First, within <em>example/tests.py</em>, update the  <code class="highlighter-rouge">create_user()</code> function to take an additional <code class="highlighter-rouge">group</code> parameter:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'user@example.com'</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'rider'</span><span class="p">):</span>
+    <span class="n">auth_group</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">AuthGroup</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">auth_group</span><span class="p">)</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">user</span>
+</code></pre></div></div>
+
+<p>And add the <code class="highlighter-rouge">group</code> to the <code class="highlighter-rouge">test_user_can_sign_up</code> test in <code class="highlighter-rouge">AuthenticationTest</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_user_can_sign_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">'sign_up'</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+        <span class="s">'username'</span><span class="p">:</span> <span class="s">'user@example.com'</span><span class="p">,</span>
+        <span class="s">'first_name'</span><span class="p">:</span> <span class="s">'Test'</span><span class="p">,</span>
+        <span class="s">'last_name'</span><span class="p">:</span> <span class="s">'User'</span><span class="p">,</span>
+        <span class="s">'password1'</span><span class="p">:</span> <span class="n">PASSWORD</span><span class="p">,</span>
+        <span class="s">'password2'</span><span class="p">:</span> <span class="n">PASSWORD</span><span class="p">,</span>
+        <span class="s">'group'</span><span class="p">:</span> <span class="s">'rider'</span>
+    <span class="p">})</span>
+</code></pre></div></div>
+
+<p>Add the import:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">Group</span> <span class="k">as</span> <span class="n">AuthGroup</span>
+</code></pre></div></div>
+
+<p>Run the tests again. You should see more passing.</p>
+
+<p>Next, update <code class="highlighter-rouge">HttpTripTest</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HttpTripTest</span><span class="p">(</span><span class="n">APITestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">create_user</span><span class="p">()</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">Token</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">credentials</span><span class="p">(</span><span class="n">HTTP_AUTHORIZATION</span><span class="o">=</span><span class="n">f</span><span class="s">'Token {token}'</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_user_can_list_personal_trips</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">trips</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Trip</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">pick_up_address</span><span class="o">=</span><span class="s">'A'</span><span class="p">,</span> <span class="n">drop_off_address</span><span class="o">=</span><span class="s">'B'</span><span class="p">,</span> <span class="n">rider</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">),</span>
+            <span class="n">Trip</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">pick_up_address</span><span class="o">=</span><span class="s">'B'</span><span class="p">,</span> <span class="n">drop_off_address</span><span class="o">=</span><span class="s">'C'</span><span class="p">,</span> <span class="n">rider</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">),</span>
+            <span class="n">Trip</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">pick_up_address</span><span class="o">=</span><span class="s">'C'</span><span class="p">,</span> <span class="n">drop_off_address</span><span class="o">=</span><span class="s">'D'</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">'trip:trip_list'</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">HTTP_200_OK</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span>
+            <span class="n">TripSerializer</span><span class="p">(</span><span class="n">trips</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">many</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_user_can_retrieve_personal_trip_by_nk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">trip</span> <span class="o">=</span> <span class="n">Trip</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">pick_up_address</span><span class="o">=</span><span class="s">'A'</span><span class="p">,</span> <span class="n">drop_off_address</span><span class="o">=</span><span class="s">'B'</span><span class="p">,</span> <span class="n">rider</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">trip</span><span class="o">.</span><span class="n">get_absolute_url</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">HTTP_200_OK</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">TripSerializer</span><span class="p">(</span><span class="n">trip</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Update the <code class="highlighter-rouge">setUp</code> from <code class="highlighter-rouge">WebSocketTripTest</code> from <em>example/tests.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">WebSocketTripTest</span><span class="p">(</span><span class="n">ChannelTestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">create_user</span><span class="p">(</span>
+          <span class="n">username</span><span class="o">=</span><span class="s">'driver@example.com'</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'driver'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rider</span> <span class="o">=</span> <span class="n">create_user</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'rider@example.com'</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'rider'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>After modifications, all tests should pass:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py <span class="nb">test </span>example.tests
+</code></pre></div></div>
+
+<p>Finally, run the server and test out the DRF Browsable API:</p>
+
+<ol>
+  <li>http://localhost:8000/api/sign_up/</li>
+  <li>http://localhost:8000/api/log_in/</li>
+</ol>
+
+<p><img src="../../images/01_drf_sign_up2.png" alt="drf sign up page" /></p>
+
+
+          
+
+            
+  
+    <br>
+    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - UI Support&amp;url=http%3A%2F%2Flocalhost%3A4000/channels-ui-support&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  
+
+
+
+            <div class="page-nav">
+              <br>
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/channels-web-sockets">&laquo; WebSockets</a>
+              
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/channels-user-photos">User Photos &raquo;</a>
+              
+            </div>
+
+          
+
+        </div>
+
+        
+  
+    <div class="col-sm-3 d-none d-md-block">
+    <div id="toc-block" class="collection">
+      <span class="text-center"><h4>Course Preview:</h4></span>
+      <ul class="collapsible collapsible-accordion">
+        <br>
+          <li>
+
+            <!-- create header for part -->
+            <h5 class="btn btn-outline-dark btn-block" data-toggle="collapse" href="#collapse1">
+              Part 1
+            </h5>
+
+            <!-- create ul for hidden part content -->
+            <ul data-part="1" class="collapse show" id="collapse1" style="padding:0">
+
+              <!-- nested loop -->
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-intro">
+                        Introduction
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-getting-started">
+                        Getting Started
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-auth">
+                        Authentication
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-http">
+                        HTTP
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-web-sockets">
+                        WebSockets
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-ui-support">
+                        UI Support
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-user-photos">
+                        User Photos
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-conclusion">
+                        Conclusion
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+
+              <br>
+
+            </ul>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  
+
+
+
+      </div>
+    </div>
+
+     <footer class="footer text-center">
+  <div class="container">
+    <hr>
+    <small>
+      <p>
+      <span>&copy; Copyright 2018</span>
+      <a href="http://testdriven.io">TestDriven.io</a>.
+      <br>
+      <span>Developed by </span>
+      <a href="http://mherman.org/">Michael Herman</a>.
+      <br>
+      <span>Questions? </span>
+      <a href="mailto:michael@mherman.org">michael@mherman.org</a>
+      <p>
+    </small>
+  </div>
+</footer>
+
+
+    <script
+  src="//code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"
+></script>
+<script
+  src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"
+></script>
+<script
+  type="text/javascript"
+  src="/assets/js/main.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://gumroad.com/js/gumroad.js"
+></script>
+<!-- addthis -->
+
+  <script
+    type="text/javascript"
+    src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50e5f1cc35ad077d"
+  ></script>
+
+
+
+    
+
+
+  </body>
+</html>

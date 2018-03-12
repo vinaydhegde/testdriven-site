@@ -7,6 +7,7 @@ part: 3
 lesson: 10
 share: true
 type: course
+course: microservices
 ---
 
 Moving on, let's finish up user auth...
@@ -203,7 +204,7 @@ Then update the route in the `App` component:
 Open the JavaScript console, and then try this out. Did you notice that the AJAX request still fires when you were unauthenticated?
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_react_auth_status.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
+  <img src="/assets/img/courses/microservices/03_react_auth_status.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react auth">
 </div>
 
 To fix, add a conditional to the `componentDidMount()` in the `UserStatus` component:

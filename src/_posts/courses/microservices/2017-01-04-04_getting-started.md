@@ -7,6 +7,7 @@ part: 1
 lesson: 4
 share: true
 type: course
+course: microservices
 ---
 
 In this lesson, we'll set up the base project structure and define the first service...

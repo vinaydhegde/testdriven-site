@@ -7,6 +7,7 @@ part: 2
 lesson: 2
 share: true
 type: course
+course: microservices
 ---
 
 In this lesson, we'll add code coverage via [Coverage.py](http://coverage.readthedocs.io/) to the project...

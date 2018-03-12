@@ -7,6 +7,7 @@ part: 1
 lesson: 5
 share: true
 type: course
+course: microservices
 ---
 
 Let's containerize the Flask app...

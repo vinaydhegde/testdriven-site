@@ -7,11 +7,12 @@ part: 1
 lesson: 1
 share: true
 type: course
+course: microservices
 ---
 
 In this first part, you'll learn how to quickly spin up a reproducible development environment with *Docker* to create a *RESTful API* powered by *Python*, *Postgres*, and the *Flask* web framework. After the app is up and running locally, you'll learn how to deploy it to an *Amazon EC2* instance.
 
-![flask tdd logo](/assets/img/course/01_flask-tdd-logo.png)
+![flask tdd logo](/assets/img/courses/microservices/01_flask-tdd-logo.png)
 
 ## Prerequisites
 

@@ -7,6 +7,7 @@ part: 2
 lesson: 3
 share: true
 type: course
+course: microservices
 ---
 
 Next, we'll add continuous integration (CI), via [Travis CI](https://travis-ci.org/), to our projects...

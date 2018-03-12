@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <!-- meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <!-- og -->
+  
+  <!-- description -->
+  
+  <!-- keywords -->
+  
+  <!-- title -->
+  
+    <title>Microservices with Docker, Flask, and React - Authentication</title>
+    <meta property="og:title" content="Microservices with Docker, Flask, and React - Authentication" />
+  
+  <!-- styles -->
+  <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
+  <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+  <link href="/assets/css/styles.css?1520824363462268000" rel="stylesheet">
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img
+        class="nav-logo" src="/assets/img/test_driven_io_full_logo_white_text.svg" alt="testdriven.io"
+      />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Courses
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/microservices">Microservices with Docker, Flask, and React</a>
+            <a class="dropdown-item" href="/channels">Django Channels and Angular</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/testimonials">Testimonials</a>
+            <a class="dropdown-item" href="/course-contents">Contents</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item">
+        <a class="nav-link" href="https://twitter.com/testdrivenio"><i class="fab fa-twitter"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/testdrivenio"><i class="fab fa-github"></i></a>
+      </li>
+      <li class="nav-item nav-purcahse-btn">
+        <a class="btn btn-outline-warning" href="/">Purchase the Courses</a>
+      </li>
+  </ul>
+  </div>
+</nav>
+
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-9">
+
+          <h1>Authentication</h1>
+
+          
+
+            <h5>Part 1, Lesson 3</h5>
+
+            <div class="page-nav">
+              <br>
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/channels-getting-started">&laquo; Getting Started</a>
+              
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/channels-http">HTTP &raquo;</a>
+              
+            </div>
+
+            
+  
+    <br>
+    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Authentication&amp;url=http%3A%2F%2Flocalhost%3A4000/channels-auth&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  
+
+
+
+            <br><br>
+
+          
+
+          <p>Authentication is the cornerstone of any app that handles user data. It allows users to maintain privacy within the app, while gaining access to the full set of features afforded with registration.</p>
+
+<p>With Django REST Framework (DRF), we have <a href="http://www.django-rest-framework.org/api-guide/authentication/#api-reference">four</a> authentication classes to choose from:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">BasicAuthentication</code></li>
+  <li><code class="highlighter-rouge">TokenAuthentication</code></li>
+  <li><code class="highlighter-rouge">SessionAuthentication</code></li>
+  <li><code class="highlighter-rouge">RemoteUserAuthentication</code></li>
+</ol>
+
+<p>We can eliminate <code class="highlighter-rouge">BasicAuthentication</code> right off the bat because it doesn’t offer enough security for production environments. Between the remaining three classes, we should use <code class="highlighter-rouge">TokenAuthentication</code> because it offers the best support for both desktop and mobile clients. The idea is simple–the server generates a token for a user on login and that token can then be used from any device to gain access to protected APIs.</p>
+
+<p>Start by setting up our app to use Django REST Framework’s token-based authentication within <em>example_taxi/settings.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'DEFAULT_AUTHENTICATION_CLASSES'</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s">'rest_framework.authentication.TokenAuthentication'</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>During the course of this tutorial, we are going to be following test-driven development (TDD) to confirm that our code works. In the next part of the tutorial, we will be adding a user interface so that we can play with the app as an actual user.</p>
+</blockquote>
+
+<h2 id="sign-up">Sign up</h2>
+
+<p>Let’s create a new user account via an API. Users should be able to download our app and immediately sign up for a new account by providing the bare minimum of information–username, password, and their names. The distinction between <code class="highlighter-rouge">password1</code> and <code class="highlighter-rouge">password2</code> correlates to users entering their passwords and then confirming them. Eventually, our app will present users with a form with input fields and a submit button.</p>
+
+<p><em>example/tests.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">get_user_model</span>
+<span class="kn">from</span> <span class="nn">rest_framework.reverse</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">rest_framework.status</span> <span class="kn">import</span> <span class="n">HTTP_201_CREATED</span>
+<span class="kn">from</span> <span class="nn">rest_framework.test</span> <span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">APITestCase</span>
+
+<span class="n">PASSWORD</span> <span class="o">=</span> <span class="s">'pAssw0rd!'</span>
+
+
+<span class="k">class</span> <span class="nc">AuthenticationTest</span><span class="p">(</span><span class="n">APITestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_user_can_sign_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">'sign_up'</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s">'username'</span><span class="p">:</span> <span class="s">'user@example.com'</span><span class="p">,</span>
+            <span class="s">'first_name'</span><span class="p">:</span> <span class="s">'Test'</span><span class="p">,</span>
+            <span class="s">'last_name'</span><span class="p">:</span> <span class="s">'User'</span><span class="p">,</span>
+            <span class="s">'password1'</span><span class="p">:</span> <span class="n">PASSWORD</span><span class="p">,</span>
+            <span class="s">'password2'</span><span class="p">:</span> <span class="n">PASSWORD</span>
+        <span class="p">})</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">HTTP_201_CREATED</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s">'id'</span><span class="p">],</span> <span class="n">user</span><span class="o">.</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s">'username'</span><span class="p">],</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s">'first_name'</span><span class="p">],</span> <span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s">'last_name'</span><span class="p">],</span> <span class="n">user</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>A couple things to note:</p>
+
+<ol>
+  <li>We expect our API to return a 201 status code when the user account is created</li>
+  <li>The response data should be a JSON-serialized representation of our user model</li>
+</ol>
+
+<p>Run the test:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py <span class="nb">test </span>example.tests
+</code></pre></div></div>
+
+<p>It should fail:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>django.urls.exceptions.NoReverseMatch: Reverse <span class="k">for</span> <span class="s1">'sign_up'</span> not found.
+<span class="s1">'sign_up'</span> is not a valid view <span class="k">function </span>or pattern name.
+</code></pre></div></div>
+
+<p>Remember: A tenant of TDD is that we should write failing tests (red) before writing the code to get them to pass (green).</p>
+
+<p>We need to create several pieces of code before our tests will pass.</p>
+
+<p>Typically, a data model is the first thing we want to create in a situation like this. We’ve already created a user model, and since it extends Django’s built-in model, it already supports the fields we need.</p>
+
+<p>The next bit of code we need to create is the user serializer in <em>example/serializers.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">get_user_model</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+
+
+<span class="k">class</span> <span class="nc">UserSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">password1</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">write_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">password2</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">write_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">'password1'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">data</span><span class="p">[</span><span class="s">'password2'</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">serializers</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">'Passwords must match.'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">validated_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">'password1'</span><span class="p">,</span> <span class="s">'password2'</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">'password'</span><span class="p">]</span> <span class="o">=</span> <span class="n">validated_data</span><span class="p">[</span><span class="s">'password1'</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s">'id'</span><span class="p">,</span> <span class="s">'username'</span><span class="p">,</span> <span class="s">'password1'</span><span class="p">,</span> <span class="s">'password2'</span><span class="p">,</span>
+            <span class="s">'first_name'</span><span class="p">,</span> <span class="s">'last_name'</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">read_only_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">'id'</span><span class="p">,)</span>
+</code></pre></div></div>
+
+<p>Remember: Right now our user data is basic (first name, last name, username, and password), so we only need access to a few fields. <em>We should never need to read the password.</em></p>
+
+<p>Next, add a new view to <em>example/apis.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">get_user_model</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">generics</span>
+<span class="kn">from</span> <span class="nn">rest_framework.response</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="kn">from</span> <span class="nn">.serializers</span> <span class="kn">import</span> <span class="n">UserSerializer</span>
+
+
+<span class="k">class</span> <span class="nc">SignUpView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">CreateAPIView</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">UserSerializer</span>
+</code></pre></div></div>
+
+<p>Here, we created a <code class="highlighter-rouge">SignUpView</code> that extends Django REST Framework’s <code class="highlighter-rouge">CreateAPIView</code> and leverages our <code class="highlighter-rouge">UserSerializer</code> to create a new user.</p>
+
+<p>Here’s how it works behind the scenes:</p>
+
+<ol>
+  <li>Django passes request data to the <code class="highlighter-rouge">SignUpView</code>, which in turn attempts to create a new user with the <code class="highlighter-rouge">UserSerializer</code>. The serializer checks if the passwords match.</li>
+  <li>If all of the data is valid, then the serializer creates and returns a new user. If it fails, then the serializer returns the errors. Even if the passwords match, validation could fail if the username is already taken or the password isn’t strong enough.</li>
+</ol>
+
+<p>Finally, configure a URL to link to our view in <em>example_taxi/urls.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+
+<span class="kn">from</span> <span class="nn">example.apis</span> <span class="kn">import</span> <span class="n">SignUpView</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r'^admin/'</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r'^api/sign_up/$'</span><span class="p">,</span> <span class="n">SignUpView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">'sign_up'</span><span class="p">),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>Run the tests:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py <span class="nb">test </span>example.tests
+</code></pre></div></div>
+
+<p>They should pass!</p>
+
+<blockquote>
+  <p>Keep in mind that throughout this course we will only be testing the happy paths. Adding tests for error handling is a separate exercise left to the reader.</p>
+</blockquote>
+
+<p>To manually test, fire up the server and navigate to the <a href="http://www.django-rest-framework.org/topics/browsable-api/">Browsable API</a> at  <a href="http://localhost:8000/api/sign_up/">http://localhost:8000/api/sign_up/</a>:</p>
+
+<p><img src="../../images/01_drf_sign_up.png" alt="drf sign up page" /></p>
+
+<p>Take note of the following error:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 405 Method Not Allowed
+Allow: POST, OPTIONS
+Content-Type: application/json
+Vary: Accept
+
+{
+    "detail": "Method \"GET\" not allowed."
+}
+</code></pre></div></div>
+
+<p>That’s expected since we don’t have a GET route set up. You can still test out the POST functionality using the HTML form, though:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+Allow: POST, OPTIONS
+Content-Type: application/json
+Vary: Accept
+
+{
+    "id": 1,
+    "username": "michael@mherman.org",
+    "first_name": "Michael",
+    "last_name": "Herman"
+}
+</code></pre></div></div>
+
+<h2 id="log-in-and-out">Log in and out</h2>
+
+<p>Now that we can sign up a new user, the next logical step is to create the functionality to log the user in and out.</p>
+
+<p>When a user logs in, the server should create a token for that user. By including that token in the request headers of future requests, the user can access other APIs. The token should be deleted when the user logs out.</p>
+
+<p>Start by adding two new tests to handle the log in and log out behavior to <em>example/tests.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">get_user_model</span>
+<span class="kn">from</span> <span class="nn">rest_framework.authtoken.models</span> <span class="kn">import</span> <span class="n">Token</span>
+<span class="kn">from</span> <span class="nn">rest_framework.reverse</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">rest_framework.status</span> <span class="kn">import</span> <span class="n">HTTP_201_CREATED</span><span class="p">,</span> <span class="n">HTTP_200_OK</span><span class="p">,</span> \
+    <span class="n">HTTP_204_NO_CONTENT</span>
+<span class="kn">from</span> <span class="nn">rest_framework.test</span> <span class="kn">import</span> <span class="n">APIClient</span><span class="p">,</span> <span class="n">APITestCase</span>
+
+<span class="kn">from</span> <span class="nn">.serializers</span> <span class="kn">import</span> <span class="n">PrivateUserSerializer</span><span class="p">,</span> <span class="n">UserSerializer</span>
+
+<span class="n">PASSWORD</span> <span class="o">=</span> <span class="s">'pAssw0rd!'</span>
+
+
+<span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'user@example.com'</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">get_user_model</span><span class="p">()</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">AuthenticationTest</span><span class="p">(</span><span class="n">APITestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">APIClient</span><span class="p">()</span>
+
+    <span class="c"># Function collapsed for clarity.</span>
+    <span class="k">def</span> <span class="nf">test_user_can_sign_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">test_user_can_log_in</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">create_user</span><span class="p">()</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">'log_in'</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span>
+            <span class="s">'username'</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+            <span class="s">'password'</span><span class="p">:</span> <span class="n">PASSWORD</span><span class="p">,</span>
+        <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">HTTP_200_OK</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">PrivateUserSerializer</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">Token</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">test_user_can_log_out</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">create_user</span><span class="p">()</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">Token</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">credentials</span><span class="p">(</span><span class="n">HTTP_AUTHORIZATION</span><span class="o">=</span><span class="n">f</span><span class="s">'Token {token}'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">'log_out'</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">Token</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note that we added a <code class="highlighter-rouge">create_user()</code> helper function to help keep our code DRY.</p>
+</blockquote>
+
+<p>The process of logging in is as easy as signing up. The user enters her username and password and submits them to the server. We expect the server to log the user in and then return a success status along with the serialized user data. At this point, we can confirm that a token has been created for the user.</p>
+
+<p>Logging out is even simpler. The user should be logged out when she hits the appropriate API and her token should be deleted.</p>
+
+<p>Run the tests and watch them fail with an <code class="highlighter-rouge">ImportError: cannot import name 'PrivateUserSerializer'</code> error:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py <span class="nb">test </span>example.tests
+</code></pre></div></div>
+
+<p>Add the serializer to <em>example/serializers.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PrivateUserSerializer</span><span class="p">(</span><span class="n">UserSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="n">UserSerializer</span><span class="o">.</span><span class="n">Meta</span><span class="p">):</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">UserSerializer</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s">'auth_token'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>Now that tokens are being created, we should have two different user serializers–one for public consumption and one for private use. Only logged-in users should be able to receive their tokens. Other users can see each others’ basic information, but that’s it! If you serve the app over HTTPS, there is little concern about someone stealing tokens from our private response payloads.</p>
+
+<p>The tests should fail again:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>django.urls.exceptions.NoReverseMatch: Reverse <span class="k">for</span> <span class="s1">'log_in'</span> not found.
+<span class="s1">'log_in'</span> is not a valid view <span class="k">function </span>or pattern name.
+
+...
+
+django.urls.exceptions.NoReverseMatch: Reverse <span class="k">for</span> <span class="s1">'log_out'</span> not found.
+<span class="s1">'log_out'</span> is not a valid view <span class="k">function </span>or pattern name.
+</code></pre></div></div>
+
+<p><em>example/apis.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">get_user_model</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">login</span><span class="p">,</span> <span class="n">logout</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.forms</span> <span class="kn">import</span> <span class="n">UserCreationForm</span><span class="p">,</span> <span class="n">AuthenticationForm</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">permissions</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">views</span><span class="p">,</span> <span class="n">generics</span>
+<span class="kn">from</span> <span class="nn">rest_framework.authtoken.models</span> <span class="kn">import</span> <span class="n">Token</span>
+<span class="kn">from</span> <span class="nn">rest_framework.response</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="kn">from</span> <span class="nn">.serializers</span> <span class="kn">import</span> <span class="n">PrivateUserSerializer</span><span class="p">,</span> <span class="n">UserSerializer</span>
+
+
+<span class="c"># Class collapsed for clarity.</span>
+<span class="k">class</span> <span class="nc">SignUpView</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">APIView</span><span class="p">):</span> <span class="o">...</span>
+
+
+<span class="k">class</span> <span class="nc">LogInView</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">APIView</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">AuthenticationForm</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span>
+            <span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+            <span class="n">Token</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">PrivateUserSerializer</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_400_BAD_REQUEST</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">LogOutView</span><span class="p">(</span><span class="n">views</span><span class="o">.</span><span class="n">APIView</span><span class="p">):</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">(</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAuthenticated</span><span class="p">,)</span>
+
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">Token</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">logout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_204_NO_CONTENT</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>We programed our log in and log out functions as we planned in the tests. Let’s break each view down:</p>
+
+<ol>
+  <li>In our <code class="highlighter-rouge">LogInView</code>, we leveraged Django’s <code class="highlighter-rouge">AuthenticationForm</code>, which expects a username and password to be provided. We validated the form to get an existing user and then we logged that user in. Next, we created a token. Note that using <code class="highlighter-rouge">get_or_create()</code> allows us to avoid having to generate a new token every time a logged-in user hits the “log in” API.</li>
+  <li>Our <code class="highlighter-rouge">LogOutView</code> does the opposite of the <code class="highlighter-rouge">LogInView</code>: It logs the user out and deletes her token. We added an <code class="highlighter-rouge">IsAuthenticated</code> permission to ensure that only logged-in users can log out.</li>
+</ol>
+
+<p>Link our new views to URLs in the existing configuration in <em>example_taxi/urls.py</em>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+
+<span class="kn">from</span> <span class="nn">example.apis</span> <span class="kn">import</span> <span class="n">SignUpView</span><span class="p">,</span> <span class="n">LogInView</span><span class="p">,</span> <span class="n">LogOutView</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r'^admin/'</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r'^api/sign_up/$'</span><span class="p">,</span> <span class="n">SignUpView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">'sign_up'</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r'^api/log_in/$'</span><span class="p">,</span> <span class="n">LogInView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">'log_in'</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r'^api/log_out/$'</span><span class="p">,</span> <span class="n">LogOutView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">'log_out'</span><span class="p">),</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>Run the authentication tests one last time to make sure they pass:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nb">env</span><span class="o">)</span><span class="nv">$ </span>python manage.py <span class="nb">test </span>example.tests
+
+Creating <span class="nb">test </span>database <span class="k">for </span><span class="nb">alias</span> <span class="s1">'default'</span>...
+System check identified no issues <span class="o">(</span>0 silenced<span class="o">)</span><span class="nb">.</span>
+...
+<span class="nt">----------------------------------------------------------------------</span>
+Ran 3 tests <span class="k">in </span>0.657s
+
+OK
+Destroying <span class="nb">test </span>database <span class="k">for </span><span class="nb">alias</span> <span class="s1">'default'</span>...
+</code></pre></div></div>
+
+<h2 id="sanity-check">Sanity Check</h2>
+
+<p>Our authentication work is done! But, before moving on, ensure you can log in at <a href="http://localhost:8000/api/log_in/">http://localhost:8000/api/log_in/</a>:</p>
+
+<p><img src="../../images/01_drf_log_in1.png" alt="drf log in page" /></p>
+
+<p><img src="../../images/01_drf_log_in2.png" alt="drf log in page" /></p>
+
+<p>You can also test via cURL:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8000/api/sign_up/ <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s2">"username=michael@something.com&amp;password1=test&amp;password2=test&amp;first_name=michael&amp;last_name=herman"</span>
+<span class="o">{</span>
+  <span class="s2">"id"</span>:5,
+  <span class="s2">"username"</span>: <span class="s2">"michael@something.com"</span>,
+  <span class="s2">"first_name"</span>: <span class="s2">"michael"</span>,
+  <span class="s2">"last_name"</span>: <span class="s2">"herman"</span>
+<span class="o">}</span>
+
+<span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8000/api/log_in/ <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s2">"username=michael@something.com&amp;password=test"</span>
+<span class="o">{</span>
+  <span class="s2">"id"</span>:5,
+  <span class="s2">"username"</span>: <span class="s2">"michael@something.com"</span>,
+  <span class="s2">"first_name"</span>: <span class="s2">"michael"</span>,
+  <span class="s2">"last_name"</span>: <span class="s2">"herman"</span>,
+  <span class="s2">"auth_token"</span>: <span class="s2">"3f9d0960ab9f492af71d0c2b68e09e3bb78c7345"</span>
+<span class="o">}</span>
+
+<span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8000/api/log_out/ <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Token 3f9d0960ab9f492af71d0c2b68e09e3bb78c7345"</span>
+</code></pre></div></div>
+
+
+          
+
+            
+  
+    <br>
+    <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices with Docker, Flask, and React - Authentication&amp;url=http%3A%2F%2Flocalhost%3A4000/channels-auth&amp;via=testdrivenio" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  
+
+
+
+            <div class="page-nav">
+              <br>
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/channels-getting-started">&laquo; Getting Started</a>
+              
+              
+                <a class="btn btn-outline-success" href="http://localhost:4000/channels-http">HTTP &raquo;</a>
+              
+            </div>
+
+          
+
+        </div>
+
+        
+  
+    <div class="col-sm-3 d-none d-md-block">
+    <div id="toc-block" class="collection">
+      <span class="text-center"><h4>Course Preview:</h4></span>
+      <ul class="collapsible collapsible-accordion">
+        <br>
+          <li>
+
+            <!-- create header for part -->
+            <h5 class="btn btn-outline-dark btn-block" data-toggle="collapse" href="#collapse1">
+              Part 1
+            </h5>
+
+            <!-- create ul for hidden part content -->
+            <ul data-part="1" class="collapse show" id="collapse1" style="padding:0">
+
+              <!-- nested loop -->
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-intro">
+                        Introduction
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-getting-started">
+                        Getting Started
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-auth">
+                        Authentication
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-http">
+                        HTTP
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-web-sockets">
+                        WebSockets
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-ui-support">
+                        UI Support
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-user-photos">
+                        User Photos
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="http://localhost:4000/channels-conclusion">
+                        Conclusion
+                      </a>
+                    </span>
+                  </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+
+              <br>
+
+            </ul>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  
+
+
+
+      </div>
+    </div>
+
+     <footer class="footer text-center">
+  <div class="container">
+    <hr>
+    <small>
+      <p>
+      <span>&copy; Copyright 2018</span>
+      <a href="http://testdriven.io">TestDriven.io</a>.
+      <br>
+      <span>Developed by </span>
+      <a href="http://mherman.org/">Michael Herman</a>.
+      <br>
+      <span>Questions? </span>
+      <a href="mailto:michael@mherman.org">michael@mherman.org</a>
+      <p>
+    </small>
+  </div>
+</footer>
+
+
+    <script
+  src="//code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"
+></script>
+<script
+  src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"
+></script>
+<script
+  type="text/javascript"
+  src="/assets/js/main.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://gumroad.com/js/gumroad.js"
+></script>
+<!-- addthis -->
+
+  <script
+    type="text/javascript"
+    src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50e5f1cc35ad077d"
+  ></script>
+
+
+
+    
+
+
+  </body>
+</html>

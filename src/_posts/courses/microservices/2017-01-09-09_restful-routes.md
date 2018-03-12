@@ -7,6 +7,7 @@ part: 1
 lesson: 9
 share: true
 type: course
+course: microservices
 ---
 
 Next, let's set up three new routes, following RESTful best practices, with TDD:

@@ -3,6 +3,7 @@ layout: course
 type: course
 title: Microservices with Docker, Flask, and React
 permalink: microservices/
+course: microservices
 ---
 
 <hr><br>
@@ -16,7 +17,7 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 "Code without tests is broken by design." - Jacob Kaplan-Moss
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/03_flask-tdd-logo.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
+  <img src="/assets/img/courses/microservices/03_flask-tdd-logo.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask tdd logo">
 </div>
 
 <br>
@@ -48,7 +49,7 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 ### App
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/07_testdriven.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
+  <img src="/assets/img/courses/microservices/07_testdriven.png" style="max-width: 100%; border:0; box-shadow: none;" alt="microservice architecture">
 </div>
 
 <br>

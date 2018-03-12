@@ -7,6 +7,7 @@ part: 3
 lesson: 9
 share: true
 type: course
+course: microservices
 ---
 
 Let's look at how to test user interactions with Enzyme...

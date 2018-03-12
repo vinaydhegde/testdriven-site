@@ -7,6 +7,7 @@ part: 3
 lesson: 11
 share: true
 type: course
+course: microservices
 ---
 
 With authentication done we can now turn our attention to authorization...

@@ -7,6 +7,7 @@ part: 3
 lesson: 2
 share: true
 type: course
+course: microservices
 ---
 
 In this lesson, we'll utilize Flask Migrate to handle database migrations...

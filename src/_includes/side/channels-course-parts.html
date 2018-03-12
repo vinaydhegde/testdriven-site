@@ -1,0 +1,37 @@
+<div class="col-sm-3 d-none d-md-block">
+    <div id="toc-block" class="collection">
+      <span class="text-center"><h4>Course Preview:</h4></span>
+      <ul class="collapsible collapsible-accordion">
+        <br>
+          <li>
+
+            <!-- create header for part -->
+            <h5 class="btn btn-outline-dark btn-block" data-toggle="collapse" href="#collapse1">
+              Part 1
+            </h5>
+
+            <!-- create ul for hidden part content -->
+            <ul data-part="1" class="collapse show" id="collapse1" style="padding:0">
+
+              <!-- nested loop -->
+              {% for post in site.posts reversed %}
+                {% if post.type == 'course' and post.course == 'channels' %}
+                  <li>
+                    <span class="badge">&bull;</span>
+                    <span>
+                      <a href="{{site.url}}{{ post.url }}">
+                        {{post.title}}
+                      </a>
+                    </span>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              <br>
+
+            </ul>
+
+        </li>
+      </ul>
+    </div>
+  </div>

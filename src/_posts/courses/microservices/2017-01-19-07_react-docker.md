@@ -7,6 +7,7 @@ part: 2
 lesson: 8
 share: true
 type: course
+course: microservices
 ---
 
 Let's containerize the React app...
@@ -168,7 +169,7 @@ this.state = {
 As soon as you save, you should see the app re-compile and the browser should refresh on its own:
 
 <div style="text-align:left;">
-  <img src="/assets/img/course/02_react_docker_auto_reload.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react docker auto reload">
+  <img src="/assets/img/courses/microservices/02_react_docker_auto_reload.png" style="max-width: 100%; border:0; box-shadow: none;" alt="react docker auto reload">
 </div>
 
 Make sure to change the state back before moving on.

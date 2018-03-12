@@ -7,6 +7,7 @@ part: 3
 lesson: 13
 share: true
 type: course
+course: microservices
 ---
 
 In this last lesson, we'll update Docker on AWS...
