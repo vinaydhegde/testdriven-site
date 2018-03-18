@@ -85,7 +85,7 @@ if __name__ == '__main__':
     print(f'Elapsed run time: {elapsed_time} seconds')
 ```
 
-Let's start with the main-conditon block. After setting a few variables, the browser is initialized via `get_driver()` from *scrapers/scraper.py*.
+Let's start with the main-condition block. After setting a few variables, the browser is initialized via `get_driver()` from *scrapers/scraper.py*.
 
 ```python
 if __name__ == '__main__':

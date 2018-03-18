@@ -123,15 +123,4 @@ In part 7, we'll refactor the *AWS Lambda* function to make it dynamic so it can
 
 <br>
 
----
-
-<p>Join our mailing list to be notified about updates and new releases.</p>
-
-<form action="//testdriven.us17.list-manage.com/subscribe/post?u=bea5ac664532063fe8aa8d6a2&amp;id=eddaf58c2a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-    <div class="form-group">
-      <input placeholder="Enter your email..." id="first_name" type="email" name="EMAIL" class="form-control col-sm-3">
-    </div>
-    <div>
-      &nbsp;<button class="btn btn-success" type="submit" name="action">Submit</button>
-    </div>
-</form>
+{% include mail.html %}
