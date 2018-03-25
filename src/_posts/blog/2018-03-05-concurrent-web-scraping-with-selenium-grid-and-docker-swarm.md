@@ -488,7 +488,7 @@ $ sh project/destroy.sh
 Try out these challenges:
 
 1. Right now we're not doing anything with the scraped data. Try spinning up a database and adding a function to the scraping script to write the data to the database.
-1. Selenium is also used for browser testing. With Selenium Grid you can run the tests against different versions of Chrome and Firefox on different operating systems. In other words, you can spin up a number of nodes, each with different versions of Chrome and Firefox that you can run the tests against. Try this out on your own.
+1. Selenium is also used for browser testing. With Selenium Grid you can run the tests against different versions of Chrome and Firefox on different operating systems. In other words, you can spin up a number of nodes, each with different versions of Chrome and Firefox that you can run the tests against. Try this out on your own. *Check out the [Distributed Testing with Selenium Grid and Docker](https://testdriven.io/distributed-testing-with-selenium-grid) blog post to see this in action!*
 
 Feel free to contact me - `michael at mherman dot org` - if you'd like to see a blog post covering any of the above challenges.
 
