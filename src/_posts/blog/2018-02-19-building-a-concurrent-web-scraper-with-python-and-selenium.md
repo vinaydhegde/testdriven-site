@@ -28,7 +28,6 @@ After completing this tutorial you should be able to:
   {% include toc.html %}
 {% endif %}
 
-
 ## Project Setup
 
 Clone down the repo if you'd like to follow along. From the command line run the following commands:
