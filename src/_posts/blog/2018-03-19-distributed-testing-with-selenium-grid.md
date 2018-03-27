@@ -21,6 +21,10 @@ This article looks at how to distribute automated tests across a number of machi
 
 We'll also look at how to run tests against a number of browsers and automate the provisioning and deprovisioning of machines to keep costs down.
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## Objectives
 
 After completing this tutorial, you will be able to:
@@ -30,10 +34,6 @@ After completing this tutorial, you will be able to:
 1. Describe the differences between distributed and parallel computing
 1. Deploy a Selenium Grid to Digital Ocean via Docker Compose and Machine
 1. Automate the provisioning and deprovisioning of resources on Digital Ocean
-
-{% if page.toc %}
-  {% include toc.html %}
-{% endif %}
 
 ## Project Setup
 
@@ -307,6 +307,7 @@ Provision a new droplet with Docker Machine:
 ```sh
 $ docker-machine create \
   --driver digitalocean \
+  --digitalocean-region "nyc1" \
   --digitalocean-size "8gb" \
   --digitalocean-access-token $DIGITAL_OCEAN_ACCESS_TOKEN \
   selenium-grid;
@@ -365,6 +366,7 @@ Then, spin up five new droplets:
 $ for i in 1 2 3 4 5; do
     docker-machine create \
       --driver digitalocean \
+      --digitalocean-region "nyc1" \
       --digitalocean-size "8gb" \
       --digitalocean-access-token $DIGITAL_OCEAN_ACCESS_TOKEN \
       node-$i;
@@ -566,6 +568,7 @@ echo "Spinning up five droplets..."
 for i in 1 2 3 4 5; do
   docker-machine create \
     --driver digitalocean \
+    --digitalocean-region "nyc1" \
     --digitalocean-size "8gb" \
     --digitalocean-access-token $DIGITAL_OCEAN_ACCESS_TOKEN \
     node-$i;

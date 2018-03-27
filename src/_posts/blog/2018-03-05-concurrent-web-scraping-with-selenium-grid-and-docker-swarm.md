@@ -23,6 +23,10 @@ In this post we'll look at how to run a Python and Selenium-based web scraper in
 1. Python v3.6.4
 1. Selenium v3.9.1
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## Objectives
 
 By the end of this tutorial, you will be able to:
