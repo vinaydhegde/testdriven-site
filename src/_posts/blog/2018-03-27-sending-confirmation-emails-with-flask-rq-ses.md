@@ -7,7 +7,7 @@ permalink: sending-confirmation-emails-with-flask-rq-and-ses
 type: blog
 author: Michael Herman
 lastname: herman
-description: This blog post looks at how to send confirmation emails to newly registered users with Flask, Redis Queue, and Amazon SES..
+description: This blog post looks at how to send confirmation emails to newly registered users with Flask, Redis Queue, and Amazon SES.
 keywords: "python, web development, flask, redis, redis queue, asynchronous tasks, rq, task queue, docker, email confirmation, amazon ses, transactional email"
 image: /assets/img/blog/flask-rq-ses/sending_emails_redis_python.png
 image_alt: python and redis
