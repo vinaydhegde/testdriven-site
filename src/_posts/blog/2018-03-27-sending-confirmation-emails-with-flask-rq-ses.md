@@ -1,5 +1,5 @@
 ---
-title: Sending confirmation Emails with Flask, Redis Queue, and Amazon SES
+title: Sending Confirmation Emails with Flask, Redis Queue, and Amazon SES
 layout: blog
 share: true
 toc: true
