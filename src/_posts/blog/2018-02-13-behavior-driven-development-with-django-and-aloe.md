@@ -78,7 +78,7 @@ Behavior-driven development is a way of testing your code that challenges you to
 
 Execute BDD as part of your test development cycle. Draw the functional boundaries of a feature with tests. Create code that colors in the details. Step back and consider your design. And then do it all over again until the picture is complete.
 
-> Review the following [post](https://pythonhosted.org/behave/philosophy.html) for a more in-depth explanation of BDD.
+> Review the following [post](https://behave.readthedocs.io/en/latest/philosophy.html) for a more in-depth explanation of BDD.
 
 ## Your First Feature Request
 
