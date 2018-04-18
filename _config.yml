@@ -13,3 +13,7 @@ twitter: testdrivenio
 destination: docs
 source: src
 exclude: [old]
+
+# rss feed settings
+name: TestDriven.io
+description: TestDriven.io blog
