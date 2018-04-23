@@ -15,13 +15,13 @@ blurb: In part 2, we'll finish the UI by adding the number and operator keys bef
 date: 2018-04-23
 ---
 
-This is part two of **Test-Driven Development with React, Jest, and Enzyme**. You can find the first part [here](/tdd-with-react-jest-and-enzyme-part-one).
+This is part two of **Test-Driven Development with React, Jest, and Enzyme**. You can find the first part [here]({{ site.url }}/tdd-with-react-jest-and-enzyme-part-one).
 
 Last time we began with the project overview, which included a brief explanation of Test-Driven Development (TDD), the application design process, and a high-level synopsis of the application components. From there we continued to the project setup and began writing our (failing) tests, then the code to pass those tests, ultimately finishing with our `Calculator` snapshot. At this point we have finished the UI for the `Calculator` and `Display` components, and have begun work on our `Keypad` component.
 
 **Parts:**
 
-- *[Part 1](/tdd-with-react-jest-and-enzyme-part-one)*: In the first part, we'll set up the overall project and then dive into developing the UI with Test-driven Development.
+- *[Part 1]({{ site.url }}/tdd-with-react-jest-and-enzyme-part-one)*: In the first part, we'll set up the overall project and then dive into developing the UI with Test-driven Development.
 - *Part 2* (this post!): In this part, we'll finish the UI by adding the number and operator keys before we dive in to adding the basic calculator functionality.
 
 <img src="/assets/img/blog/tdd_react/components/component_structure.png" style="max-width:90%;padding-top:20px;padding-bottom:20px;" alt="component structure">

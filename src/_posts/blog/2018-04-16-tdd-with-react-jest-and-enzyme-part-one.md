@@ -30,7 +30,7 @@ In this post, we'll develop a React app using Test-Driven Development (TDD) with
 **Parts:**
 
 - *Part 1* (this post!): In the first part, we'll set up the overall project and then dive into developing the UI with Test-driven Development.
-- *[Part 2](/tdd-with-react-jest-and-enzyme-part-two)*: In this part, we'll finish the UI by adding the number and operator keys before we dive in to adding the basic calculator functionality.
+- *[Part 2]({{ site.url }}/tdd-with-react-jest-and-enzyme-part-two)*: In this part, we'll finish the UI by adding the number and operator keys before we dive in to adding the basic calculator functionality.
 
 **We will be using:**
 
@@ -1024,4 +1024,4 @@ Grab the final code from the [react-calculator](https://www.github.com/calebpoll
 
 Cheers!
 
-> Part 2 is [available](/tdd-with-react-jest-and-enzyme-part-two)!
+> Part 2 is [available]({{ site.url }}/tdd-with-react-jest-and-enzyme-part-two)!
