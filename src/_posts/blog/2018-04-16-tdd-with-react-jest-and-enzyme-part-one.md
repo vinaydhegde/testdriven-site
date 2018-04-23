@@ -740,7 +740,7 @@ Begin by writing a test in *Display.spec.js*:
 ```javascript
 it('renders the value of displayValue', () => {
   wrapper.setProps({displayValue: 'test'});
-  expect(wrapper.text()).toEqual('test');;
+  expect(wrapper.text()).toEqual('test');
 });
 ```
 
