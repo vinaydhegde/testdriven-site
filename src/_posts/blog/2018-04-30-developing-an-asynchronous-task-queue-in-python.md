@@ -416,7 +416,7 @@ if __name__ == '__main__':
     run()
 ```
 
-Again, cause an error by altering one of the file names, and then run it. Take a look at *process.log* - not quite as organized as it should be since the Python logging library does not use shared locks between processes. To get around this, let's have each process write to its own file. To keep things organized, add a logs directory to you project folder:
+Again, cause an error by altering one of the file names, and then run it. Take a look at *process.log* - not quite as organized as it should be since the Python logging library does not use shared locks between processes. To get around this, let's have each process write to its own file. To keep things organized, add a logs directory to your project folder:
 
 ```python
 # simple_task_queue_logging_separate_files.py
@@ -597,7 +597,7 @@ if __name__ == '__main__':
     worker()
 ```
 
-If there is an available task, the `dequeue` method is called, which  then  de-serializes the task and calls the `process_task` method (in *redis_queue.py*).
+If there is an available task, the `dequeue` method is called, which then  de-serializes the task and calls the `process_task` method (in *redis_queue.py*).
 
 ```python
 # redis_queue_server.py
