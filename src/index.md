@@ -22,7 +22,7 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 
 <div>
   <a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a>
-  <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 through 3</a></p>
+  <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 &amp; 2</a></p>
 </div>
 
 (*Current version: 2.2, released on Feb 19th 2018*)
@@ -61,7 +61,7 @@ Check out the live app, running on multiple EC2 instances -
 
 <div>
   <a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a>
-  <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 through 3</a></p>
+  <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 &amp; 2</a></p>
 </div>
 
 <br>
@@ -118,7 +118,7 @@ In part 7, we'll refactor the *AWS Lambda* function to make it dynamic so it can
 
 <div>
   <a class="btn btn-success btn-lg" href="https://gum.co/flask">Purchase Now!</a>
-  <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 through 3</a></p>
+  <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 &amp; 2</a></p>
 </div>
 
 <br>

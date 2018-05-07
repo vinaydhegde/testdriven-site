@@ -77,7 +77,7 @@ def get_word_counts(filename):
 
 
 if __name__ == '__main__':
-    get_word_counts()
+    get_word_counts(sys.argv[1])
 ```
 
 So, `get_word_counts` finds the twenty most frequent words from a given text file and saves them to an output file. It also prints the current process identifier (or pid) using Python's [os](https://docs.python.org/3.6/library/os.html) library.
