@@ -839,7 +839,7 @@ What's happening here?
 1. `addBook` sends a POST request to `/books` to add a new book.
 1. Review the rest of the changes on your own, referencing the Vue [docs](https://vuejs.org/v2/guide/) as necessary.
 
-> Can you think of any potential errors on the client or server? Handle these on our own to improve the users' experience.
+> Can you think of any potential errors on the client or server? Handle these on your own to improve the users' experience.
 
 Finally, update the "Add Book" button in the template so that the modal is displayed when the button is clicked:
 
