@@ -136,7 +136,7 @@ Install it globally:
 $ npm install -g vue-cli@2.9.3
 ```
 
-Then, within "flask-vue-crud", run the following command to initialize a new Vue project called `client` with the [webpack](https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md) config:
+Then, within "flask-vue-crud", run the following command to initialize a new Vue project called `client` with the [webpack](https://github.com/vuejs-templates/webpack) config:
 
 ```sh
 $ vue init webpack client
