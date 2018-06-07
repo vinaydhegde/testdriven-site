@@ -834,7 +834,7 @@ export default {
 
 What's happening here?
 
-1. `addBookForm` is [bound](https://vuejs.org/v2/guide/forms.html#Basic-Usage) to the form inputs via, again, `v-model`. When one is updated, the other will be updated as well, in other words.
+1. `addBookForm` is [bound](https://vuejs.org/v2/guide/forms.html#Basic-Usage) to the form inputs via, again, `v-model`. When one is updated, the other will be updated as well, in other words. This is called two-way binding. Take a moment to read about it [here](https://stackoverflow.com/questions/13504906/what-is-two-way-binding). Think about the ramifications of this. Do you think this makes state management easier or harder? How do React and Angular handle this? In my opinion, two-way binding (along with mutability) makes Vue much more approachable than React, but less scaleable in the long run.
 1. `onSubmit` is fired when the user submits the form successfully. On submit, we prevent the normal browser behavior (`evt.preventDefault()`), close the modal (`this.$refs.addBookModal.hide()`), fire the `addBook` method, and clear the form (`initForm()`).
 1. `addBook` sends a POST request to `/books` to add a new book.
 1. Review the rest of the changes on your own, referencing the Vue [docs](https://vuejs.org/v2/guide/) as necessary.
@@ -1104,7 +1104,6 @@ Add the `message` to the `data` options, in *Books.vue* as well:
 ```javascript
 data() {
   return {
-    headers: ['title', 'author', 'read', 'actions'],
     books: [],
     addBookForm: {
       title: '',
@@ -1145,7 +1144,6 @@ Add `showMessage` to the `data`:
 ```javascript
 data() {
   return {
-    headers: ['title', 'author', 'read', 'actions'],
     books: [],
     addBookForm: {
       title: '',
@@ -1184,7 +1182,7 @@ Test it out!
 > Challenges:
 > 1. Think about where `showMessage` should be set to `false`. Update your code.
 > 1. Try using the Alert component to display errors.
-> 1. Refactor the alert to be [dismissable](https://bootstrap-vue.js.org/docs/components/alert/#dismissible-alerts).
+> 1. Refactor the alert to be [dismissible](https://bootstrap-vue.js.org/docs/components/alert/#dismissible-alerts).
 
 ## PUT Route
 
@@ -1425,6 +1423,7 @@ onResetUpdate(evt) {
   evt.preventDefault();
   this.$refs.editBookModal.hide();
   this.initForm();
+  this.getBooks(); // why?
 },
 ```
 
@@ -1438,7 +1437,7 @@ initForm() {
   this.editForm.id = '';
   this.editForm.title = '';
   this.editForm.author = '';
-  this.editForm.read = '';
+  this.editForm.read = [];
 },
 ```
 
