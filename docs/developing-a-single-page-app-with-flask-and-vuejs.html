@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
   <link href="//use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-  <link href="/assets/css/styles.css?1527805006122100000" rel="stylesheet">
+  <link href="/assets/css/styles.css?1528377753003558000" rel="stylesheet">
 </head>
 
 
@@ -241,7 +241,7 @@
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">-g</span> vue-cli@2.9.3
 </code></pre></div></div>
 
-<p>Then, within “flask-vue-crud”, run the following command to initialize a new Vue project called <code class="highlighter-rouge">client</code> with the <a href="https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md">webpack</a> config:</p>
+<p>Then, within “flask-vue-crud”, run the following command to initialize a new Vue project called <code class="highlighter-rouge">client</code> with the <a href="https://github.com/vuejs-templates/webpack">webpack</a> config:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>vue init webpack client
 </code></pre></div></div>
@@ -951,7 +951,7 @@
 <p>What’s happening here?</p>
 
 <ol>
-  <li><code class="highlighter-rouge">addBookForm</code> is <a href="https://vuejs.org/v2/guide/forms.html#Basic-Usage">bound</a> to the form inputs via, again, <code class="highlighter-rouge">v-model</code>. When one is updated, the other will be updated as well, in other words.</li>
+  <li><code class="highlighter-rouge">addBookForm</code> is <a href="https://vuejs.org/v2/guide/forms.html#Basic-Usage">bound</a> to the form inputs via, again, <code class="highlighter-rouge">v-model</code>. When one is updated, the other will be updated as well, in other words. This is called two-way binding. Take a moment to read about it <a href="https://stackoverflow.com/questions/13504906/what-is-two-way-binding">here</a>. Think about the ramifications of this. Do you think this makes state management easier or harder? How do React and Angular handle this? In my opinion, two-way binding (along with mutability) makes Vue much more approachable than React, but less scaleable in the long run.</li>
   <li><code class="highlighter-rouge">onSubmit</code> is fired when the user submits the form successfully. On submit, we prevent the normal browser behavior (<code class="highlighter-rouge">evt.preventDefault()</code>), close the modal (<code class="highlighter-rouge">this.$refs.addBookModal.hide()</code>), fire the <code class="highlighter-rouge">addBook</code> method, and clear the form (<code class="highlighter-rouge">initForm()</code>).</li>
   <li><code class="highlighter-rouge">addBook</code> sends a POST request to <code class="highlighter-rouge">/books</code> to add a new book.</li>
   <li>Review the rest of the changes on your own, referencing the Vue <a href="https://vuejs.org/v2/guide/">docs</a> as necessary.</li>
@@ -1217,7 +1217,6 @@
 
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">{</span>
-    <span class="na">headers</span><span class="p">:</span> <span class="p">[</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'author'</span><span class="p">,</span> <span class="s1">'read'</span><span class="p">,</span> <span class="s1">'actions'</span><span class="p">],</span>
     <span class="na">books</span><span class="p">:</span> <span class="p">[],</span>
     <span class="na">addBookForm</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">title</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
@@ -1255,7 +1254,6 @@
 
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">{</span>
-    <span class="na">headers</span><span class="p">:</span> <span class="p">[</span><span class="s1">'title'</span><span class="p">,</span> <span class="s1">'author'</span><span class="p">,</span> <span class="s1">'read'</span><span class="p">,</span> <span class="s1">'actions'</span><span class="p">],</span>
     <span class="na">books</span><span class="p">:</span> <span class="p">[],</span>
     <span class="na">addBookForm</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">title</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
@@ -1295,7 +1293,7 @@
   <ol>
     <li>Think about where <code class="highlighter-rouge">showMessage</code> should be set to <code class="highlighter-rouge">false</code>. Update your code.</li>
     <li>Try using the Alert component to display errors.</li>
-    <li>Refactor the alert to be <a href="https://bootstrap-vue.js.org/docs/components/alert/#dismissible-alerts">dismissable</a>.</li>
+    <li>Refactor the alert to be <a href="https://bootstrap-vue.js.org/docs/components/alert/#dismissible-alerts">dismissible</a>.</li>
   </ol>
 </blockquote>
 
@@ -1531,6 +1529,7 @@
   <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">$refs</span><span class="p">.</span><span class="nx">editBookModal</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">initForm</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">getBooks</span><span class="p">();</span> <span class="c1">// why?</span>
 <span class="p">},</span>
 </code></pre></div></div>
 
@@ -1543,7 +1542,7 @@
   <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">read</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">editForm</span><span class="p">.</span><span class="nx">read</span> <span class="o">=</span> <span class="p">[];</span>
 <span class="p">},</span>
 </code></pre></div></div>
 
