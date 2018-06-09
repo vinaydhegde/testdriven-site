@@ -21,10 +21,12 @@ The following is a step-by-step walkthrough of how to set up a basic CRUD app wi
 
 <img src="/assets/img/blog/flask-vue/final.gif" style="max-width:80%;" alt="final app">
 
-*Dependencies:*
+*Main dependencies:*
 
 - Vue v2.5.2
 - Vue CLI v2.9.3
+- Node v10.3.0
+- npm v6.1.0
 - Flask v1.0.2
 - Python v3.6.5
 
@@ -145,6 +147,8 @@ Install it globally:
 ```sh
 $ npm install -g vue-cli@2.9.3
 ```
+
+> First time with npm? Review the official [What is npm?](https://docs.npmjs.com/getting-started/what-is-npm) guide. 
 
 Then, within "flask-vue-crud", run the following command to initialize a new Vue project called `client` with the [webpack](https://github.com/vuejs-templates/webpack) config:
 
