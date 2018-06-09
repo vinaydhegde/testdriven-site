@@ -17,8 +17,6 @@ date: 2018-05-29
 
 The following is a step-by-step walkthrough of how to set up a basic CRUD app with Vue and Flask. We'll start by scaffolding a new Vue application, using the Vue CLI, and then move on to performing the basic CRUD operations through a back-end RESTful API powered by Python and Flask.
 
-> First time with Vue? Take a moment to read through the [Introduction](https://vuejs.org/v2/guide/index.html) from the official Vue guide.
-
 *Final app*:
 
 <img src="/assets/img/blog/flask-vue/final.gif" style="max-width:80%;" alt="final app">
@@ -38,6 +36,7 @@ The following is a step-by-step walkthrough of how to set up a basic CRUD app wi
 
 By the end of this tutorial, you should be able to...
 
+1. Explain what Flask is
 1. Explain what Vue is and how it compares to other UI libraries and front-end frameworks like Angular and React
 1. Scaffold a Vue project using the Vue CLI
 1. Create and render Vue components in the browser
@@ -47,14 +46,25 @@ By the end of this tutorial, you should be able to...
 1. Style Vue Components with Bootstrap
 1. Use the Vue Router to create routes and render components
 
+## What is Flask?
+
+[Flask](http://flask.pocoo.org/) is a simple, yet powerful micro web framework for Python, perfect for building RESTful APIs. Like [Sinatra](http://sinatrarb.com/) (Ruby) and [Express](https://expressjs.com/) (Node), it's minimal and flexible, so you can start small and build up to a more complex app as needed.
+
+First time with Flask? Check out the following two resources:
+
+1. [Flaskr TDD](https://github.com/mjhea0/flaskr-tdd)
+1. [Flask for Node Developers](http://mherman.org/blog/2017/04/26/flask-for-node-developers)
+
 ## What is Vue?
 
-Vue is an open-source JavaScript framework used for building user interfaces. It adopted some of the best concepts of React and Angular. That said, compared to React and Angular, it's much more approachable, so beginners can get up and running quickly. It's also just as powerful, so it provides all the features you'll need to create modern front-end applications.
+[Vue](https://vuejs.org/) is an open-source JavaScript framework used for building user interfaces. It adopted some of the best concepts of React and Angular. That said, compared to React and Angular, it's much more approachable, so beginners can get up and running quickly. It's also just as powerful, so it provides all the features you'll need to create modern front-end applications.
 
 For more on Vue, along with the pros and cons of using it vs. both Angular and React, review the following articles:
 
 1. [Vue: Comparison with Other Frameworks](https://vuejs.org/v2/guide/comparison.html)
 1. [Angular vs. React vs. Vue: A 2017 comparison](https://medium.com/unicorn-supplies/angular-vs-react-vs-vue-a-2017-comparison-c5c52d620176)
+
+First time with Vue? Take a moment to read through the [Introduction](https://vuejs.org/v2/guide/index.html) from the official Vue guide.
 
 ## Flask Setup
 
@@ -1293,27 +1303,27 @@ First, add a new modal to the template, just below the first modal:
          title="Update"
          hide-footer>
   <b-form @submit="onSubmitUpdate" @reset="onResetUpdate" class="w-100">
-  <b-form-group id="form-title-group"
+  <b-form-group id="form-title-edit-group"
                 label="Title:"
-                label-for="form-title-input">
-      <b-form-input id="form-title-input"
+                label-for="form-title-edit-input">
+      <b-form-input id="form-title-edit-input"
                     type="text"
                     v-model="editForm.title"
                     required
                     placeholder="Enter title">
       </b-form-input>
     </b-form-group>
-    <b-form-group id="form-author-group"
+    <b-form-group id="form-author-edit-group"
                   label="Author:"
-                  label-for="form-author-input">
-        <b-form-input id="form-author-input"
+                  label-for="form-author-edit-input">
+        <b-form-input id="form-author-edit-input"
                       type="text"
                       v-model="editForm.author"
                       required
                       placeholder="Enter author">
         </b-form-input>
       </b-form-group>
-    <b-form-group id="form-read-group">
+    <b-form-group id="form-read-edit-group">
       <b-form-checkbox-group v-model="editForm.read" id="form-checks">
         <b-form-checkbox value="true">Read?</b-form-checkbox>
       </b-form-checkbox-group>
