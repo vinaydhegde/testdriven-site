@@ -10,7 +10,7 @@ lastname: herman
 description: The following is a step-by-step walkthrough of how to set up a basic CRUD app with Vue and Flask.
 keywords: "flask, vue, vue.js, python, javascript, web dev, crud, single page application, spa, RESTful API, rest api"
 image: /assets/img/blog/flask-vue/developing_spa_flask_vue.png
-image_alt: flask and vue
+image_alt: python and vue
 blurb: The following is a step-by-step walkthrough of how to set up a basic CRUD app with Vue and Flask.
 date: 2018-05-29
 ---
@@ -148,7 +148,7 @@ Install it globally:
 $ npm install -g vue-cli@2.9.3
 ```
 
-> First time with npm? Review the official [What is npm?](https://docs.npmjs.com/getting-started/what-is-npm) guide. 
+> First time with npm? Review the official [What is npm?](https://docs.npmjs.com/getting-started/what-is-npm) guide.
 
 Then, within "flask-vue-crud", run the following command to initialize a new Vue project called `client` with the [webpack](https://github.com/vuejs-templates/webpack) config:
 
@@ -1534,4 +1534,6 @@ This post covered the basics of setting up a CRUD app with Vue and Flask.
 
 Check your understanding by reviewing the objectives from the beginning of this post and going through each of the challenges.
 
-You can find the source code in the [flask-vue-crud](https://github.com/testdrivenio/flask-vue-crud) repo. Thanks for reading.
+You can find the source code from the [v1](https://github.com/testdrivenio/flask-vue-crud/releases/tag/v1) tag of the the [flask-vue-crud](https://github.com/testdrivenio/flask-vue-crud) repo. Thanks for reading.
+
+> **Looking for more?** Check out the [Accepting Payments with Stripe, Vue.js, and Flask](https://testdriven.io/accepting-payments-with-stripe-vuejs-and-flask) blog post, which starts from where this post finished.
