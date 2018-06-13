@@ -29,14 +29,8 @@ $ git checkout master
 $ git merge source
 ```
 
-Generate build:
+Remove "docs" directory. Commit your code, and then deploy:
 
 ```sh
-$ JEKYLL_ENV=production bundle exec jekyll build
-```
-
-Commit your code, and then deploy:
-
-```sh
-$ git subtree push --prefix docs origin master
+$ git push origin master
 ```

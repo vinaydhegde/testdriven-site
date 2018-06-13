@@ -90,7 +90,7 @@ OK
 Now comes the fun part - adding [Celery](http://www.celeryproject.org/)! Start by adding both Celery and Redis to the *requirements.txt* file:
 
 ```
-celery==4.1.0
+celery==4.1.1
 falcon==1.4.1
 gunicorn==19.7.1
 redis==2.10.6
@@ -319,7 +319,7 @@ You should see the log file in *logs/celery.log* locally since we set up a volum
 [2018-03-08 21:52:33,539: INFO/MainProcess] mingle: all alone
 [2018-03-08 21:52:33,554: INFO/MainProcess] celery@0a21f3f54410 ready.
 [2018-03-08 21:52:34,415: INFO/MainProcess] Events of group {task} enabled by remote.
-[2018-03-08 21:52:46,631: INFO/MainProcess] Received task: app.tasks.fib[20704c3f-3964-47cb-8bd2-b20b788fc372]  
+[2018-03-08 21:52:46,631: INFO/MainProcess] Received task: app.tasks.fib[20704c3f-3964-47cb-8bd2-b20b788fc372]
 [2018-03-08 21:52:52,652: INFO/ForkPoolWorker-1] Task app.tasks.fib[20704c3f-3964-47cb-8bd2-b20b788fc372] succeeded in 6.015212989994325s: [0, 1, 1, 2]
 ```
 
@@ -330,7 +330,7 @@ You should see the log file in *logs/celery.log* locally since we set up a volum
 Add it to *requirements.txt:*
 
 ```
-celery==4.1.0
+celery==4.1.1
 falcon==1.4.1
 flower==0.9.2
 gunicorn==19.7.1
