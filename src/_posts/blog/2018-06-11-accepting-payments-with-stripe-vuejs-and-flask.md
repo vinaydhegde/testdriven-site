@@ -692,7 +692,7 @@ Finally, add a `createToken` method:
 ```javascript
 createToken() {
   // eslint-disable-next-line
-  console.log('The form is valid!');      
+  console.log('The form is valid!');
 },
 ```
 
@@ -894,7 +894,7 @@ Instead of just creating a charge, you may want to also create a [customer](http
 
 ## Order Complete Page
 
-Finally, rather than sending the buyer back to the main page, let's redirect them to an order complete page, thanking them for making a purchase.
+Rather than sending the buyer back to the main page, let's redirect them to an order complete page, thanking them for making a purchase.
 
 Add a new component file called *OrderComplete.vue* to "client/src/components":
 
