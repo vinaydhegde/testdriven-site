@@ -16,3 +16,14 @@ Michael is a software engineer and educator who lives and works in the Denver/Bo
 - [Twitter](https://twitter.com/mikeherman)
 - [GitHub](https://github.com/mjhea0)
 - [Personal Site](http://mherman.org/)
+
+<div>
+  <h3>Articles</h3>
+  <ul>
+    {% for post in site.posts %}
+      {% if post.type == 'blog' and post.author == page.title %}
+        <li><a href="{{site.url}}{{post.url}}">{{post.title}}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
