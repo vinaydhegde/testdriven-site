@@ -18,11 +18,11 @@ Jason is a full-stack web developer from Washington D.C with experience in Djang
 
 <div>
   <h3>Articles</h3>
-  {% for post in site.posts %}
-    <ul>
+  <ul>
+    {% for post in site.posts %}
       {% if post.type == 'blog' and post.author == page.title %}
         <li><a href="{{site.url}}{{post.url}}">{{post.title}}</a></li>
       {% endif %}
-    </ul>
-  {% endfor %}
+    {% endfor %}
+  </ul>
 </div>

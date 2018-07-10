@@ -15,7 +15,7 @@ blurb: This post looks at how to run a Flask app on Docker Swarm.
 date: 2018-07-09
 ---
 
-Let's look at how to spin up a Docker Swarm cluster on Digital Ocean and then configure a microservice, powered by Flask and Postgres, to run on it.
+Let's look at how to spin up a Docker Swarm cluster on [DigitalOcean](https://m.do.co/c/d8f211a4b4c2) and then configure a microservice, powered by Flask and Postgres, to run on it.
 
 > This is an intermediate-level tutorial. It assumes that you a have basic working knowledge of Flask, Docker, and container orchestration. Review the [Microservices with Docker, Flask, and React](http://testdriven.io/) course for more info on each of these tools and topics.
 
@@ -37,7 +37,7 @@ By the end of this tutorial, you should be able to...
 1. Discuss the pros and cons of using Docker Swarm over other orchestration tools like Kubernetes and Elastic Container Service (ECS)
 1. Spin up a Flask-based microservice locally with Docker Compose
 1. Build Docker images and push them up to the Docker Hub image registry
-1. Provision hosts on Digital Ocean with Docker Machine
+1. Provision hosts on Digital Oceanwith Docker Machine
 1. Configure a Docker Swarm cluster to run on Digital Ocean
 1. Run Flask, Nginx, and Postgres on Docker Swarm
 1. Use a round robin algorithm to route traffic on a Swarm cluster
