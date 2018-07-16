@@ -138,12 +138,12 @@ On the first test run, a snapshot of the component output is saved to the "\_\_s
 exports[`UsersList renders a snapshot properly 1`] = `
 <div>
   <h4
-    className="card card-body bg-light"
+    className="box title is-4"
   >
     michael
   </h4>
   <h4
-    className="card card-body bg-light"
+    className="box title is-4"
   >
     michaelherman
   </h4>
@@ -151,68 +151,67 @@ exports[`UsersList renders a snapshot properly 1`] = `
 `;
 ```
 
-During subsequent test runs, the new output will be compared to the saved output. The test will fail if they differ.
+During subsequent test runs the new output will be compared to the saved output. The test will fail if they differ.
 
 Let's run a quick sanity check!
 
 With the tests in watch mode, change `{user.username}` to `{user.email}` in the `UsersList` component. Save the changes to trigger a new test run. You should see both tests failing, which is exactly what we want:
 
 ```sh
-FAIL  src/components/__tests__/UsersList.test.jsx
- ● UsersList renders properly
+ FAIL  src/components/__tests__/UsersList.test.jsx
+  ● UsersList renders a snapshot properly
 
-   expect(received).toBe(expected)
+    expect(value).toMatchSnapshot()
 
-   Expected value to be (using ===):
-     "michael"
-   Received:
-     "hermanmu@gmail.com"
+    Received value does not match stored snapshot 1.
 
-     at Object.<anonymous>.test (src/components/__tests__/UsersList.test.jsx:27:41)
-         at new Promise (<anonymous>)
-     at Promise.resolve.then.el (node_modules/p-map/index.js:46:16)
-         at <anonymous>
+    - Snapshot
+    + Received
 
- ● UsersList renders a snapshot properly
+     <div>
+       <h4
+         className="box title is-4"
+       >
+    -    michael
+    +    hermanmu@gmail.com
+       </h4>
+       <h4
+         className="box title is-4"
+       >
+    -    michaelherman
+    +    michael@mherman.org
+       </h4>
+     </div>
 
-   expect(value).toMatchSnapshot()
+      at Object.<anonymous>.test (src/components/__tests__/UsersList.test.jsx:24:16)
+          at new Promise (<anonymous>)
+      at Promise.resolve.then.el (node_modules/p-map/index.js:46:16)
+      at process._tickCallback (internal/process/next_tick.js:68:7)
 
-   Received value does not match stored snapshot 1.
+  ● UsersList renders properly
 
-   - Snapshot
-   + Received
+    expect(received).toBe(expected)
 
-    <div>
-      <h4
-        className="card card-body bg-light"
-      >
-   -    michael
-   +    hermanmu@gmail.com
-      </h4>
-      <h4
-        className="card card-body bg-light"
-      >
-   -    michaelherman
-   +    michael@mherman.org
-      </h4>
-    </div>
+    Expected value to be (using ===):
+      "michael"
+    Received:
+      "hermanmu@gmail.com"
 
-     at Object.<anonymous>.test (src/components/__tests__/UsersList.test.jsx:32:16)
-         at new Promise (<anonymous>)
-     at Promise.resolve.then.el (node_modules/p-map/index.js:46:16)
-         at <anonymous>
+      at Object.<anonymous>.test (src/components/__tests__/UsersList.test.jsx:31:41)
+          at new Promise (<anonymous>)
+      at Promise.resolve.then.el (node_modules/p-map/index.js:46:16)
+      at process._tickCallback (internal/process/next_tick.js:68:7)
 
- ✕ UsersList renders properly (5ms)
- ✕ UsersList renders a snapshot properly (4ms)
+  ✕ UsersList renders a snapshot properly (5ms)
+  ✕ UsersList renders properly (3ms)
 
 Snapshot Summary
-› 1 snapshot test failed in 1 test suite.
-Inspect your code changes or press `u` to update them.
+ › 1 snapshot test failed in 1 test suite. Inspect your code changes or press `u` to update them.
 
 Test Suites: 1 failed, 1 total
 Tests:       2 failed, 2 total
 Snapshots:   1 failed, 1 total
-Time:        0.544s, estimated 1s
+Time:        0.909s, estimated 1s
 Ran all test suites related to changed files.
 ```
 
@@ -231,35 +230,35 @@ Watch Usage
 Try it out - press `u`. The tests will run again and the snapshot test should pass:
 
 ```sh
-FAIL  src/components/__tests__/UsersList.test.jsx
- ● UsersList renders properly
+ FAIL  src/components/__tests__/UsersList.test.jsx
+  ● UsersList renders properly
 
-   expect(received).toBe(expected)
+    expect(received).toBe(expected)
 
-   Expected value to be (using ===):
-     "michael"
-   Received:
-     "hermanmu@gmail.com"
+    Expected value to be (using ===):
+      "michael"
+    Received:
+      "hermanmu@gmail.com"
 
-     at Object.<anonymous>.test (src/components/__tests__/UsersList.test.jsx:27:41)
-         at new Promise (<anonymous>)
-     at Promise.resolve.then.el (node_modules/p-map/index.js:46:16)
-         at <anonymous>
+      at Object.<anonymous>.test (src/components/__tests__/UsersList.test.jsx:31:41)
+          at new Promise (<anonymous>)
+      at Promise.resolve.then.el (node_modules/p-map/index.js:46:16)
+      at process._tickCallback (internal/process/next_tick.js:68:7)
 
- ✕ UsersList renders properly (7ms)
- ✓ UsersList renders a snapshot properly (3ms)
+  ✓ UsersList renders a snapshot properly (2ms)
+  ✕ UsersList renders properly (2ms)
 
 Snapshot Summary
-› 1 snapshot updated in 1 test suite.
+ › 1 snapshot updated in 1 test suite.
 
 Test Suites: 1 failed, 1 total
 Tests:       1 failed, 1 passed, 2 total
 Snapshots:   1 updated, 1 total
-Time:        0.126s, estimated 1s
+Time:        0.093s, estimated 1s
 Ran all test suites related to changed files.
 ```
 
-Once done, revert the changes we just made in the component, update the tests, ensure they pass, add the `__snapshots__` folder to the *.gitignore* file, and then commit your code.
+Once done, revert the changes we just made in the component and update the tests. Make sure they pass before moving on.
 
 ## Test Coverage
 
@@ -269,36 +268,36 @@ Curious about test coverage?
 $ react-scripts test --coverage
 ```
 
-> You may need to globally install React Scripts - `npm install react-scripts@1.1.0 --global`.
+> You may need to globally install React Scripts - `npm install react-scripts@1.1.4 --global`.
 
 ```sh
-PASS  src/components/__tests__/UsersList.test.jsx
- ✓ UsersList renders properly (10ms)
- ✓ UsersList renders a snapshot properly (8ms)
+ PASS  src/components/__tests__/UsersList.test.jsx
+  ✓ UsersList renders a snapshot properly (11ms)
+  ✓ UsersList renders properly (5ms)
 
 Test Suites: 1 passed, 1 total
 Tests:       2 passed, 2 total
 Snapshots:   1 passed, 1 total
-Time:        1.071s
+Time:        1.122s
 Ran all test suites.
----------------------------|----------|----------|----------|----------|----------------|
-File                       |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
----------------------------|----------|----------|----------|----------|----------------|
-All files                  |     7.14 |        0 |     8.33 |     12.9 |                |
-src                       |     1.89 |        0 |        0 |     3.57 |                |
- index.js                 |        0 |        0 |        0 |        0 |... 19,20,23,38 |
- registerServiceWorker.js |        0 |        0 |        0 |        0 |... 137,138,139 |
- setupTests.js            |      100 |      100 |      100 |      100 |                |
-src/components            |      100 |      100 |      100 |      100 |                |
- UsersList.jsx            |      100 |      100 |      100 |      100 |                |
----------------------------|----------|----------|----------|----------|----------------|
+---------------------------|----------|----------|----------|----------|-------------------|
+File                       |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+---------------------------|----------|----------|----------|----------|-------------------|
+All files                  |     7.14 |        0 |     8.33 |     12.9 |                   |
+ src                       |     1.89 |        0 |        0 |     3.57 |                   |
+  index.js                 |        0 |        0 |        0 |        0 |... 18,19,20,23,40 |
+  registerServiceWorker.js |        0 |        0 |        0 |        0 |... 36,137,138,139 |
+  setupTests.js            |      100 |      100 |      100 |      100 |                   |
+ src/components            |      100 |      100 |      100 |      100 |                   |
+  UsersList.jsx            |      100 |      100 |      100 |      100 |                   |
+---------------------------|----------|----------|----------|----------|-------------------|
 ```
 
 ## Testing Interactions
 
 Enzyme can also be used to test user interactions. We can [simulate](http://airbnb.io/enzyme/docs/api/ReactWrapper/simulate.html) actions and events and then test that the actual results are the same as the expected results. We'll look at this in a future lesson.
 
-> It's worth noting that we'll focus much of our React testing on unit testing the individual components. We'll let the end-to-end tests handle testing user interaction as well as the interaction between the client and server.  
+> It's worth noting that we'll focus much of our React testing on unit testing the individual components. We'll let end-to-end tests handle testing user interaction as well as the interaction between the client and server.
 
 ## `requestAnimationFrame` polyfill error
 

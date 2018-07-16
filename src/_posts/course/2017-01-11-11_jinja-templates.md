@@ -48,57 +48,46 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- styles -->
     <link
-      href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"
       rel="stylesheet"
     >
     {% block css %}{% endblock %}
   </head>
   <body>
     <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <br>
-          <h1>All Users</h1>
-          <hr><br>
-          <form action="/" method="POST">
-            <div class="form-group">
-              <input
-                name="username" class="form-control input-lg"
-                type="text" placeholder="Enter a username" required>
-            </div>
-            <div class="form-group">
-              <input
-                name="email" class="form-control input-lg"
-                type="email" placeholder="Enter an email address" required>
-            </div>
+      <div class="column is-one-third">
+        <br>
+        <h1 class="title">All Users</h1>
+        <hr><br>
+        <form action="/" method="POST">
+          <div class="field">
             <input
-              type="submit" class="btn btn-primary btn-lg btn-block"
-              value="Submit">
-          </form>
-          <br>
-          <hr>
-            {% if users %}
-              <ol>
-                {% for user in users %}
-                  <li>{{user.username}}</li>
-                {% endfor %}
-              </ol>
-            {% else %}
-              <p>No users!</p>
-            {% endif %}
+              name="username" class="input"
+              type="text" placeholder="Enter a username" required>
           </div>
+          <div class="field">
+            <input
+              name="email" class="input"
+              type="email" placeholder="Enter an email address" required>
+          </div>
+          <input
+            type="submit" class="button is-primary is-fullwidth"
+            value="Submit">
+        </form>
+        <br>
+        <hr>
+          {% if users %}
+            <ol>
+              {% for user in users %}
+                <li>{{user.username}}</li>
+              {% endfor %}
+            </ol>
+          {% else %}
+            <p>No users!</p>
+          {% endif %}
         </div>
       </div>
     </div>
-    <!-- scripts -->
-    <script
-      type="text/javascript"
-      src="//code.jquery.com/jquery-2.2.4.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    >
     </script>
     {% block js %}{% endblock %}
   </body>
@@ -106,11 +95,11 @@ Then add a "templates" folder to "project/api", and add an *index.html* file to 
 ```
 {% endraw %}
 
-Ready to test? Simply open your browser and navigate to the IP associated with the `testdriven-dev` machine.
+> We used the [Bulma](https://bulma.io/) CSS framework to quickly style the app.
 
-<div style="text-align:left;">
-  <img src="/assets/img/course/01_bootstrap.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask app">
-</div>
+Ready to test? Simply open your browser and navigate to [http://localhost](http://localhost).
+
+<img src="/assets/img/course/01_bulma.png" style="max-width:90%;" alt="flask app">
 
 How about a test?
 
@@ -120,15 +109,14 @@ def test_main_no_users(self):
     added to the database."""
     response = self.client.get('/')
     self.assertEqual(response.status_code, 200)
-    self.assertIn(b'<h1>All Users</h1>', response.data)
+    self.assertIn(b'All Users', response.data)
     self.assertIn(b'<p>No users!</p>', response.data)
 ```
 
 Do they pass?
 
 ```sh
-$ docker-compose -f docker-compose-dev.yml \
-  run users python manage.py test
+$ docker-compose -f docker-compose-dev.yml run users python manage.py test
 ```
 
 Let's update the route handler to grab all users from the database and send them to the template, starting with a test:
@@ -142,7 +130,7 @@ def test_main_with_users(self):
     with self.client:
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'<h1>All Users</h1>', response.data)
+        self.assertIn(b'All Users', response.data)
         self.assertNotIn(b'<p>No users!</p>', response.data)
         self.assertIn(b'michael', response.data)
         self.assertIn(b'fletcher', response.data)
@@ -171,7 +159,7 @@ def test_main_add_user(self):
             follow_redirects=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'<h1>All Users</h1>', response.data)
+        self.assertIn(b'All Users', response.data)
         self.assertNotIn(b'<p>No users!</p>', response.data)
         self.assertIn(b'michael', response.data)
 ```
@@ -195,5 +183,5 @@ Finally, let's update the code on AWS.
 1. `eval $(docker-machine env testdriven-prod)`
 1. `docker-compose -f docker-compose-prod.yml up -d --build`
 1. Test:
-  - [http://DOCKER_MACHINE_PROD_IP](http://DOCKER_MACHINE_PROD_IP)
-  - [http://DOCKER_MACHINE_PROD_IP/users](http://DOCKER_MACHINE_PROD_IP/users)
+  - [http://DOCKER_MACHINE_IP](http://DOCKER_MACHINE_IP)
+  - [http://DOCKER_MACHINE_IP/users](http://DOCKER_MACHINE_IP/users)

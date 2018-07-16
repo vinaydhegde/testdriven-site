@@ -51,8 +51,7 @@ def test_add_user(self):
 Run the test to ensure it fails:
 
 ```sh
-$ docker-compose -f docker-compose-dev.yml \
-  run users python manage.py test
+$ docker-compose -f docker-compose-dev.yml run users python manage.py test
 ```
 
 Then add the route handler to *project/api/users.py*
@@ -368,7 +367,7 @@ def to_json(self):
 
 Does the test past?
 
-Before moving on, let's test the route in the browser - [http://DOCKER_MACHINE_IP:5001/users](http://DOCKER_MACHINE_IP:5001/users). You should see:
+Before moving on, let's test the route in the browser - [http://localhost:5001/users](http://localhost:5001/users). You should see:
 
 ```json
 {
@@ -393,11 +392,10 @@ def seed_db():
 Try it out:
 
 ```sh
-$ docker-compose -f docker-compose-dev.yml \
-  run users python manage.py seed_db
+$ docker-compose -f docker-compose-dev.yml run users python manage.py seed_db
 ```
 
-Make sure you can view the users in the JSON response [http://DOCKER_MACHINE_IP:5001/users](http://DOCKER_MACHINE_IP:5001/users).
+Make sure you can view the users in the JSON response [http://localhost:5001/users](http://localhost:5001/users).
 
 
 > Think about how you could trim down some of the tests with shared setup code. Try not to sacrifice readability if you do decide to refactor.

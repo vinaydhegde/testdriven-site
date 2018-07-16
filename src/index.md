@@ -25,7 +25,7 @@ We'll also be practicing test-driven development (TDD), writing tests first when
   <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 &amp; 2</a></p>
 </div>
 
-(*Current version: 2.2, released on Feb 19th 2018*)
+(*Current version: 2.3, released on July, 16th 2018*)
 
 <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via={{ site.twitter }}" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
@@ -52,10 +52,8 @@ We'll also be practicing test-driven development (TDD), writing tests first when
 
 <br>
 
-Check out the live app, running on multiple EC2 instances -
-
-1. [Production](http://testdriven-production-alb-1950288253.us-west-1.elb.amazonaws.com)
-1. [Staging](http://testdriven-staging-alb-355212289.us-west-1.elb.amazonaws.com)
+Check out the live app, running on a cluster of EC2 instances: <br>
+[http://testdriven-production-alb-1112328201.us-east-1.elb.amazonaws.com](http://testdriven-production-alb-1112328201.us-east-1.elb.amazonaws.com)
 
 <br>
 
@@ -80,27 +78,27 @@ In this first part, you'll learn how to quickly spin up a reproducible developme
 
 ### Part 2
 
-In part 2, we'll add *code coverage* and *continuous integration* testing to ensure that each service can be run and tested independently from the whole. Finally, we'll add *ReactJS* along with *Jest*, a JavaScript test runner, and *Enzyme*, a testing library made specifically for React, to the client-side.
+In part 2, we'll add *code coverage* and *continuous integration* testing to ensure that each service can be run and tested independently from the whole. Finally, we'll add *React* along with *Jest* (a JavaScript test runner) and *Enzyme* (a testing library designed specifically for React) to the client-side.
 
-**Tools and Technologies**: Code Coverage with Coverage.py, Node, NPM, Create React App, Axios, Flask-CORS, React forms, Flask Debug Toolbar
+**Tools and Technologies**: Code Coverage with Coverage.py, continuous integration (CI), Node, NPM, Create React App, React, Enzyme, Jest, Axios, Flask-CORS, React forms, Flask Debug Toolbar
 
 ### Part 3
 
-In part 3, we'll add *database migrations* along with *password hashing* in order to implement *token-based authentication* to the users service with JSON Web Tokens (JWTs). We'll then turn our attention to the client-side and add *React Router* to the React app to enable client-side routing along with client-side authentication.
+In part 3, we'll add *database migrations* along with *password hashing* in order to implement *token-based authentication* to the users service with *JSON Web Tokens (JWTs)*. We'll then turn our attention to the client-side and add *React Router* to the React app to enable client-side routing along with client-side authentication.
 
-**Tools and Technologies**: Flask-Migrate, Flask-Bcrypt, PyJWT, react-router-dom, React Bootstrap, React Router Bootstrap, React Authentication and Authorization
+**Tools and Technologies**: Flask-Migrate, Flask-Bcrypt, PyJWT, react-router-dom, Bulma, React Authentication and Authorization
 
 ### Part 4
 
-In part 4, we'll add an *end-to-end* (e2e) testing solution, *form validation* to the React app, a *Swagger* service to document the API, and deal with some *tech debt*. We'll also set up a *staging* environment to test on before the app goes into production.
+In part 4, we'll add *end-to-end* (e2e) tests with *Cypress*, *form validation* to the React app, a *Swagger* service to document the API, and deal with some *tech debt*. We'll also set up a *staging* environment to test on before the app goes into production.
 
-**Tools and Technologies**: TestCafe, Swagger UI
+**Tools and Technologies**: Cypress, Swagger UI
 
 ### Part 5
 
-In part 5, we'll dive into *container orchestration* with Amazon ECS as we move our staging and production environments to a more scaleable infrastructure. We'll also add Amazon EC2 Container Registry along with Amazon's Elastic Load Balancing for *load balancing* and Amazon's Relational Database Service for *data persistence*.
+In part 5, we'll dive into *container orchestration* with Amazon *ECS* as we move our staging and production environments to a more scalable infrastructure. We'll also add Amazon's *Elastic Container Registry* along with *Elastic Load Balancing* for *load balancing* and *Relational Database Service* (RDS) for *data persistence*.
 
-**Tools and Technologies**: Docker Hub, AWS, EC2, EC2 Container Registry (ECR), EC2 Container Service (ECS), Elastic Load Balancing (ELB), Application Load Balancer (ALB), Relational Database Service (RDS)
+**Tools and Technologies**: AWS, EC2, Elastic Container Registry (ECR), Elastic Container Service (ECS), Elastic Load Balancing (ELB), Application Load Balancer (ALB), Relational Database Service (RDS)
 
 ### Part 6
 
