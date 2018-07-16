@@ -54,7 +54,7 @@ This can cause problems especially if multiple services need to communicate with
 
 ### Data Persistence
 
-Most applications have some sort of stateful layer, like databases or task queues. Microservice stacks also need to keep track of where services are deployed and the total number of deployed instances, so that when a new instance of a particular service is stood up, traffic can be re-routed appropriately. This is often referred to as [service discovery](https://en.wikipedia.org/wiki/Service_discovery).  
+Most applications have some sort of stateful layer, like databases or task queues. Microservice stacks also need to keep track of where services are deployed and the total number of deployed instances, so that when a new instance of a particular service is stood up, traffic can be re-routed appropriately. This is often referred to as [service discovery](https://en.wikipedia.org/wiki/Service_discovery).
 
 Since we'll be dealing with containers, we need to take special care in how we handle stateful containers since they should not come down.
 

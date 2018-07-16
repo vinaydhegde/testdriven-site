@@ -13,7 +13,7 @@ Let's wire up the [Flask Debug Toolbar](https://flask-debugtoolbar.readthedocs.i
 
 ---
 
-Flask Debug Toolbar is a Flask extension that helps you debug your applications. It adds a debugging toolbar into the view which provides info on HTTP headers, request variables, configuration settings, and the number of SQLAlchemy queries it took to render the view. You can use this information to find bottlenecks in the rendering of the view.
+Flask Debug Toolbar is a Flask extension that helps you debug your applications. It adds a debugging toolbar into the view which provides info on HTTP headers, request variables, configuration settings, and the number of SQLAlchemy queries it took to render a particular view. You can use this information to find bottlenecks in the rendering of the view.
 
 Add the package to the *requirements.txt* file:
 
@@ -31,12 +31,12 @@ import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_debugtoolbar import DebugToolbarExtension
+from flask_debugtoolbar import DebugToolbarExtension  # new
 
 
 # instantiate the extensions
 db = SQLAlchemy()
-toolbar = DebugToolbarExtension()
+toolbar = DebugToolbarExtension()  # new
 
 
 def create_app(script_info=None):
@@ -50,14 +50,17 @@ def create_app(script_info=None):
 
     # set up extensions
     db.init_app(app)
-    toolbar.init_app(app)
+    toolbar.init_app(app)  # new
 
     # register blueprints
     from project.api.users import users_blueprint
     app.register_blueprint(users_blueprint)
 
     # shell context for flask cli
-    app.shell_context_processor({'app': app, 'db': db})
+    @app.shell_context_processor
+    def ctx():
+        return {'app': app, 'db': db}
+
     return app
 ```
 
@@ -67,7 +70,7 @@ Next, update the config:
 # services/users/project/config.py
 
 
-import os
+import os  # new
 
 
 class BaseConfig:
@@ -75,14 +78,14 @@ class BaseConfig:
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'my_precious'
-    DEBUG_TB_ENABLED = False
-    DEBUG_TB_INTERCEPT_REDIRECTS = False
+    DEBUG_TB_ENABLED = False              # new
+    DEBUG_TB_INTERCEPT_REDIRECTS = False  # new
 
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration"""
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-    DEBUG_TB_ENABLED = True
+    DEBUG_TB_ENABLED = True  # new
 
 
 class TestingConfig(BaseConfig):
@@ -94,9 +97,10 @@ class TestingConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     """Production configuration"""
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+
 ```
 
-> Review the [docs](https://flask-debugtoolbar.readthedocs.io/en/latest/#configuration) for more info on the configuration options.
+> Review the [docs](https://flask-debugtoolbar.readthedocs.io/#configuration) for more info on the configuration options.
 
 Add the new configuration to the tests in *services/users/project/tests/test_config.py*:
 
@@ -127,7 +131,7 @@ class TestDevelopmentConfig(TestCase):
             app.config['SQLALCHEMY_DATABASE_URI'] ==
             os.environ.get('DATABASE_URL')
         )
-        self.assertTrue(app.config['DEBUG_TB_ENABLED'])
+        self.assertTrue(app.config['DEBUG_TB_ENABLED'])  # new
 
 
 class TestTestingConfig(TestCase):
@@ -143,7 +147,7 @@ class TestTestingConfig(TestCase):
             app.config['SQLALCHEMY_DATABASE_URI'] ==
             os.environ.get('DATABASE_TEST_URL')
         )
-        self.assertFalse(app.config['DEBUG_TB_ENABLED'])
+        self.assertFalse(app.config['DEBUG_TB_ENABLED'])  # new
 
 
 class TestProductionConfig(TestCase):
@@ -154,7 +158,7 @@ class TestProductionConfig(TestCase):
     def test_app_is_production(self):
         self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
         self.assertFalse(app.config['TESTING'])
-        self.assertFalse(app.config['DEBUG_TB_ENABLED'])
+        self.assertFalse(app.config['DEBUG_TB_ENABLED'])  # new
 
 
 if __name__ == '__main__':
@@ -164,21 +168,10 @@ if __name__ == '__main__':
 Update the containers and run the tests:
 
 ```sh
-$ docker-compose -f docker-compose-dev.yml up -d
-$ docker-compose -f docker-compose-dev.yml \
-  run users python manage.py test
+$ docker-compose -f docker-compose-dev.yml up -d --build
+$ docker-compose -f docker-compose-dev.yml run users python manage.py test
 ```
 
-Finally, grab the IP associated with the `testdriven-dev` machine:
+Navigate to [http://localhost](http://localhost) in your browser to view the toolbar in action:
 
-```sh
-$ docker-machine ip testdriven-dev
-```
-
-Navigate to [http://DOCKER_MACHINE_IP](http://DOCKER_MACHINE_IP) in your browser to view the toolbar in action:
-
-<div style="text-align:left;">
-  <img src="/assets/img/course/01_flask-debug-toolbar.png" style="max-width: 100%; border:0; box-shadow: none;" alt="flask debug toolbar">
-</div>
-
-> You may be wondering why we installed the toolbar in the first place since we won't be using server-rendered views all that much in this course. Well, it can still come in handy from time to time and it's a nice to have if you ever do serve up some Jinja templates.
+<img src="/assets/img/course/01_flask-debug-toolbar.png" style="max-width:90%;" alt="flask debug toolbar">

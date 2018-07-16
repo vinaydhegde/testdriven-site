@@ -9,12 +9,16 @@ permalink: course-contents/
 
 <p>Table of contents from <em>Microservices with Docker, Flask, and React</em>...</p>
 
+<br>
+
 <div class="row">
   <div class="col-md-6">
     {% for post in site.posts reversed %}
       {% if post.type == 'course' %}
         {% if post.intro %}
-          <br>
+          {% if post.part == 2 %}
+            <br>
+          {% endif %}
           <h5>Part {{post.part}}</h5>
           <p>{{ post.full_intro }}</p>
           <ul class="lessons-list"></ul>
@@ -69,7 +73,7 @@ permalink: course-contents/
       </li>
       <li class="collection-li-contents">
         <span>&bull;</span>
-        <span>React Bootstrap</span>
+        <span>React Bulma</span>
       </li>
       <li class="collection-li-contents">
         <span>&bull;</span>
@@ -100,11 +104,9 @@ permalink: course-contents/
         <span>Structure</span>
       </li>
     </ul>
-
-    <br>
   </div>
+
   <div class="col-md-6">
-    <br>
     <h5>Part 4</h5>
     <ul class="lessons-list">
       <li class="collection-li-contents">
@@ -130,6 +132,10 @@ permalink: course-contents/
       <li class="collection-li-contents">
         <span>&bull;</span>
         <span>React Flash Messaging</span>
+      </li>
+      <li class="collection-li-contents">
+        <span>&bull;</span>
+        <span>Update Test Script</span>
       </li>
       <li class="collection-li-contents">
         <span>&bull;</span>
@@ -170,7 +176,7 @@ permalink: course-contents/
       </li>
       <li class="collection-li-contents">
         <span>&bull;</span>
-        <span>EC2 Container Registry</span>
+        <span>Elastic Container Registry</span>
       </li>
       <li class="collection-li-contents">
         <span>&bull;</span>

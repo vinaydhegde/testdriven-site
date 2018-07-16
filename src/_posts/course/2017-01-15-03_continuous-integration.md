@@ -15,7 +15,7 @@ Next, we'll add continuous integration (CI), via [Travis CI](https://travis-ci.o
 
 Follow steps 1 and 2 of the [Getting Started guide](https://docs.travis-ci.com/user/getting-started/#To-get-started-with-Travis-CI) to enable Travis in the project.
 
-To trigger a build, add a *.travis.yml* to the project root:
+To trigger a build, add a *.travis.yml* file to the project root:
 
 ```yaml
 sudo: required
@@ -24,7 +24,7 @@ services:
   - docker
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.18.0
+  DOCKER_COMPOSE_VERSION: 1.21.1
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose

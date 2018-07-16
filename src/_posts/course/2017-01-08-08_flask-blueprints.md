@@ -13,7 +13,7 @@ With tests in place, let's refactor the app, adding in Blueprints...
 
 ---
 
-> Unfamiliar with Blueprints? Check out the official Flask [documentation](http://flask.pocoo.org/docs/0.12/blueprints/). Essentially, they are self-contained components, used for encapsulating code, templates, and static files.
+> Unfamiliar with Blueprints? Check out the official Flask [documentation](http://flask.pocoo.org/docs/1.0/blueprints/). Essentially, they are self-contained components, used for encapsulating code, templates, and static files.
 
 Create a new directory in "project" called "api", and add an *\_\_init\_\_.py* file along with *users.py* and *models.py*. Then within *users.py* add the following:
 
@@ -35,7 +35,7 @@ def ping_pong():
     })
 ```
 
-Here, we created a new instance of the `Blueprint` class and bound the `ping_pong()` function to it.
+Here, we created a new instance of the `Blueprint` class and bound the `ping_pong()` view function to it.
 
 Then, add the following code to *models.py*:
 
@@ -43,22 +43,27 @@ Then, add the following code to *models.py*:
 # services/users/project/api/models.py
 
 
+from sqlalchemy.sql import func
+
 from project import db
 
 
 class User(db.Model):
-    __tablename__ = "users"
+
+    __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), nullable=False)
     active = db.Column(db.Boolean(), default=True, nullable=False)
+    created_date = db.Column(db.DateTime, default=func.now(), nullable=False)
 
     def __init__(self, username, email):
         self.username = username
         self.email = email
 ```
 
-Update *project/\_\_init\_\_.py*, removing the route and model and adding the [Application Factory](http://flask.pocoo.org/docs/0.12/patterns/appfactories/) pattern:
+Update *project/\_\_init\_\_.py*, removing the route and model and adding the [Application Factory](http://flask.pocoo.org/docs/1.0/patterns/appfactories/) pattern:
 
 ```python
 # services/users/project/__init__.py
@@ -66,7 +71,7 @@ Update *project/\_\_init\_\_.py*, removing the route and model and adding the [A
 
 import os
 
-from flask import Flask, jsonify
+from flask import Flask  # new
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -74,6 +79,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
+# new
 def create_app(script_info=None):
 
     # instantiate the app
@@ -91,11 +97,14 @@ def create_app(script_info=None):
     app.register_blueprint(users_blueprint)
 
     # shell context for flask cli
-    app.shell_context_processor({'app': app, 'db': db})
+    @app.shell_context_processor
+    def ctx():
+        return {'app': app, 'db': db}
+
     return app
 ```
 
-Take note of the `shell_context_processor`. [This](http://flask.pocoo.org/docs/0.12/api/#flask.Flask.shell_context_processor) is used to register the `app` and `db` to the shell. Now we can work with the application context and the database without having to import them directly into the shell.
+Take note of the `shell_context_processor`. [This](http://flask.pocoo.org/docs/1.0/api/#flask.Flask.shell_context_processor) is used to register the `app` and `db` to the shell. Now we can work with the application context and the database without having to import them directly into the shell, which you'll see shortly.
 
 Update *manage.py*:
 
@@ -107,11 +116,11 @@ import unittest
 
 from flask.cli import FlaskGroup
 
-from project import create_app, db
-from project.api.models import User
+from project import create_app, db   # new
+from project.api.models import User  # new
 
-app = create_app()
-cli = FlaskGroup(create_app=create_app)
+app = create_app()  # new
+cli = FlaskGroup(create_app=create_app)  # new
 
 
 @cli.command()
@@ -135,6 +144,25 @@ if __name__ == '__main__':
     cli()
 ```
 
+Now, you can work with the app and db context directly:
+
+```sh
+$ docker-compose -f docker-compose-dev.yml run users flask shell
+
+Python 3.6.5 (default, Jun  6 2018, 23:08:29)
+[GCC 6.4.0] on linux
+App: project [development]
+Instance: /usr/src/app/instance
+
+>>> app
+<Flask 'project'>
+
+>>> db
+<SQLAlchemy engine=postgres://postgres:***@users-db:5432/users_dev>
+
+>>> exit()
+```
+
 Update the imports at the top of *project/tests/base.py* and *project/tests/test_config.py*:
 
 ```python
@@ -149,10 +177,10 @@ Finally, remove the `FLASK_APP` environment variable from *docker-compose-dev.ym
 
 ```yaml
 environment:
-  - FLASK_DEBUG=1
-  - APP_SETTINGS=project.config.DevelopmentConfig
-  - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
-  - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+    - FLASK_ENV=development
+    - APP_SETTINGS=project.config.DevelopmentConfig
+    - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+    - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
 ```
 
 Test!
@@ -160,11 +188,9 @@ Test!
 ```sh
 $ docker-compose -f docker-compose-dev.yml up -d
 
-$ docker-compose -f docker-compose-dev.yml \
-  run users python manage.py recreate_db
+$ docker-compose -f docker-compose-dev.yml run users python manage.py recreate_db
 
-$ docker-compose -f docker-compose-dev.yml \
-  run users python manage.py test
+$ docker-compose -f docker-compose-dev.yml run users python manage.py test
 ```
 
 Correct any errors and move on...
