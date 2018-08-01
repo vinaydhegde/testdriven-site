@@ -7,19 +7,17 @@ permalink: managing-secrets-with-vault-and-consul
 type: blog
 author: Michael Herman
 lastname: herman
-description: blah
-keywords: ""
-image:
-image_alt: docker and python
-blurb: blah
-date: 2018-07-26
+description: This post looks at how to set up and use Hashicorp's Vault and Consul to securely store and manage secrets.
+keywords: "vault, consul, hashicorp, secrets, docker, devops"
+image: assets/img/blog/vault-consul-docker/managing_secrets_vault_consul.png
+image_alt: vault and consul
+blurb: This post looks at how to set up and use Hashicorp's Vault and Consul to securely store and manage secrets.
+date: 2018-08-01
 ---
-
-TODO: vault-consul-docker
 
 The following tutorial details how to set up and use Hashicorp's [Vault](https://www.vaultproject.io/) and [Consul](https://www.consul.io/) projects to securely store and manage secrets.
 
-We'll start by spinning up a single instance of Vault within a Docker container and then dive right into managing both [static](https://www.vaultproject.io/guides/secret-mgmt/static-secrets.html) and [dynamic](https://www.vaultproject.io/intro/getting-started/dynamic-secrets.html) secrets along with Vault's "encryption as a service" feature. Then, we'll add Consul into the mix and look at how to scale Vault.
+We'll start by spinning up a single instance of Vault within a Docker container and then jump into managing both [static](https://www.vaultproject.io/guides/secret-mgmt/static-secrets.html) and [dynamic](https://www.vaultproject.io/intro/getting-started/dynamic-secrets.html) secrets along with Vault's "encryption as a service" feature. Then, we'll add Consul into the mix and look at how to scale Vault.
 
 > This is an intermediate-level tutorial. It assumes that you a have basic working knowledge of [Docker](https://www.docker.com/). It's also recommended that you read through the [Intro](https://www.vaultproject.io/intro/index.html), [Interals](https://www.vaultproject.io/docs/internals/index.html), and [Basic Concepts](https://www.vaultproject.io/docs/concepts/index.html) guides from the official documentation to get up to speed with Vault before beginning.
 
@@ -31,8 +29,8 @@ We'll start by spinning up a single instance of Vault within a Docker container 
 
 - Docker v18.06.0-ce
 - Docker-Compose v1.22.0
-- Vault 0.10.3
-- Consul 1.2.1
+- Vault v0.10.3
+- Consul v1.2.1
 
 ## Objectives
 
@@ -44,9 +42,12 @@ By the end of this tutorial, you should be able to...
 1. Spin up Vault with the Filesystem backend
 1. Init and unseal Vault
 1. Authenticate against Vault
-1. Configure an Audit backend
-1. Work with static and dynamic secrets
+1. Configure an Audit backend to log all interactions with Vault
+1. Work with static and dynamic secrets via the CLI, HTTP API, and UI
+1. Create a Vault policy to limit access to a specific path
 1. Use the Transit backend as an "encryption as a service"
+1. Set up Consul to work with Vault as Storage backend for secrets
+1. Define a custom lease period for a secret and revoke a secret before the end of that period
 
 ## What is Vault?
 
@@ -90,12 +91,12 @@ With that, let's start using Vault.
 
 To get up and running quickly, we'll use the [Filesystem](https://www.vaultproject.io/docs/configuration/storage/filesystem.html) backend to store secrets at rest.
 
-> The filesystem backend should only be used for local development or single-server Vault deployments.
+> The filesystem backend should only be used for local development or single-server Vault deployment since it does not support high availability.
 
 Create a new project directory:
 
 ```sh
-$ mkdir vault-docker-example && cd vault-docker-example
+$ mkdir vault-consul-docker && cd vault-consul-docker
 ```
 
 Then add the following folders:
@@ -156,8 +157,6 @@ services:
     build:
       context: ./vault
       dockerfile: Dockerfile
-    container_name: vault
-    hostname: vault
     ports:
       - 8200:8200
     volumes:
@@ -192,7 +191,9 @@ Add a config file called *vault-config.json* to "vault/config":
 
 ```
 
-Here, we configured Vault to use the Filesystem backend, defined the [listener](https://www.vaultproject.io/docs/configuration/listener/tcp.html) for Vault, [disabled TLS](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable), and enabled the [Vault UI](https://www.vaultproject.io/docs/configuration/ui/index.html). Now we can build the image and spin up the container:
+Here, we configured Vault to use the Filesystem backend, defined the [listener](https://www.vaultproject.io/docs/configuration/listener/tcp.html) for Vault, [disabled TLS](https://www.vaultproject.io/docs/configuration/listener/tcp.html#tls_disable), and enabled the [Vault UI](https://www.vaultproject.io/docs/configuration/ui/index.html). Review the [docs](https://www.vaultproject.io/docs/configuration/index.html) for more info on configuring Vault.
+
+Now we can build the image and spin up the container:
 
 ```sh
 $ docker-compose up -d --build
@@ -239,7 +240,7 @@ Take note of the unseal keys and the initial root token. You will need to provid
 
 > Why 3 keys? Review [Shamir's Secret Sharing](https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing).
 
-Now you can unseal the Vault using three of the keys:
+Now you can unseal Vault using three of the keys:
 
 ```sh
 $ vault operator unseal
@@ -289,7 +290,7 @@ policies             ["root"]
 
 > Keep in mind that this uses the root policy. In production you'll want to set up policies with different levels of access. We'll look at how to do this shortly.
 
-<img src="/assets/img/blog/vault-and-consul/vault-init.gif" style="max-width:90%;" alt="vault init">
+<img src="/assets/img/blog/vault-consul-docker/vault-init.gif" style="max-width:90%;" alt="vault init">
 
 Vault is now unsealed and ready for use.
 
@@ -321,9 +322,9 @@ There are two types of secrets in Vault - [static](https://www.vaultproject.io/g
 
 1. **Static** secrets (think encrypted Redis or Memcached) have refresh intervals but they do not expire unless explicitly revoked. They are defined ahead of time with the [Key/Value](https://www.vaultproject.io/docs/secrets/kv/index.html) backend (formerly the "generic" backend) and then shared.
 
-    <img src="/assets/img/blog/vault-and-consul/vault-secure_secret_storage.png" style="max-width:60%;" alt="secure secret storage">
+    <img src="/assets/img/blog/vault-consul-docker/vault-secure_secret_storage.png" style="max-width:60%;" alt="secure secret storage">
 
-1. **Dynamic** secrets are generated on demand. They have enforced leases and generally expire after a short period of time. Since they don't exist until they are accessed, there's less exposure - so dynamic secrets are much more secure. Vault ships with a number of dynamic backends - i.e., [AWS](https://www.vaultproject.io/docs/secrets/aws/index.html), [Databases](https://www.vaultproject.io/docs/secrets/databases/index.html), [Google Cloud](https://www.vaultproject.io/docs/secrets/gcp/index.html), [Consul](https://www.vaultproject.io/docs/secrets/consul/index.html), and [RabbitMQ](https://www.vaultproject.io/docs/secrets/rabbitmq/index.html).
+1. **Dynamic** secrets are generated on demand. They have enforced leases and generally expire after a short period of time. Since they do not exist until they are accessed, there's less exposure - so dynamic secrets are much more secure. Vault ships with a number of dynamic backends - i.e., [AWS](https://www.vaultproject.io/docs/secrets/aws/index.html), [Databases](https://www.vaultproject.io/docs/secrets/databases/index.html), [Google Cloud](https://www.vaultproject.io/docs/secrets/gcp/index.html), [Consul](https://www.vaultproject.io/docs/secrets/consul/index.html), and [RabbitMQ](https://www.vaultproject.io/docs/secrets/rabbitmq/index.html).
 
 > Review the [Why We Need Dynamic Secrets](https://www.hashicorp.com/blog/why-we-need-dynamic-secrets) blog post for more info on the advantages of using dynamic secrets.
 
@@ -339,6 +340,7 @@ Create a new secret with a key of `bar` and value of `precious` within the `secr
 
 ```sh
 $ vault kv put secret/foo bar=precious
+
 Success! Data written to: secret/foo
 ```
 
@@ -492,7 +494,7 @@ The JSON response should contain a `data` key with a value similar to:
 }
 ```
 
-<img src="/assets/img/blog/vault-and-consul/vault-api-static-secrets.gif" style="max-width:90%;" alt="vault api">
+<img src="/assets/img/blog/vault-consul-docker/vault-api-static-secrets.gif" style="max-width:90%;" alt="vault api">
 
 Try adding new versions, deleting, and destroying on your own.
 
@@ -500,7 +502,7 @@ Try adding new versions, deleting, and destroying on your own.
 
 The [UI](https://www.vaultproject.io/docs/configuration/ui/index.html) should be up at running at [http://localhost:8200/ui/vault](http://localhost:8200/ui/vault). Use the root token to login. Then, explore the Key/Value backend on your own:
 
-<img src="/assets/img/blog/vault-and-consul/vault-ui.png" style="max-width:90%;padding-top:20px;" alt="vault ui">
+<img src="/assets/img/blog/vault-consul-docker/vault-ui.png" style="max-width:90%;padding-top:20px;" alt="vault ui">
 
 
 ## Policies
@@ -592,9 +594,9 @@ $ curl \
     http://127.0.0.1:8200/v1/secret/data/app/test
 ```
 
-You can manage policies from the UI:
+Policies can be managed from the UI as well:
 
-<img src="/assets/img/blog/vault-and-consul/vault-ui-policies.png" style="max-width:90%;" alt="vault ui">
+<img src="/assets/img/blog/vault-consul-docker/vault-ui-policies.png" style="max-width:90%;" alt="vault ui">
 
 ## Encryption as a Service
 
@@ -649,7 +651,7 @@ my precious
 
 Test it out in the UI as well:
 
-<img src="/assets/img/blog/vault-and-consul/vault-ui-transit.gif" style="max-width:90%;" alt="vault ui">
+<img src="/assets/img/blog/vault-consul-docker/vault-ui-transit.gif" style="max-width:90%;" alt="vault ui">
 
 ## Dynamic Secrets
 
@@ -693,7 +695,7 @@ $ vault write aws/roles/ec2-read arn=arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAc
 Success! Data written to: aws/roles/ec2-read
 ```
 
-Here, we created a new role based on `AmazonEC2ReadOnlyAccess`, which is an AWS-managed [policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html). As the name suggests, it give users read-only access in the EC2 console; they cannot perform any actions or create new resources. You can also use an inline policy to create a custom role based on your individual needs. We'll look at an example of this shortly. Refer to the [docs](https://www.vaultproject.io/docs/secrets/aws/index.html) for more info.
+Here, we created a new role based on `AmazonEC2ReadOnlyAccess`, which is an AWS-managed [policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html). As the name suggests, it give users read-only access to the EC2 console; they cannot perform any actions or create new resources. You can also use an inline policy to create a custom role based on your individual needs. We'll look at an example of this shortly. Refer to the [AWS Secrets Engine](https://www.vaultproject.io/docs/secrets/aws/index.html) docs for more info.
 
 > **Remember**: Dynamic Secrets are generated only when they are requested (i.e., a web app requests access to S3). They are not available in the store before this.
 
@@ -714,7 +716,7 @@ security_token     <nil>
 
 You should now be able to see the user within the "Users" section on the [IAM console](https://console.aws.amazon.com/iam) on AWS:
 
-<img src="/assets/img/blog/vault-and-consul/iam.png" style="max-width:90%;" alt="aws iam">
+<img src="/assets/img/blog/vault-consul-docker/iam.png" style="max-width:90%;" alt="aws iam">
 
 ## Leases and Revocation
 
@@ -749,13 +751,13 @@ secret_key         y+vGipayamdKn1jiGZZyeDxa4Z8pdhQXOeSKXeeO
 security_token     <nil>
 ```
 
-What if you only wanted the lease period for all AWS IAM dynamic keys to be 30 minutes?
+What if you only wanted the lease period for all AWS IAM dynamic secrets to be 30 minutes?
 
 ```sh
 $ vault write aws/config/lease lease=1800s lease_max=1800s
 ```
 
-> Since `lease_max` is the same as `lease`, you won't be able to renew the token. If you set the `lease_max` to `3600s`, you'd be able to renew the lease once. For more, review the [Tokens and Leases](https://www.vaultproject.io/guides/identity/lease.html) guide.
+In this example, since `lease_max` is the same as `lease`, you won't be able to renew the token. If you set the `lease_max` to `3600s`, you'd be able to renew the lease once. For more, review the [Tokens and Leases](https://www.vaultproject.io/guides/identity/lease.html) guide.
 
 Create a new credential:
 
@@ -801,8 +803,6 @@ services:
     build:
       context: ./vault
       dockerfile: Dockerfile
-    container_name: vault
-    hostname: vault
     ports:
       - 8200:8200
     volumes:
@@ -822,11 +822,9 @@ services:
     build:
       context: ./consul
       dockerfile: Dockerfile
-    container_name: consul
-    hostname: consul
     ports:
       - 8500:8500
-    command: agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect=1 -config-file=/consul/config/config.json
+    command: agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect 1 -config-file=/consul/config/config.json
     volumes:
       - ./consul/config/consul-config.json:/consul/config/config.json
       - ./consul/data:/consul/data
@@ -869,23 +867,20 @@ EXPOSE 8300 8400 8500 8600
 ENTRYPOINT ["consul"]
 ```
 
-Next, within the "consul" directory and two new directories - "config" and "data". Then, within "config", add a config file called *consul-config.json*:
+Next, within the "consul" directory add two new directories - "config" and "data". Then, within "config", add a config file called *consul-config.json*:
 
 ```json
 {
-  "client_addr":"0.0.0.0",
   "datacenter": "localhost",
-  "data_dir":"/consul/data",
+  "data_dir": "/consul/data",
   "log_level": "DEBUG",
   "server": true,
-  "ui" : true,
+  "ui": true,
   "ports": {
     "dns": 53
   }
 }
 ```
-
-TODO - add better explanation, tie it back to `agent -server -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect=1`
 
 > Be sure to review the [Configuration](https://www.consul.io/docs/agent/options.html) options from the Consul docs for more info on the above options.
 
@@ -920,7 +915,7 @@ Exit out of the bash session. Bring the container down, and then update the Vaul
 
 So, now we're using the [Consul](https://www.vaultproject.io/docs/configuration/storage/consul.html) backend instead of the Filesystem. We used the name of the service - `consul` - as part of the address. The `path` key defines the path in Consul's key/value store where the Vault data will be stored.
 
-Clear out all files and folders within the "vault/data" directory. Build the new images and spin up the containers:
+Clear out all files and folders within the "vault/data" directory to remove the Filesystem backend. Build the new images and spin up the containers:
 
 ```sh
 $ docker-compose down
@@ -929,7 +924,7 @@ $ docker-compose up -d --build
 
 Ensure all is well by navigating in your browser to [http://localhost:8500/ui](http://localhost:8500/ui):
 
-<img src="/assets/img/blog/vault-and-consul/consul-ui.png" style="max-width:90%;" alt="consul ui">
+<img src="/assets/img/blog/vault-consul-docker/consul-ui.png" style="max-width:90%;" alt="consul ui">
 
 Test this out from the CLI or UI.
 
@@ -944,7 +939,7 @@ Test this out from the CLI or UI.
 
 ### UI
 
-<img src="/assets/img/blog/vault-and-consul/vault-consul.gif" style="max-width:90%;" alt="vault consul">
+<img src="/assets/img/blog/vault-consul-docker/vault-consul.gif" style="max-width:90%;" alt="vault consul">
 
 > Notice how there's no files or folders within "vault/data". Why do you think this is?
 
@@ -955,8 +950,6 @@ consul-worker:
   build:
     context: ./consul
     dockerfile: Dockerfile
-  container_name: consul-worker
-  hostname: consul-worker
   command: agent -server -join consul -config-file=/consul/config/config.json
   volumes:
     - ./consul/config/consul-config.json:/consul/config/config.json
@@ -968,15 +961,15 @@ Here, we used the [join](https://www.consul.io/docs/commands/join.html) command 
 
 Then:
 
-1. Exit from the bash session
+1. Exit from the bash session (if necessary)
 1. Bring down the containers
 1. Clear out the data directory in "consul/data" (Why?)
 1. Spin the containers back up and test
 
-<img src="/assets/img/blog/vault-and-consul/consul-ui2.png" style="max-width:90%;" alt="consul ui">
+<img src="/assets/img/blog/vault-consul-docker/consul-ui2.png" style="max-width:90%;" alt="consul ui">
 
 ## Conclusion
 
-In this tutorial, we went over how to set up and run Vault and Consul inside a Docker container. You should now have a clear understanding of how to interact with Vault and perform basic operations. Vault is a powerful tool that can increase your overall security by reducing secret sprawl, auditing every single interaction with secrets, and dynamically generating secrets as needed.
+In this tutorial, we went over how to set up and run Vault and Consul inside a Docker container. You should now have a clear understanding of how to interact with Vault and perform basic operations.
 
-Grab the final code from the vault-consul-docker repo. Check out the [presentation](https://mherman.org/presentations/vault/) as well.
+Grab the final code from the [vault-consul-docker](https://github.com/testdrivenio/vault-consul-docker) repo. Check out the [presentation](https://mherman.org/presentations/vault/) as well.
