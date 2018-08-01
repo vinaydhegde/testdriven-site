@@ -743,17 +743,17 @@ $ docker inspect --format='{{json .State.Health}}' CONTAINER_ID
 
 You should see something like:
 
-```sh
+```json
 {
-	"Status": "healthy",
-	"FailingStreak": 0,
-	"Log": [
+  "Status": "healthy",
+  "FailingStreak": 0,
+  "Log": [
     {
-		  "Start": "2018-07-07T19:03:30.753777854Z",
-		  "End": "2018-07-07T19:03:30.838483247Z",
-		  "ExitCode": 0,
-		  "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100    69  100    69    0     0  11629      0 --:--:-- --:--:-- --:--:-- 13800\n{\"container_id\":\"a6127b1f469d\",\"message\":\"pong!\",\"status\":\"success\"}\n"
-	  }
+      "Start": "2018-07-07T19:03:30.753777854Z",
+      "End": "2018-07-07T19:03:30.838483247Z",
+      "ExitCode": 0,
+      "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100    69  100    69    0     0  11629      0 --:--:-- --:--:-- --:--:-- 13800\n{\"container_id\":\"a6127b1f469d\",\"message\":\"pong!\",\"status\":\"success\"}\n"
+    }
   ]
 }
 ```
@@ -787,17 +787,17 @@ $ docker inspect --format='{{json .State.Health}}' CONTAINER_ID
 
 You should see something like:
 
-```sh
+```json
 {
-	"Status": "starting",
-	"FailingStreak": 1,
-	"Log": [
+  "Status": "starting",
+  "FailingStreak": 1,
+  "Log": [
     {
-		  "Start": "2018-07-07T19:09:23.231761027Z",
-		  "End": "2018-07-07T19:09:23.310519778Z",
-		  "ExitCode": 1,
-		  "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (7) Failed to connect to localhost port 5001: Connection refused\n"
-	  }
+      "Start": "2018-07-07T19:09:23.231761027Z",
+      "End": "2018-07-07T19:09:23.310519778Z",
+      "ExitCode": 1,
+      "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (7) Failed to connect to localhost port 5001: Connection refused\n"
+    }
   ]
 }
 ```
