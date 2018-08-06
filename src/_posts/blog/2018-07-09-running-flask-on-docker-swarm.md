@@ -37,7 +37,7 @@ By the end of this tutorial, you should be able to...
 1. Discuss the pros and cons of using Docker Swarm over other orchestration tools like Kubernetes and Elastic Container Service (ECS)
 1. Spin up a Flask-based microservice locally with Docker Compose
 1. Build Docker images and push them up to the Docker Hub image registry
-1. Provision hosts on Digital Oceanwith Docker Machine
+1. Provision hosts on Digital Ocean with Docker Machine
 1. Configure a Docker Swarm cluster to run on Digital Ocean
 1. Run Flask, Nginx, and Postgres on Docker Swarm
 1. Use a round robin algorithm to route traffic on a Swarm cluster
