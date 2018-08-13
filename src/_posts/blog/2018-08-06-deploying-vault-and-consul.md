@@ -15,9 +15,9 @@ blurb: This tutorial shows how to deploy Vault and Consul with Docker Swarm.
 date: 2018-08-06
 ---
 
-Let's look at how to deploy Vault and Consul to [DigitalOcean](https://m.do.co/c/d8f211a4b4c2) with Docker Swarm.
+Let's look at how to deploy Hashicorp's [Vault](https://www.vaultproject.io/) and [Consul](https://www.consul.io/) to [DigitalOcean](https://m.do.co/c/d8f211a4b4c2) with Docker Swarm.
 
-> This tutorial assumes that you have basic working knowledge of using Vault and Consul to manage secrets. Please refer to the [Managing Secrets with Vault and Consul](https://testdriven.io/managing-secrets-with-vault-and-consul) blog post for more info.
+> This tutorial assumes that you have a basic working knowledge of using Vault and Consul to manage secrets. Please refer to the [Managing Secrets with Vault and Consul](https://testdriven.io/managing-secrets-with-vault-and-consul) blog post for more info.
 
 Upon completion, you will be able to:
 

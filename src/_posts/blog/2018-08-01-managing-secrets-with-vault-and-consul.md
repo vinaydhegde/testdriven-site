@@ -973,3 +973,8 @@ Then:
 In this tutorial, we went over how to set up and run Vault and Consul inside a Docker container. You should now have a clear understanding of how to interact with Vault and perform basic operations.
 
 Grab the final code from the [vault-consul-docker](https://github.com/testdrivenio/vault-consul-docker) repo. Check out the [presentation](https://mherman.org/presentations/vault/) as well.
+
+Looking for more? Take a look at the following posts:
+
+1. [Deploying Vault and Consul](https://testdriven.io/deploying-vault-and-consul)
+1. [Dynamic Secret Generation with Vault and Flask](https://testdriven.io/dynamic-secret-generation-with-vault-and-flask)

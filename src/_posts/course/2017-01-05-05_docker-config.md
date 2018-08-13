@@ -55,6 +55,15 @@ Benefits of using Alpine:
 1. More secure (since there are less packages and libraries)
 1. Faster deployments
 
+> Depending on your environment, you may need to add `RUN mkdir -p /usr/src/app` just before you set the working directory:
+>
+```
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+```
+>
+
 Add *.dockerignore* to the "users" directory as well:
 
 ```

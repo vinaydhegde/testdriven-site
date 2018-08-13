@@ -201,6 +201,8 @@ COPY . /usr/src/app
 CMD ["/usr/src/app/entrypoint.sh"]
 ```
 
+> Depending on your environment, you may need to [chmod 755 or 777 instead of +x](https://github.com/testdrivenio/testdriven-app-2.3/issues/17#issuecomment-405422949).
+
 Sanity check:
 
 ```sh
