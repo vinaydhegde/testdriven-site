@@ -25,7 +25,7 @@ We'll also be practicing test-driven development (TDD), writing tests first when
   <p><a href="{{ site.url }}/part-one-intro">Or, preview parts 1 &amp; 2</a></p>
 </div>
 
-(*Current version: 2.3, released on July, 16th 2018*)
+(*Current version: 2.3.1, released on August, 14th 2018*)
 
 <a class="twitter-share-button" data-show-count="false" href="https://twitter.com/intent/tweet?text=Microservices%20with%20Docker,%20Flask,%20and%20React%20%23webdev&amp;url=https://testdriven.io&amp;via={{ site.twitter }}" rel="nofollow" target="_blank" title="Share on Twitter"></a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
