@@ -201,7 +201,7 @@ COPY . /usr/src/app
 CMD ["/usr/src/app/entrypoint.sh"]
 ```
 
-> Depending on your environment, you may need to [chmod 755 or 777 instead of +x](https://github.com/testdrivenio/testdriven-app-2.3/issues/17#issuecomment-405422949).
+> Depending on your environment, you may need to [chmod 755 or 777 instead of +x](https://github.com/testdrivenio/testdriven-app-2.3/issues/17#issuecomment-405422949). If you still get a "permission denied", review the [docker entrypoint running bash script gets "permission denied"](https://stackoverflow.com/questions/38882654/docker-entrypoint-running-bash-script-gets-permission-denied) Stack Overflow question.
 
 Sanity check:
 
