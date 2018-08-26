@@ -234,4 +234,6 @@ That's it!
 
 Remember that in this example the credentials are only valid for an hour. This is perfect for short, dynamic, one-off tasks. If you have longer tasks, you could set up a cron job to fire the *run.sh* script every hour to obtain new credentials. Just keep in mind that the max TTL is set to 24 hours.
 
+> You may also want to look at using [envconsul](https://github.com/hashicorp/envconsul) to place the credentials into the environment for Flask. It can even restart Flask when the credentials get updated.
+
 You can find the final code can in the [vault-consul-flask](https://github.com/testdrivenio/vault-consul-flask) repo.
