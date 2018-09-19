@@ -17,7 +17,7 @@ date: 2018-07-09
 
 Let's look at how to spin up a Docker Swarm cluster on [DigitalOcean](https://m.do.co/c/d8f211a4b4c2) and then configure a microservice, powered by Flask and Postgres, to run on it.
 
-> This is an intermediate-level tutorial. It assumes that you a have basic working knowledge of Flask, Docker, and container orchestration. Review the [Microservices with Docker, Flask, and React](http://testdriven.io/) course for more info on each of these tools and topics.
+> This is an intermediate-level tutorial. It assumes that you have basic working knowledge of Flask, Docker, and container orchestration. Review the [Microservices with Docker, Flask, and React](http://testdriven.io/) course for more info on each of these tools and topics.
 
 {% if page.toc %}
   {% include toc.html %}

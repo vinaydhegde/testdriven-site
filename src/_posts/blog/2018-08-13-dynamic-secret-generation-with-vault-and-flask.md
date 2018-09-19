@@ -17,6 +17,10 @@ date: 2018-08-13
 
 In this tutorial, we'll look at a quick, real-world example of using Hashicorp's [Vault](https://www.vaultproject.io/) and [Consul](https://www.consul.io/) to create dynamic Postgres credentials for a Flask web app.
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## Prerequisites
 
 Before beginning, you should have:
