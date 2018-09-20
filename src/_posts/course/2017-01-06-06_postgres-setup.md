@@ -244,28 +244,4 @@ if __name__ == '__main__':
     cli()
 ```
 
-This registers a new command, `recreate_db`,  to the CLI so that we can run it from the command line. Apply the model to the dev database:
-
-```sh
-$ docker-compose -f docker-compose-dev.yml run users python manage.py recreate_db
-```
-
-Did this work? Let's hop into psql...
-
-```sh
-$ docker-compose -f docker-compose-dev.yml exec users-db psql -U postgres
-
-psql (10.4)
-Type "help" for help.
-
-postgres=# \c users_dev
-You are now connected to database "users_dev" as user "postgres".
-users_dev=# \dt
-         List of relations
- Schema | Name  | Type  |  Owner
---------+-------+-------+----------
- public | users | table | postgres
-(1 row)
-
-users_dev=# \q
-```
+This registers a new command, `recreate_db`,  to the CLI so that we can run it from the command line, which we'll use shortly to apply the model to the database.
