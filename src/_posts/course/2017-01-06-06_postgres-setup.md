@@ -209,7 +209,7 @@ Sanity check:
 $ docker-compose -f docker-compose-dev.yml up -d --build
 ```
 
-Ensure [http://DOCKER_MACHINE_IP:5001/users/ping](http://DOCKER_MACHINE_IP:5001/users/ping) still works:
+Ensure [http://localhost:5001/users/ping](http://localhost:5001/users/ping) still works:
 
 ```json
 {
