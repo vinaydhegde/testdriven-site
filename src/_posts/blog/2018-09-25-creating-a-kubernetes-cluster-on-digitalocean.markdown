@@ -1,5 +1,5 @@
 ---
-title: Creating a Kubernetes Cluster on DigitalOcean with Python and Flask
+title: Creating a Kubernetes Cluster on DigitalOcean with Python and Fabric
 layout: blog
 share: true
 toc: true
@@ -76,7 +76,7 @@ First, [sign up](https://m.do.co/c/d8f211a4b4c2) for an account on DigitalOcean 
 Add the token to your environment:
 
 ```sh
-$ export DIGITAL_OCEAN_ACCESS_TOKEN=70b5ab2bc2031784b24bfc8711ea5e639b30d58e2ebd600132e6e7e641bd97bb
+$ export DIGITAL_OCEAN_ACCESS_TOKEN=<YOUR_DIGITAL_OCEAN_ACCESS_TOKEN>
 ```
 
 Next, to interact with the API programmatically, install the [python-digitalocean](https://github.com/koalalorenzo/python-digitalocean) module:
