@@ -1,5 +1,5 @@
 ---
-title: Creating a Kubernetes Cluster on DigitalOcean with Python and Flask
+title: Creating a Kubernetes Cluster on DigitalOcean with Python and Fabric
 layout: blog
 share: true
 toc: true
