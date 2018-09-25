@@ -1080,4 +1080,4 @@ Additional Resources:
 1. [Scaling Flask with Kubernetes](https://mherman.org/presentations/flask-kubernetes)
 1. [Running Flask on Docker Swarm](https://testdriven.io/running-flask-on-docker-swarm) (compare and contrast running Flask on Docker Swarm vs. Kubernetes)
 
-You can find the code in the [flask-docker-kubernetes](https://github.com/testdrivenio/flask-vue-kubernetes) repo on GitHub.
+You can find the code in the [flask-vue-kubernetes](https://github.com/testdrivenio/flask-vue-kubernetes) repo on GitHub.
