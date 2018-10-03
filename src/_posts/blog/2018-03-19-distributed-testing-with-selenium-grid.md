@@ -464,7 +464,7 @@ services:
 Major changes:
 
 1. *Placement constraints*: We set up a [placement constraint](https://docs.docker.com/engine/swarm/services/#placement-constraints) of `node.role == worker` so that all tasks will be run on the worker nodes. It’s generally best to keep manager nodes free from CPU and/or memory-intensive tasks.
-1. *Entrypoint*: Here, we updated the host set in `SE_OPTS` within the *entry_point.sh* [script](https://github.com/SeleniumHQ/docker-selenium/blob/master/NodeBase/entry_point.sh) so nodes running on different hosts will be able to successfully link back to the hub.
+1. *Entrypoint*: Here, we updated the host set in `SE_OPTS` within the *entry_point.sh* [script](https://github.com/SeleniumHQ/docker-selenium/blob/3.10.0-argon/NodeBase/entry_point.sh) so nodes running on different hosts will be able to successfully link back to the hub.
 
 With that, point the Docker daemon  at `node-1` and deploy the stack:
 
