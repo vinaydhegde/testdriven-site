@@ -13,6 +13,7 @@ image: assets/img/blog/vault-consul-flask/secret_generation_vault_flask.png
 image_alt: vault and consul
 blurb: In this tutorial, we'll look at a real-world example of using Hashicorp's Vault and Consul to create dynamic Postgres credentials for a Flask web app.
 date: 2018-08-13
+modified_date: 2018-10-03
 ---
 
 In this tutorial, we'll look at a quick, real-world example of using Hashicorp's [Vault](https://www.vaultproject.io/) and [Consul](https://www.consul.io/) to create dynamic Postgres credentials for a Flask web app.
@@ -210,6 +211,14 @@ Create and seed the database `users` table:
 $ docker-compose run web python manage.py recreate_db
 $ docker-compose run web python manage.py seed_db
 ```
+
+> Due to recent, breaking [changes](https://github.com/pallets/click/issues/1123) in the [Click](https://click.palletsprojects.com/) library, a Flask dependency, you may need to invoke the above commands with dashes instead of underscores:
+>
+```
+$ docker-compose run web python manage.py recreate-db
+$ docker-compose run web python manage.py seed-db
+```
+>
 
 Test it out in the browser at [http://localhost:5000/users](http://localhost:5000/users):
 

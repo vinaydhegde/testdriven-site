@@ -23,7 +23,19 @@
           <h1>{{ page.title }}</h1>
 
           {% if page.author %}
-            <p>Posted by <a href="{{site.url}}/authors/{{page.lastname}}">{{page.author}}</a></span> on <span class="badge badge-secondary">{{ page.date | date: "%b %-d, %Y" }}</span><br>{% include share.html %}</p>
+            <p>
+              <span>Posted by</span>
+              <span><a href="{{site.url}}/authors/{{page.lastname}}">{{page.author}}</a></span>
+              <span>on </span>
+              <span class="badge badge-secondary">{{ page.date | date: "%b %-d, %Y" }}</span>
+              {% if page.modified_date %}
+                <span>&vert;</span>
+                <span>Last updated on </Span>
+                <span class="badge badge-secondary">{{ page.modified_date | date: "%b %-d, %Y" }}</span>
+              {% endif %}
+              <br>
+              {% include share.html %}
+            </p>
           {% endif %}
 
           {{ content }}
