@@ -13,6 +13,7 @@ image: assets/img/blog/flask-docker-swarm/running_flask_apps_docker_swarm.png
 image_alt: docker and python
 blurb: This post looks at how to run a Flask app on Docker Swarm.
 date: 2018-07-09
+modified_date: 2018-10-03
 ---
 
 Let's look at how to spin up a Docker Swarm cluster on [DigitalOcean](https://m.do.co/c/d8f211a4b4c2) and then configure a microservice, powered by Flask and Postgres, to run on it.
@@ -25,9 +26,9 @@ Let's look at how to spin up a Docker Swarm cluster on [DigitalOcean](https://m.
 
 *Docker dependencies:*
 
-- Docker v18.03.1-ce
-- Docker-Compose v1.21.1
-- Docker-Machine v0.14.0
+- Docker v18.06.1-ce
+- Docker-Compose v1.22.0
+- Docker-Machine v0.15.0
 
 ## Objectives
 
@@ -181,7 +182,7 @@ $ docker push mjhea0/flask-docker-swarm_nginx:latest
 Moving on, let's set up a new Docker Compose file for use with Docker Swarm:
 
 ```yaml
-version: '3.6'
+version: '3.7'
 
 services:
 
@@ -356,6 +357,12 @@ Let's add another web app to the cluster:
 
 ```sh
 $ docker service scale flask_web=2
+
+flask_web scaled to 2
+overall progress: 2 out of 2 tasks
+1/2: running
+2/2: running
+verify: Service converged
 ```
 
 Confirm that the service did in fact scale:
@@ -501,27 +508,27 @@ za3pg2cbbf92gi9u1v0af16e3   secret_code                             15 seconds a
 Next, remove the `SECRET_CODE` environment variable and add the `secrets` config to the `web` service in *docker-compose-swarm-yml*:
 
 ```yaml
-  web:
-    image: mjhea0/flask-docker-swarm_web:latest
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-      placement:
-        constraints: [node.role == worker]
-    expose:
-      - 5000
-    environment:
-      - FLASK_ENV=production
-      - APP_SETTINGS=project.config.ProductionConfig
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-    secrets:
-      - secret_code
-    depends_on:
-      - db
-    networks:
-      - app
+web:
+  image: mjhea0/flask-docker-swarm_web:latest
+  deploy:
+    replicas: 1
+    restart_policy:
+      condition: on-failure
+    placement:
+      constraints: [node.role == worker]
+  expose:
+    - 5000
+  environment:
+    - FLASK_ENV=production
+    - APP_SETTINGS=project.config.ProductionConfig
+    - DB_USER=postgres
+    - DB_PASSWORD=postgres
+  secrets:
+    - secret_code
+  depends_on:
+    - db
+  networks:
+    - app
 ```
 
 At the bottom of the file, define the source of the secret, as `external`, just below the `volumes` declaration:
@@ -592,7 +599,7 @@ $ curl -X POST http://YOUR_MACHINE_IP/secret \
 
 In a production environment you should use health checks to test whether a specific container is working as expected. In our case, we can use a health check to ensure that the Flask app (and the API) is up and running; otherwise, we could run into a situation where a new container is spun up and added to the cluster that appears to be healthy even though the app is actually down and not able to handle traffic.
 
-You can add health checks to either a Dockerfile or to a compose file. We'll look at latter.
+You can add health checks to either a Dockerfile or to a compose file. We'll look at the latter.
 
 > Curious about how to add health checks to a Dockerfile? Review the [health check instruction](https://docs.docker.com/engine/reference/builder/#healthcheck) from the official docs.
 
@@ -660,6 +667,7 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
 # Base Image
 FROM python:3.6-slim
 
+# ----- NEW ----
 # Install curl
 RUN apt-get update && apt-get install -y curl
 
@@ -722,10 +730,10 @@ $ docker service ps flask_web
 Point the daemon at that node:
 
 ```sh
-$ eval $(docker-machine env NODE)
+$ eval $(docker-machine env <NODE>)
 ```
 
-> Make sure to replace `NODE` with the actual node - `node-2`, `node-3`, or `node-4`..
+> Make sure to replace `<NODE>` with the actual node - `node-2`, `node-3`, or `node-4`.
 
 Grab the container ID:
 
@@ -737,7 +745,7 @@ Then run:
 
 {% raw %}
 ```sh
-$ docker inspect --format='{{json .State.Health}}' CONTAINER_ID
+$ docker inspect --format='{{json .State.Health}}' <CONTAINER_ID>
 ```
 {% endraw %}
 
@@ -768,20 +776,11 @@ healthcheck:
   retries: 5
 ```
 
-
-
-```sh
-$ eval $(docker-machine env node-1)
-$ docker stack deploy --compose-file=docker-compose-swarm.yml flask
-```
-
-Just like before, update the service and then find the node and container id that the `flask_web` service is on.
-
-Run:
+Just like before, update the service and then find the node and container id that the `flask_web` service is on. Then, run:
 
 {% raw %}
 ```sh
-$ docker inspect --format='{{json .State.Health}}' CONTAINER_ID
+$ docker inspect --format='{{json .State.Health}}' <CONTAINER_ID>
 ```
 {% endraw %}
 
@@ -812,7 +811,7 @@ Update the health check and the service. Make sure all is well before moving on.
 
 When working with a distributed system it's important to set up proper logging and monitoring so you can gain insight into what's happening when things go wrong. We've already set up the Docker Swarm Visualizer tool to help with monitoring, but much more can be done.
 
-In terms of logging, you can run the following command to access the logs of a service running on multiple nodes:
+In terms of logging, you can run the following command (from the node manager) to access the logs of a service running on multiple nodes:
 
 ```sh
 $ docker service logs -f SERVICE_NAME
@@ -823,6 +822,7 @@ $ docker service logs -f SERVICE_NAME
 Try it out:
 
 ```sh
+$ eval $(docker-machine env node-1)
 $ docker service logs -f flask_web
 ```
 
