@@ -13,6 +13,7 @@ image: /assets/img/blog/flask-rq-ses/sending_emails_redis_python.png
 image_alt: python and redis
 blurb: This blog post looks at how to send confirmation emails to newly registered users with Flask, Redis Queue, and Amazon SES.
 date: 2018-03-27
+modified_date: 2018-10-05
 ---
 
 For most web applications, after a new user registers, it's important to confirm that the user provided a valid email address that they have access to. This not only helps to prevent spammers from creating fake accounts, but it also provides an additional layer of security for your application.
@@ -63,6 +64,9 @@ Quickly review the code and overall project structure:
 │   │       ├── _base.html
 │   │       ├── footer.html
 │   │       └── home.html
+│   ├── db
+│   │   ├── Dockerfile
+│   │   └── create.sql
 │   ├── server
 │   │   ├── __init__.py
 │   │   ├── config.py
@@ -86,7 +90,7 @@ Then, spin up the app:
 $ docker-compose up -d --build
 ```
 
-> This post uses Docker version 17.12.0-ce.
+> This post uses Docker version 18.06.1-ce.
 
 Create the database tables:
 
@@ -94,7 +98,7 @@ Create the database tables:
 $ docker-compose run users python manage.py create_db
 ```
 
-Navigate to [http://localhost:5001](http://localhost:5001) in your browser. You should see:
+Navigate to [http://localhost:5003](http://localhost:5003) in your browser. You should see:
 
 <a href="/assets/img/blog/flask-rq-ses/base.png">
   <img src="/assets/img/blog/flask-rq-ses/base.png" style="max-width:90%;padding-top:20px;" alt="base project">
@@ -146,7 +150,7 @@ First, let's wire up the task queue!
 Start by spinning up two new processes - Redis and a worker. Update the *docker-compose.yml* file like so:
 
 ```yaml
-version: '3.5'
+version: '3.7'
 
 services:
 
@@ -155,7 +159,7 @@ services:
     image: users
     container_name: users
     ports:
-      - '5001:5000'
+      - 5003:5000
     command: python manage.py run -h 0.0.0.0
     volumes:
       - .:/usr/src/app
@@ -166,16 +170,16 @@ services:
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
       - SECRET_KEY=my_precious
     depends_on:
-      - redis
       - users-db
+      - redis
 
   users-db:
     container_name: users-db
     build:
       context: ./project/db
       dockerfile: Dockerfile
-    ports:
-      - 5435:5432
+    expose:
+      - 5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -196,14 +200,14 @@ services:
       - redis
 
   redis:
-    image: redis:3.2.11
+    image: redis:4.0.11-alpine
 ```
 
 Add the dependencies to *requirements.txt*:
 
 ```
 redis==2.10.6
-rq==0.10.0
+rq==0.12.0
 ```
 
 ### Task
@@ -291,7 +295,7 @@ Note that we referenced the `redis` service in the `REDIS_URL`, defined in *dock
 Next, let's add a custom CLI command to *manage.py* to fire the worker process, which is used to process the task we added to the queue:
 
 ```python
-@cli.command()
+@cli.command('run_worker')
 def run_worker():
     redis_url = app.config['REDIS_URL']
     redis_connection = redis.from_url(redis_url)
@@ -346,7 +350,7 @@ Cheers!
 
 Save the above text to a new file called *email.txt* in "project/client/templates".
 
-> For now, we'll just be sending a plain-text email. Feel free to add an HTML (basic and/or rich) on your own.
+> For now, we'll just be sending a plain-text email. Feel free to add HTML (basic and/or rich) on your own.
 
 ### Unique URL
 
@@ -557,7 +561,7 @@ Then, from the browser, add a new email address. You should see the task start a
 ```sh
 default: project.server.main.tasks.send_email('michael@mherman.org',
 'Thanks for signing up. Please follow the link to activate your account.
-\nhttp://localhost:5001/confirm/Im1pY2hhZWxAbWhlcm1hbi5vcmci.DZlVVg.1uPVCboQ8EXc4Xu1YoUgloFL8GE
+\nhttp://localhost:5003/confirm/Im1pY2hhZWxAbWhlcm1hbi5vcmci.DZlVVg.1uPVCboQ8EXc4Xu1YoUgloFL8GE
 \n\nCheers!') (a337e978-abdc-4ef9-bd4a-45447ed0cf24)
 default: Job OK (a337e978-abdc-4ef9-bd4a-45447ed0cf24)
 Result is kept for 500 seconds
@@ -567,7 +571,7 @@ Result is kept for 500 seconds
   <img src="/assets/img/blog/flask-rq-ses/register4.png" style="max-width:90%;padding-top:20px;" alt="register a new user">
 </a>
 
-Grab the URL from the logs (`http://localhost:5001/confirm/Im1pY2hhZWxAbWhlcm1hbi5vcmci.DZlVVg.1uPVCboQ8EXc4Xu1YoUgloFL8GE`), and test it out in the browser.
+Grab the URL from the logs (`http://localhost:5003/confirm/Im1pY2hhZWxAbWhlcm1hbi5vcmci.DZlVVg.1uPVCboQ8EXc4Xu1YoUgloFL8GE`), and test it out in the browser.
 
 <a href="/assets/img/blog/flask-rq-ses/register5.png">
   <img src="/assets/img/blog/flask-rq-ses/register5.png" style="max-width:90%;padding-top:20px;" alt="register a new user">
@@ -616,7 +620,7 @@ To help prevent fraud, new accounts are automatically placed in a sandbox mode w
 Back in the code, add `boto3` to the requirements file:
 
 ```
-boto3==1.6.15
+boto3==1.9.17
 ```
 
 Update `send_email`:
@@ -681,7 +685,7 @@ $ docker-compose stop
 $ docker-compose up -d --build
 ```
 
-Then, register a user from the browser. You should see a confirmation email in your inbox. Click the link and you should be redirected back to [http://localhost:5001](http://localhost:5001).
+Then, register a user from the browser. You should see a confirmation email in your inbox. Click the link and you should be redirected back to [http://localhost:5003](http://localhost:5003).
 
 <a href="/assets/img/blog/flask-rq-ses/confirm1.png">
   <img src="/assets/img/blog/flask-rq-ses/confirm1.png" style="max-width:90%;padding-top:20px;" alt="email confirm">
@@ -743,8 +747,8 @@ In this tutorial, we detailed how to send confirmation emails that newly registe
 Looking for some challenges?
 
 1. *Redis Queue*: Add RQ Dashboard, a web-based monitoring system for Redis Queue. *See [Asynchronous Tasks with Flask and Redis Queue](https://testdriven.io/asynchronous-tasks-with-flask-and-redis-queue) for more info.*
-1. *Email templates*: As mentioned, along with the plain-text email template, generate an HTML version of the confirmation email.
-1. *Tools*: Don't like the tools we're using? Swamp out Redis Queue for Celery or SES for Mailgun.
+1. *Email templates*: As mentioned, along with the plain-text email template, generate an HTML version of the confirmation email template.
+1. *Tools*: Don't like the tools we're using? Swap out Redis Queue for Celery or SES for Mailgun.
 1. *End-to-end tests*: You could write a test that opens the browser, sends en email to a dummy email account, opens the inbox of the account, and then asserts that the clicking of the confirmation link works as expected. You could also bypass the logging in to the email account and simply programmatically access the account and assert that the email was delivered.
 1. *Re-send confirmation email*: Try incorporating functionality to re-send the confirmation email into this flow.
 1. *Password reset*: Along the same lines, try adding password reset via email into this flow.
