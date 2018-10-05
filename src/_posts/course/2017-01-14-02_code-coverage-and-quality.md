@@ -115,7 +115,7 @@ Add this directory to the *.gitignore* and *.dockerignore* files.
 
 ## Code Quality
 
-[Linting](https://stackoverflow.com/a/8503586/1799408) is the process of checking your code for stylistic or programming errors. Although there are a [number](https://stackoverflow.com/a/7925369/1799408) of commonly used linters for Python, we'll use [Flake8](https://gitlab.com/pycqa/flake8) since it combines two other popular linters - [pep8](https://pypi.python.org/pypi/pep8) and [pyflakes](https://pypi.python.org/pypi/pyflakes).
+[Linting](https://stackoverflow.com/a/8503586/1799408) is the process of checking your code for stylistic or programming errors. Although there are a [number](https://github.com/vintasoftware/python-linters-and-code-analysis) of commonly used linters for Python, we'll use [Flake8](https://gitlab.com/pycqa/flake8) since it combines two other popular linters - [pep8](https://pypi.python.org/pypi/pep8) and [pyflakes](https://pypi.python.org/pypi/pyflakes).
 
 Add flake8 to the *requirements.txt* file in the "users" directory:
 
