@@ -13,6 +13,7 @@ image: /assets/img/blog/flask-rq/aysnc_python_redis.png
 image_alt: python and redis
 blurb: This post looks at how to configure Redis Queue (RQ) to handle long-running tasks in a Flask app.
 date: 2018-02-27
+modified_date: 2018-10-09
 ---
 
 If a long-running task is part of your application's workflow you should handle it in the background, outside the normal flow.
@@ -60,7 +61,7 @@ $ git clone https://github.com/mjhea0/flask-redis-queue --branch base --single-b
 $ cd flask-redis-queue
 ```
 
-Since we'll need to manage three processes in total (Flask, Redis, worker), we'll use Docker to simply our workflow by wiring them altogether to run in one terminal window.
+Since we'll need to manage three processes in total (Flask, Redis, worker), we'll use Docker to simplify our workflow by wiring them altogether to run in one terminal window.
 
 To test, run:
 
@@ -68,7 +69,7 @@ To test, run:
 $ docker-compose up -d --build
 ```
 
-Open your browser to [http://localhost:5001](http://localhost:5001). You should see:
+Open your browser to [http://localhost:5004](http://localhost:5004). You should see:
 
 <img src="/assets/img/blog/flask-rq/flask_redis_queue.png" style="max-width:70%" alt="flask, redis queue, docker">
 
@@ -108,7 +109,7 @@ We just need to wire up Redis Queue.
 So, we need to spin up two new processes - Redis and a worker. Add them to the *docker-compose.yml* file:
 
 ```yaml
-version: '3.5'
+version: '3.7'
 
 services:
 
@@ -117,7 +118,7 @@ services:
     image: web
     container_name: web
     ports:
-      - '5001:5000'
+      - '5004:5000'
     command: python manage.py run -h 0.0.0.0
     volumes:
       - .:/usr/src/app
@@ -138,7 +139,7 @@ services:
       - redis
 
   redis:
-    image: redis:3.2.11
+    image: redis:4.0.11-alpine
 ```
 
 Add the task to a new file called *tasks.py* in "project/server/main":
@@ -204,7 +205,7 @@ Finally, we can use a Redis Queue [worker](http://python-rq.org/docs/workers/), 
 *manage.py*:
 
 ```python
-@cli.command()
+@cli.command('run_worker')
 def run_worker():
     redis_url = app.config['REDIS_URL']
     redis_connection = redis.from_url(redis_url)
@@ -228,7 +229,7 @@ Add the dependencies to the requirements file:
 
 ```
 redis==2.10.6
-rq==0.10.0
+rq==0.12.0
 ```
 
 Build and spin up the new containers:
@@ -240,7 +241,7 @@ $ docker-compose up -d --build
 To trigger a new task, run:
 
 ```sh
-$ curl -F type=0 http://localhost:5001/tasks
+$ curl -F type=0 http://localhost:5004/tasks
 ```
 
 You should see something like:
@@ -327,13 +328,13 @@ def get_status(task_id):
 Add a new task to the queue:
 
 ```sh
-$ curl -F type=1 http://localhost:5001/tasks
+$ curl -F type=1 http://localhost:5004/tasks
 ```
 
 Then, grab the `task_id` from the response and call the updated endpoint to view the status:
 
 ```sh
-$ curl http://localhost:5001/tasks/5819789f-ebd7-4e67-afc3-5621c28acf02
+$ curl http://localhost:5004/tasks/5819789f-ebd7-4e67-afc3-5621c28acf02
 
 {
   "data": {
@@ -356,7 +357,7 @@ Test it out in the browser as well:
 To set up, first add a new directory to the "project" directory called "dashboard". Then, add a new *Dockerfile* to that newly created directory:
 
 ```
-FROM python:3.6.4-alpine
+FROM python:3.7.0-alpine
 
 RUN pip install rq-dashboard
 
@@ -365,11 +366,10 @@ EXPOSE 9181
 CMD ["rq-dashboard"]
 ```
 
-
 Simply add the service to the *docker-compose.yml* file like so:
 
 ```yaml
-version: '3.5'
+version: '3.7'
 
 services:
 
@@ -378,7 +378,7 @@ services:
     image: web
     container_name: web
     ports:
-      - '5001:5000'
+      - '5004:5000'
     command: python manage.py run -h 0.0.0.0
     volumes:
       - .:/usr/src/app
@@ -399,7 +399,7 @@ services:
       - redis
 
   redis:
-    image: redis:3.2.11
+    image: redis:4.0.11-alpine
 
   dashboard:
     build: ./project/dashboard
