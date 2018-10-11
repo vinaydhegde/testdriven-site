@@ -11,7 +11,7 @@ type: course
 
 A microservice architecture provides a means of breaking apart large applications into smaller services that interact and communicate with each another. Each service has independent deliverables, so each one can be deployed, upgraded, scaled, and replaced on their own, separate from the whole. Communication between the services usually happens over a network connection through HTTP calls (request/response). [Web sockets](https://en.wikipedia.org/wiki/WebSocket), [message queues](https://en.wikipedia.org/wiki/Message_queue) and [remote procedure calls](https://en.wikipedia.org/wiki/Remote_procedure_call) (RPC) can also be used to connect standalone components.
 
-Each individual service focuses on a single task, generally separated by business unit, and is governed by its RESTful contact.
+Each individual service focuses on a single task, generally separated by business unit, and is governed by its RESTful contract.
 
 The goal of this course is to detail one approach to developing an application in the microservice fashion. It's less about the *why* and more about the *how*. Microservices are hard. They present a number of challenges and issues that are very difficult to solve. Keep this in mind before you start breaking apart your monolith.
 
@@ -61,7 +61,7 @@ Most applications have some sort of stateful layer, like databases or task queue
 
 Since we'll be dealing with containers, we need to take special care in how we handle stateful containers since they should not come down.
 
-Isolating a particular service's state so that it is not shared or duplicated is incredible difficult. You'll often have to deal with various sources of truth, which will have to be reconciled frequently. Again, this comes down to design.
+Isolating a particular service's state so that it is not shared or duplicated is incredibly difficult. You'll often have to deal with various sources of truth, which will have to be reconciled frequently. Again, this comes down to design.
 
 ### Integration Tests
 

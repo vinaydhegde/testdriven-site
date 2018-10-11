@@ -395,6 +395,18 @@ Try it out:
 $ docker-compose -f docker-compose-dev.yml run users python manage.py seed_db
 ```
 
+> Again, due to recent, [breaking changes](https://github.com/pallets/click/issues/1123) in the Click library, you may need to run Flask management commands with dashes (`-`) instead of underscores (`_`).
+>
+> Broken:
+```
+$ docker-compose -f docker-compose-dev.yml run users python manage.py seed_db
+```
+>
+> Fixed:
+```
+$ docker-compose -f docker-compose-dev.yml run users python manage.py seed-db
+```
+
 Make sure you can view the users in the JSON response [http://localhost:5001/users](http://localhost:5001/users).
 
 

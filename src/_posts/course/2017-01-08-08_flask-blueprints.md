@@ -193,6 +193,18 @@ $ docker-compose -f docker-compose-dev.yml run users python manage.py recreate_d
 $ docker-compose -f docker-compose-dev.yml run users python manage.py test
 ```
 
+> Due to recent, [breaking changes](https://github.com/pallets/click/issues/1123) in the Click library, you may need to run Flask management commands with dashes (`-`) instead of underscores (`_`).
+>
+> Broken:
+```
+$ docker-compose -f docker-compose-dev.yml run users python manage.py recreate_db
+```
+>
+> Fixed:
+```
+$ docker-compose -f docker-compose-dev.yml run users python manage.py recreate-db
+```
+
 Apply the model to the dev database:
 
 ```sh
