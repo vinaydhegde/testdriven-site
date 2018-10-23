@@ -19,7 +19,7 @@ The following tutorial details how to set up and use Hashicorp's [Vault](https:/
 
 We'll start by spinning up a single instance of Vault within a Docker container and then jump into managing both [static](https://www.vaultproject.io/guides/secret-mgmt/static-secrets.html) and [dynamic](https://www.vaultproject.io/intro/getting-started/dynamic-secrets.html) secrets along with Vault's "encryption as a service" feature. Then, we'll add Consul into the mix and look at how to scale Vault.
 
-> This is an intermediate-level tutorial. It assumes that you a have basic working knowledge of [Docker](https://www.docker.com/). It's also recommended that you read through the [Intro](https://www.vaultproject.io/intro/index.html), [Interals](https://www.vaultproject.io/docs/internals/index.html), and [Basic Concepts](https://www.vaultproject.io/docs/concepts/index.html) guides from the official documentation to get up to speed with Vault before beginning.
+> This is an intermediate-level tutorial. It assumes that you a have basic working knowledge of [Docker](https://www.docker.com/). It's also recommended that you read through the [Intro](https://www.vaultproject.io/docs/what-is-vault/index.html), [Interals](https://www.vaultproject.io/docs/internals/index.html), and [Basic Concepts](https://www.vaultproject.io/docs/concepts/index.html) guides from the official documentation to get up to speed with Vault before beginning.
 
 {% if page.toc %}
   {% include toc.html %}

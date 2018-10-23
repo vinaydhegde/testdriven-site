@@ -791,7 +791,7 @@ $ echo "$(minikube ip) hello.world" | sudo tee -a /etc/hosts
 
 Try it out:
 
-1. [http://hello.world/books/ping](http://hello.world/books/ping)
+1. http://hello.world/books/ping
 
     ```json
     {
@@ -801,7 +801,7 @@ Try it out:
     }
     ```
 
-1. [http://hello.world/books](http://hello.world/books)
+1. http://hello.world/books
 
     ```json
     {
