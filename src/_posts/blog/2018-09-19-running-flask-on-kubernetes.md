@@ -490,7 +490,7 @@ What's happening here?
         - `spec`
             - `containers` define the containers associated with each Pod
             - `volumes` define the volume claim - `postgres-volume-mount`
-            - `restartPolicy` define the [restart policy](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/) - `Always`
+            - `restartPolicy` defines the [restart policy](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/) - `Always`
 
 Further, the Pod name is `postgres` and the image is `postgres:10.4-alpine`, which will be pulled from Docker Hub. The database credentials, from the Secret object, are passed in as well.
 
@@ -1079,5 +1079,6 @@ Additional Resources:
 1. [Configuration Best Practices](https://kubernetes.io/docs/concepts/configuration/overview/)
 1. [Scaling Flask with Kubernetes](https://mherman.org/presentations/flask-kubernetes)
 1. [Running Flask on Docker Swarm](https://testdriven.io/running-flask-on-docker-swarm) (compare and contrast running Flask on Docker Swarm vs. Kubernetes)
+1. [Deploying a Node App to Google Cloud with Kubernetes](https://testdriven.io/deploying-a-node-app-to-google-cloud-with-kubernetes)
 
 You can find the code in the [flask-vue-kubernetes](https://github.com/testdrivenio/flask-vue-kubernetes) repo on GitHub.
