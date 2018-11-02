@@ -20,7 +20,7 @@ Let's look at how to deploy a Node/Express microservice (along with Postgres) to
 *Dependencies:*
 
 - Docker v18.06.1-ce (local)
-- Dover v17.03.2-ce (in the cluster)
+- Docker v17.03.2-ce (on the cluster)
 - Kubernetes v1.9.7-gke.6
 - Kubectl v1.11.2
 - Google Cloud SDK v221.0.0
@@ -769,8 +769,8 @@ $ kubectl delete -f ./kubernetes/node-deployment-updated.yaml
 
 $ kubectl delete -f ./kubernetes/secret.yaml
 
-$ kubectl delete -f ./kubernetes/volume.yaml
 $ kubectl delete -f ./kubernetes/volume-claim.yaml
+$ kubectl delete -f ./kubernetes/volume.yaml
 
 $ kubectl delete -f ./kubernetes/postgres-deployment.yaml
 $ kubectl delete -f ./kubernetes/postgres-service.yaml
