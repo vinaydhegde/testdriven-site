@@ -13,6 +13,7 @@ image: assets/img/blog/django-docker/dockerizing_django.png
 image_alt: django and docker
 blurb: This tutorial details how to configure Django to run on Docker along with Postgres, Nginx, and Gunicorn.
 date: 2018-11-02
+modified_date: 2018-11-05
 ---
 
 This is a step-by-step tutorial that details how to configure Django to run on Docker along with Postgres, Nginx, and Gunicorn. We'll also look at how to serve Django static and media files via Nginx.
@@ -72,7 +73,7 @@ WORKDIR /usr/src/app
 RUN pip install --upgrade pip
 RUN pip install pipenv
 COPY ./Pipfile /usr/src/app/Pipfile
-RUN pipenv install --deploy --system --skip-lock --dev
+RUN pipenv install --skip-lock --system --dev
 
 # copy project
 COPY . /usr/src/app/
@@ -101,6 +102,12 @@ services:
 ```
 
 > Review the [Compose file reference](https://docs.docker.com/compose/compose-file/) for info on how this file works.
+
+Update the `SECRET_KEY` in *settings.py*:
+
+```python
+SECRET_KEY = os.getenv('SECRET_KEY')
+```
 
 Build the image:
 
@@ -186,7 +193,7 @@ RUN apk update \
 RUN pip install --upgrade pip
 RUN pip install pipenv
 COPY ./Pipfile /usr/src/app/Pipfile
-RUN pipenv install --deploy --system --skip-lock --dev
+RUN pipenv install --skip-lock --system --dev
 
 # copy project
 COPY . /usr/src/app/
@@ -257,7 +264,7 @@ You should see something similar to:
 ```sh
 [
     {
-        "CreatedAt": "2018-11-02T12:54:59Z",
+        "CreatedAt": "2018-11-04T20:50:22Z",
         "Driver": "local",
         "Labels": {
             "com.docker.compose.project": "django-on-docker",
@@ -279,7 +286,7 @@ Next, add an *entrypoint.sh* file to the "app" directory to verify Postgres is h
 
 echo "Waiting for postgres..."
 
-while ! nc -z db 5432; do
+while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
   sleep 0.1
 done
 
@@ -287,7 +294,8 @@ echo "PostgreSQL started"
 
 python manage.py flush --no-input
 python manage.py migrate
-python manage.py runserver 0.0.0.0:8000
+
+exec "$@"
 ```
 
 Update the file permissions locally:
@@ -296,7 +304,43 @@ Update the file permissions locally:
 $ chmod +x app/entrypoint.sh
 ```
 
-Then, update the default `command` in *docker-compose.yml*:
+Then, update the Dockerfile to copy over the *entrypoint.sh* file and run it as the Docker [entrypoint](https://docs.docker.com/engine/reference/builder/#entrypoint) command:
+
+```
+# pull official base image
+FROM python:3.7-alpine
+
+# set environment varibles
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# set work directory
+WORKDIR /usr/src/app
+
+# install psycopg2
+RUN apk update \
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add postgresql-dev \
+    && pip install psycopg2 \
+    && apk del build-deps
+
+# install dependencies
+RUN pip install --upgrade pip
+RUN pip install pipenv
+COPY ./Pipfile /usr/src/app/Pipfile
+RUN pipenv install --skip-lock --system --dev
+
+# copy entrypoint.sh
+COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+
+# copy project
+COPY . /usr/src/app/
+
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+```
+
+Add the `POSTGRES_HOST` and `POSTGRES_PORT` environment variables to *docker-compose.yml* for the *entrypoint.sh* script:
 
 ```yaml
 version: '3.7'
@@ -304,13 +348,15 @@ version: '3.7'
 services:
   web:
     build: ./app
-    command: /usr/src/app/entrypoint.sh
+    command: python /usr/src/app/manage.py runserver 0.0.0.0:8000
     volumes:
       - ./app/:/usr/src/app/
     ports:
       - 8000:8000
     environment:
       - SECRET_KEY=please_change_me
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
     depends_on:
       - db
   db:
@@ -355,22 +401,32 @@ gunicorn= "==19.9.0"
 python_version = "3.7"
 ```
 
-Update the command in *entrypoint.sh* to run Gunicorn rather than the Django development server:
+Update the default `command` in *docker-compose.yml* to run Gunicorn rather than the Django development server:
 
 ```yaml
-#!/bin/sh
+version: '3.7'
 
-echo "Waiting for postgres..."
+services:
+  web:
+    build: ./app
+    command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./app/:/usr/src/app/
+    ports:
+      - 8000:8000
+    environment:
+      - SECRET_KEY=please_change_me
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+    depends_on:
+      - db
+  db:
+    image: postgres:10.5-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
 
-while ! nc -z db 5432; do
-  sleep 0.1
-done
-
-echo "PostgreSQL started"
-
-python manage.py flush --no-input
-python manage.py migrate
-gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
+volumes:
+  postgres_data:
 ```
 
 Test it out:
@@ -440,13 +496,15 @@ Test it out again at [http://localhost:1337](http://localhost:1337). Then, updat
 ```yaml
 web:
   build: ./app
-  command: /usr/src/app/entrypoint.sh
+  command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
   volumes:
     - ./app/:/usr/src/app/
   expose:
     - 8000
   environment:
     - SECRET_KEY=please_change_me
+    - POSTGRES_HOST=db
+    - POSTGRES_PORT=5432
   depends_on:
     - db
 ```
@@ -489,7 +547,7 @@ Then, collect the static files in *entrypoint.sh*:
 
 echo "Waiting for postgres..."
 
-while ! nc -z db 5432; do
+while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
   sleep 0.1
 done
 
@@ -498,7 +556,8 @@ echo "PostgreSQL started"
 python manage.py flush --no-input
 python manage.py migrate
 python manage.py collectstatic --no-input
-gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
+
+exec "$@"
 ```
 
 Add a volume to the `web` and `nginx` services so that each container will share a directory named "staticfiles":
@@ -509,7 +568,7 @@ version: '3.7'
 services:
   web:
     build: ./app
-    command: /usr/src/app/entrypoint.sh
+    command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./app/:/usr/src/app/
       - static_volume:/usr/src/app/staticfiles
@@ -517,6 +576,8 @@ services:
       - 8000
     environment:
       - SECRET_KEY=please_change_me
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
     depends_on:
       - db
   db:
@@ -658,7 +719,7 @@ version: '3.7'
 services:
   web:
     build: ./app
-    command: /usr/src/app/entrypoint.sh
+    command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./app/:/usr/src/app/
       - static_volume:/usr/src/app/staticfiles
@@ -667,6 +728,8 @@ services:
       - 8000
     environment:
       - SECRET_KEY=please_change_me
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
     depends_on:
       - db
   db:
