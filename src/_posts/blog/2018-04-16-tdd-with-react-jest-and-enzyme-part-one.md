@@ -13,6 +13,7 @@ image: /assets/img/blog/tdd_react/tdd_react_part_one.png
 image_alt: react
 blurb: In part 1, we'll set up the overall project and then dive into developing the UI with Test-driven Development.
 date: 2018-04-16
+modified_date: 2018-11-06
 ---
 
 In this post, we'll develop a React app using Test-Driven Development (TDD) with Jest and Enzyme. Upon completion, you will be able to:
@@ -34,8 +35,10 @@ In this post, we'll develop a React app using Test-Driven Development (TDD) with
 
 **We will be using:**
 
-1. React v16.3.1
-1. Node v9.11.0
+1. React v16.6
+1. Node v10.13
+
+> Other dependency versions [here](https://github.com/calebpollman/react-calculator/blob/master/package.json).
 
 {% if page.toc %}
   {% include toc.html %}
@@ -56,7 +59,7 @@ Test-driven development (TDD) is a development method that utilizes repetition o
 1. Write the code to pass the test (<span style="color:green">green</span>)
 1. Run all tests
 1. <span style="color:orange">Refactor</span>
-1. repeat
+1. Repeat
 
 #### Pros:
 
@@ -161,8 +164,8 @@ Start by cloning down the initial project repository:
 ```sh
 $ git clone -b init git@github.com:calebpollman/react-calculator.git
 $ cd react-calculator
-$ yarn install
-$ yarn start
+$ npm install
+$ npm start
 ```
 
 > The project repo was initialized using the *extremely* useful [Create React App](https://github.com/facebook/create-react-app) generator.
@@ -178,22 +181,22 @@ For testing, we'll use [Jest](https://facebook.github.io/jest/), a full-featured
 Add Enzyme:
 
 ```sh
-$ yarn add -D enzyme
+$ npm i -D enzyme
 ```
 
 Enzyme requires [react-test-renderer](https://reactjs.org/docs/test-renderer.html) for React apps version 15.5 or greater:
 
 ```sh
-$ yarn add -D react-test-renderer enzyme-adapter-react-16
+$ npm i -D react-test-renderer enzyme-adapter-react-16
 ```
 
 Add a new file in the "src" directory titled *setupTests.js*:
 
 ```javascript
-import {configure} from 'enzyme';
+import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-configure({adapter: new Adapter()});
+configure({ adapter: new Adapter() });
 ```
 
 Create React App runs the *setupTests.js* file before each test, so it will execute and properly configure Enzyme.
@@ -213,7 +216,7 @@ For our application font, we'll use `Orbitron`, a font designed for displays tha
     <meta name="theme-color" content="#000000">
     <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" rel="stylesheet">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png">
-    <title>Issa Calculator</title>
+    <title>Calcultronic 5000</title>
   </head>
   <body>
     <noscript>
@@ -241,7 +244,7 @@ app variables
 }
 
 /*
-app CSS reset  
+app CSS reset
 */
 
 body, div, p {
@@ -267,9 +270,9 @@ ReactDOM.render(
 
 ### Shallow Rendering Tests
 
-We'll start out building each component by first adding the corresponding test file and then a shallow render test using Enzyme.
+We'll start out building each component by first adding a corresponding test file and then a shallow render test using Enzyme.
 
-Shallow render tests are useful to keep yourself constrained to testing the component as a unit and avoid indirectly testing the behavior of child components. You can find more information on shallow rendering in the [Enzyme docs](http://airbnb.io/enzyme/docs/api/shallow.html).
+Shallow render tests are useful to keep yourself constrained to testing the component as a unit and avoiding indirectly testing the behavior of child components. You can find more information on shallow rendering in the [Enzyme docs](http://airbnb.io/enzyme/docs/api/shallow.html).
 
 ### Write `App` Shallow Render Test
 
@@ -277,7 +280,7 @@ Begin by adding the first failing test (<span style="color:red">red</span>) for 
 
 ```javascript
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import App from './App';
 
 describe('App', () => {
@@ -291,7 +294,7 @@ describe('App', () => {
 Run the test:
 
 ```sh
-$ yarn test
+$ npm test
 ```
 
 Once the test runner is up and running, your terminal should look something like this:
@@ -315,14 +318,14 @@ export default App;
 Run the test:
 
 ```sh
-$ yarn test
+$ npm test
 ```
 
 The first test should now pass:
 
 <img src="/assets/img/blog/tdd_react/first_pass.png" style="max-width:90%;" alt="first passing test">
 
-> You may have noticed that if you didn't exit the test runner it's still running on the command line. As long as it's running, it will continue watching the project and run the tests anytime a file changes. You may leave it running as you continue through this tutorial or you can exit and run it at your leisure.
+> You may have noticed that if you didn't exit the test runner it's still running on the command line. As long as it's running, it will continue watching the project and run the tests anytime a file changes. You may leave it running as you continue through this tutorial, or you can exit and run it at your leisure.
 
 ### Add `App` CSS
 
@@ -343,9 +346,9 @@ Navigate to *App.css* in the "src/components/App" directory and add the followin
 > About these CSS properties:
 > - `height: 100vh;` sets application height to 100% of the browser window view height.
 > - `width: 100vw;` sets application width to 100% of the browser window view width.
-> - `align-items: center;` vertically aligns the content inside of the flex-container, if the `display` property is set to `flex`
+> - `align-items: center;` vertically aligns the content inside of the flex-container, if the `display` property is set to `flex`.
 > - `display: flex;` sets the `App` class to use the `flexbox` module.
-> - `justify-content: center;` horizontally aligns the content inside of the flex-container, if `display` property is set to `flex`
+> - `justify-content: center;` horizontally aligns the content inside of the flex-container, if `display` property is set to `flex`.
 
 Import the CSS to `App`:
 
@@ -384,15 +387,13 @@ Add the test and refactor *App.spec.js*, making sure to import the `Calculator` 
 
 ```javascript
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import App from './App';
 import Calculator from '../Calculator/Calculator';
 
 describe('App', () => {
   let wrapper;
-  beforeEach(() => {
-    wrapper = shallow(<App />);
-  });
+  beforeEach(() => wrapper = shallow(<App />));
 
   it('should render a <div />', () => {
     expect(wrapper.find('div').length).toEqual(1);
@@ -416,14 +417,12 @@ Create *Calculator.spec.js*, and add the shallow render test as well as the `bef
 
 ```javascript
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import Calculator from './Calculator';
 
 describe('Calculator', () => {
   let wrapper;
-  beforeEach(() => {
-    wrapper = shallow(<Calculator />);
-  });
+  beforeEach(() => wrapper = shallow(<Calculator />));
 
   it('should render a <div />', () => {
     expect(wrapper.find('div').length).toEqual(1);
@@ -433,48 +432,44 @@ describe('Calculator', () => {
 
 This test will fail immediately.
 
-### Write `Calculator` Component
+### Write The `Calculator` Component
 
 Our application mostly consists of *stateless* components, but `Calculator` will be *stateful* so we can take advantage of React's internal application state.
 
-> *Stateful* components are `Class`-based and allow us to set state variables for the application in the `constructor` method. This is also where we will `bind` the application methods. More on this later.
+> *Stateful* components are `Class`-based and allow us to set mutable component state variables that may be passed as `props` to child components.
 
 Navigate to *Calculator.jsx* and define the initial state variables and methods that were discussed earlier in the [Design Process](#project-overview) portion of the post:
 
 ```jsx
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class Calculator extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // value to be displayed in <Display />
-      displayValue: '0',
-      // values to be displayed in number <Keys />
-      numbers: [],
-      // values to be displayed in operator <Keys />
-      operators: [],
-      // operator selected for math operation
-      selectedOperator: '',
-      // stored value to use for math operation
-      storedValue: '',
-    }
+  state = {
+    // value to be displayed in <Display />
+    displayValue: '0',
+    // values to be displayed in number <Keys />
+    numbers: [],
+    // values to be displayed in operator <Keys />
+    operators: [],
+    // operator selected for math operation
+    selectedOperator: '',
+    // stored value to use for math operation
+    storedValue: '',
   }
 
-  callOperator() {
+  callOperator = () => {
     console.log('call operation');
   }
 
-  setOperator() {
+  setOperator = () => {
     console.log('set operation');
   }
 
-  updateDisplay() {
+  updateDisplay = () => {
     console.log('update display');
   }
 
-  render() {
+  render = () => {
     return (
       <div className="calculator-container" />
     );
@@ -493,13 +488,11 @@ import React from 'react';
 import Calculator from '../Calculator/Calculator';
 import './App.css';
 
-const App = () => {
-  return (
-    <div className="app-container">
-      <Calculator />
-    </div>
-  );
-}
+const App = () => (
+  <div className="app-container">
+    <Calculator />
+  </div>
+);
 
 export default App;
 ```
@@ -522,13 +515,9 @@ Navigate to *App.spec.js* and add `toMatchSnapshot` as the first test in the fil
 ...
 describe('App', () => {
   let wrapper;
-  beforeEach(() => {
-    wrapper = shallow(<App />);
-  });
+  beforeEach(() => wrapper = shallow(<App />));
 
-  it('should render correctly', () => {
-    expect(wrapper).toMatchSnapshot();
-  });
+  it('should render correctly', () => expect(wrapper).toMatchSnapshot());
   ...
 });
 ```
@@ -577,7 +566,7 @@ media query for tablet or smaller screen
 }
 
 /*
-app CSS reset  
+app CSS reset
 */
 
 body, div, p {
@@ -596,7 +585,7 @@ Next update the component CSS in *Calculator.css*:
 }
 ```
 
-Then import the CSS file in *Calculator.jsx*:
+Then import the CSS file in at the top of *Calculator.jsx*:
 
 ```jsx
 import './Calculator.css';
@@ -605,7 +594,7 @@ import './Calculator.css';
 We now have our first component rendering to the DOM! Fire up the browser by running the app:
 
 ```sh
-$ yarn start
+$ npm start
 ```
 
 Then open your browser (if it hasn't opened automatically) to [http://localhost:3000](http://localhost:3000). The DOM should match this screenshot:
@@ -638,7 +627,7 @@ As with the previous `containsMatchingElement` test, it will fail as the `Displa
 
 Before we write the `Display` component, add the `Display` test file and set up a shallow render test in the new test file like we did with the `Calculator` component.
 
-Create then navigate to *Display.spec.js*, and add the shallow render test as well as the `beforeEach` setup method:
+Create, then navigate to *Display.spec.js*, and add the shallow render test as well as the `beforeEach` setup method:
 
 ```javascript
 import React from 'react';
@@ -647,9 +636,7 @@ import Display from './Display';
 
 describe('Display', () => {
   let wrapper;
-  beforeEach(() => {
-    wrapper = shallow(<Display />);
-  });
+  beforeEach(() => wrapper = shallow(<Display />));
 
   it('should render a <div />', () => {
     expect(wrapper.find('div').length).toEqual(1);
@@ -665,14 +652,14 @@ Add the component in *Display.jsx* and also import `prop-types` at the top of th
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Display = ({displayValue}) => <div className="display-container" />;
+const Display = ({ displayValue }) => <div className="display-container" />;
 
-Display.propTypes = {displayValue: PropTypes.string.isRequired};
+Display.propTypes = { displayValue: PropTypes.string.isRequired };
 
 export default Display;
 ```
 
-> [prop-types](https://github.com/facebook/prop-types) allow us to document the intended types of properties passed to our components as well as throw warnings, during development, if the types passed to the component do not match the props contained in the `ComponentName.propTypes` object.
+> [prop-types](https://github.com/facebook/prop-types) allow us to document the intended types of properties passed to our components as well as throw warnings during development, if the types passed to the component do not match the props contained in the `ComponentName.propTypes` object.
 
 Adding the component to *Display.jsx* will pass the `Display` shallow render test but with a `prop-type` warning. The `Calculator › should render the Display component` test should still fail, though:
 
@@ -681,15 +668,15 @@ Adding the component to *Display.jsx* will pass the `Display` shallow render tes
 We need to import and add the `Display` component inside of *Calculator.jsx*, and then update the render method so that we pass the `displayValue` prop to `Display`:
 
 ```jsx
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Display from '../Display/Display';
 import './Calculator.css';
 
 class Calculator extends Component {
   ...
-  render() {
-    // unpack this.state by using Object Destructuring
-    const {displayValue} = this.state;
+  render = () => {
+    // unpack the component state by using Object Destructuring
+    const { displayValue } = this.state;
 
     return (
       <div className="calculator-container">
@@ -707,9 +694,7 @@ Add the `displayValue` prop to the `beforeEach` block as well, using an empty st
 ...
 describe('Display', () => {
   let wrapper;
-  beforeEach(() => {
-    wrapper = shallow(<Display displayValue={''} />);
-  });
+  beforeEach(() => wrapper = shallow(<Display displayValue={''} />));
   ...
 });
 ...
@@ -739,7 +724,7 @@ Begin by writing a test in *Display.spec.js*:
 
 ```javascript
 it('renders the value of displayValue', () => {
-  wrapper.setProps({displayValue: 'test'});
+  wrapper.setProps({ displayValue: 'test' });
   expect(wrapper.text()).toEqual('test');
 });
 ```
@@ -752,17 +737,17 @@ We need to refactor *Display.jsx* to render the value of `displayValue`. Let's a
 
 ```jsx
 ...
-const Display = ({displayValue}) => {
-  return (
-    <div className="display-container">
-      <p className="display-value">
-        {displayValue}
-      </p>
-    </div>
-  );
-}
+const Display = ({ displayValue }) => (
+  <div className="display-container">
+    <p className="display-value">
+      {displayValue}
+    </p>
+  </div>
+);
 ...
 ```
+
+> Note we are using parans to extend the implicit return functionality of the arrow function.
 
 Tests and test suites should all be <span style="color:green">green</span>!
 
@@ -774,9 +759,7 @@ With our component finished, we can navigate to *Display.spec.js* and add `toMat
 ...
 describe('Display', () => {
   ...
-  it('should render correctly', () => {
-    expect(wrapper).toMatchSnapshot();
-  });
+  it('should render correctly', () => expect(wrapper).toMatchSnapshot());
   ...
 });
 ```
@@ -822,7 +805,7 @@ media query for tablet or smaller screen
 @media screen and (max-width: 1024px) {
   :root {
     /* font sizes */
-    --display-text-size: 6em;
+    --display-text-size: 10em;
 
     /* calculator dimensions */
     --calculator-height: 100%;
@@ -831,7 +814,7 @@ media query for tablet or smaller screen
 }
 
 /*
-app CSS reset  
+app CSS reset
 */
 
 body, div, p {
@@ -878,7 +861,7 @@ import './Display.css';
 Now that we have completed the CSS for `Display`, let's fire up the browser and take a look at the output!
 
 ```sh
-$ yarn start
+$ npm start
 ```
 
 The output should match this screenshot:
@@ -927,7 +910,7 @@ Before we add the component, follow the pattern we used with the `Display` compo
 
 ```jsx
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import Keypad from './Keypad';
 
 describe('Keypad', () => {
@@ -958,10 +941,8 @@ If you check the console, you should see two test suites failing. Now add the JS
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Keypad = ({callOperator, numbers, operators, setOperator, updateDisplay}) => {
-    return (<div className="keypad-container" />
-  );
-}
+const Keypad = ({ callOperator, numbers, operators, setOperator, updateDisplay }) =>
+  <div className="keypad-container" />;
 
 Keypad.propTypes = {
   callOperator: PropTypes.func.isRequired,
@@ -983,9 +964,9 @@ import Keypad from '../Keypad/Keypad';
 Then, add the `Keypad` to the `render` method, making sure to unpack the values of `numbers` and `operators` from `this.state` and passing all required props to `Keypad`:
 
 ```jsx
-render() {
-  // unpack this.state by using Object Destructuring
-  const {displayValue, numbers, operators} = this.state;
+render = () => {
+  // unpack the component state by using Object Destructuring
+  const { displayValue, numbers, operators } = this.state;
 
   return (
     <div className="calculator-container">
@@ -1009,9 +990,7 @@ All tests should pass.
 Add the `Calculator` snapshot now that we have completed the UI for the component, just below the `beforeEach` in *Calculator.spec.js*:
 
 ```javascript
-it('should render correctly', () => {
-  expect(wrapper).toMatchSnapshot();
-});
+it('should render correctly', () => expect(wrapper).toMatchSnapshot());
 ```
 
 <img src="/assets/img/blog/tdd_react/first_part_tests_pass.png" style="max-width:90%;" alt="passing tests">
@@ -1020,7 +999,7 @@ it('should render correctly', () => {
 
 We'll take a break here and pick back up in the next part, starting with testing for the rendering of the values contained in the `numbers` and `operators` arrays in `Keypad`. We'll then move on to testing for the `Key` component, proceed to the application event and functionality tests, and then do some final refactors.
 
-Grab the final code from the [react-calculator](https://www.github.com/calebpollman/react-calculator) repo on GitHub.
+If you would like to skip ahead, you can grab the final code from the [react-calculator](https://www.github.com/calebpollman/react-calculator) repo on GitHub.
 
 Cheers!
 
