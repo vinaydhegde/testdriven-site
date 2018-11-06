@@ -96,7 +96,7 @@ Before diving in, let's look at some of the basic building blocks that you have 
     - A *[PersistentVolume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)* defines a storage volume independent of the normal Pod-lifecycle. It's managed outside of the particular Pod that it resides in.
     - A *[PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims)* is a request to use the PersistentVolume by a user.
 
-> For more, review the [Kubernetes 101](https://kubernetes.io/docs/tutorials/k8s101/) and [Kubernetes 201](https://kubernetes.io/docs/tutorials/k8s201/) tutorials.
+> For more, review the [Learn Kubernetes Basics](https://kubernetes.io/docs/tutorials/kubernetes-basics/) tutorial.
 
 ## Project Setup
 
