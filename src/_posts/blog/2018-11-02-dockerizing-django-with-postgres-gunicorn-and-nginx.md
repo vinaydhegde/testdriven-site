@@ -13,7 +13,7 @@ image: assets/img/blog/django-docker/dockerizing_django.png
 image_alt: django and docker
 blurb: This tutorial details how to configure Django to run on Docker along with Postgres, Nginx, and Gunicorn.
 date: 2018-11-02
-modified_date: 2018-11-05
+modified_date: 2018-11-12
 ---
 
 This is a step-by-step tutorial that details how to configure Django to run on Docker along with Postgres, Nginx, and Gunicorn. We'll also look at how to serve Django static and media files via Nginx.
@@ -142,6 +142,12 @@ services:
       - 8000:8000
     environment:
       - SECRET_KEY=please_change_me
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=postgres
+      - SQL_USER=postgres
+      - SQL_PASSWORD=postgres
+      - SQL_HOST=db
+      - SQL_PORT=5432
     depends_on:
       - db
   db:
@@ -160,11 +166,12 @@ Update the `DATABASES` dict in *settings.py*:
 ```python
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db', # name of the service defined in docker-compose.yml
-        'PORT': 5432  # default postgres port
+        'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.getenv('SQL_DATABASE', os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': os.getenv('SQL_USER', 'user'),
+        'PASSWORD': os.getenv('SQL_PASSWORD', 'password'),
+        'HOST': os.getenv('SQL_HOST', 'localhost'),
+        'PORT': os.getenv('SQL_PORT', '5432'),
     }
 }
 ```
@@ -264,7 +271,7 @@ You should see something similar to:
 ```sh
 [
     {
-        "CreatedAt": "2018-11-04T20:50:22Z",
+        "CreatedAt": "2018-11-10T21:27:47Z",
         "Driver": "local",
         "Labels": {
             "com.docker.compose.project": "django-on-docker",
@@ -284,13 +291,16 @@ Next, add an *entrypoint.sh* file to the "app" directory to verify Postgres is h
 ```sh
 #!/bin/sh
 
-echo "Waiting for postgres..."
+if [ "$DATABASE" = "postgres" ]
+then
+    echo "Waiting for postgres..."
 
-while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
-  sleep 0.1
-done
+    while ! nc -z $SQL_HOST $SQL_PORT; do
+      sleep 0.1
+    done
 
-echo "PostgreSQL started"
+    echo "PostgreSQL started"
+fi
 
 python manage.py flush --no-input
 python manage.py migrate
@@ -340,7 +350,7 @@ COPY . /usr/src/app/
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 ```
 
-Add the `POSTGRES_HOST` and `POSTGRES_PORT` environment variables to *docker-compose.yml* for the *entrypoint.sh* script:
+Add the `DATABASE` environment variable to *docker-compose.yml* for the *entrypoint.sh* script:
 
 ```yaml
 version: '3.7'
@@ -355,8 +365,13 @@ services:
       - 8000:8000
     environment:
       - SECRET_KEY=please_change_me
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=postgres
+      - SQL_USER=postgres
+      - SQL_PASSWORD=postgres
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgres
     depends_on:
       - db
   db:
@@ -368,11 +383,21 @@ volumes:
   postgres_data:
 ```
 
-Test it out again before moving on:
+Test it out again:
 
 1. Re-build the images
 1. Run the containers
 1. Try [http://localhost:8000/](http://localhost:8000/)
+
+> Despite adding Postgres, we can still create an independent Docker image for Django. To test, build a new image and then run a new container:
+>
+```sh
+$ docker build -f ./app/Dockerfile -t hello_django:latest ./app
+$ docker run -p 8001:8000 -e "SECRET_KEY=please_change_me" \
+    hello_django python /usr/src/app/manage.py runserver 0.0.0.0:8000
+```
+>
+> You should be able to view the welcome page at [http://localhost:8001](http://localhost:8001).
 
 ## Gunicorn
 
@@ -388,7 +413,7 @@ name = "pypi"
 
 [packages]
 
-django = "==2.1"
+django= "==2.1"
 gunicorn= "==19.9.0"
 
 
@@ -416,8 +441,13 @@ services:
       - 8000:8000
     environment:
       - SECRET_KEY=please_change_me
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=postgres
+      - SQL_USER=postgres
+      - SQL_PASSWORD=postgres
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgres
     depends_on:
       - db
   db:
@@ -503,8 +533,13 @@ web:
     - 8000
   environment:
     - SECRET_KEY=please_change_me
-    - POSTGRES_HOST=db
-    - POSTGRES_PORT=5432
+    - SQL_ENGINE=django.db.backends.postgresql
+    - SQL_DATABASE=postgres
+    - SQL_USER=postgres
+    - SQL_PASSWORD=postgres
+    - SQL_HOST=db
+    - SQL_PORT=5432
+    - DATABASE=postgres
   depends_on:
     - db
 ```
@@ -545,13 +580,16 @@ Then, collect the static files in *entrypoint.sh*:
 ```sh
 #!/bin/sh
 
-echo "Waiting for postgres..."
+if [ "$DATABASE" = "postgres" ]
+then
+    echo "Waiting for postgres..."
 
-while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
-  sleep 0.1
-done
+    while ! nc -z $SQL_HOST $SQL_PORT; do
+      sleep 0.1
+    done
 
-echo "PostgreSQL started"
+    echo "PostgreSQL started"
+fi
 
 python manage.py flush --no-input
 python manage.py migrate
@@ -576,8 +614,13 @@ services:
       - 8000
     environment:
       - SECRET_KEY=please_change_me
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=postgres
+      - SQL_USER=postgres
+      - SQL_PASSWORD=postgres
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgres
     depends_on:
       - db
   db:
@@ -645,6 +688,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'upload',
 ]
 ```
@@ -728,8 +772,13 @@ services:
       - 8000
     environment:
       - SECRET_KEY=please_change_me
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=postgres
+      - SQL_USER=postgres
+      - SQL_PASSWORD=postgres
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgres
     depends_on:
       - db
   db:
@@ -781,16 +830,14 @@ server {
 }
 ```
 
-Re-build, and then generate and apply the migrations:
+Re-build:
 
 ```sh
 $ docker-compose up -d --build
-$ docker-compose exec web python manage.py makemigrations
-$ docker-compose exec web python manage.py migrate
 ```
 
 Test it out one final time. You should be able to upload an image at [http://localhost:1337/](http://localhost:1337/), and then view the image at [http://localhost:1337/mediafiles/IMAGE_FILE_NAME](http://localhost:1337/mediafiles/IMAGE_FILE_NAME).
 
 <hr>
 
-Cheers!
+Cheers! You can find the code in the [django-on-docker](https://github.com/testdrivenio/django-on-docker) repo.
