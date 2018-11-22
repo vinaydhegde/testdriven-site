@@ -7,11 +7,11 @@ permalink: storing-django-static-and-media-files-on-amazon-s3
 type: blog
 author: Michael Herman
 lastname: herman
-description:
+description: This tutorial shows how to configure Django to load and serve up static and media files, public and private, via an Amazon S3 bucket.
 keywords: "django, python, aws, s3, amazon s3, docker, iam, amazon iam"
 image: assets/img/blog/django-s3/storing_django_static_amazon_s3.png
 image_alt: django and aws
-blurb:
+blurb: This tutorial shows how to configure Django to load and serve up static and media files, public and private, via an Amazon S3 bucket.
 date: 2018-11-13
 ---
 
