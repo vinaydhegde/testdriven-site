@@ -24,6 +24,10 @@ This post details how to deploy Spark on a Kubernetes cluster.
 - Spark v2.2.1
 - Hadoop 2.7.3
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## Minikube
 
 [Minikube](https://kubernetes.io/docs/setup/minikube/) is a tool used to run a single-node Kubernetes cluster locally.

@@ -27,6 +27,10 @@ Let's look at how to deploy a Node/Express microservice (along with Postgres) to
 
 > This article assumes that you have basic working knowledge of Docker and an understanding of microservices in general. Review the [Microservices with Docker, Flask, and React](http://testdriven.io/) course for more info.
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## Objectives
 
 By the end of this tutorial, you should be able to...

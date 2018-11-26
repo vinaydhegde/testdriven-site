@@ -504,7 +504,6 @@ The [UI](https://www.vaultproject.io/docs/configuration/ui/index.html) should be
 
 <img src="/assets/img/blog/vault-consul-docker/vault-ui.png" style="max-width:90%;padding-top:20px;" alt="vault ui">
 
-
 ## Policies
 
 Thus far we've been using the [root policy](https://www.vaultproject.io/docs/concepts/policies.html#root-policy) to interact with the API. Let's set up a policy that only has read access.

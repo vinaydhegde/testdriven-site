@@ -24,6 +24,10 @@ In this tutorial, we'll spin up a three-node Kubernetes cluster using Ubuntu 16.
 1. Docker v17.03.2-ce
 1. Kubernetes v1.11.3
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## What is Fabric?
 
 [Fabric](http://www.fabfile.org/) is a Python library used for automating routine shell commands over SSH, which we'll be using to automate the setup of a Kubernetes cluster. We'll specifically use the Python 3 fork of Fabric, [fabric3](https://github.com/mathiasertl/fabric/).

@@ -249,4 +249,4 @@ Remember that in this example the credentials are only valid for an hour. This i
 
 > You may also want to look at using [envconsul](https://github.com/hashicorp/envconsul) to place the credentials into the environment for Flask. It can even restart Flask when the credentials get updated.
 
-You can find the final code can in the [vault-consul-flask](https://github.com/testdrivenio/vault-consul-flask) repo.
+You can find the final code in the [vault-consul-flask](https://github.com/testdrivenio/vault-consul-flask) repo.

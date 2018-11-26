@@ -24,6 +24,10 @@ This is a step-by-step tutorial that details how to configure Django to run on D
 1. Docker v18.06.1
 1. Python v3.7
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## Project Setup
 
 Assuming you have [Pipenv](https://pipenv.readthedocs.io/) installed, start by creating a new Django project:

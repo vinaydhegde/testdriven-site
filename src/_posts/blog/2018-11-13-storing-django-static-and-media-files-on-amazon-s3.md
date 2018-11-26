@@ -23,6 +23,10 @@ Amazon's [Simple Storage System](https://aws.amazon.com/s3/) (S3) provides a sim
 1. Docker v18.06.1
 1. Python v3.7
 
+{% if page.toc %}
+  {% include toc.html %}
+{% endif %}
+
 ## S3 Bucket
 
 Before beginning, you will need an [AWS](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sign-up-for-aws.html) account. If you’re new to AWS, Amazon provides a [free tier](https://aws.amazon.com/free/) with 5GB of S3 storage.
