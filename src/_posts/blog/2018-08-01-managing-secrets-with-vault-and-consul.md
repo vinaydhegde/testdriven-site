@@ -756,7 +756,7 @@ What if you only wanted the lease period for all AWS IAM dynamic secrets to be 3
 $ vault write aws/config/lease lease=1800s lease_max=1800s
 ```
 
-In this example, since `lease_max` is the same as `lease`, you won't be able to renew the token. If you set the `lease_max` to `3600s`, you'd be able to renew the lease once. For more, review the [Tokens and Leases](https://www.vaultproject.io/guides/identity/lease.html) guide.
+In this example, since `lease_max` is the same as `lease`, you won't be able to renew the token. If you set the `lease_max` to `3600s`, you'd be able to renew the lease once. For more, review the [Tokens and Leases](https://www.vaultproject.io/guides/identity/lease) guide.
 
 Create a new credential:
 
